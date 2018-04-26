@@ -1,0 +1,6 @@
+[package]
+name = "mindstream"
+version = "0.1.0"
+authors = ["Egor Berezovskiy <egor.neon@gmail.com>"]
+
+[dependencies]
