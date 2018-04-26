@@ -1,3 +1,6 @@
+extern crate mindstream;
+
 fn main() {
-    println!("Hello, world!");
+    println!("Run server");
+    mindstream::run();
 }
