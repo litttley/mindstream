@@ -1,6 +1,7 @@
 use actix::prelude::*;
 use actix_web::{State, Json, HttpResponse, AsyncResponder};
 use futures::future::Future;
+use validator::Validate;
 
 use app::app_state::AppState;
 use app::db::DbExecutor;
@@ -9,8 +10,9 @@ use rss_sources::rss_source::RssSource;
 use rss_sources::rss_sources_repository::insert;
 use rss_sources::rss_service::fetch_feeds_channel;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Validate, Deserialize)]
 pub struct AddRssSource {
+    #[validate(url(message="validation.url"))]
     url: String
 }
 
@@ -22,7 +24,7 @@ impl Handler<AddRssSource> for DbExecutor {
     type Result = Result<RssSource, Error>;
 
     fn handle(&mut self, message: AddRssSource, _: &mut Self::Context) -> Self::Result {
-        let connexion = self.pool.get()?;
+        let _ = message.validate()?;
         let url = message.url;
         let rss_feed = fetch_feeds_channel(&url)?;
         let rss_feed = rss_feed.ok_or_else(|| Error::NotFound)?;
@@ -38,6 +40,7 @@ impl Handler<AddRssSource> for DbExecutor {
             rss_feed.topics,
             rss_feed.last_updated,
         );
+        let connexion = self.pool.get()?;
         let rss_source = insert(&connexion, &rss_source)?;
         Ok(rss_source)
     }

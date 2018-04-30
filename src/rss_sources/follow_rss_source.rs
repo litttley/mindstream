@@ -4,7 +4,7 @@ use actix_web::{State, Path, HttpResponse, AsyncResponder};
 use futures::future::Future;
 use diesel::Connection;
 
-use errors::Error;
+use errors::{Error, ApiError};
 use app::app_state::AppState;
 use app::db::DbExecutor;
 use auth::auth::Auth;
@@ -42,7 +42,7 @@ impl Handler<FallowRssSource> for DbExecutor {
             let user_rss_source = UserRssSource::new(user.uuid, rss_source_uuid);
             let is_existe = is_exists(&connexion, &user_rss_source)?;
             if is_existe {
-                Err(Error::BadRequest.into())
+                Err(Error::BadRequest(ApiError::new("already.exist")).into())
             } else {
                 let _ = insert(&connexion, &user_rss_source)?;
                 Ok(rss_source)

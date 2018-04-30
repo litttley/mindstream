@@ -13,9 +13,9 @@ use users::users;
 
 #[derive(Debug, Validate, Deserialize)]
 pub struct Login {
-    #[validate(email)]
+    #[validate(email(message="validation.email"))]
     email: String,
-    #[validate(length(min = "6"))]
+    #[validate(length(min = "6", message="validation.password.short"))]
     password: String
 }
 

@@ -13,11 +13,11 @@ use users::users::insert;
 
 #[derive(Debug, Validate, Deserialize)]
 pub struct Signup {
-    #[validate(length(min = "3"))]
+    #[validate(length(min = "3", message="validation.login.short"))]
     login: String,
-    #[validate(email)]
+    #[validate(email(message="validation.email"))]
     email: String,
-    #[validate(length(min = "6"))]
+    #[validate(length(min = "6", message="validation.password.short"))]
     password: String
 }
 

@@ -7,12 +7,28 @@ use jsonwebtoken;
 use reqwest;
 use validator;
 
+#[derive(Debug, Serialize)]
+pub struct ApiError {
+    message: String,
+    errors: Option<validator::ValidationErrors>
+}
+
+impl ApiError {
+    pub fn new(message: &str) -> Self {
+        Self { message: message.to_owned(), errors: None }
+    }
+
+    pub fn with_errors(message: &str, errors: validator::ValidationErrors) -> Self {
+        Self { message: message.to_owned(), errors: Some(errors) }
+    }
+}
+
 #[derive(Fail, Debug)]
 pub enum Error {
    #[fail(display="internal error")]
    InternalError,
    #[fail(display="bad request")]
-   BadRequest,
+   BadRequest(ApiError),
    #[fail(display="not found")]
    NotFound,
    #[fail(display="timeout")]
@@ -25,7 +41,7 @@ impl ResponseError for Error {
     fn error_response(&self) -> HttpResponse {
        match *self {
           Error::InternalError => HttpResponse::new(http::StatusCode::INTERNAL_SERVER_ERROR),
-          Error::BadRequest => HttpResponse::build(http::StatusCode::BAD_REQUEST).json(json!({})),
+          Error::BadRequest(ref api_error) => HttpResponse::build(http::StatusCode::BAD_REQUEST).json(api_error),
           Error::NotFound => HttpResponse::new(http::StatusCode::NOT_FOUND),
           Error::Timeout => HttpResponse::new(http::StatusCode::GATEWAY_TIMEOUT),
           Error::Unauthorized => HttpResponse::new(http::StatusCode::UNAUTHORIZED),
@@ -38,7 +54,7 @@ impl From<diesel::result::Error> for Error {
         println!("ERROR diesel = {:?}", error);
         match error {
             diesel::result::Error::DatabaseError(diesel::result::DatabaseErrorKind::UniqueViolation, _) => {
-                Error::BadRequest
+                Error::BadRequest(ApiError::new("already.exist"))
             },
             _ => Error::InternalError
         }
@@ -83,7 +99,14 @@ impl From<reqwest::Error> for Error {
 
 impl From<validator::ValidationErrors> for Error {
     fn from(error: validator::ValidationErrors) -> Error {
-        println!("ERROR reqwest = {:?}", error);
-        Error::BadRequest
+        println!("ERROR validator = {:?}", error);
+        Error::BadRequest(error.into())
+    }
+}
+
+impl From<validator::ValidationErrors> for ApiError {
+    fn from(errors: validator::ValidationErrors) -> ApiError {
+        println!("ERROR validator = {:?}", errors);
+        ApiError::with_errors("validation.error", errors)
     }
 }
