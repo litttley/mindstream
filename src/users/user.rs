@@ -6,7 +6,7 @@ use bcrypt::{DEFAULT_COST, hash, verify, BcryptError};
 use schema::users;
 use errors::Error;
 
-#[derive(Debug, Clone, Deserialize, Serialize, Queryable, Insertable)]
+#[derive(Debug, Clone, PartialEq, Deserialize, Serialize, Queryable, Insertable)]
 #[table_name="users"]
 pub struct User {
     pub uuid: Uuid,

@@ -17,4 +17,3 @@ services:
             - 5555:8080
         depends_on:
             - mindstream_postgres
-

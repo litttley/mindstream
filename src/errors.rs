@@ -4,6 +4,8 @@ use actix;
 use r2d2;
 use bcrypt;
 use jsonwebtoken;
+use reqwest;
+use validator;
 
 #[derive(Fail, Debug)]
 pub enum Error {
@@ -23,7 +25,7 @@ impl ResponseError for Error {
     fn error_response(&self) -> HttpResponse {
        match *self {
           Error::InternalError => HttpResponse::new(http::StatusCode::INTERNAL_SERVER_ERROR),
-          Error::BadRequest => HttpResponse::new(http::StatusCode::BAD_REQUEST),
+          Error::BadRequest => HttpResponse::build(http::StatusCode::BAD_REQUEST).json(json!({})),
           Error::NotFound => HttpResponse::new(http::StatusCode::NOT_FOUND),
           Error::Timeout => HttpResponse::new(http::StatusCode::GATEWAY_TIMEOUT),
           Error::Unauthorized => HttpResponse::new(http::StatusCode::UNAUTHORIZED),
@@ -69,5 +71,19 @@ impl From<jsonwebtoken::errors::Error> for Error {
     fn from(error: jsonwebtoken::errors::Error) -> Error {
         println!("ERROR jsonwebtoken = {:?}", error);
         Error::Unauthorized
+    }
+}
+
+impl From<reqwest::Error> for Error {
+    fn from(error: reqwest::Error) -> Error {
+        println!("ERROR reqwest = {:?}", error);
+        Error::InternalError
+    }
+}
+
+impl From<validator::ValidationErrors> for Error {
+    fn from(error: validator::ValidationErrors) -> Error {
+        println!("ERROR reqwest = {:?}", error);
+        Error::BadRequest
     }
 }

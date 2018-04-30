@@ -1,36 +1,38 @@
 use actix_web::{State, Json, HttpResponse, AsyncResponder};
 use futures::future::Future;
 use actix::prelude::*;
+use validator::Validate;
 
 use errors::Error;
-use user::{User, verify_password};
-use users;
-use db::DbExecutor;
-use app_state::AppState;
-use errors;
-use jwt;
-use config;
+use app::config;
+use app::db::DbExecutor;
+use app::app_state::AppState;
+use auth::jwt::{Token, create_token};
+use users::user::{User, verify_password};
+use users::users;
 
-// TODO add validation
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Validate, Deserialize)]
 pub struct Login {
+    #[validate(email)]
     email: String,
+    #[validate(length(min = "6"))]
     password: String
 }
 
 impl Message for Login {
-    type Result = Result<(User, jwt::Token), errors::Error>;
+    type Result = Result<(User, Token), Error>;
 }
 
 impl Handler<Login> for DbExecutor {
-    type Result = Result<(User, jwt::Token), errors::Error>;
+    type Result = Result<(User, Token), Error>;
 
     fn handle(&mut self, message: Login, _: &mut Self::Context) -> Self::Result {
+        let _ = message.validate()?;
         let connexion = self.pool.get()?;
-        let config = &config::CONFIG;
         let user = users::find_by_email(&connexion, &message.email)?;
         if let Ok(true) = verify_password(&message.password, &user.password) {
-            let token = jwt::create_token(user.clone(), &config.secret_key)?;
+            let config = &config::CONFIG;
+            let token = create_token(user.clone(), &config.secret_key)?;
             Ok((user, token))
         } else {
             Err(Error::Unauthorized)
@@ -38,7 +40,7 @@ impl Handler<Login> for DbExecutor {
     }
 }
 
-pub fn login(login: Json<Login>, state: State<AppState>) -> Box<Future<Item=HttpResponse, Error=errors::Error>> {
+pub fn login(login: Json<Login>, state: State<AppState>) -> Box<Future<Item=HttpResponse, Error=Error>> {
     state.db
         .send(login.0)
         .from_err()
@@ -53,4 +55,3 @@ pub fn login(login: Json<Login>, state: State<AppState>) -> Box<Future<Item=Http
         })
         .responder()
 }
-

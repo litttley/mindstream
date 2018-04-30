@@ -1,6 +1,6 @@
 use jsonwebtoken::{encode, decode, Header, Validation};
 
-use user::User;
+use users::user::User;
 use errors::Error;
 
 #[derive(Debug, Serialize, Deserialize)]

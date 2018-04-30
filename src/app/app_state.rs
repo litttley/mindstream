@@ -1,6 +1,6 @@
 use actix::prelude::*;
 
-use db::DbExecutor;
+use app::db::DbExecutor;
 
 pub struct AppState {
     pub db: Addr<Syn, DbExecutor>,

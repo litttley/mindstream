@@ -2,8 +2,8 @@ use actix_web::{FromRequest, HttpRequest, HttpMessage};
 use actix_web::Error;
 use futures::future::{result, FutureResult};
 
-use jwt::{Claime, decode_token};
-use config;
+use auth::jwt::{Claime, decode_token};
+use app::config;
 use errors;
 
 #[derive(Debug)]

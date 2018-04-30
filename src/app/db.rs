@@ -3,7 +3,7 @@ use r2d2::Pool;
 use r2d2_diesel::ConnectionManager;
 use diesel::PgConnection;
 
-use config;
+use app::config;
 
 pub fn create_diesel_pool() -> Pool<ConnectionManager<PgConnection>> {
     let manager = ConnectionManager::<PgConnection>::new(config::CONFIG.database_url.clone());

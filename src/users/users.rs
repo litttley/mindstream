@@ -5,7 +5,7 @@ use diesel::result::Error;
 
 use schema::users;
 use schema::users::dsl::*;
-use user::User;
+use users::user::User;
 
 pub fn insert(connection: &PgConnection, user: &User) -> Result<User, Error> {
     Ok(diesel::insert_into(users::table).values(user).get_result(connection)?)

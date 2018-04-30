@@ -7,11 +7,12 @@ pub struct Config {
     pub database_url: String,
     pub mercury_api_key: String,
     pub rss_job_interval: Duration,
+    pub default_limit: i64,
 }
 
 impl Config {
-    pub fn new(secret_key: String, database_url: String, mercury_api_key: String, rss_job_interval: Duration) -> Self {
-        Config { secret_key, database_url, mercury_api_key, rss_job_interval }
+    pub fn new(secret_key: String, database_url: String, mercury_api_key: String, rss_job_interval: Duration, default_limit: i64) -> Self {
+        Config { secret_key, database_url, mercury_api_key, rss_job_interval, default_limit }
     }
 
     pub fn from_env() -> Self {
@@ -21,7 +22,9 @@ impl Config {
         let rss_job_interval = env::var("RSS_JOB_INTERVAL").expect("RSS_JOB_INTERVAL must be set");
         let rss_job_interval = rss_job_interval.parse::<u64>().expect("RSS_JOB_INTERVAL must be an integer");
         let rss_job_interval = Duration::from_secs(rss_job_interval);
-        Config::new(secret_key, database_url, mercury_api_key, rss_job_interval)
+        let default_limit = env::var("DEFAULT_LIMIT").expect("DEFAULT_LIMIT must be an integer");
+        let default_limit = default_limit.parse().expect("DEFAULT_LIMIT must be an integer");
+        Config::new(secret_key, database_url, mercury_api_key, rss_job_interval, default_limit)
     }
 }
 
