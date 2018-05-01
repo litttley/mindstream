@@ -5,6 +5,5 @@ use dotenv::dotenv;
 
 fn main() {
     dotenv().ok();
-    println!("Run server");
     mindstream::run();
 }

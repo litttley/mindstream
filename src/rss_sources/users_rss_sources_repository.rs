@@ -36,3 +36,12 @@ pub fn rss_sources_by_user(connection: &PgConnection, limit: i64, offset: i64, u
         .select(rss_sources::all_columns)
         .get_results::<RssSource>(&*connection)
 }
+
+pub fn find_rss_source_subscribers(connection: &PgConnection, rss_source: &RssSource) -> Result<Vec<User>, Error> {
+    use schema::users;
+    users::table
+        .inner_join(users_rss_sources::table)
+        .filter(users_rss_sources::rss_source_uuid.eq(rss_source.uuid))
+        .select(users::all_columns)
+        .get_results::<User>(&*connection)
+}
