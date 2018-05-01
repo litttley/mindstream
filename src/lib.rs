@@ -3,13 +3,11 @@ extern crate actix_web;
 extern crate futures;
 #[macro_use]
 extern crate failure;
-
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;
 #[macro_use]
 extern crate serde_json;
-
 #[macro_use]
 extern crate diesel;
 extern crate r2d2;
@@ -30,6 +28,9 @@ extern crate validator_derive;
 #[macro_use]
 extern crate log;
 extern crate env_logger;
+extern crate strum;
+#[macro_use]
+extern crate strum_macros;
 
 use actix_web::middleware::Logger;
 use actix_web::{server, App, http::Method, HttpResponse};
@@ -55,6 +56,8 @@ use rss_sources::get_rss_source::get_rss_source;
 use rss_sources::get_rss_sources::get_rss_sources;
 use rss_sources::my_rss_sources::my_rss_sources;
 use rss_feeds::rss_feeds_job::run_rss_job;
+use rss_feeds::unreaded_feeds::unreaded_feeds;
+use rss_feeds::change_rss_feed_reaction::change_rss_feed_reaction;
 
 fn me(auth: Auth) -> HttpResponse {
     HttpResponse::Ok().json(auth.claime.user)
@@ -81,12 +84,16 @@ pub fn run() {
             .resource("/source", |r| r.method(Method::GET).with2(get_rss_sources))
             .resource("/source/my", |r| r.method(Method::GET).with3(my_rss_sources))
             .resource("/source/add", |r| r.method(Method::POST).with2(add_rss_source))
+            .resource("/rss/feeds/unreaded", |r| r.method(Method::GET).with3(unreaded_feeds))
+            .resource("/rss/feeds/reaction", |r| r.method(Method::PUT).with3(change_rss_feed_reaction))
             .resource("/source/{uuid}/fallow", |r| r.method(Method::POST).with3(follow_rss_source))
             .resource("/source/{uuid}", |r| r.method(Method::GET).with2(get_rss_source))
     )
     .bind("127.0.0.1:8999")
-    .expect("Can not bind to 127.0.0.1:9999")
+    .expect("Can not bind to 127.0.0.1:8999")
     .start();
+
+    info!("Run server at 127.0.0.1:8999");
 
     let _ = sys.run();
 }

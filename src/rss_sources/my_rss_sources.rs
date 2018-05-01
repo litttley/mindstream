@@ -14,8 +14,8 @@ use pagination::Pagination;
 
 #[derive(Debug, Deserialize)]
 pub struct MyRssSources {
-    pagination: Pagination,
     user: User,
+    pagination: Pagination,
 }
 
 impl MyRssSources {
@@ -53,4 +53,3 @@ pub fn my_rss_sources(pagination: Query<Pagination>, auth: Auth, state: State<Ap
         })
         .responder()
 }
-

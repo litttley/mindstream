@@ -27,3 +27,14 @@ impl UserRssFeed {
         }
     }
 }
+
+#[derive(Debug, EnumString, ToString, Deserialize)]
+pub enum Reaction {
+    Unreaded,
+    Readed,
+    ReadLater,
+    Viewed,
+    Liked,
+    Disliked,
+    Archived,
+}

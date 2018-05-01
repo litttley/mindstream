@@ -51,7 +51,7 @@ impl ResponseError for Error {
 
 impl From<diesel::result::Error> for Error {
     fn from(error: diesel::result::Error) -> Error {
-        println!("ERROR diesel = {:?}", error);
+        error!("ERROR diesel = {:?}", error);
         match error {
             diesel::result::Error::DatabaseError(diesel::result::DatabaseErrorKind::UniqueViolation, _) => {
                 Error::BadRequest(ApiError::new("already.exist"))
@@ -64,49 +64,49 @@ impl From<diesel::result::Error> for Error {
 
 impl From<actix::MailboxError> for Error {
     fn from(error: actix::MailboxError) -> Error {
-        println!("ERROR actix mailbox = {:?}", error);
+        error!("ERROR actix mailbox = {:?}", error);
         Error::InternalError
     }
 }
 
 impl From<r2d2::Error> for Error {
     fn from(error: r2d2::Error) -> Error {
-        println!("ERROR r2d2 = {:?}", error);
+        error!("ERROR r2d2 = {:?}", error);
         Error::InternalError
     }
 }
 
 impl From<bcrypt::BcryptError> for Error {
     fn from(error: bcrypt::BcryptError) -> Error {
-        println!("ERROR bcrypt = {:?}", error);
+        error!("ERROR bcrypt = {:?}", error);
         Error::InternalError
     }
 }
 
 impl From<jsonwebtoken::errors::Error> for Error {
     fn from(error: jsonwebtoken::errors::Error) -> Error {
-        println!("ERROR jsonwebtoken = {:?}", error);
+        error!("ERROR jsonwebtoken = {:?}", error);
         Error::Unauthorized
     }
 }
 
 impl From<reqwest::Error> for Error {
     fn from(error: reqwest::Error) -> Error {
-        println!("ERROR reqwest = {:?}", error);
+        error!("ERROR reqwest = {:?}", error);
         Error::InternalError
     }
 }
 
 impl From<validator::ValidationErrors> for Error {
     fn from(error: validator::ValidationErrors) -> Error {
-        println!("ERROR validator = {:?}", error);
+        error!("ERROR validator = {:?}", error);
         Error::BadRequest(error.into())
     }
 }
 
 impl From<validator::ValidationErrors> for ApiError {
     fn from(errors: validator::ValidationErrors) -> ApiError {
-        println!("ERROR validator = {:?}", errors);
+        error!("ERROR validator = {:?}", errors);
         ApiError::with_errors("validation.error", errors)
     }
 }
