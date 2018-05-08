@@ -1,4 +1,4 @@
-use actix_web::{State, Json, HttpResponse, AsyncResponder};
+use actix_web::{State, HttpMessage, HttpRequest, HttpResponse, AsyncResponder};
 use futures::future::Future;
 use actix::prelude::*;
 use validator::Validate;
@@ -11,7 +11,7 @@ use auth::jwt::{Token, create_token};
 use users::user::User;
 use users::users::insert;
 
-#[derive(Debug, Validate, Deserialize)]
+#[derive(Debug, Clone, Validate, Deserialize)]
 pub struct Signup {
     #[validate(length(min = "3", message="validation.login.short"))]
     login: String,
@@ -45,13 +45,16 @@ impl User {
     }
 }
 
-pub fn signup(signup: Json<Signup>, state: State<AppState>) -> Box<Future<Item=HttpResponse, Error=Error>> {
-    state.db
-        .send(signup.0)
+pub fn signup(req: HttpRequest<AppState>, state: State<AppState>) -> Box<Future<Item=HttpResponse, Error=Error>> {
+    req.json()
         .from_err()
+        .and_then(move |signup: Signup| state.db.send(signup.clone()).from_err())
         .and_then(|res| {
             match res {
-                Ok(user) => Ok(HttpResponse::Ok().json(user)),
+                Ok((user, token)) => Ok(HttpResponse::Ok().json(json!({
+                    "user": user,
+                    "token": token,
+                }))),
                 Err(err) => Err(err.into())
             }
         })

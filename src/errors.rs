@@ -1,5 +1,6 @@
 use diesel;
 use actix_web::{HttpResponse, ResponseError, http};
+use actix_web::error::JsonPayloadError;
 use actix;
 use r2d2;
 use bcrypt;
@@ -39,13 +40,13 @@ pub enum Error {
 
 impl ResponseError for Error {
     fn error_response(&self) -> HttpResponse {
-       match *self {
-          Error::InternalError => HttpResponse::new(http::StatusCode::INTERNAL_SERVER_ERROR),
-          Error::BadRequest(ref api_error) => HttpResponse::build(http::StatusCode::BAD_REQUEST).json(api_error),
-          Error::NotFound => HttpResponse::new(http::StatusCode::NOT_FOUND),
-          Error::Timeout => HttpResponse::new(http::StatusCode::GATEWAY_TIMEOUT),
-          Error::Unauthorized => HttpResponse::new(http::StatusCode::UNAUTHORIZED),
-       }
+        match *self {
+            Error::InternalError => HttpResponse::new(http::StatusCode::INTERNAL_SERVER_ERROR),
+            Error::BadRequest(ref api_error) => HttpResponse::build(http::StatusCode::BAD_REQUEST).json(api_error),
+            Error::NotFound => HttpResponse::new(http::StatusCode::NOT_FOUND),
+            Error::Timeout => HttpResponse::new(http::StatusCode::GATEWAY_TIMEOUT),
+            Error::Unauthorized => HttpResponse::new(http::StatusCode::UNAUTHORIZED),
+        }
     }
 }
 
@@ -66,6 +67,16 @@ impl From<actix::MailboxError> for Error {
     fn from(error: actix::MailboxError) -> Error {
         error!("ERROR actix mailbox = {:?}", error);
         Error::InternalError
+    }
+}
+
+impl From<JsonPayloadError> for Error {
+    fn from(error: JsonPayloadError) -> Error {
+        error!("ERROR actix JsonPayloadError = {:?}", error);
+        match error {
+            JsonPayloadError::Deserialize(json_error) => Error::BadRequest(ApiError::new(&format!("{}", json_error))),
+            _ => Error::BadRequest(ApiError::new("Json parsing error"))
+        }
     }
 }
 

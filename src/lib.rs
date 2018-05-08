@@ -33,7 +33,7 @@ extern crate strum;
 extern crate strum_macros;
 
 use actix_web::middleware::Logger;
-use actix_web::{server, App, http::Method, HttpResponse};
+use actix_web::{server, App, http::Method, HttpRequest, HttpResponse};
 use actix::prelude::*;
 
 mod app;
@@ -63,6 +63,22 @@ fn me(auth: Auth) -> HttpResponse {
     HttpResponse::Ok().json(auth.claime.user)
 }
 
+fn index(_: HttpRequest) -> HttpResponse {
+    HttpResponse::Ok().body(include_str!("../client/src/index.html"))
+}
+
+fn main_js(_: HttpRequest) -> HttpResponse {
+    HttpResponse::Ok().body(include_str!("../static/main.js"))
+}
+
+fn main_css(_: HttpRequest) -> HttpResponse {
+    HttpResponse::Ok().body(include_str!("../static/main.css"))
+}
+
+fn main_map(_: HttpRequest) -> HttpResponse {
+    HttpResponse::Ok().body(include_str!("../static/main.map"))
+}
+
 pub fn run() {
     env_logger::init();
 
@@ -74,13 +90,13 @@ pub fn run() {
 
     let db_addr = SyncArbiter::start(3, move || DbExecutor::new(pool.clone()));
 
-    server::new(move ||
+    server::new(move || vec![
         App::with_state(AppState::new(db_addr.clone()))
             .prefix("/api")
             .middleware(Logger::default())
-            .resource("/signup", |r| r.method(Method::POST).with2(signup))
-            .resource("/login", |r| r.method(Method::POST).with2(login))
-            .resource("/me", |r| r.method(Method::GET).with(me))
+            .resource("/users/signup", |r| r.method(Method::POST).with2(signup))
+            .resource("/users/login", |r| r.method(Method::POST).with2(login))
+            .resource("/users/me", |r| r.method(Method::GET).with(me))
             .resource("/source", |r| r.method(Method::GET).with2(get_rss_sources))
             .resource("/source/my", |r| r.method(Method::GET).with3(my_rss_sources))
             .resource("/source/add", |r| r.method(Method::POST).with2(add_rss_source))
@@ -88,7 +104,19 @@ pub fn run() {
             .resource("/rss/feeds/reaction", |r| r.method(Method::PUT).with3(change_rss_feed_reaction))
             .resource("/source/{uuid}/fallow", |r| r.method(Method::POST).with3(follow_rss_source))
             .resource("/source/{uuid}", |r| r.method(Method::GET).with2(get_rss_source))
-    )
+            .boxed(),
+        App::new()
+            .prefix("/assets")
+            .middleware(Logger::default())
+            .resource("/main.js", |r| r.method(Method::GET).f(main_js))
+            .resource("/main.css", |r| r.method(Method::GET).f(main_css))
+            .resource("/main.map", |r| r.method(Method::GET).f(main_map))
+            .boxed(),
+        App::new()
+            .middleware(Logger::default())
+            .resource("/", |r| r.method(Method::GET).f(index))
+            .boxed()
+    ])
     .bind("127.0.0.1:8999")
     .expect("Can not bind to 127.0.0.1:8999")
     .start();
