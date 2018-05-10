@@ -2,13 +2,14 @@ import * as React from "react"
 import { connect, Dispatch } from "react-redux"
 import * as styles from "./SourcesContainer.css"
 
-import { GlobalState } from "../app/AppState"
+import { GlobalState } from "app/AppState"
 import { SourcesActions } from "./SourcesActions"
 import { SourcesState } from "./SourcesReducer"
 import { RssSource } from "models/RssSource"
 import SourcesList from "./components/SourcesList"
 import AddSourceForm from "./components/AddSourceForm"
-import HeaderContainer from "../app/HeaderContainer"
+import HeaderContainer from "app/HeaderContainer"
+import { Actions } from "Actions"
 
 interface DispatchProps {
     onLoadUnfollowedSources(): void
@@ -72,7 +73,7 @@ class SourcesContainer extends React.PureComponent<Props> {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<GlobalState>): DispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
     return {
         onLoadUnfollowedSources: () => dispatch(SourcesActions.loadUnfollowedSources()),
         onLoadMySources: () => dispatch(SourcesActions.loadMySources()),

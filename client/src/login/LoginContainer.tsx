@@ -1,9 +1,10 @@
 import * as React from "react"
+import * as styles from "./components/Login.css"
 import { connect, Dispatch } from "react-redux"
 import { LoginActions } from "./LoginActions"
 import { GlobalState } from "../app/AppState"
 import LoginForm from "./components/LoginForm"
-import * as styles from "./components/Login.css"
+import { Actions } from "Actions"
 
 interface Props extends GlobalState {
     onChange(field: string, value: string): void
@@ -27,7 +28,7 @@ const LoginContainer: React.SFC<Props> = ({ login, onChange, onSubmit }) => {
     )
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<GlobalState>) => {
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => {
     return {
         onChange: (field: string, value: string) => {
             dispatch(LoginActions.loginChange({ field, value }))

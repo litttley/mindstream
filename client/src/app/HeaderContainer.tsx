@@ -3,6 +3,7 @@ import { connect, Dispatch } from "react-redux"
 import Header from "../components/Header"
 import { GlobalState } from "../app/AppState"
 import { AppActions } from "./AppActions"
+import { Actions } from "Actions"
 
 interface DispatchProps {
     menuToggle(isMenuOpen: boolean): void
@@ -24,7 +25,7 @@ const mapStateToProps = (state: GlobalState): StateProps => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<GlobalState>): DispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
     return {
         menuToggle: (isMenuOpen) => dispatch(AppActions.menuToggle({ isMenuOpen }))
     }

@@ -5,6 +5,7 @@ import { SignupActions } from "./SignupActions"
 import { GlobalState } from "../app/AppState"
 import SignupForm from "./components/SignupForm"
 import * as styles from "./components/Signup.css"
+import { Actions } from "Actions"
 
 interface State {
     signup: SignupState
@@ -37,7 +38,7 @@ const SignupContainer = (props: Props) => {
     )
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<GlobalState>): DispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
     return {
         onChange: (field, value) =>
             dispatch(SignupActions.signupChange({ field, value })),

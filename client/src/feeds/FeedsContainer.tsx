@@ -6,6 +6,7 @@ import { GlobalState } from "../app/AppState"
 import { FeedsActions } from "./FeedsActions"
 import FeedsList from "./components/FeedsList"
 import HeaderContainer from "../app/HeaderContainer"
+import { Actions } from "Actions"
 
 interface DispatchProps {
     onLoad(): void
@@ -37,7 +38,7 @@ const mapStateToProps = (state: GlobalState): PropsState => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<GlobalState>): DispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
     return {
         onLoad: () => dispatch(FeedsActions.loadfeeds())
     }

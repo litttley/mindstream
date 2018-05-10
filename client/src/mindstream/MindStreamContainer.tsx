@@ -10,6 +10,7 @@ import { MindStreamActions } from "./MindStreamActions"
 import MindStreamCard from "./components/MindStreamCard"
 import HeaderContainer from "../app/HeaderContainer"
 import FeedActions from "./components/FeedActions"
+import { Actions } from "Actions"
 
 interface DispatchProps {
     onReaction(feed: RssFeed, reaction: Reaction, sourceUuid?: string): () => void
@@ -115,7 +116,7 @@ const mapStateToProps = (state: GlobalState, props?: { match?: RouterMatch<Param
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<GlobalState>): DispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
     return {
         loadUnreadedFeeds: () => dispatch(MindStreamActions.loadUnreadedFeeds()),
         loadUnreadedFeedsBySource: (sourceUuid: string) => dispatch(MindStreamActions.loadUnreadedFeedsBySource({ sourceUuid })),
