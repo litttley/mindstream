@@ -9,11 +9,6 @@ import { ConnectedRouter } from "react-router-redux"
 import { PersistGate } from "redux-persist/integration/react"
 import { history } from "router"
 
-import "rxjs/add/operator/map"
-import "rxjs/add/operator/mergeMap"
-import "rxjs/add/operator/filter"
-import "rxjs/add/observable/of"
-
 import LoginContainer from "./login/LoginContainer"
 import SignupContainer from "./signup/SignupContainer"
 import FeedsContainer from "./feeds/FeedsContainer"

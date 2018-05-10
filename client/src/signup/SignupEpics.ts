@@ -1,6 +1,8 @@
+import { Epic, combineEpics } from "redux-observable"
 import { isActionOf } from "typesafe-actions"
-import { Epic } from "redux-observable"
-import { Observable } from "rxjs"
+import { of, empty } from "rxjs"
+import { filter, switchMap, map, catchError } from "rxjs/operators"
+
 import { SignupActions } from "signup/SignupActions"
 import { GlobalState, Dependencies } from "app/AppState"
 import { Actions } from "Actions"
@@ -9,21 +11,20 @@ import * as router from "router"
 
 type EpicType = Epic<Actions, GlobalState, Dependencies>
 
-export const signupEpic: EpicType = (action$, _, dependencies) => {
-    return action$
-        .filter(isActionOf(SignupActions.signupSubmit))
-        .mergeMap(({ payload: { login, email, password } }) =>
-            dependencies.api.signup(login, email, password)
-                .map(auth => SignupActions.signupSubmitSuccess({ auth }))
-                .catch((error: ApiError) => Observable.of(SignupActions.signupSubmitError({ error })))
-        )
-}
+const signupEpic: EpicType = (action$, _, { api }) => action$.pipe(
+    filter(isActionOf(SignupActions.signupSubmit)),
+    switchMap(({ payload: { login, email, password } }) => api.signup(login, email, password).pipe(
+        map(auth => SignupActions.signupSubmitSuccess({ auth })),
+        catchError((error: ApiError) => of(SignupActions.signupSubmitError({ error })))
+    ))
+)
 
-export const signupSuccessEpic: EpicType = action$ => {
-    return action$
-        .filter(isActionOf(SignupActions.signupSubmitSuccess))
-        .concatMap(() => {
-            router.replace("/")
-            return Observable.empty()
-        })
-}
+const signupSuccessEpic: EpicType = action$ => action$.pipe(
+    filter(isActionOf(SignupActions.signupSubmitSuccess)),
+    switchMap(() => {
+        router.replace("/")
+        return empty()
+    })
+)
+
+export const signupEpics = combineEpics(signupEpic, signupSuccessEpic)

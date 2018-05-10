@@ -1,19 +1,20 @@
-import { isActionOf } from "typesafe-actions"
 import { Epic } from "redux-observable"
+import { isActionOf } from "typesafe-actions"
+import { of } from "rxjs"
+import { filter, switchMap, map, catchError } from "rxjs/operators"
+
 import { FeedsActions } from "./FeedsActions"
 import { GlobalState, Dependencies } from "../app/AppState"
 import { Actions } from "Actions"
 import { ApiError } from "services/ApiError"
-import { Observable } from "rxjs/Observable"
+import { RssFeed } from "models/RssFeed"
 
 type EpicType = Epic<Actions, GlobalState, Dependencies>
 
-export const loadfeedsEpic: EpicType = (action$, state, dependencies) => {
-    return action$
-        .filter(isActionOf(FeedsActions.loadfeeds))
-        .mergeMap(() =>
-            dependencies.api.feedsByReaction(state.getState().app.token as string)("Liked")
-                .map(feeds => FeedsActions.loadfeedsSuccess({ feeds }))
-                .catch((error: ApiError) => Observable.of(FeedsActions.loadfeedsError({ error })))
-        )
-}
+export const loadfeedsEpic: EpicType = (action$, state, { api }) => action$.pipe(
+    filter(isActionOf(FeedsActions.loadfeeds)),
+    switchMap(() => api.feedsByReaction(state.value.app.token)("Liked").pipe(
+        map((feeds: RssFeed[]) => FeedsActions.loadfeedsSuccess({ feeds })),
+        catchError((error: ApiError) => of(FeedsActions.loadfeedsError({ error }))),
+    )),
+)
