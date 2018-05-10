@@ -48,7 +48,7 @@
     "@types/react-addons-css-transition-group": "15.0.4",
     "@types/react-dom": "16.0.5",
     "@types/react-redux": "5.0.19",
-    "@types/react-router": "4.0.24",
+    "@types/react-router": "4.0.25",
     "@types/react-router-redux": "5.0.14",
     "autoprefixer": "8.4.1",
     "parcel-bundler": "1.8.1",
