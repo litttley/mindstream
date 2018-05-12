@@ -44,12 +44,20 @@ fn process_rss_source(connection: &PgConnection, subscribers: &Vec<User>, rss_so
     if let Ok(Some(feeds_channel)) = fetch_feeds_channel(&rss_source.url) {
         for rss in &feeds_channel.entries {
             for link in &rss.alternate {
-                if !is_rss_feed_exists(&connection, &link.href)? {
-                    let readable = fetch_readable(client, &link.href).ok().and_then(|readable| readable);
-                    let rss_feed = RssFeed::new(&link.href, Some(rss.clone().into()), readable, rss_source);
-                    if insert_rss_feed(&connection, &rss_feed).is_ok() {
-                        insert_subscribers_feeds(&connection, subscribers, &rss_feed)?;
-                    }           
+                match client.get(&link.href).send() {
+                    Ok(ref response) if response.status().is_success() => {
+                        let url = response.url().as_str();
+                        info!("resolved url {:?}", url);
+                        if !is_rss_feed_exists(&connection, url)? {
+                            let readable = fetch_readable(client, url).ok().and_then(|readable| readable);
+                            let rss_feed = RssFeed::new(url, Some(rss.clone().into()), readable, rss_source);
+                            if insert_rss_feed(&connection, &rss_feed).is_ok() {
+                                insert_subscribers_feeds(&connection, subscribers, &rss_feed)?;
+                            }           
+                        }
+                    },
+                    Ok(ref response) => error!("resolve url status error {:?} -> {:?}", link.href, response.status()),
+                    Err(e) => error!("resolve url error {:?} -> {:?}", link.href, e)
                 }
             }
         }
