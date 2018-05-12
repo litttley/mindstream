@@ -44,11 +44,11 @@ export function createRequests(request: Request): Requests {
         }),
         // TODO fake request
         loadUnfollowedSources: token => request({
-            url: "/api/source",
+            url: "/api/source/unfollowed",
             headers: { Authorization: token }
         }),
         loadMySources: token => request({
-            url: "/api/source",
+            url: "/api/source/my",
             headers: { Authorization: token }
         }),
         // TODO create this route

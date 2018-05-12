@@ -45,3 +45,14 @@ pub fn find_rss_source_subscribers(connection: &PgConnection, rss_source: &RssSo
         .select(users::all_columns)
         .get_results::<User>(&*connection)
 }
+
+pub fn find_unfollowed(connection: &PgConnection, limit: i64, offset: i64, user: &User) -> Result<Vec<RssSource>, Error> {
+    use schema::rss_sources;
+    rss_sources::table
+        .left_join(users_rss_sources::table)
+        .filter(users_rss_sources::user_uuid.is_null().or(users_rss_sources::user_uuid.ne(user.uuid)))
+        .limit(limit)
+        .offset(offset)
+        .select(rss_sources::all_columns)
+        .get_results::<RssSource>(&*connection)
+}

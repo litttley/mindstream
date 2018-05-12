@@ -54,6 +54,7 @@ use rss_sources::add_rss_source::add_rss_source;
 use rss_sources::follow_rss_source::follow_rss_source;
 use rss_sources::get_rss_source::get_rss_source;
 use rss_sources::get_rss_sources::get_rss_sources;
+use rss_sources::get_unfollowed_rss_sources::get_unfollowed_rss_sources;
 use rss_sources::my_rss_sources::my_rss_sources;
 use rss_feeds::rss_feeds_job::run_rss_job;
 use rss_feeds::unreaded_feeds::unreaded_feeds;
@@ -98,6 +99,7 @@ pub fn run() {
             .resource("/users/login", |r| r.method(Method::POST).with2(login))
             .resource("/users/me", |r| r.method(Method::GET).with(me))
             .resource("/source", |r| r.method(Method::GET).with2(get_rss_sources))
+            .resource("/source/unfollowed", |r| r.method(Method::GET).with3(get_unfollowed_rss_sources))
             .resource("/source/my", |r| r.method(Method::GET).with3(my_rss_sources))
             .resource("/source/add", |r| r.method(Method::POST).with2(add_rss_source))
             .resource("/rss/feeds/unreaded", |r| r.method(Method::GET).with3(unreaded_feeds))
