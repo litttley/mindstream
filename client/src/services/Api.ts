@@ -70,10 +70,10 @@ export function createRequests(request: Request): Requests {
             url: `/api/rss/feeds/${reaction}`,
             headers: { Authorization: token }
         }),
-        // TODO create this route
         feedReaction: token => (rssFeed, reaction) => request({
-            url: `/api/rss/feeds/${rssFeed.uuid}/reaction`,
+            url: `/api/rss/feeds/reaction`,
             method: "PUT",
+            data: { rss_feed_uuid: rssFeed.uuid, reaction },
             headers: { Authorization: token }
         })
     }

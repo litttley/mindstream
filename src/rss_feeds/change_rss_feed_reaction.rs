@@ -39,7 +39,7 @@ impl Handler<ChangeRssFeedReaction> for DbExecutor {
     fn handle(&mut self, message: ChangeRssFeedReaction, _: &mut Self::Context) -> Self::Result {
         let connexion = self.pool.get()?;
         let user = message.user;
-        let reaction = message.query.reaction.to_string();
+        let reaction = message.query.reaction;
         let rss_feed_uuid = message.query.rss_feed_uuid;
         let rss_feeds = update_rss_feed_reaction(&connexion, &rss_feed_uuid, &reaction, &user)?;
         Ok(rss_feeds)

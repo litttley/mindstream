@@ -1,4 +1,5 @@
 use std::thread;
+use url::Url;
 use reqwest::Client;
 use r2d2::Pool;
 use r2d2_diesel::ConnectionManager;
@@ -46,9 +47,12 @@ fn process_rss_source(connection: &PgConnection, subscribers: &Vec<User>, rss_so
             for link in &rss.alternate {
                 match client.get(&link.href).send() {
                     Ok(ref response) if response.status().is_success() => {
-                        let url = response.url().as_str();
-                        debug!("resolved url {:?}", url);
-                        if !is_rss_feed_exists(&connection, url)? {
+                        let mut url = response.url().clone();
+                        url.set_query(None);
+                        let url = url.as_str();
+                        let is_feed_exists = is_rss_feed_exists(&connection, url)?;
+                        info!("resolved is_feed_exists = {:?} url {:?} ", is_feed_exists, url);
+                        if !is_feed_exists {
                             let readable = fetch_readable(client, url).ok().and_then(|readable| readable);
                             let rss_feed = RssFeed::new(url, Some(rss.clone().into()), readable, rss_source);
                             if insert_rss_feed(&connection, &rss_feed).is_ok() {

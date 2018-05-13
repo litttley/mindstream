@@ -7,7 +7,7 @@ use diesel::result::Error;
 use users::user::User;
 use schema::{rss_feeds, users_rss_feeds};
 use rss_feeds::rss_feed::RssFeed;
-use rss_feeds::user_rss_feed::UserRssFeed;
+use rss_feeds::user_rss_feed::{Reaction, UserRssFeed};
 
 pub fn insert_user_rss_feed(connection: &PgConnection, user_rss_feed: &UserRssFeed) -> Result<UserRssFeed, Error> {
     diesel::insert_into(users_rss_feeds::table)
@@ -58,10 +58,10 @@ pub fn find_unreaded_feeds_by_rss_source(connection: &PgConnection, limit: i64, 
         .get_results::<RssFeed>(&*connection)
 }
 
-pub fn update_rss_feed_reaction(connection: &PgConnection, rss_feed_uuid: &Uuid, query_reaction: &str, user: &User) -> Result<UserRssFeed, Error> {
+pub fn update_rss_feed_reaction(connection: &PgConnection, rss_feed_uuid: &Uuid, query_reaction: &Reaction, user: &User) -> Result<UserRssFeed, Error> {
     diesel::update(
             users_rss_feeds::table.filter(users_rss_feeds::user_uuid.eq(user.uuid).and(users_rss_feeds::feed_uuid.eq(rss_feed_uuid)))
         )
-        .set(users_rss_feeds::reaction.eq(query_reaction))
+        .set(users_rss_feeds::reaction.eq(query_reaction.to_string()))
         .get_result::<UserRssFeed>(&*connection)
 }
