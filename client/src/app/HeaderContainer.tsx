@@ -7,6 +7,7 @@ import { Actions } from "Actions"
 
 interface DispatchProps {
     menuToggle(isMenuOpen: boolean): void
+    logout(): void
 }
 
 interface StateProps {
@@ -15,8 +16,8 @@ interface StateProps {
 
 type Props = StateProps & DispatchProps
 
-const HeaderContainer: React.SFC<Props> = ({ isMenuOpen, menuToggle }) => (
-    <Header isMenuOpen={isMenuOpen} onMenuToggle={menuToggle} />
+const HeaderContainer: React.SFC<Props> = ({ logout, isMenuOpen, menuToggle }) => (
+    <Header isMenuOpen={isMenuOpen} onMenuToggle={menuToggle} onLogout={logout} />
 )
 
 const mapStateToProps = (state: GlobalState): StateProps => {
@@ -27,7 +28,8 @@ const mapStateToProps = (state: GlobalState): StateProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
     return {
-        menuToggle: (isMenuOpen) => dispatch(AppActions.menuToggle({ isMenuOpen }))
+        menuToggle: (isMenuOpen) => dispatch(AppActions.menuToggle({ isMenuOpen })),
+        logout: () => dispatch(AppActions.logout())
     }
 }
 

@@ -47,13 +47,13 @@ fn process_rss_source(connection: &PgConnection, subscribers: &Vec<User>, rss_so
                 match client.get(&link.href).send() {
                     Ok(ref response) if response.status().is_success() => {
                         let url = response.url().as_str();
-                        info!("resolved url {:?}", url);
+                        debug!("resolved url {:?}", url);
                         if !is_rss_feed_exists(&connection, url)? {
                             let readable = fetch_readable(client, url).ok().and_then(|readable| readable);
                             let rss_feed = RssFeed::new(url, Some(rss.clone().into()), readable, rss_source);
                             if insert_rss_feed(&connection, &rss_feed).is_ok() {
                                 insert_subscribers_feeds(&connection, subscribers, &rss_feed)?;
-                            }           
+                            }
                         }
                     },
                     Ok(ref response) => error!("resolve url status error {:?} -> {:?}", link.href, response.status()),
@@ -67,7 +67,7 @@ fn process_rss_source(connection: &PgConnection, subscribers: &Vec<User>, rss_so
 
 fn insert_subscribers_feeds(connection: &PgConnection, subscribers: &Vec<User>, rss_feed: &RssFeed) -> Result<(), Error> {
     for subscriber in subscribers {
-        let user_feed = UserRssFeed::new(subscriber.uuid, rss_feed.uuid.clone(), "Unreaded");
+        let user_feed = UserRssFeed::new(subscriber.uuid, rss_feed.uuid.clone(), "Unreaded".to_owned());
         if !is_user_feed_already_inserted(&connection, &rss_feed.url, &subscriber)? {
             if insert_user_rss_feed(&connection, &user_feed).is_ok() {
                 info!("insert subscriber {:?} -> {:?}", subscriber.login, &rss_feed.url);

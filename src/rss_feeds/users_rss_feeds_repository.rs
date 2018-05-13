@@ -5,7 +5,7 @@ use diesel::PgConnection;
 use diesel::result::Error;
 
 use users::user::User;
-use schema::users_rss_feeds;
+use schema::{rss_feeds, users_rss_feeds};
 use rss_feeds::rss_feed::RssFeed;
 use rss_feeds::user_rss_feed::UserRssFeed;
 
@@ -35,6 +35,21 @@ pub fn find_unreaded_feeds(connection: &PgConnection, limit: i64, offset: i64, u
         .filter(
             users_rss_feeds::reaction.eq("Unreaded")
                 .and(users_rss_feeds::user_uuid.eq(user.uuid))
+        )
+        .order_by(rss_feeds::updated.asc())
+        .limit(limit)
+        .offset(offset)
+        .select(rss_feeds::all_columns)
+        .get_results::<RssFeed>(&*connection)
+}
+
+pub fn find_unreaded_feeds_by_rss_source(connection: &PgConnection, limit: i64, offset: i64, rss_source_uuid: &Uuid, user: &User) -> Result<Vec<RssFeed>, Error> {
+    rss_feeds::table
+        .inner_join(users_rss_feeds::table)
+        .filter(
+            users_rss_feeds::reaction.eq("Unreaded")
+                .and(users_rss_feeds::user_uuid.eq(user.uuid))
+                .and(rss_feeds::rss_source_uuid.eq(rss_source_uuid))
         )
         .order_by(rss_feeds::updated.asc())
         .limit(limit)

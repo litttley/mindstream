@@ -1,9 +1,10 @@
 import { combineEpics } from "redux-observable"
-import { sourcesEpics } from "./sources/SourcesEpics"
-import { signupEpics } from "./signup/SignupEpics"
-import { mindstreamEpics } from "./mindstream/MindStreamEpics"
-import { loadfeedsEpic } from "./feeds/FeedsEpics"
-import { loginEpics } from "./login/LoginEpics"
+import { sourcesEpics } from "sources/SourcesEpics"
+import { signupEpics } from "signup/SignupEpics"
+import { mindstreamEpics } from "mindstream/MindStreamEpics"
+import { loadfeedsEpic } from "feeds/FeedsEpics"
+import { loginEpics } from "login/LoginEpics"
+import { appEpics } from "app/AppEpics"
 
 const RootEpic = combineEpics(
     loginEpics,
@@ -11,6 +12,7 @@ const RootEpic = combineEpics(
     mindstreamEpics,
     loadfeedsEpic,
     signupEpics,
+    appEpics,
 )
 
 export default RootEpic

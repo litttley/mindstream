@@ -42,7 +42,6 @@ export function createRequests(request: Request): Requests {
             url: "/api/rss/feeds/unreaded",
             headers: { Authorization: token }
         }),
-        // TODO fake request
         loadUnfollowedSources: token => request({
             url: "/api/source/unfollowed",
             headers: { Authorization: token }
@@ -51,9 +50,8 @@ export function createRequests(request: Request): Requests {
             url: "/api/source/my",
             headers: { Authorization: token }
         }),
-        // TODO create this route
         loadUnreadedFeedsBySource: token => sourceUuid => request({
-            url: `/api/rss/feeds/unreaded/${sourceUuid}`,
+            url: `/api/rss/feeds/unreaded?rss_source_uuid=${sourceUuid}`,
             headers: { Authorization: token }
         }),
         addSource: token => url => request({

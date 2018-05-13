@@ -21,6 +21,7 @@ const AppReducer = (state: AppState = initState, action: Actions) => {
         case getType(AppActions.menuToggle): return { ...state, isMenuOpen: action.payload.isMenuOpen }
         case getType(LoginActions.loginSubmitSuccess): return { ...state, token: action.payload.auth.token, user: action.payload.auth.user }
         case getType(SignupActions.signupSubmitSuccess): return { ...state, token: action.payload.auth.token, user: action.payload.auth.user }
+        case getType(AppActions.logout): return { ...state, token: "", user: undefined }
         default: return state
     }
 }

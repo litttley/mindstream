@@ -4,6 +4,7 @@ import MenuIcon from "./icons/MenuIcon"
 
 interface Props {
     onMenuToggle(isMenuOpen: boolean): void
+    onLogout(): void
     isMenuOpen?: boolean
 }
 
@@ -19,7 +20,7 @@ export default class Header extends React.PureComponent<Props> {
                         <a className={styles.item} href="#/">MindStream</a>
                         <a className={styles.item} href="#/feeds">Feeds</a>
                         <a className={styles.item} href="#/sources">Sources</a>
-                        <div className={styles.item}>TODO Logout</div>
+                        <div className={styles.item} onClick={this.props.onLogout}>Logout</div>
                     </div>
                 : null }
             </div>
