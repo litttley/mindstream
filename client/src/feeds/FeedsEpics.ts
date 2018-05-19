@@ -7,14 +7,13 @@ import { FeedsActions } from "./FeedsActions"
 import { GlobalState, Dependencies } from "../app/AppState"
 import { Actions } from "Actions"
 import { ApiError } from "services/ApiError"
-import { RssFeed } from "models/RssFeed"
 
 type EpicType = Epic<Actions, GlobalState, Dependencies>
 
 export const loadfeedsEpic: EpicType = (action$, state, { api }) => action$.pipe(
     filter(isActionOf(FeedsActions.loadfeeds)),
     switchMap(() => api.feedsByReaction(state.value.app.token)("Liked").pipe(
-        map((feeds: RssFeed[]) => FeedsActions.loadfeedsSuccess({ feeds })),
-        catchError((error: ApiError) => of(FeedsActions.loadfeedsError({ error }))),
+        map(FeedsActions.loadfeedsSuccess),
+        catchError((error: ApiError) => of(FeedsActions.loadfeedsError(error))),
     )),
 )

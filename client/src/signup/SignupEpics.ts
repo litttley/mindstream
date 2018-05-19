@@ -14,8 +14,8 @@ type EpicType = Epic<Actions, GlobalState, Dependencies>
 const signupEpic: EpicType = (action$, _, { api }) => action$.pipe(
     filter(isActionOf(SignupActions.signupSubmit)),
     switchMap(({ payload: { login, email, password } }) => api.signup(login, email, password).pipe(
-        map(auth => SignupActions.signupSubmitSuccess({ auth })),
-        catchError((error: ApiError) => of(SignupActions.signupSubmitError({ error })))
+        map(SignupActions.signupSubmitSuccess),
+        catchError((error: ApiError) => of(SignupActions.signupSubmitError(error)))
     ))
 )
 

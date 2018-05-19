@@ -1,11 +1,11 @@
-import { buildAction, ActionsUnion } from "typesafe-actions"
+import { createAction, ActionType } from "typesafe-actions"
 import { RssFeed } from "models/RssFeed"
 import { ApiError } from "services/ApiError"
 
 export const FeedsActions = {
-    loadfeeds: buildAction("Loadfeeds").empty(),
-    loadfeedsSuccess: buildAction("LoadfeedsSuccess").payload<{ feeds: RssFeed[] }>(),
-    loadfeedsError: buildAction("LoadfeedsError").payload<{ error: ApiError }>(),
+    loadfeeds: createAction("Loadfeeds"),
+    loadfeedsSuccess: createAction("LoadfeedsSuccess", resolve => (feeds: RssFeed[]) => resolve({ feeds })),
+    loadfeedsError: createAction("LoadfeedsError", resolve => (error: ApiError) => resolve({ error })),
 }
 
-export type FeedsAction = ActionsUnion<typeof FeedsActions>
+export type FeedsAction = ActionType<typeof FeedsActions>

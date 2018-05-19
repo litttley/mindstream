@@ -119,10 +119,10 @@ const mapStateToProps = (state: GlobalState, props?: { match?: RouterMatch<Param
 const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
     return {
         loadUnreadedFeeds: () => dispatch(MindStreamActions.loadUnreadedFeeds()),
-        loadUnreadedFeedsBySource: (sourceUuid: string) => dispatch(MindStreamActions.loadUnreadedFeedsBySource({ sourceUuid })),
-        onReaction: (feed, reaction, sourceUuid?: string) => () => dispatch(MindStreamActions.readFeed({ feed, reaction, sourceUuid })),
-        onNextFeed: (feed, sourceUuid: string | undefined) => dispatch(MindStreamActions.nextFeed({ feed, sourceUuid })),
-        onPreviousFeed: (sourceUuid: string | undefined) => dispatch(MindStreamActions.previousFeed({ sourceUuid })),
+        loadUnreadedFeedsBySource: (sourceUuid: string) => dispatch(MindStreamActions.loadUnreadedFeedsBySource(sourceUuid)),
+        onReaction: (feed, reaction, sourceUuid?: string) => () => dispatch(MindStreamActions.readFeed(feed, reaction, sourceUuid)),
+        onNextFeed: (feed, sourceUuid: string | undefined) => dispatch(MindStreamActions.nextFeed(feed, sourceUuid)),
+        onPreviousFeed: (sourceUuid: string | undefined) => dispatch(MindStreamActions.previousFeed(sourceUuid)),
     }
 }
 

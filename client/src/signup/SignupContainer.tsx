@@ -41,9 +41,9 @@ const SignupContainer = (props: Props) => {
 const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
     return {
         onChange: (field, value) =>
-            dispatch(SignupActions.signupChange({ field, value })),
+            dispatch(SignupActions.signupChange(field, value)),
         onSubmit: (login, email, password) =>
-            dispatch(SignupActions.signupSubmit({ login, email, password })),
+            dispatch(SignupActions.signupSubmit(login, email, password)),
     }
 }
 

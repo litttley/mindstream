@@ -1,12 +1,12 @@
-import { buildAction, ActionsUnion } from "typesafe-actions"
+import { createAction, ActionType } from "typesafe-actions"
 import { ApiError } from "services/ApiError"
 import { AuthResponse } from "services/AuthResponse"
 
 export const SignupActions = {
-    signupChange: buildAction("SignupChange").payload<{ field: string, value: string }>(),
-    signupSubmit: buildAction("SignupSubmit").payload<{  login: string, email: string, password: string }>(),
-    signupSubmitSuccess: buildAction("SignupSubmitSuccess").payload<{ auth: AuthResponse }>(),
-    signupSubmitError: buildAction("SignupSubmitError").payload<{ error: ApiError }>(),
+    signupChange: createAction("SignupChange", resolve => (field: string, value: string) => resolve({ field, value })),
+    signupSubmit: createAction("SignupSubmit", resolve => (login: string, email: string, password: string) => resolve({ login, email, password })),
+    signupSubmitSuccess: createAction("SignupSubmitSuccess", resolve => (auth: AuthResponse) => resolve({ auth })),
+    signupSubmitError: createAction("SignupSubmitError", resolve => (error: ApiError) => resolve({ error })),
 }
 
-export type SignupAction = ActionsUnion<typeof SignupActions>
+export type SignupAction = ActionType<typeof SignupActions>

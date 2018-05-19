@@ -28,7 +28,7 @@ const mapStateToProps = (state: GlobalState): StateProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
     return {
-        menuToggle: (isMenuOpen) => dispatch(AppActions.menuToggle({ isMenuOpen })),
+        menuToggle: (isMenuOpen) => dispatch(AppActions.menuToggle(isMenuOpen)),
         logout: () => dispatch(AppActions.logout())
     }
 }

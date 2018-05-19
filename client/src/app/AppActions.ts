@@ -1,8 +1,8 @@
-import { buildAction, ActionsUnion } from "typesafe-actions"
+import { createAction, ActionType } from "typesafe-actions"
 
 export const AppActions = {
-  menuToggle: buildAction("MenuToggle").payload<{ isMenuOpen: boolean }>(),
-  logout: buildAction("Logout").empty(),
+  menuToggle: createAction("MenuToggle", resolve => (isMenuOpen: boolean) => resolve({ isMenuOpen })),
+  logout: createAction("Logout"),
 }
 
-export type AppAction = ActionsUnion<typeof AppActions>
+export type AppAction = ActionType<typeof AppActions>

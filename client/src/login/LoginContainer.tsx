@@ -31,10 +31,10 @@ const LoginContainer: React.SFC<Props> = ({ login, onChange, onSubmit }) => {
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => {
     return {
         onChange: (field: string, value: string) => {
-            dispatch(LoginActions.loginChange({ field, value }))
+            dispatch(LoginActions.loginChange(field, value))
         },
         onSubmit: (email: string, password: string) => {
-            dispatch(LoginActions.loginSubmit({ email, password }))
+            dispatch(LoginActions.loginSubmit(email, password))
         }
     }
 }

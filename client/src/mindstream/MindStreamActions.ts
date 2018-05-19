@@ -1,18 +1,20 @@
-import { buildAction, ActionsUnion } from "typesafe-actions"
+import { createAction, ActionType } from "typesafe-actions"
 import { RssFeed, Reaction } from "models/RssFeed"
 import { ApiError } from "services/ApiError"
 
 export const MindStreamActions = {
-    mindstreamApiError: buildAction("MindStreamApiError").payload<{ error: ApiError }>(),
-    goToNextFeed: buildAction("GoToNextFeed").empty(),
-    nextFeed: buildAction("NextFeed").payload<{ feed: RssFeed, sourceUuid?: string }>(),
-    nextFeedSuccess: buildAction("NextFeedSuccess").payload<{ feed: RssFeed, sourceUuid?: string }>(),
-    previousFeed: buildAction("PreviousFeed").payload<{ sourceUuid?: string }>(),
-    loadUnreadedFeeds: buildAction("LoadUnreadedFeeds").empty(),
-    loadUnreadedFeedsSuccess: buildAction("LoadUnreadedFeedsSuccess").payload<{ feeds: RssFeed[] }>(),
-    readFeed: buildAction("ReadFeed").payload<{ feed: RssFeed, reaction: Reaction, sourceUuid?: string }>(),
-    loadUnreadedFeedsBySource: buildAction("LoadUnreadedFeedsBySource").payload<{ sourceUuid: string }>(),
-    loadUnreadedFeedsBySourceSuccess: buildAction("LoadUnreadedFeedsBySourceSuccess").payload<{ feeds: RssFeed[] }>(),
+    mindstreamApiError: createAction("MindStreamApiError", resolve => (error: ApiError) => resolve({ error })),
+    goToNextFeed: createAction("GoToNextFeed"),
+    nextFeed: createAction("NextFeed", resolve => (feed: RssFeed, sourceUuid?: string) => resolve({ feed, sourceUuid })),
+    nextFeedSuccess: createAction("NextFeedSuccess", resolve => (feed: RssFeed, sourceUuid?: string) => resolve({ feed, sourceUuid })),
+    previousFeed: createAction("PreviousFeed", resolve => (sourceUuid?: string) => resolve({ sourceUuid })),
+    loadUnreadedFeeds: createAction("LoadUnreadedFeeds"),
+    loadUnreadedFeedsSuccess: createAction("LoadUnreadedFeedsSuccess", resolve => (feeds: RssFeed[]) => resolve({ feeds })),
+    readFeed: createAction("ReadFeed",
+        resolve => (feed: RssFeed, reaction: Reaction, sourceUuid?: string) => resolve({ feed, reaction, sourceUuid })
+    ),
+    loadUnreadedFeedsBySource: createAction("LoadUnreadedFeedsBySource", resolve => (sourceUuid: string) => resolve({ sourceUuid })),
+    loadUnreadedFeedsBySourceSuccess: createAction("LoadUnreadedFeedsBySourceSuccess", resolve => (feeds: RssFeed[]) => resolve({ feeds })),
 }
 
-export type MindStreamAction = ActionsUnion<typeof MindStreamActions>
+export type MindStreamAction = ActionType<typeof MindStreamActions>

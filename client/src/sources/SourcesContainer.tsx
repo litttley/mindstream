@@ -77,9 +77,9 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
     return {
         onLoadUnfollowedSources: () => dispatch(SourcesActions.loadUnfollowedSources()),
         onLoadMySources: () => dispatch(SourcesActions.loadMySources()),
-        addSourceOnChange: (field, value) => dispatch(SourcesActions.addSourceOnChange({ field, value })),
-        addSourceOnSubmit: (sourceUrl) => dispatch(SourcesActions.addSource({ sourceUrl })),
-        fallowSource: (source) => dispatch(SourcesActions.fallowSources({ source })),
+        addSourceOnChange: (field, value) => dispatch(SourcesActions.addSourceOnChange(field, value)),
+        addSourceOnSubmit: (sourceUrl) => dispatch(SourcesActions.addSource(sourceUrl)),
+        fallowSource: (source) => dispatch(SourcesActions.fallowSources(source)),
     }
 }
 

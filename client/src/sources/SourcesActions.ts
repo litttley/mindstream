@@ -1,22 +1,22 @@
-import { buildAction, ActionsUnion } from "typesafe-actions"
+import { createAction, ActionType } from "typesafe-actions"
 import { RssSource } from "models/RssSource"
 import { ApiError } from "services/ApiError"
 
 export const SourcesActions = {
-    loadUnfollowedSources: buildAction("LoadUnfollowedSources").empty(),
-    loadUnfollowedSourcesSuccess: buildAction("LoadUnfollowedSourcesSuccess").payload<{ sources: RssSource[] }>(),
-    loadUnfollowedSourcesError: buildAction("LoadUnfollowedSourcesError").payload<{ error: ApiError }>(),
-    loadMySources: buildAction("LoadMySources").empty(),
-    loadMySourcesSuccess: buildAction("LoadMySourcesSuccess").payload<{ sources: RssSource[] }>(),
-    loadMySourcesError: buildAction("LoadMySourcesError").payload<{ error: ApiError }>(),
-    addMySource: buildAction("AddMySource").payload<{ source: RssSource }>(),
-    fallowSources: buildAction("FallowSources").payload<{ source: RssSource }>(),
-    fallowSourcesSuccess: buildAction("FallowSourcesSuccess").payload<{ source: RssSource }>(),
-    fallowSourcesError: buildAction("FallowSourcesError").payload<{ error: ApiError }>(),
-    addSourceOnChange: buildAction("AddSourceOnChange").payload<{ field: string, value: string }>(),
-    addSource: buildAction("AddSource").payload<{ sourceUrl: string }>(),
-    addSourceSuccess: buildAction("AddSourceSuccess").payload<{ source: RssSource }>(),
-    addSourceError: buildAction("AddSourceError").payload<{ error: ApiError }>(),
+    loadUnfollowedSources: createAction("LoadUnfollowedSources"),
+    loadUnfollowedSourcesSuccess: createAction("LoadUnfollowedSourcesSuccess", resolve => (sources: RssSource[]) => resolve({ sources })),
+    loadUnfollowedSourcesError: createAction("LoadUnfollowedSourcesError", resolve => (error: ApiError) => resolve({ error })),
+    loadMySources: createAction("LoadMySources"),
+    loadMySourcesSuccess: createAction("LoadMySourcesSuccess", resolve => (sources: RssSource[]) => resolve({ sources })),
+    loadMySourcesError: createAction("LoadMySourcesError", resolve => (error: ApiError) => resolve({ error })),
+    addMySource: createAction("AddMySource", resolve => (source: RssSource) => resolve({ source })),
+    fallowSources: createAction("FallowSources", resolve => (source: RssSource) => resolve({ source })),
+    fallowSourcesSuccess: createAction("FallowSourcesSuccess", resolve => (source: RssSource) => resolve({ source })),
+    fallowSourcesError: createAction("FallowSourcesError", resolve => (error: ApiError) => resolve({ error })),
+    addSourceOnChange: createAction("AddSourceOnChange", resolve => (field: string, value: string) => resolve({ field, value })),
+    addSource: createAction("AddSource", resolve => (sourceUrl: string) => resolve({ sourceUrl })),
+    addSourceSuccess: createAction("AddSourceSuccess", resolve => (source: RssSource) => resolve({ source })),
+    addSourceError: createAction("AddSourceError", resolve => (error: ApiError) => resolve({ error })),
 }
 
-export type SourcesAction = ActionsUnion<typeof SourcesActions>
+export type SourcesAction = ActionType<typeof SourcesActions>
