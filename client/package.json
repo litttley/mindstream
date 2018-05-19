@@ -38,7 +38,7 @@
     "redux-observable": "1.0.0-alpha.2",
     "redux-persist": "5.9.1",
     "rxjs": "6.1.0",
-    "typesafe-actions": "2.0.0-1",
+    "typesafe-actions": "2.0.3",
     "validation.ts": "0.0.17"
   },
   "devDependencies": {
