@@ -5,7 +5,7 @@ import { LoginState } from "../login/LoginReducer"
 import { SignupState } from "../signup/SignupReducer"
 import { FeedsState } from "../feeds/FeedsReducer"
 import { MindStreamState } from "../mindstream/MindStreamReducer"
-import { SourcesState } from "../sources/SourcesReducer"
+import { SourcesState } from "rssSources/SourcesReducer"
 import { Requests } from "services/Api"
 
 export interface GlobalState {

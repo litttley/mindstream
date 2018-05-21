@@ -3,7 +3,7 @@ import { AppAction } from "app/AppActions"
 import { LoginAction } from "login/LoginActions"
 import { SignupAction } from "signup/SignupActions"
 import { MindStreamAction } from "mindstream/MindStreamActions"
-import { SourcesAction } from "sources/SourcesActions"
+import { SourcesAction } from "rssSources/SourcesActions"
 import { FeedsAction } from "feeds/FeedsActions"
 
 export type Actions =

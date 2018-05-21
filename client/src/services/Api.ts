@@ -3,7 +3,7 @@ import { Observable, Observer } from "rxjs"
 import { Validator } from "validation.ts"
 import * as router from "router"
 import { RssFeed, Reaction } from "models/RssFeed"
-import { RssSource } from "models/RssSource"
+import { RssSource, MyRssSources } from "models/RssSource"
 import { AuthResponse, AuthResponseValidator } from "services/AuthResponse"
 
 export interface Requests {
@@ -11,7 +11,7 @@ export interface Requests {
     login(login: string, password: string): Observable<AuthResponse>
     logout(): Observable<void>
     loadUnfollowedSources(token: string): Observable<RssSource[]>
-    loadMySources(token: string): Observable<RssSource[]>
+    loadMySources(token: string): Observable<MyRssSources[]>
     addSource(token: string): (url: string) => Observable<RssSource>
     fallowSource(token: string): (rssSource: RssSource) => Observable<RssSource>
     getRssFeeds(token: string, reaction: Reaction, sourceUuid?: string): Observable<RssFeed[]>

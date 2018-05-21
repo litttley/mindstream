@@ -42,10 +42,10 @@ const reloadUnreadedFeedsEpic: EpicType = (action$, state, { api }) => action$.p
                 (sourceUuid)
                     ? MindStreamActions.loadUnreadedFeedsBySource(sourceUuid)
                     : MindStreamActions.loadUnreadedFeeds(),
-                MindStreamActions.goToNextFeed()
+                MindStreamActions.goToNextFeed(sourceUuid)
             )
         } else {
-            return of(MindStreamActions.goToNextFeed())
+            return of(MindStreamActions.goToNextFeed(sourceUuid))
         }
     })
 )

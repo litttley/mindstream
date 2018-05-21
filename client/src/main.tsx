@@ -13,7 +13,7 @@ import LoginContainer from "./login/LoginContainer"
 import SignupContainer from "./signup/SignupContainer"
 import FeedsContainer from "./feeds/FeedsContainer"
 import MindStreamContainer from "./mindstream/MindStreamContainer"
-import SourcesContainer from "./sources/SourcesContainer"
+import RssSourcesPage from "rssSources/RssSourcesPage"
 import { store, persistor } from "Store"
 
 ReactDOM.render(
@@ -24,7 +24,7 @@ ReactDOM.render(
                     <Route exact path="/" component={MindStreamContainer}/>
                     <Route exact path="/stream/:sourceUuid" component={MindStreamContainer}/>
                     <Route exact path="/feeds" component={FeedsContainer}/>
-                    <Route exact path="/sources" component={SourcesContainer}/>
+                    <Route exact path="/sources" component={RssSourcesPage}/>
                     <Route exact path="/login" component={LoginContainer}/>
                     <Route exact path="/signup" component={SignupContainer}/>
                 </Switch>

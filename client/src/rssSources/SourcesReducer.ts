@@ -1,12 +1,12 @@
 import { getType } from "typesafe-actions"
-import { RssSource } from "models/RssSource"
+import { RssSource, MyRssSources } from "models/RssSource"
 import { SourcesActions } from "./SourcesActions"
 import { Actions } from "Actions"
 import { ApiError } from "services/ApiError"
 
 export interface SourcesState {
-    sources: RssSource[]
-    mySources: RssSource[]
+    unfollowedRssSources: RssSource[]
+    myRssSources: MyRssSources[]
     loading: boolean
     error?: ApiError
     newSourceUrl: string
@@ -14,15 +14,15 @@ export interface SourcesState {
 }
 
 const initState: SourcesState = {
-    sources: [],
-    mySources: [],
+    unfollowedRssSources: [],
+    myRssSources: [],
     loading: false,
     error: undefined,
     newSourceUrl: "",
     addSourceLoading: false,
 }
 
-const SourcesReducer = (state: SourcesState = initState, action: Actions) => {
+const SourcesReducer = (state: SourcesState = initState, action: Actions): SourcesState => {
     switch (action.type) {
         case getType(SourcesActions.addSourceOnChange): return { ...state, [action.payload.field]: action.payload.value }
 
@@ -31,25 +31,31 @@ const SourcesReducer = (state: SourcesState = initState, action: Actions) => {
             ...state,
             addSourceLoading: false,
             newSourceUrl: "",
-            sources: [...state.sources, action.payload.source]
+            unfollowedRssSources: [...state.unfollowedRssSources, action.payload.source]
         }
         case getType(SourcesActions.addSourceError): return { ...state, addSourceLoading: false, error: action.payload.error }
 
         case getType(SourcesActions.loadUnfollowedSources): return { ...state, loading: true }
-        case getType(SourcesActions.loadUnfollowedSourcesSuccess): return { ...state, sources: action.payload.sources, loading: false }
+        case getType(SourcesActions.loadUnfollowedSourcesSuccess): return {
+            ...state,
+            unfollowedRssSources: action.payload.unfollowedRssSources,
+            loading: false
+        }
         case getType(SourcesActions.loadUnfollowedSourcesError): return { ...state, loading: false, error: action.payload.error }
 
         case getType(SourcesActions.loadMySources): return { ...state, loading: true }
-        case getType(SourcesActions.loadMySourcesSuccess): return { ...state, mySources: action.payload.sources, loading: false }
+        case getType(SourcesActions.loadMySourcesSuccess): return { ...state, myRssSources: action.payload.myRssSources, loading: false }
         case getType(SourcesActions.loadMySourcesError): return { ...state, loading: false, error: action.payload.error }
 
-        case getType(SourcesActions.addMySource): return { ...state, mySources: [...state.mySources, action.payload.source] }
+        case getType(SourcesActions.addMySource): return { ...state, myRssSources: [
+            ...state.myRssSources, { rss_source: action.payload.source, unreaded: 0 }
+        ]}
 
         case getType(SourcesActions.fallowSources): return { ...state, loading: true}
         case getType(SourcesActions.fallowSourcesError): return { ...state, loading: false, error: action.payload.error }
         case getType(SourcesActions.fallowSourcesSuccess): return {
             ...state,
-            sources: state.sources.filter(source => source.uuid !== action.payload.source.uuid),
+            unfollowedRssSources: state.unfollowedRssSources.filter(source => source.uuid !== action.payload.source.uuid),
             loading: false
         }
         default: return state

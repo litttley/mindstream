@@ -35,7 +35,8 @@ CREATE TABLE users_rss_sources (
 
 CREATE TABLE IF NOT EXISTS rss_feeds (
     uuid UUID PRIMARY KEY,
-    url TEXT NOT NULL,
+    rss_url TEXT NOT NULL,
+    resolved_url TEXT,
     rss JSONB,
     readable JSONB,
     created TIMESTAMP NOT NULL,

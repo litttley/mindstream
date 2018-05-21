@@ -8,8 +8,10 @@ use auth::auth::Auth;
 use app::app_state::AppState;
 use app::db::DbExecutor;
 use users::user::User;
-use rss_feeds::users_rss_feeds_repository::update_rss_feed_reaction;
+use rss_feeds::users_rss_feeds_repository::{update_rss_feed_reaction, find_user_rss_feed};
+use rss_feeds::rss_feeds_repository::find_rss_feed;
 use rss_feeds::user_rss_feed::{Reaction, UserRssFeed};
+use rss_sources::users_rss_sources_repository::decrement_unreaded_rss_sources;
 
 #[derive(Debug, Deserialize)]
 pub struct ChangeRssFeedReactionQuery {
@@ -41,8 +43,19 @@ impl Handler<ChangeRssFeedReaction> for DbExecutor {
         let user = message.user;
         let reaction = message.query.reaction;
         let rss_feed_uuid = message.query.rss_feed_uuid;
-        let rss_feeds = update_rss_feed_reaction(&connexion, &rss_feed_uuid, &reaction, &user)?;
-        Ok(rss_feeds)
+        let rss_feed = find_rss_feed(&connexion, &rss_feed_uuid)?;
+        let user_rss_feed = find_user_rss_feed(&connexion, &rss_feed_uuid, &user)?;
+        match user_rss_feed.reaction.as_ref() {
+            "Unreaded" => {
+                let rss_feeds = update_rss_feed_reaction(&connexion, &rss_feed_uuid, &reaction, &user)?;
+                let _ = decrement_unreaded_rss_sources(&connexion, &rss_feed.rss_source_uuid, &user)?;
+                Ok(rss_feeds)
+            },
+            _ => {
+                let rss_feeds = update_rss_feed_reaction(&connexion, &rss_feed_uuid, &reaction, &user)?;
+                Ok(rss_feeds)
+            }
+        }
     }
 }
 

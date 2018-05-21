@@ -1,7 +1,8 @@
 table! {
     rss_feeds (uuid) {
         uuid -> Uuid,
-        url -> Text,
+        rss_url -> Text,
+        resolved_url -> Nullable<Text>,
         rss -> Nullable<Jsonb>,
         readable -> Nullable<Jsonb>,
         created -> Timestamp,

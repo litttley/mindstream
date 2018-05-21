@@ -21,7 +21,7 @@ pub fn is_user_feed_already_inserted(connection: &PgConnection, query_url: &str,
         .inner_join(rss_feeds::table)
         .filter(
             users_rss_feeds::user_uuid.eq(user.uuid)
-                .and(rss_feeds::url.eq(query_url))
+                .and(rss_feeds::rss_url.eq(query_url))
         )
         .select(rss_feeds::all_columns)
         .get_results::<RssFeed>(&*connection)
@@ -60,8 +60,19 @@ pub fn find_rss_feeds_by_rss_source(connection: &PgConnection, limit: i64, offse
 
 pub fn update_rss_feed_reaction(connection: &PgConnection, rss_feed_uuid: &Uuid, query_reaction: &Reaction, user: &User) -> Result<UserRssFeed, Error> {
     diesel::update(
-            users_rss_feeds::table.filter(users_rss_feeds::user_uuid.eq(user.uuid).and(users_rss_feeds::feed_uuid.eq(rss_feed_uuid)))
+            users_rss_feeds::table
+                .filter(users_rss_feeds::user_uuid.eq(user.uuid)
+                .and(users_rss_feeds::feed_uuid.eq(rss_feed_uuid)))
         )
         .set(users_rss_feeds::reaction.eq(query_reaction.to_string()))
         .get_result::<UserRssFeed>(&*connection)
+}
+
+pub fn find_user_rss_feed(connection: &PgConnection, user_rss_feed_uuid: &Uuid, user: &User) -> Result<UserRssFeed, Error> {
+    users_rss_feeds::table
+        .filter(
+            users_rss_feeds::feed_uuid.eq(user_rss_feed_uuid)
+                .and(users_rss_feeds::user_uuid.eq(user.uuid))
+        )
+        .first::<UserRssFeed>(&*connection)
 }

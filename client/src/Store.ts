@@ -11,7 +11,7 @@ import LoginReducer from "login/LoginReducer"
 import SignupReducer from "signup/SignupReducer"
 import FeedsReducer from "feeds/FeedsReducer"
 import MindStreamReducer from "mindstream/MindStreamReducer"
-import SourcesReducer from "sources/SourcesReducer"
+import SourcesReducer from "rssSources/SourcesReducer"
 
 import RootEpic from "RootEpic"
 import { Dependencies, GlobalState } from "app/AppState"

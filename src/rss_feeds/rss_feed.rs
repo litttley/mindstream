@@ -13,7 +13,8 @@ use rss_sources::rss_source::RssSource;
 #[table_name="rss_feeds"]
 pub struct RssFeed {
     pub uuid: Uuid,
-    pub url: String,
+    pub rss_url: String,
+    pub resolved_url: Option<String>,
     pub rss: Option<Value>,
     pub readable: Option<Value>,
     pub created: NaiveDateTime,
@@ -22,10 +23,11 @@ pub struct RssFeed {
 }
 
 impl RssFeed {
-    pub fn new(url: &str, rss: Option<Rss>, readable: Option<ReadableData>, rss_source: &RssSource) -> Self {
+    pub fn new(rss_url: String, resolved_url: Option<String>, rss: Option<Rss>, readable: Option<ReadableData>, rss_source: &RssSource) -> Self {
         Self {
             uuid: Uuid::new_v4(),
-            url: url.to_owned(),
+            rss_url,
+            resolved_url,
             rss: serde_json::to_value(rss).ok(),
             readable: serde_json::to_value(readable).ok(),
             created: Utc::now().naive_utc(),

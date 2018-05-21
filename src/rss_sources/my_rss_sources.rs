@@ -1,6 +1,7 @@
 use actix::prelude::*;
 use actix_web::{State, Query, HttpResponse, AsyncResponder};
 use futures::future::Future;
+use serde_json::Value;
 
 use errors::Error;
 use auth::auth::Auth;
@@ -9,6 +10,7 @@ use app::db::DbExecutor;
 use app::config;
 use users::user::User;
 use rss_sources::rss_source::RssSource;
+use rss_sources::user_rss_source::UserRssSource;
 use rss_sources::users_rss_sources_repository::rss_sources_by_user;
 use pagination::Pagination;
 
@@ -25,11 +27,11 @@ impl MyRssSources {
 }
 
 impl Message for MyRssSources {
-    type Result = Result<Vec<RssSource>, Error>;
+    type Result = Result<Vec<(RssSource, UserRssSource)>, Error>;
 }
 
 impl Handler<MyRssSources> for DbExecutor {
-    type Result = Result<Vec<RssSource>, Error>;
+    type Result = Result<Vec<(RssSource, UserRssSource)>, Error>;
 
     fn handle(&mut self, message: MyRssSources, _: &mut Self::Context) -> Self::Result {
         let connexion = self.pool.get()?;
@@ -47,7 +49,10 @@ pub fn my_rss_sources(pagination: Query<Pagination>, auth: Auth, state: State<Ap
         .from_err()
         .and_then(|res| {
             match res {
-                Ok(rss_sources) => Ok(HttpResponse::Ok().json(rss_sources)),
+                Ok(rss_sources) => Ok(HttpResponse::Ok().json(rss_sources.iter().map(|(rss_source, user_rss_source)| json!({
+                    "rss_source": rss_source,
+                    "unreaded": user_rss_source.unreaded,
+                })).collect::<Vec<Value>>())),
                 Err(err) => Err(err.into())
             }
         })

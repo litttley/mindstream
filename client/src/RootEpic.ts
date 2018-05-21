@@ -1,5 +1,5 @@
 import { combineEpics } from "redux-observable"
-import { sourcesEpics } from "sources/SourcesEpics"
+import { sourcesEpics } from "rssSources/SourcesEpics"
 import { signupEpics } from "signup/SignupEpics"
 import { mindstreamEpics } from "mindstream/MindStreamEpics"
 import { loadfeedsEpic } from "feeds/FeedsEpics"

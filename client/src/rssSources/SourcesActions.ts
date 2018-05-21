@@ -1,13 +1,15 @@
 import { createAction, ActionType } from "typesafe-actions"
-import { RssSource } from "models/RssSource"
+import { RssSource, MyRssSources } from "models/RssSource"
 import { ApiError } from "services/ApiError"
 
 export const SourcesActions = {
     loadUnfollowedSources: createAction("LoadUnfollowedSources"),
-    loadUnfollowedSourcesSuccess: createAction("LoadUnfollowedSourcesSuccess", resolve => (sources: RssSource[]) => resolve({ sources })),
+    loadUnfollowedSourcesSuccess: createAction("LoadUnfollowedSourcesSuccess",
+        resolve => (unfollowedRssSources: RssSource[]) => resolve({ unfollowedRssSources })
+    ),
     loadUnfollowedSourcesError: createAction("LoadUnfollowedSourcesError", resolve => (error: ApiError) => resolve({ error })),
     loadMySources: createAction("LoadMySources"),
-    loadMySourcesSuccess: createAction("LoadMySourcesSuccess", resolve => (sources: RssSource[]) => resolve({ sources })),
+    loadMySourcesSuccess: createAction("LoadMySourcesSuccess", resolve => (myRssSources: MyRssSources[]) => resolve({ myRssSources })),
     loadMySourcesError: createAction("LoadMySourcesError", resolve => (error: ApiError) => resolve({ error })),
     addMySource: createAction("AddMySource", resolve => (source: RssSource) => resolve({ source })),
     fallowSources: createAction("FallowSources", resolve => (source: RssSource) => resolve({ source })),

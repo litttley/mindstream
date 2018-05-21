@@ -1,4 +1,4 @@
-import { object, string, array, optional } from "validation.ts"
+import { object, string, array, number, optional } from "validation.ts"
 
 export const RssSourceValidator = object({
     uuid: string,
@@ -17,4 +17,10 @@ export const RssSourceValidator = object({
     updated: string,
 })
 
+export const MyRssSourcesValidator = object({
+    rss_source: RssSourceValidator,
+    unreaded: number
+})
+
 export type RssSource = typeof RssSourceValidator.T
+export type MyRssSources = typeof MyRssSourcesValidator.T

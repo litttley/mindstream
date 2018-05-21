@@ -1,3 +1,4 @@
+use uuid::Uuid;
 use diesel;
 use diesel::prelude::*;
 use diesel::PgConnection;
@@ -26,15 +27,14 @@ pub fn is_exists(connection: &PgConnection, user_rss_source: &UserRssSource) -> 
     ).get_result(&*connection)
 }
 
-pub fn rss_sources_by_user(connection: &PgConnection, limit: i64, offset: i64, user: &User) -> Result<Vec<RssSource>, Error> {
+pub fn rss_sources_by_user(connection: &PgConnection, limit: i64, offset: i64, user: &User) -> Result<Vec<(RssSource, UserRssSource)>, Error> {
     use schema::rss_sources;
     rss_sources::table
         .inner_join(users_rss_sources::table)
         .filter(users_rss_sources::user_uuid.eq(user.uuid))
         .limit(limit)
         .offset(offset)
-        .select(rss_sources::all_columns)
-        .get_results::<RssSource>(&*connection)
+        .get_results::<(RssSource, UserRssSource)>(&*connection)
 }
 
 pub fn find_rss_source_subscribers(connection: &PgConnection, rss_source: &RssSource) -> Result<Vec<User>, Error> {
@@ -55,4 +55,28 @@ pub fn find_unfollowed(connection: &PgConnection, limit: i64, offset: i64, user:
         .offset(offset)
         .select(rss_sources::all_columns)
         .get_results::<RssSource>(&*connection)
+}
+
+pub fn increment_unreaded_rss_sources(connection: &PgConnection, rss_source: &RssSource, user: &User) -> Result<usize, Error> {
+    diesel::sql_query(r#"
+        UPDATE users_rss_sources 
+        SET unreaded = unreaded + 1 
+        WHERE users_rss_sources.rss_source_uuid = $1
+            AND users_rss_sources.user_uuid = $2
+    "#)
+    .bind::<diesel::sql_types::Uuid, _>(rss_source.uuid)
+    .bind::<diesel::sql_types::Uuid, _>(user.uuid)
+    .execute(&*connection) 
+}
+
+pub fn decrement_unreaded_rss_sources(connection: &PgConnection, rss_source_uuid: &Uuid, user: &User) -> Result<usize, Error> {
+    diesel::sql_query(r#"
+        UPDATE users_rss_sources
+        SET unreaded = unreaded - 1
+        WHERE users_rss_sources.rss_source_uuid = $1
+            AND users_rss_sources.user_uuid = $2
+    "#)
+    .bind::<diesel::sql_types::Uuid, _>(rss_source_uuid)
+    .bind::<diesel::sql_types::Uuid, _>(user.uuid)
+    .execute(&*connection) 
 }
