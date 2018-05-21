@@ -28,12 +28,12 @@ pub fn is_user_feed_already_inserted(connection: &PgConnection, query_url: &str,
         .map(|feeds| feeds.len() > 0)
 }
 
-pub fn find_unreaded_feeds(connection: &PgConnection, limit: i64, offset: i64, user: &User) -> Result<Vec<RssFeed>, Error> {
+pub fn find_rss_feeds(connection: &PgConnection, limit: i64, offset: i64, reaction: &Reaction, user: &User) -> Result<Vec<RssFeed>, Error> {
     use schema::rss_feeds;
     rss_feeds::table
         .inner_join(users_rss_feeds::table)
         .filter(
-            users_rss_feeds::reaction.eq("Unreaded")
+            users_rss_feeds::reaction.eq(&reaction.to_string())
                 .and(users_rss_feeds::user_uuid.eq(user.uuid))
         )
         .order_by(rss_feeds::updated.asc())
@@ -43,11 +43,11 @@ pub fn find_unreaded_feeds(connection: &PgConnection, limit: i64, offset: i64, u
         .get_results::<RssFeed>(&*connection)
 }
 
-pub fn find_unreaded_feeds_by_rss_source(connection: &PgConnection, limit: i64, offset: i64, rss_source_uuid: &Uuid, user: &User) -> Result<Vec<RssFeed>, Error> {
+pub fn find_rss_feeds_by_rss_source(connection: &PgConnection, limit: i64, offset: i64, reaction: &Reaction, rss_source_uuid: &Uuid, user: &User) -> Result<Vec<RssFeed>, Error> {
     rss_feeds::table
         .inner_join(users_rss_feeds::table)
         .filter(
-            users_rss_feeds::reaction.eq("Unreaded")
+            users_rss_feeds::reaction.eq(&reaction.to_string())
                 .and(users_rss_feeds::user_uuid.eq(user.uuid))
                 .and(rss_feeds::rss_source_uuid.eq(rss_source_uuid))
         )

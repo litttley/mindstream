@@ -10,13 +10,11 @@ export interface Requests {
     signup(login: string, email: string, password: string): Observable<AuthResponse>
     login(login: string, password: string): Observable<AuthResponse>
     logout(): Observable<void>
-    loadUnreadedFeeds(token: string): Observable<RssFeed[]>
     loadUnfollowedSources(token: string): Observable<RssSource[]>
     loadMySources(token: string): Observable<RssSource[]>
-    loadUnreadedFeedsBySource(token: string): (sourceUuid: string) => Observable<RssFeed[]>
     addSource(token: string): (url: string) => Observable<RssSource>
     fallowSource(token: string): (rssSource: RssSource) => Observable<RssSource>
-    feedsByReaction(token: string): (reaction: Reaction) => Observable<RssFeed[]>
+    getRssFeeds(token: string, reaction: Reaction, sourceUuid?: string): Observable<RssFeed[]>
     feedReaction(token: string): (rssFeed: RssFeed, reaction: Reaction) => Observable<RssFeed>
 }
 
@@ -38,20 +36,12 @@ export function createRequests(request: Request): Requests {
             url: `/api/users/logout`,
             method: "POST",
         }),
-        loadUnreadedFeeds: token => request({
-            url: "/api/rss/feeds/unreaded",
-            headers: { Authorization: token }
-        }),
         loadUnfollowedSources: token => request({
             url: "/api/source/unfollowed",
             headers: { Authorization: token }
         }),
         loadMySources: token => request({
             url: "/api/source/my",
-            headers: { Authorization: token }
-        }),
-        loadUnreadedFeedsBySource: token => sourceUuid => request({
-            url: `/api/rss/feeds/unreaded?rss_source_uuid=${sourceUuid}`,
             headers: { Authorization: token }
         }),
         addSource: token => url => request({
@@ -65,9 +55,8 @@ export function createRequests(request: Request): Requests {
             method: "POST",
             headers: { Authorization: token }
         }),
-        // TODO create this route
-        feedsByReaction: token => reaction => request({
-            url: `/api/rss/feeds/${reaction}`,
+        getRssFeeds: (token, reaction, sourceUuid) => request({
+            url: `/api/rss/feeds${querystring({ reaction, rss_source_uuid: sourceUuid })}`,
             headers: { Authorization: token }
         }),
         feedReaction: token => (rssFeed, reaction) => request({
@@ -119,5 +108,14 @@ export function createRequest(instance: AxiosInstance): Request {
             })
             return () => source.cancel()
         })
+    }
+}
+
+export default function querystring(queries: Record<string, string | undefined>): string {
+    const querystrings = Object.keys(queries).filter(key => !!queries[key]).map(key => `${key}=${encodeURI(queries[key]!)}`)
+    if (querystrings.length > 0) {
+        return `?${querystrings.join("&")}`
+    } else {
+        return ""
     }
 }

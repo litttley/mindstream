@@ -12,7 +12,7 @@ type EpicType = Epic<Actions, GlobalState, Dependencies>
 
 const loadUnreadedFeedsEpic: EpicType = (action$, state, { api }) => action$.pipe(
     filter(isActionOf(MindStreamActions.loadUnreadedFeeds)),
-    switchMap(() => api.loadUnreadedFeeds(state.value.app.token).pipe(
+    switchMap(() => api.getRssFeeds(state.value.app.token, "Unreaded").pipe(
         map(MindStreamActions.loadUnreadedFeedsSuccess),
         catchError((error: ApiError) => of(MindStreamActions.mindstreamApiError(error)))
     ))
@@ -20,7 +20,7 @@ const loadUnreadedFeedsEpic: EpicType = (action$, state, { api }) => action$.pip
 
 const loadUnreadedFeedsBySourceEpic: EpicType = (action$, state, { api }) => action$.pipe(
     filter(isActionOf(MindStreamActions.loadUnreadedFeedsBySource)),
-    switchMap(({ payload: { sourceUuid } }) => api.loadUnreadedFeedsBySource(state.value.app.token)(sourceUuid).pipe(
+    switchMap(({ payload: { sourceUuid } }) => api.getRssFeeds(state.value.app.token, "Unreaded", sourceUuid).pipe(
         map(MindStreamActions.loadUnreadedFeedsBySourceSuccess),
         catchError((error: ApiError) => of(MindStreamActions.mindstreamApiError(error)))
     ))

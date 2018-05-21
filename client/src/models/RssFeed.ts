@@ -1,6 +1,6 @@
 import { object, string, number, array, optional } from "validation.ts"
 
-export type Reaction = "Readed" | "ReadLater" | "Viewed" | "Liked" | "Disliked" | "Archived"
+export type Reaction = "Unreaded" | "Readed" | "ReadLater" | "Viewed" | "Liked" | "Disliked" | "Archived"
 
 export const ReadableValidator = object({
     url: string,
