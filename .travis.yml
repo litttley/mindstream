@@ -1,7 +1,8 @@
 language: rust
 rust:
-  - stable
+    - stable
 cache: cargo
 script:
-  - cargo build --verbose --all
-  - cargo test --verbose --all
+    - cd client && npm install && npm run build && cd ..
+    - cargo build --all
+    - cargo test --all
