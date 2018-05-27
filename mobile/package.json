@@ -1,0 +1,30 @@
+{
+    "name": "mindstream",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node node_modules/react-native/local-cli/cli.js start",
+        "ios": "react-native run-ios",
+        "build": "tsc",
+        "watch": "tsc -w",
+        "test": "jest"
+    },
+    "dependencies": {
+        "react": "16.3.1",
+        "react-native": "0.55.4",
+        "react-native-cli": "2.0.1",
+        "react-navigation": "2.0.1"
+    },
+    "devDependencies": {
+        "@types/react": "16.3.14",
+        "@types/react-native": "0.55.15",
+        "babel-jest": "22.4.4",
+        "babel-preset-react-native": "4.0.0",
+        "jest": "22.4.4",
+        "react-test-renderer": "16.3.1",
+        "typescript": "2.8.3"
+    },
+    "jest": {
+        "preset": "react-native"
+    }
+}

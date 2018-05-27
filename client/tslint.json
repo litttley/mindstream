@@ -28,6 +28,7 @@
     "comment-format": false,
     "interface-over-type-literal": false,
     "align": false,
+    "max-classes-per-file": false,
     "newline-before-return": false,
     "type-literal-delimiter": false,
     "only-arrow-functions": false,
