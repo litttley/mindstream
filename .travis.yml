@@ -3,7 +3,4 @@ rust:
     - stable
 cache: cargo
 script:
-    - cd client && npm install && npm run build && cd ..
-    - cd mobile && npm install && npm run build && cd ..
-    - cargo build --all
-    - cargo test --all
+    - ./build.sh
