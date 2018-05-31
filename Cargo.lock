@@ -984,7 +984,7 @@ dependencies = [
  "strum_macros 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "url 1.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "uuid 0.6.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "validator 0.6.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "validator 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "validator_derive 0.6.5 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -2103,6 +2103,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "validator"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "idna 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "lazy_static 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "regex 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde 1.0.63 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_derive 1.0.63 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_json 1.0.18 (registry+https://github.com/rust-lang/crates.io-index)",
+ "url 1.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "validator_derive"
 version = "0.6.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2459,6 +2473,7 @@ dependencies = [
 "checksum uuid 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)" = "bcc7e3b898aa6f6c08e5295b6c89258d1331e9ac578cc992fb818759951bdc22"
 "checksum uuid 0.6.5 (registry+https://github.com/rust-lang/crates.io-index)" = "e1436e58182935dcd9ce0add9ea0b558e8a87befe01c1a301e6020aeb0876363"
 "checksum validator 0.6.3 (registry+https://github.com/rust-lang/crates.io-index)" = "0ee73a134910391b2a3ffd99f5ba0a67ebc0731e7cf92d56b6dccd1542823163"
+"checksum validator 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)" = "4a8c44fecf027a477e70a86cd7f4863410adf120ca2cb13408cb099057b8e2d0"
 "checksum validator_derive 0.6.5 (registry+https://github.com/rust-lang/crates.io-index)" = "ac6c1c4023f5feb24a1b54a02e8828ae231659cf72b20f6191a0656163a4ca12"
 "checksum vcpkg 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)" = "7ed0f6789c8a85ca41bbc1c9d175422116a9869bd1cf31bb08e1493ecce60380"
 "checksum version_check 0.1.3 (registry+https://github.com/rust-lang/crates.io-index)" = "6b772017e347561807c1aa192438c5fd74242a670a6cffacc40f2defd1dc069d"
