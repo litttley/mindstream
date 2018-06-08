@@ -9,7 +9,7 @@ import { Actions } from "Actions"
 import { ApiError } from "services/ApiError"
 import * as router from "router"
 
-type EpicType = Epic<Actions, GlobalState, Dependencies>
+type EpicType = Epic<Actions, Actions, GlobalState, Dependencies>
 
 const loginSubmitEpic: EpicType = (action$, _, { api }) => action$.pipe(
     filter(isActionOf(LoginActions.loginSubmit)),

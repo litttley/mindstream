@@ -8,7 +8,7 @@ import { GlobalState, Dependencies } from "app/AppState"
 import { Actions } from "Actions"
 import * as router from "router"
 
-type EpicType = Epic<Actions, GlobalState, Dependencies>
+type EpicType = Epic<Actions, Actions, GlobalState, Dependencies>
 
 const logoutEpic: EpicType = action$ => action$.pipe(
     filter(isActionOf(AppActions.logout)),

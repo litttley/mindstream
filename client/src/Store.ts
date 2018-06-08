@@ -27,7 +27,6 @@ const dependencies: Dependencies = {
     api: createApiInstance()
 }
 
-const epicMiddleware = createEpicMiddleware(RootEpic, { dependencies })
 const middleware = routerMiddleware(history)
 
 const reducers = combineReducers<GlobalState>({
@@ -39,6 +38,10 @@ const reducers = combineReducers<GlobalState>({
     sources: SourcesReducer,
     router: routerReducer
 })
+
+const epicMiddleware = createEpicMiddleware({ dependencies })
+// tslint:disable-next-line:no-any
+epicMiddleware.run(RootEpic as any)
 
 const persistedReducer: Reducer<GlobalState> = persistReducer(persistConfig, reducers)
 

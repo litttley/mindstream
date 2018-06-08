@@ -8,7 +8,7 @@ import { GlobalState, Dependencies } from "../app/AppState"
 import { Actions } from "Actions"
 import { ApiError } from "services/ApiError"
 
-type EpicType = Epic<Actions, GlobalState, Dependencies>
+type EpicType = Epic<Actions, Actions, GlobalState, Dependencies>
 
 export const loadfeedsEpic: EpicType = (action$, state, { api }) => action$.pipe(
     filter(isActionOf(FeedsActions.loadfeeds)),

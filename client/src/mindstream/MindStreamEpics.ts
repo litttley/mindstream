@@ -8,7 +8,7 @@ import { GlobalState, Dependencies } from "../app/AppState"
 import { Actions } from "Actions"
 import { ApiError } from "services/ApiError"
 
-type EpicType = Epic<Actions, GlobalState, Dependencies>
+type EpicType = Epic<Actions, Actions, GlobalState, Dependencies>
 
 const loadUnreadedFeedsEpic: EpicType = (action$, state, { api }) => action$.pipe(
     filter(isActionOf(MindStreamActions.loadUnreadedFeeds)),
@@ -52,7 +52,7 @@ const reloadUnreadedFeedsEpic: EpicType = (action$, state, { api }) => action$.p
 
 const readFeedEpic: EpicType = (action$, state, dependencies) => action$.pipe(
     filter(isActionOf(MindStreamActions.readFeed)),
-    mergeMap(({ payload: { feed, reaction, sourceUuid } }) => dependencies.api.feedReaction(state.getState().app.token)(feed, reaction).pipe(
+    mergeMap(({ payload: { feed, reaction, sourceUuid } }) => dependencies.api.feedReaction(state.value.app.token)(feed, reaction).pipe(
         map(updatedFeed => MindStreamActions.nextFeedSuccess(updatedFeed, updatedFeed.rss_source_uuid)),
         catchError((error: ApiError) => of(MindStreamActions.mindstreamApiError(error)))
     ))
