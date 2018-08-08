@@ -1,6 +1,7 @@
 import * as React from "react"
+import { Dispatch } from "redux"
+import { connect } from "react-redux"
 import * as styles from "./components/Login.css"
-import { connect, Dispatch } from "react-redux"
 import { LoginActions } from "./LoginActions"
 import { GlobalState } from "../app/AppState"
 import LoginForm from "./components/LoginForm"
@@ -33,7 +34,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions>) => {
         onChange: (field: string, value: string) => {
             dispatch(LoginActions.loginChange(field, value))
         },
-        onSubmit: (email: string, password: string) => {
+        onSubmit: (email: string, password: string) => () => {
             dispatch(LoginActions.loginSubmit(email, password))
         }
     }

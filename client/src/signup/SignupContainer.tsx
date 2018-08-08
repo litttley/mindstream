@@ -1,5 +1,6 @@
 import * as React from "react"
-import { connect, Dispatch } from "react-redux"
+import { Dispatch } from "redux"
+import { connect } from "react-redux"
 import { SignupState } from "./SignupReducer"
 import { SignupActions } from "./SignupActions"
 import { GlobalState } from "../app/AppState"
