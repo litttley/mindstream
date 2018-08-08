@@ -12,7 +12,7 @@ type EpicType = Epic<Actions, Actions, GlobalState, Dependencies>
 
 export const loadfeedsEpic: EpicType = (action$, state, { api }) => action$.pipe(
     filter(isActionOf(FeedsActions.loadfeeds)),
-    switchMap(() => api.getRssFeeds(state.value.app.token, "Liked").pipe(
+    switchMap(() => api.getRssFeeds(state.value.auth.token, "Liked").pipe(
         map(FeedsActions.loadfeedsSuccess),
         catchError((error: ApiError) => of(FeedsActions.loadfeedsError(error))),
     )),

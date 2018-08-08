@@ -5,10 +5,12 @@ import * as router from "router"
 import { RssFeed, Reaction } from "models/RssFeed"
 import { RssSource, MyRssSources } from "models/RssSource"
 import { AuthResponse, AuthResponseValidator } from "services/AuthResponse"
+import { Login } from "auth/Login"
+import { Signup } from "auth/Signup"
 
 export interface Requests {
-    signup(login: string, email: string, password: string): Observable<AuthResponse>
-    login(login: string, password: string): Observable<AuthResponse>
+    signup(signup: Signup): Observable<AuthResponse>
+    login(login: Login): Observable<AuthResponse>
     logout(): Observable<void>
     loadUnfollowedSources(token: string): Observable<RssSource[]>
     loadMySources(token: string): Observable<MyRssSources[]>
@@ -22,15 +24,15 @@ type Request = <T>(config: AxiosRequestConfig, validator?: Validator<T>) => Obse
 
 export function createRequests(request: Request): Requests {
     return {
-        login: (email, password) => request({
+        login: login => request({
             url: "/api/users/login",
             method: "POST",
-            data: { email, password }
+            data: login
         }, AuthResponseValidator),
-        signup: (login, email, password) => request({
+        signup: signup => request({
             url: "/api/users/signup",
             method: "POST",
-            data: { login, email, password }
+            data: signup
         }, AuthResponseValidator),
         logout: () => request({
             url: `/api/users/logout`,

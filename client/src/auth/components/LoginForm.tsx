@@ -3,39 +3,43 @@ import * as styles from "./LoginForm.css"
 import Input from "components/Input"
 import GhostButton from "components/GhostButton"
 import { ApiError } from "services/ApiError"
+import { Login } from "auth/Login"
 
 interface Props {
-    email: string
-    password: string
     loading: boolean
-    error?: ApiError
-    onChange(field: string, value: string): void
-    onSubmit(email: string, password: string): void
+    errors?: ApiError
+    onSubmit(login: Login): void
 }
 
-export default class LoginForm extends React.PureComponent<Props> {
+export default class LoginForm extends React.Component<Props, Login> {
+    state = {
+        email: "",
+        password: ""
+    }
+
     render() {
-        const { email, password, loading } = this.props
+        const { email, password } = this.state
+        const { loading } = this.props
         return (
             <div className={styles.container}>
                 <Input
                     label="Email"
                     value={email}
-                    onChange={this.onChangeHandler("email")}
+                    onChange={this.handleOnChange("email")}
                     type="email"
                 />
 
                 <Input
                     label="Password"
                     value={password}
-                    onChange={this.onChangeHandler("password")}
+                    onChange={this.handleOnChange("password")}
                     type="password"
                 />
 
                 <GhostButton
                     label="Login"
                     loading={loading}
-                    onClick={this.onSubmitHandler}
+                    onClick={this.handleOnSubmit}
                 />
 
                 {this.renderError()}
@@ -44,25 +48,21 @@ export default class LoginForm extends React.PureComponent<Props> {
     }
 
     renderError = () => {
-        const { error } = this.props
+        const { errors } = this.props
         return (
             <div className={styles.errorContainer}>
-                <div className={error && error.message ? styles.errorMessage : styles.errorMessageHidden}>
-                    {error && error.message || ""}
+                <div className={errors && errors.message ? styles.errorMessage : styles.errorMessageHidden}>
+                    {errors && errors.message || ""}
                 </div>
             </div>
         )
     }
 
-    onChangeHandler = (field: string) => (value: string) => {
-        const { onChange } = this.props
-        onChange(field, value)
+    handleOnChange = (field: keyof Login) => (value: string) => {
+        this.setState(() => ({
+            [field]: value
+        } as Pick<Login, keyof Login>))
     }
 
-    onSubmitHandler = () => {
-        const { email, password, loading, onSubmit } = this.props
-        if (!loading) {
-            onSubmit(email, password)
-        }
-    }
+    handleOnSubmit = () => this.props.onSubmit(this.state)
 }

@@ -4,4 +4,6 @@
 
 .env
 .docker-data
-static
+static/*.css
+static/*.js
+static/*.map

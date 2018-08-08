@@ -7,7 +7,6 @@ import { routerReducer, routerMiddleware } from "react-router-redux"
 import { history } from "router"
 
 import AppReducer from "app/AppReducer"
-import LoginReducer from "login/LoginReducer"
 import SignupReducer from "signup/SignupReducer"
 import FeedsReducer from "feeds/FeedsReducer"
 import MindStreamReducer from "mindstream/MindStreamReducer"
@@ -16,6 +15,7 @@ import SourcesReducer from "rssSources/SourcesReducer"
 import RootEpic from "RootEpic"
 import { Dependencies, GlobalState } from "app/AppState"
 import { createApiInstance } from "services/Api"
+import AuthReducer from "auth/AuthReducer"
 
 const persistConfig = {
     key: "root_mindstream",
@@ -31,7 +31,7 @@ const middleware = routerMiddleware(history)
 
 const reducers = combineReducers<GlobalState>({
     app: AppReducer,
-    login: LoginReducer,
+    auth: AuthReducer,
     signup: SignupReducer,
     feeds: FeedsReducer,
     mindStream: MindStreamReducer,
@@ -40,8 +40,6 @@ const reducers = combineReducers<GlobalState>({
 })
 
 const epicMiddleware = createEpicMiddleware({ dependencies })
-// tslint:disable-next-line:no-any
-epicMiddleware.run(RootEpic as any)
 
 const persistedReducer: Reducer<GlobalState> = persistReducer(persistConfig, reducers)
 
@@ -51,3 +49,6 @@ const enhancer = composeWithDevTools(
 )
 export const store = createStore(persistedReducer, enhancer)
 export const persistor = persistStore(store)
+
+// tslint:disable-next-line:no-any
+epicMiddleware.run(RootEpic as any)

@@ -3,11 +3,11 @@ import { sourcesEpics } from "rssSources/SourcesEpics"
 import { signupEpics } from "signup/SignupEpics"
 import { mindstreamEpics } from "mindstream/MindStreamEpics"
 import { loadfeedsEpic } from "feeds/FeedsEpics"
-import { loginEpics } from "login/LoginEpics"
+import { authEpics } from "auth/AuthEpics"
 import { appEpics } from "app/AppEpics"
 
 const RootEpic = combineEpics(
-    loginEpics,
+    authEpics,
     sourcesEpics,
     mindstreamEpics,
     loadfeedsEpic,

@@ -9,7 +9,7 @@ import { ConnectedRouter } from "react-router-redux"
 import { PersistGate } from "redux-persist/integration/react"
 import { history } from "router"
 
-import LoginContainer from "./login/LoginContainer"
+import LoginContainer from "auth/LoginContainer"
 import SignupContainer from "./signup/SignupContainer"
 import FeedsContainer from "./feeds/FeedsContainer"
 import MindStreamContainer from "./mindstream/MindStreamContainer"

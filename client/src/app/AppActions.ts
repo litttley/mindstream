@@ -1,8 +1,8 @@
-import { createAction, ActionType } from "typesafe-actions"
+import { createStandardAction, ActionType } from "typesafe-actions"
 
 export const AppActions = {
-  menuToggle: createAction("MenuToggle", resolve => (isMenuOpen: boolean) => resolve({ isMenuOpen })),
-  logout: createAction("Logout"),
+  menuToggle: createStandardAction("MenuToggle")(),
+  logout: createStandardAction("Logout")(),
 }
 
 export type AppAction = ActionType<typeof AppActions>

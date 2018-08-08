@@ -7,7 +7,7 @@ import { AppActions } from "./AppActions"
 import { Actions } from "Actions"
 
 interface DispatchProps {
-    menuToggle(isMenuOpen: boolean): void
+    menuToggle(): void
     logout(): void
 }
 
@@ -29,7 +29,7 @@ const mapStateToProps = (state: GlobalState): StateProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
     return {
-        menuToggle: (isMenuOpen) => dispatch(AppActions.menuToggle(isMenuOpen)),
+        menuToggle: () => dispatch(AppActions.menuToggle()),
         logout: () => dispatch(AppActions.logout())
     }
 }

@@ -25,6 +25,7 @@
     "no-object-literal-type-assertion": false,
     "typedef": false,
     "prefer-function-over-method": false,
+    "prefer-method-signature": false,
     "comment-format": false,
     "interface-over-type-literal": false,
     "align": false,
