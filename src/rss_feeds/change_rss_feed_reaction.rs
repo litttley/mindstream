@@ -59,7 +59,7 @@ impl Handler<ChangeRssFeedReaction> for DbExecutor {
     }
 }
 
-pub fn change_rss_feed_reaction(json: Json<ChangeRssFeedReactionQuery>, auth: Auth, state: State<AppState>) -> Box<Future<Item=HttpResponse, Error=Error>> {
+pub fn change_rss_feed_reaction((json, auth, state): (Json<ChangeRssFeedReactionQuery>, Auth, State<AppState>)) -> Box<Future<Item=HttpResponse, Error=Error>> {
     state.db
         .send(ChangeRssFeedReaction::new(json.into_inner(), auth.claime.user.clone()))
         .from_err()

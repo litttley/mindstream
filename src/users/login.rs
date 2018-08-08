@@ -40,7 +40,7 @@ impl Handler<Login> for DbExecutor {
     }
 }
 
-pub fn login(req: HttpRequest<AppState>, state: State<AppState>) -> Box<Future<Item=HttpResponse, Error=Error>> {
+pub fn login((req, state): (HttpRequest<AppState>, State<AppState>)) -> Box<Future<Item=HttpResponse, Error=Error>> {
     req.json()
         .from_err()
         .and_then(move |login: Login| state.db.send(login.clone()).from_err())

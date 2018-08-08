@@ -37,7 +37,7 @@ impl Handler<GetRssSources> for DbExecutor {
     }
 }
 
-pub fn get_rss_sources(pagination: Query<Pagination>, state: State<AppState>) -> Box<Future<Item=HttpResponse, Error=Error>> {
+pub fn get_rss_sources((pagination, state): (Query<Pagination>, State<AppState>)) -> Box<Future<Item=HttpResponse, Error=Error>> {
     state.db
         .send(GetRssSources::new(pagination.into_inner()))
         .from_err()

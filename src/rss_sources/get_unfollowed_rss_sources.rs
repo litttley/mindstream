@@ -41,7 +41,7 @@ impl Handler<GetUnfollowedRssSources> for DbExecutor {
     }
 }
 
-pub fn get_unfollowed_rss_sources(pagination: Query<Pagination>, auth: Auth, state: State<AppState>) -> Box<Future<Item=HttpResponse, Error=Error>> {
+pub fn get_unfollowed_rss_sources((pagination, auth, state): (Query<Pagination>, Auth, State<AppState>)) -> Box<Future<Item=HttpResponse, Error=Error>> {
     state.db
         .send(GetUnfollowedRssSources::new(pagination.into_inner(), auth.claime.user.clone()))
         .from_err()

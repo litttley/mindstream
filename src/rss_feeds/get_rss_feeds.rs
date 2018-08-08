@@ -60,7 +60,7 @@ impl Handler<GetRssFeeds> for DbExecutor {
     }
 }
 
-pub fn get_rss_feeds(query: Query<RssFeedsQuery>, auth: Auth, state: State<AppState>) -> Box<Future<Item=HttpResponse, Error=Error>> {
+pub fn get_rss_feeds((query, auth, state): (Query<RssFeedsQuery>, Auth, State<AppState>)) -> Box<Future<Item=HttpResponse, Error=Error>> {
     state.db
         .send(GetRssFeeds::new(query.into_inner(), auth.claime.user.clone()))
         .from_err()

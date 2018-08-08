@@ -35,7 +35,7 @@ impl Handler<GetRssSource> for DbExecutor {
     }
 }
 
-pub fn get_rss_source(uuid: Path<Uuid>, state: State<AppState>) -> Box<Future<Item=HttpResponse, Error=Error>> {
+pub fn get_rss_source((uuid, state): (Path<Uuid>, State<AppState>)) -> Box<Future<Item=HttpResponse, Error=Error>> {
     state.db
         .send(GetRssSource::new(uuid.into_inner()))
         .from_err()

@@ -51,7 +51,7 @@ impl Handler<FallowRssSource> for DbExecutor {
     }
 }
 
-pub fn follow_rss_source(uuid: Path<Uuid>, auth: Auth, state: State<AppState>) -> Box<Future<Item=HttpResponse, Error=Error>> {
+pub fn follow_rss_source((uuid, auth, state): (Path<Uuid>, Auth, State<AppState>)) -> Box<Future<Item=HttpResponse, Error=Error>> {
     state.db
         .send(FallowRssSource::new(uuid.into_inner(), auth.claime.user.clone()))
         .from_err()

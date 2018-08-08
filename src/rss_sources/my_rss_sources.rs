@@ -43,7 +43,7 @@ impl Handler<MyRssSources> for DbExecutor {
     }
 }
 
-pub fn my_rss_sources(pagination: Query<Pagination>, auth: Auth, state: State<AppState>) -> Box<Future<Item=HttpResponse, Error=Error>> {
+pub fn my_rss_sources((pagination, auth, state): (Query<Pagination>, Auth, State<AppState>)) -> Box<Future<Item=HttpResponse, Error=Error>> {
     state.db
         .send(MyRssSources::new(pagination.into_inner(), auth.claime.user.clone()))
         .from_err()

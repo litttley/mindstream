@@ -3,11 +3,11 @@ use actix::prelude::*;
 use app::db::DbExecutor;
 
 pub struct AppState {
-    pub db: Addr<Syn, DbExecutor>,
+    pub db: Addr<DbExecutor>,
 }
 
 impl AppState {
-    pub fn new(db: Addr<Syn, DbExecutor>) -> Self {
+    pub fn new(db: Addr<DbExecutor>) -> Self {
         AppState { db }
     }
 }

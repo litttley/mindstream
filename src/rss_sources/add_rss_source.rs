@@ -46,7 +46,7 @@ impl Handler<AddRssSource> for DbExecutor {
     }
 }
 
-pub fn add_rss_source(add_rss_source: Json<AddRssSource>, state: State<AppState>) -> Box<Future<Item=HttpResponse, Error=Error>> {
+pub fn add_rss_source((add_rss_source, state): (Json<AddRssSource>, State<AppState>)) -> Box<Future<Item=HttpResponse, Error=Error>> {
     state.db
         .send(add_rss_source.0)
         .from_err()

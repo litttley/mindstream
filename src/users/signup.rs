@@ -45,7 +45,7 @@ impl User {
     }
 }
 
-pub fn signup(req: HttpRequest<AppState>, state: State<AppState>) -> Box<Future<Item=HttpResponse, Error=Error>> {
+pub fn signup((req, state): (HttpRequest<AppState>, State<AppState>)) -> Box<Future<Item=HttpResponse, Error=Error>> {
     req.json()
         .from_err()
         .and_then(move |signup: Signup| state.db.send(signup.clone()).from_err())

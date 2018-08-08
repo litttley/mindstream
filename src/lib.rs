@@ -1,3 +1,11 @@
+#![cfg_attr(
+  feature = "cargo-clippy",
+  allow(
+    needless_pass_by_value, module_inception, too_many_arguments,
+    proc_macro_derive_resolution_fallback
+  )
+)]
+
 extern crate actix;
 extern crate actix_web;
 extern crate futures;
@@ -34,7 +42,7 @@ extern crate strum_macros;
 extern crate url;
 
 use actix_web::middleware::Logger;
-use actix_web::{server, App, http::Method, HttpRequest, HttpResponse};
+use actix_web::{server, App, http::Method, HttpResponse};
 use actix::prelude::*;
 
 mod app;
@@ -45,6 +53,7 @@ mod users;
 mod pagination;
 mod schema;
 mod errors;
+mod assets;
 
 use app::app_state::AppState;
 use app::db::{DbExecutor, create_diesel_pool};
@@ -65,22 +74,6 @@ fn me(auth: Auth) -> HttpResponse {
     HttpResponse::Ok().json(auth.claime.user)
 }
 
-fn index(_: HttpRequest) -> HttpResponse {
-    HttpResponse::Ok().body(include_str!("../client/src/index.html"))
-}
-
-fn main_js(_: HttpRequest) -> HttpResponse {
-    HttpResponse::Ok().body(include_str!("../static/main.js"))
-}
-
-fn main_css(_: HttpRequest) -> HttpResponse {
-    HttpResponse::Ok().body(include_str!("../static/main.css"))
-}
-
-fn main_map(_: HttpRequest) -> HttpResponse {
-    HttpResponse::Ok().body(include_str!("../static/main.map"))
-}
-
 pub fn run() {
     env_logger::init();
 
@@ -96,29 +89,19 @@ pub fn run() {
         App::with_state(AppState::new(db_addr.clone()))
             .prefix("/api")
             .middleware(Logger::default())
-            .resource("/users/signup", |r| r.method(Method::POST).with2(signup))
-            .resource("/users/login", |r| r.method(Method::POST).with2(login))
+            .resource("/users/signup", |r| r.method(Method::POST).with(signup))
+            .resource("/users/login", |r| r.method(Method::POST).with(login))
             .resource("/users/me", |r| r.method(Method::GET).with(me))
-            .resource("/source", |r| r.method(Method::GET).with2(get_rss_sources))
-            .resource("/source/unfollowed", |r| r.method(Method::GET).with3(get_unfollowed_rss_sources))
-            .resource("/source/my", |r| r.method(Method::GET).with3(my_rss_sources))
-            .resource("/source/add", |r| r.method(Method::POST).with2(add_rss_source))
-            .resource("/rss/feeds", |r| r.method(Method::GET).with3(get_rss_feeds))
-            .resource("/rss/feeds/reaction", |r| r.method(Method::PUT).with3(change_rss_feed_reaction))
-            .resource("/source/{uuid}/fallow", |r| r.method(Method::POST).with3(follow_rss_source))
-            .resource("/source/{uuid}", |r| r.method(Method::GET).with2(get_rss_source))
+            .resource("/source", |r| r.method(Method::GET).with(get_rss_sources))
+            .resource("/source/unfollowed", |r| r.method(Method::GET).with(get_unfollowed_rss_sources))
+            .resource("/source/my", |r| r.method(Method::GET).with(my_rss_sources))
+            .resource("/source/add", |r| r.method(Method::POST).with(add_rss_source))
+            .resource("/rss/feeds", |r| r.method(Method::GET).with(get_rss_feeds))
+            .resource("/rss/feeds/reaction", |r| r.method(Method::PUT).with(change_rss_feed_reaction))
+            .resource("/source/{uuid}/fallow", |r| r.method(Method::POST).with(follow_rss_source))
+            .resource("/source/{uuid}", |r| r.method(Method::GET).with(get_rss_source))
             .boxed(),
-        App::new()
-            .prefix("/assets")
-            .middleware(Logger::default())
-            .resource("/main.js", |r| r.method(Method::GET).f(main_js))
-            .resource("/main.css", |r| r.method(Method::GET).f(main_css))
-            .resource("/main.map", |r| r.method(Method::GET).f(main_map))
-            .boxed(),
-        App::new()
-            .middleware(Logger::default())
-            .resource("/", |r| r.method(Method::GET).f(index))
-            .boxed()
+        assets::create_static_assets_app().boxed(),
     ])
     .bind("127.0.0.1:8999")
     .expect("Can not bind to 127.0.0.1:8999")
