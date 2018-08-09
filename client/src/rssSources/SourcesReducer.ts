@@ -48,7 +48,7 @@ const SourcesReducer = (state: SourcesState = initState, action: Actions): Sourc
     case getType(SourcesActions.loadMySources.failure): return { ...state, loading: false, error: action.payload }
 
     case getType(SourcesActions.addMySource): return { ...state, myRssSources: [
-      ...state.myRssSources, { rss_source: action.payload.source, unreaded: 0 }
+      ...state.myRssSources, { rss_source: action.payload, unreaded: 0 }
     ]}
 
     case getType(SourcesActions.fallowSources): return { ...state, loading: true}
