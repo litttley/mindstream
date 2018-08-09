@@ -9,57 +9,57 @@ import { SourcesActions } from "rssSources/SourcesActions"
 import SourcesList from "rssSources/components/SourcesList"
 
 interface DispatchProps {
-    onLoadUnfollowedSources(): void
-    fallowSource(source: RssSource): void
+  onLoadUnfollowedSources: () => void
+  fallowSource: (source: RssSource) => void
 }
 
 interface StateProps {
-    unfollowedRssSources: RssSource[]
+  unfollowedRssSources: RssSource[]
 }
 
 type Props = StateProps & DispatchProps
 
 class UnfollowedRssSourcesContainer extends React.PureComponent<Props> {
-    componentWillMount() {
-        this.props.onLoadUnfollowedSources()
-    }
-    render() {
-        return (
-            <div className={styles.unfollowedRssSources}>
-                {this.renderUnfollowedRssSourcesList()}
-            </div>
-        )
-    }
+  componentWillMount() {
+    this.props.onLoadUnfollowedSources()
+  }
+  render() {
+    return (
+      <div className={styles.unfollowedRssSources}>
+        {this.renderUnfollowedRssSourcesList()}
+      </div>
+    )
+  }
 
-    renderUnfollowedRssSourcesList = () => {
-        const { fallowSource, unfollowedRssSources } = this.props
-        if (unfollowedRssSources.length > 0) {
-            return (
-                <SourcesList
-                    sources={unfollowedRssSources.map(rss_source => ({
-                        rss_source,
-                        unreaded: 0
-                    }))}
-                    fallowSource={fallowSource}
-                />
-            )
-        } else {
-            return <div>Empty</div>
-        }
+  renderUnfollowedRssSourcesList = () => {
+    const { fallowSource, unfollowedRssSources } = this.props
+    if (unfollowedRssSources.length > 0) {
+      return (
+        <SourcesList
+          sources={unfollowedRssSources.map(rss_source => ({
+            rss_source,
+            unreaded: 0
+          }))}
+          fallowSource={fallowSource}
+        />
+      )
+    } else {
+      return <div>Empty</div>
     }
+  }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
-    return {
-        onLoadUnfollowedSources: () => dispatch(SourcesActions.loadUnfollowedSources()),
-        fallowSource: (source) => dispatch(SourcesActions.fallowSources(source)),
-    }
+  return {
+    onLoadUnfollowedSources: () => dispatch(SourcesActions.loadUnfollowedSources.request()),
+    fallowSource: (source) => dispatch(SourcesActions.fallowSources(source)),
+  }
 }
 
 const mapStateToProps = (state: GlobalState): StateProps => {
-    return {
-        unfollowedRssSources: state.sources.unfollowedRssSources
-    }
+  return {
+    unfollowedRssSources: state.sources.unfollowedRssSources
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UnfollowedRssSourcesContainer)
