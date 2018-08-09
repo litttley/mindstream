@@ -1,12 +1,12 @@
 import { getType } from "typesafe-actions"
-import { ApiError } from "services/ApiError"
+import { ApiErrors } from "services/ApiError"
 import { Actions } from "Actions"
 import { AuthActions } from "auth/AuthActions"
 
 export interface AuthState {
   loading: boolean
-  loginErrors?: ApiError
-  signupErrors?: ApiError
+  loginErrors?: ApiErrors
+  signupErrors?: ApiErrors
 }
 
 const initState: AuthState = {

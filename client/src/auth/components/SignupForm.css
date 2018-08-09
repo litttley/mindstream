@@ -14,8 +14,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 30px;
   padding: 24px 0;
+  min-height: 40px;
 }
 
 .errorMessage {

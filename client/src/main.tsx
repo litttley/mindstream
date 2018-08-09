@@ -9,6 +9,7 @@ import { Provider } from "react-redux"
 import { ConnectedRouter } from "react-router-redux"
 import { PersistGate } from "redux-persist/integration/react"
 import { history } from "router"
+import { IntlProvider } from "react-intl"
 
 import LoginContainer from "auth/LoginContainer"
 import SignupContainer from "auth/SignupContainer"
@@ -17,20 +18,24 @@ import MindStreamContainer from "./mindstream/MindStreamContainer"
 import RssSourcesPage from "rssSources/RssSourcesPage"
 import { store, persistor } from "Store"
 
+import messages from "messages"
+
 ReactDOM.render(
-    <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-            <ConnectedRouter history={history}>
-                <Switch>
-                    <Route exact path="/" component={MindStreamContainer}/>
-                    <Route exact path="/stream/:sourceUuid" component={MindStreamContainer}/>
-                    <Route exact path="/feeds" component={FeedsContainer}/>
-                    <Route exact path="/sources" component={RssSourcesPage}/>
-                    <Route exact path="/login" component={LoginContainer}/>
-                    <Route exact path="/signup" component={SignupContainer}/>
-                </Switch>
-            </ConnectedRouter>
-        </PersistGate>
-    </Provider>,
-    document.getElementById("app")
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <IntlProvider locale="fr" messages={messages}>
+        <ConnectedRouter history={history}>
+          <Switch>
+            <Route exact path="/" component={MindStreamContainer}/>
+            <Route exact path="/stream/:sourceUuid" component={MindStreamContainer}/>
+            <Route exact path="/feeds" component={FeedsContainer}/>
+            <Route exact path="/sources" component={RssSourcesPage}/>
+            <Route exact path="/login" component={LoginContainer}/>
+            <Route exact path="/signup" component={SignupContainer}/>
+          </Switch>
+        </ConnectedRouter>
+      </IntlProvider>
+    </PersistGate>
+  </Provider>,
+  document.getElementById("app")
 )

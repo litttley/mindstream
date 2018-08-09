@@ -1,6 +1,7 @@
 import * as React from "react"
 import classNames from "utils/classNames"
 import * as styles from "./BaseButton.css"
+import LoaderIcon from "components/icons/LoaderIcon"
 
 interface Props {
   disable?: boolean
@@ -8,7 +9,7 @@ interface Props {
   className?: string
   onClick?(): void
   href?: string
-  renderLoader(): React.ReactNode
+  renderLoader?: () => React.ReactNode
 }
 
 export default class BaseButton extends React.PureComponent<Props> {
@@ -28,7 +29,7 @@ export default class BaseButton extends React.PureComponent<Props> {
   renderContent = () => {
     const { children, renderLoader, loading = false } = this.props
     if (loading) {
-      return renderLoader()
+      return renderLoader !== undefined ? renderLoader() : this.renderDefaultLoader()
     } else {
       return children
     }
@@ -40,4 +41,6 @@ export default class BaseButton extends React.PureComponent<Props> {
       onClick()
     }
   }
+
+  renderDefaultLoader = () => <LoaderIcon width={34} height={34} color="#FFFFFF" />
 }

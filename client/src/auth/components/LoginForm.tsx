@@ -1,17 +1,18 @@
 import * as React from "react"
+import { InjectedIntlProps, injectIntl } from "react-intl"
 import * as styles from "./LoginForm.css"
 import Input from "components/Input"
 import ContainedButton from "components/buttons/ContainedButton"
-import { ApiError } from "services/ApiError"
+import { ApiErrors, getFieldErrorMessage } from "services/ApiError"
 import { Login } from "auth/Login"
 
 interface Props {
   loading: boolean
-  errors?: ApiError
+  errors?: ApiErrors
   onSubmit: (login: Login) => void
 }
 
-export default class LoginForm extends React.Component<Props, Login> {
+class LoginForm extends React.Component<Props & InjectedIntlProps, Login> {
   state = {
     email: "",
     password: ""
@@ -19,20 +20,25 @@ export default class LoginForm extends React.Component<Props, Login> {
 
   render() {
     const { email, password } = this.state
-    const { loading } = this.props
+    const { errors, loading, intl } = this.props
+    console.log(intl, intl.formatMessage({ id: "validation.login.short" }))
     return (
       <div className={styles.loginForm}>
         <Input
-          label="Email"
+          key="email"
+          error={getFieldErrorMessage("email", intl, errors)}
+          label={intl.formatMessage({ id: "email" })}
           value={email}
-          onChange={this.handleOnChange("email")}
+          onChange={this.handleOnChange}
           type="email"
         />
 
         <Input
+          key="password"
           label="Password"
+          error={getFieldErrorMessage("password", intl, errors)}
           value={password}
-          onChange={this.handleOnChange("password")}
+          onChange={this.handleOnChange}
           type="password"
         />
 
@@ -58,7 +64,7 @@ export default class LoginForm extends React.Component<Props, Login> {
     )
   }
 
-  handleOnChange = (field: keyof Login) => (value: string) => {
+  handleOnChange = (value: string, field: keyof Login) => {
     this.setState(() => ({
       [field]: value
     } as Pick<Login, keyof Login>))
@@ -66,3 +72,5 @@ export default class LoginForm extends React.Component<Props, Login> {
 
   handleOnSubmit = () => this.props.onSubmit(this.state)
 }
+
+export default injectIntl(LoginForm)

@@ -1,6 +1,6 @@
 import * as React from "react"
 import * as styles from "./Input.css"
-import classNames from "utils/classNames";
+import classNames from "utils/classNames"
 
 interface Props {
   key: string

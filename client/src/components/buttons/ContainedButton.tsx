@@ -1,6 +1,5 @@
 import * as React from "react"
 import * as styles from "./ContainedButton.css"
-import LoaderIcon from "components/icons/LoaderIcon"
 import BaseButton from "components/buttons/BaseButton"
 
 interface Props {
@@ -19,12 +18,9 @@ export default class ContainedButton extends React.PureComponent<Props> {
         loading={loading}
         disable={disable}
         onClick={onClick}
-        renderLoader={this.renderLoader}
       >
         <div className={styles.label}>{label}</div>
       </BaseButton>
     )
   }
-
-  renderLoader = () => <LoaderIcon width={34} height={34} color="#FFFFFF" />
 }

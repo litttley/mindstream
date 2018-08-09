@@ -7,12 +7,13 @@ import SignupForm from "auth/components/SignupForm"
 import { Actions } from "Actions"
 import { Signup } from "auth/Signup"
 import { AuthActions } from "auth/AuthActions"
-import { ApiError } from "services/ApiError"
+import { ApiErrors } from "services/ApiError"
 import AuthLayout from "auth/components/AuthLayout"
+import LinkButton from "components/buttons/LinkButton"
 
 interface StateProps {
   loading: boolean
-  errors?: ApiError
+  errors?: ApiErrors
 }
 
 interface DispatchProps {
@@ -29,7 +30,9 @@ const SignupContainer: React.SFC<Props> = ({ loading, errors, onSubmit }) => {
         errors={errors}
         onSubmit={onSubmit}
       />
-      <a href="#/login">Login</a>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <LinkButton href="#/login">Login</LinkButton>
+      </div>
     </AuthLayout>
   )
 }

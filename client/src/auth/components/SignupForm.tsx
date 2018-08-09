@@ -1,17 +1,18 @@
 import * as React from "react"
+import { InjectedIntlProps, injectIntl } from "react-intl"
 import * as styles from "./SignupForm.css"
 import Input from "components/Input"
 import ContainedButton from "components/buttons/ContainedButton"
-import { ApiError } from "services/ApiError"
+import { ApiErrors, getFieldErrorMessage } from "services/ApiError"
 import { Signup } from "auth/Signup"
 
 interface Props {
   loading: boolean
-  errors?: ApiError
+  errors?: ApiErrors
   onSubmit: (signup: Signup) => void
 }
 
-export default class SignupForm extends React.Component<Props, Signup> {
+class SignupForm extends React.Component<Props & InjectedIntlProps, Signup> {
   state = {
     login: "",
     email: "",
@@ -20,27 +21,33 @@ export default class SignupForm extends React.Component<Props, Signup> {
 
   render() {
     const { login, email, password } = this.state
-    const { loading } = this.props
+    const { loading, errors, intl } = this.props
     return (
       <div className={styles.signupForm}>
         <Input
+          key="login"
           label="Login"
+          error={getFieldErrorMessage("login", intl, errors)}
           value={login}
-          onChange={this.handleOnChange("login")}
+          onChange={this.handleOnChange}
           type="text"
         />
 
         <Input
+          key="email"
           label="Email"
+          error={getFieldErrorMessage("email", intl, errors)}
           value={email}
-          onChange={this.handleOnChange("email")}
+          onChange={this.handleOnChange}
           type="email"
         />
 
         <Input
+          key="password"
           label="Password"
+          error={getFieldErrorMessage("password", intl, errors)}
           value={password}
-          onChange={this.handleOnChange("password")}
+          onChange={this.handleOnChange}
           type="password"
         />
 
@@ -66,7 +73,7 @@ export default class SignupForm extends React.Component<Props, Signup> {
     )
   }
 
-  handleOnChange = (field: keyof Signup) => (value: string) => {
+  handleOnChange = (value: string, field: keyof Signup) => {
     this.setState(() => ({
       [field]: value
     } as Pick<Signup, keyof Signup>))
@@ -74,3 +81,5 @@ export default class SignupForm extends React.Component<Props, Signup> {
 
   handleOnSubmit = () => this.props.onSubmit(this.state)
 }
+
+export default injectIntl(SignupForm)
