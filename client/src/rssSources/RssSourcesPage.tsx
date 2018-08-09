@@ -6,14 +6,14 @@ import MyRssSourcesContainer from "rssSources/MyRssSourcesContainer"
 import AddRssSourceContainer from "rssSources/AddRssSourceContainer"
 
 const RssSourcesPage: React.SFC = () => (
-    <div className={styles.sourcesContainer}>
-        <HeaderContainer />
-        <AddRssSourceContainer />
-        <h3>Sources</h3>
-        <UnfollowedRssSourcesContainer />
-        <h3>My Sources</h3>
-        <MyRssSourcesContainer />
-    </div>
+  <div className={styles.sourcesContainer}>
+    <HeaderContainer />
+    <AddRssSourceContainer />
+    <h3>Sources</h3>
+    <UnfollowedRssSourcesContainer />
+    <h3>My Sources</h3>
+    <MyRssSourcesContainer />
+  </div>
 )
 
 export default RssSourcesPage

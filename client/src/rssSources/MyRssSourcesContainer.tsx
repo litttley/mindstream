@@ -10,62 +10,62 @@ import SourcesList from "./components/SourcesList"
 import { Actions } from "Actions"
 
 interface DispatchProps {
-    onLoadMySources(): void
+  onLoadMySources: () => void
 }
 
 interface StateProps {
-    myRssSources: MyRssSources[]
+  myRssSources: MyRssSources[]
 }
 
 type Props = StateProps & DispatchProps
 
 class MyRssSourcesContainer extends React.PureComponent<Props> {
-    componentWillMount() {
-        this.props.onLoadMySources()
-    }
-    render() {
-        return (
-            <div className={styles.myRssSources}>
-                {this.renderMyRssSourcesList()}
-            </div>
-        )
-    }
+  componentWillMount() {
+    this.props.onLoadMySources()
+  }
+  render() {
+    return (
+      <div className={styles.myRssSources}>
+        {this.renderMyRssSourcesList()}
+      </div>
+    )
+  }
 
-    renderSourcesList = () => {
-        const { myRssSources } = this.props
-        if (myRssSources.length > 0) {
-            return (
-                <SourcesList sources={myRssSources} />
-            )
-        } else {
-            return <div>Empty</div>
-        }
+  renderSourcesList = () => {
+    const { myRssSources } = this.props
+    if (myRssSources.length > 0) {
+      return (
+        <SourcesList sources={myRssSources} />
+      )
+    } else {
+      return <div>Empty</div>
     }
+  }
 
-    renderMyRssSourcesList = () => {
-        const { myRssSources } = this.props
-        if (myRssSources.length > 0) {
-            return (
-                <SourcesList
-                    sources={myRssSources}
-                />
-            )
-        } else {
-            return <div>My Sources Empty</div>
-        }
+  renderMyRssSourcesList = () => {
+    const { myRssSources } = this.props
+    if (myRssSources.length > 0) {
+      return (
+        <SourcesList
+          sources={myRssSources}
+        />
+      )
+    } else {
+      return <div>My Sources Empty</div>
     }
+  }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
-    return {
-        onLoadMySources: () => dispatch(SourcesActions.loadMySources()),
-    }
+  return {
+    onLoadMySources: () => dispatch(SourcesActions.loadMySources()),
+  }
 }
 
 const mapStateToProps = (state: GlobalState): StateProps => {
-    return {
-        myRssSources: state.sources.myRssSources
-    }
+  return {
+    myRssSources: state.sources.myRssSources
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyRssSourcesContainer)
