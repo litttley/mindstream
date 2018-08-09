@@ -2,13 +2,13 @@ import { getType } from "typesafe-actions"
 import { RssSource, MyRssSources } from "models/RssSource"
 import { SourcesActions } from "./SourcesActions"
 import { Actions } from "Actions"
-import { ApiError } from "services/ApiError"
+import { ApiErrors } from "services/ApiError"
 
 export interface SourcesState {
     unfollowedRssSources: RssSource[]
     myRssSources: MyRssSources[]
     loading: boolean
-    error?: ApiError
+    error?: ApiErrors
     newSourceUrl: string
     addSourceLoading: boolean
 }

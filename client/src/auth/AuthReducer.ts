@@ -2,19 +2,17 @@ import { getType } from "typesafe-actions"
 import { ApiError } from "services/ApiError"
 import { Actions } from "Actions"
 import { AuthActions } from "auth/AuthActions"
-import { User } from "models/User"
 
 export interface AuthState {
-  user?: User
-  token: string
   loading: boolean
-  errors?: ApiError
+  loginErrors?: ApiError
+  signupErrors?: ApiError
 }
 
 const initState: AuthState = {
-  token: "",
   loading: false,
-  errors: undefined,
+  loginErrors: undefined,
+  signupErrors: undefined,
 }
 
 const AuthReducer = (state: AuthState = initState, action: Actions): AuthState => {
@@ -22,9 +20,15 @@ const AuthReducer = (state: AuthState = initState, action: Actions): AuthState =
     case getType(AuthActions.loginSubmit.request):
       return { ...state, loading: true }
     case getType(AuthActions.loginSubmit.success):
-      return { ...state, loading: false, user: action.payload.user, token: action.payload.token }
+      return { ...state, loading: false, loginErrors: undefined }
     case getType(AuthActions.loginSubmit.failure):
-      return { ...state, loading: false, errors: action.payload }
+      return { ...state, loading: false, loginErrors: action.payload }
+    case getType(AuthActions.signupSubmit.request):
+      return { ...state, loading: true }
+    case getType(AuthActions.signupSubmit.success):
+      return { ...state, loading: false, signupErrors: undefined }
+    case getType(AuthActions.signupSubmit.failure):
+      return { ...state, loading: false, signupErrors: action.payload }
     default: return state
   }
 }

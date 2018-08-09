@@ -3,10 +3,10 @@ import { Dispatch } from "redux"
 import { connect } from "react-redux"
 
 import { RssFeed } from "models/RssFeed"
-import { GlobalState } from "../app/AppState"
-import { FeedsActions } from "./FeedsActions"
-import FeedsList from "./components/FeedsList"
-import HeaderContainer from "../app/HeaderContainer"
+import { GlobalState } from "app/AppState"
+import { FeedsActions } from "feeds/FeedsActions"
+import FeedsList from "feeds/components/FeedsList"
+import HeaderContainer from "app/HeaderContainer"
 import { Actions } from "Actions"
 
 interface DispatchProps {

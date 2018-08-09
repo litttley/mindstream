@@ -2,12 +2,12 @@ import { getType } from "typesafe-actions"
 import { FeedsActions } from "./FeedsActions"
 import { RssFeed } from "models/RssFeed"
 import { Actions } from "Actions"
-import { ApiError } from "services/ApiError"
+import { ApiErrors } from "services/ApiError"
 
 export interface FeedsState {
     feeds: RssFeed[]
     loading: boolean
-    error?: ApiError
+    error?: ApiErrors
 }
 
 const initState: FeedsState = {

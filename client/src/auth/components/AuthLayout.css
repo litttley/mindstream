@@ -1,0 +1,16 @@
+.authLayout {
+  display: flex;
+  flex: 1;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.appName {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+  text-transform: uppercase;
+  color: var(--dark-text-color);
+  margin: 40px 0;
+}

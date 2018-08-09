@@ -1,6 +1,5 @@
 import { combineEpics } from "redux-observable"
 import { sourcesEpics } from "rssSources/SourcesEpics"
-import { signupEpics } from "signup/SignupEpics"
 import { mindstreamEpics } from "mindstream/MindStreamEpics"
 import { loadfeedsEpic } from "feeds/FeedsEpics"
 import { authEpics } from "auth/AuthEpics"
@@ -11,7 +10,6 @@ const RootEpic = combineEpics(
     sourcesEpics,
     mindstreamEpics,
     loadfeedsEpic,
-    signupEpics,
     appEpics,
 )
 

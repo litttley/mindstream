@@ -1,15 +1,12 @@
-import { Epic, combineEpics } from "redux-observable"
+import { combineEpics } from "redux-observable"
 import { isActionOf } from "typesafe-actions"
 import { of, empty } from "rxjs"
 import { filter, switchMap, map, catchError } from "rxjs/operators"
 
-import { GlobalState, Dependencies } from "app/AppState"
-import { Actions } from "Actions"
 import { ApiError } from "services/ApiError"
 import * as router from "router"
 import { AuthActions } from "auth/AuthActions"
-
-type EpicType = Epic<Actions, Actions, GlobalState, Dependencies>
+import { EpicType } from "EpicType"
 
 const loginSubmitEpic: EpicType = (action$, _, { api }) => action$.pipe(
   filter(isActionOf(AuthActions.loginSubmit.request)),
@@ -27,20 +24,12 @@ const signupSubmitEpic: EpicType = (action$, _, { api }) => action$.pipe(
   ))
 )
 
-const signupSuccessEpic: EpicType = action$ => action$.pipe(
-  filter(isActionOf(AuthActions.signupSubmit.success)),
+const authSuccessEpic: EpicType = action$ => action$.pipe(
+  filter(isActionOf([AuthActions.signupSubmit.success, AuthActions.loginSubmit.success])),
   switchMap(() => {
     router.replace("/")
     return empty()
   })
 )
 
-const loginSuccessEpic: EpicType = action$ => action$.pipe(
-  filter(isActionOf(AuthActions.loginSubmit.success)),
-  switchMap(() => {
-    router.replace("/")
-    return empty()
-  })
-)
-
-export const authEpics = combineEpics(loginSubmitEpic, loginSuccessEpic, signupSubmitEpic, signupSuccessEpic)
+export const authEpics = combineEpics(loginSubmitEpic, signupSubmitEpic, authSuccessEpic)

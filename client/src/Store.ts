@@ -7,7 +7,6 @@ import { routerReducer, routerMiddleware } from "react-router-redux"
 import { history } from "router"
 
 import AppReducer from "app/AppReducer"
-import SignupReducer from "signup/SignupReducer"
 import FeedsReducer from "feeds/FeedsReducer"
 import MindStreamReducer from "mindstream/MindStreamReducer"
 import SourcesReducer from "rssSources/SourcesReducer"
@@ -20,7 +19,7 @@ import AuthReducer from "auth/AuthReducer"
 const persistConfig = {
     key: "root_mindstream",
     storage,
-    blacklist: ["login", "signup", "feeds", "mindStream", "sources"]
+    blacklist: ["auth", "feeds", "mindStream", "sources"]
 }
 
 const dependencies: Dependencies = {
@@ -32,7 +31,6 @@ const middleware = routerMiddleware(history)
 const reducers = combineReducers<GlobalState>({
     app: AppReducer,
     auth: AuthReducer,
-    signup: SignupReducer,
     feeds: FeedsReducer,
     mindStream: MindStreamReducer,
     sources: SourcesReducer,

@@ -1,9 +1,9 @@
 import { createAction, ActionType } from "typesafe-actions"
 import { RssFeed, Reaction } from "models/RssFeed"
-import { ApiError } from "services/ApiError"
+import { ApiErrors } from "services/ApiError"
 
 export const MindStreamActions = {
-    mindstreamApiError: createAction("MindStreamApiError", resolve => (error: ApiError) => resolve({ error })),
+    mindstreamApiError: createAction("MindStreamApiError", resolve => (error: ApiErrors) => resolve({ error })),
     goToNextFeed: createAction("GoToNextFeed", resolve => (sourceUuid: string | undefined) => resolve({ sourceUuid })),
     nextFeed: createAction("NextFeed", resolve => (feed: RssFeed, sourceUuid?: string) => resolve({ feed, sourceUuid })),
     nextFeedSuccess: createAction("NextFeedSuccess", resolve => (feed: RssFeed, sourceUuid?: string) => resolve({ feed, sourceUuid })),

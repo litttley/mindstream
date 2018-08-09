@@ -1,0 +1,22 @@
+.ghostButton {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-content: center;
+  cursor: pointer;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 4px;
+  background-color: var(--dark-bg-color);
+}
+
+.ghostButton:hover {
+  background-color: var(--dark-hover-color);
+  animation-delay: .3s;
+}
+
+.label {
+  font-size: 1rem;
+  text-transform: uppercase;
+  color: var(--clear-text-color);
+}

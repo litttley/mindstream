@@ -1,10 +1,10 @@
-.loginForm {
+.signupForm {
   width: 100%;
   padding: 24px;
 }
 
 @media screen and (min-width: 400px) {
-  .loginForm {
+  .signupForm {
     width: 400px;
     align-self: center;
   }

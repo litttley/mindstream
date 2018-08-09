@@ -1,27 +1,35 @@
 import * as React from "react"
-import * as styles from "./LoginForm.css"
+import * as styles from "./SignupForm.css"
 import Input from "components/Input"
 import ContainedButton from "components/buttons/ContainedButton"
 import { ApiError } from "services/ApiError"
-import { Login } from "auth/Login"
+import { Signup } from "auth/Signup"
 
 interface Props {
   loading: boolean
   errors?: ApiError
-  onSubmit: (login: Login) => void
+  onSubmit: (signup: Signup) => void
 }
 
-export default class LoginForm extends React.Component<Props, Login> {
+export default class SignupForm extends React.Component<Props, Signup> {
   state = {
+    login: "",
     email: "",
-    password: ""
+    password: "",
   }
 
   render() {
-    const { email, password } = this.state
+    const { login, email, password } = this.state
     const { loading } = this.props
     return (
-      <div className={styles.loginForm}>
+      <div className={styles.signupForm}>
+        <Input
+          label="Login"
+          value={login}
+          onChange={this.handleOnChange("login")}
+          type="text"
+        />
+
         <Input
           label="Email"
           value={email}
@@ -37,7 +45,7 @@ export default class LoginForm extends React.Component<Props, Login> {
         />
 
         <ContainedButton
-          label="Login"
+          label="Signup"
           loading={loading}
           onClick={this.handleOnSubmit}
         />
@@ -58,10 +66,10 @@ export default class LoginForm extends React.Component<Props, Login> {
     )
   }
 
-  handleOnChange = (field: keyof Login) => (value: string) => {
+  handleOnChange = (field: keyof Signup) => (value: string) => {
     this.setState(() => ({
       [field]: value
-    } as Pick<Login, keyof Login>))
+    } as Pick<Signup, keyof Signup>))
   }
 
   handleOnSubmit = () => this.props.onSubmit(this.state)
