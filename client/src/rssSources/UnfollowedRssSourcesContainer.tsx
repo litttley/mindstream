@@ -52,7 +52,7 @@ class UnfollowedRssSourcesContainer extends React.PureComponent<Props> {
 const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
   return {
     onLoadUnfollowedSources: () => dispatch(SourcesActions.loadUnfollowedSources.request()),
-    fallowSource: (source) => dispatch(SourcesActions.fallowSources(source)),
+    fallowSource: (source) => dispatch(SourcesActions.fallowSources.request(source)),
   }
 }
 

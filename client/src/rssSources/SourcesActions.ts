@@ -9,10 +9,10 @@ export const SourcesActions = {
   loadMySources: createAsyncAction(
     "LoadMySourcesRequest", "LoadMySourcesSuccess", "LoadMySourcesFailure"
   )<void, MyRssSources[], ApiErrors>(),
+  fallowSources: createAsyncAction(
+    "FallowSourcesRequest", "FallowSourcesSuccess", "FallowSourcesFailure"
+  )<RssSource, RssSource, ApiErrors>(),
   addMySource: createStandardAction("AddMySource")<RssSource>(),
-  fallowSources: createAction("FallowSources", resolve => (source: RssSource) => resolve({ source })),
-  fallowSourcesSuccess: createAction("FallowSourcesSuccess", resolve => (source: RssSource) => resolve({ source })),
-  fallowSourcesError: createAction("FallowSourcesError", resolve => (error: ApiErrors) => resolve({ error })),
   addSourceOnChange: createAction("AddSourceOnChange", resolve => (field: string, value: string) => resolve({ field, value })),
   addSource: createAction("AddSource", resolve => (sourceUrl: string) => resolve({ sourceUrl })),
   addSourceSuccess: createAction("AddSourceSuccess", resolve => (source: RssSource) => resolve({ source })),

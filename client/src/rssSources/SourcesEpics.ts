@@ -32,16 +32,16 @@ const loadMySourcesEpic: EpicType = (action$, state, { api }) => action$.pipe(
 )
 
 const fallowSourceEpic: EpicType = (action$, state, { api }) => action$.pipe(
-  filter(isActionOf(SourcesActions.fallowSources)),
-  mergeMap(({ payload: { source } }) => api.fallowSource(state.value.app.token)(source).pipe(
-    map(SourcesActions.fallowSourcesSuccess),
-    catchError((error: ApiErrors) => of(SourcesActions.fallowSourcesError(error)))
+  filter(isActionOf(SourcesActions.fallowSources.request)),
+  mergeMap(({ payload }) => api.fallowSource(state.value.app.token)(payload).pipe(
+    map(SourcesActions.fallowSources.success),
+    catchError((error: ApiErrors) => of(SourcesActions.fallowSources.failure(error)))
   ))
 )
 
 const fallowSourcesSuccessEpic: EpicType = action$ => action$.pipe(
-  filter(isActionOf(SourcesActions.fallowSourcesSuccess)),
-  map(({ payload: { source } }) => SourcesActions.addMySource(source)),
+  filter(isActionOf(SourcesActions.fallowSources.success)),
+  map(({ payload }) => SourcesActions.addMySource(payload)),
 )
 
 export const sourcesEpics = combineEpics(

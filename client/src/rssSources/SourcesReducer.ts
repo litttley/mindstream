@@ -51,13 +51,13 @@ const SourcesReducer = (state: SourcesState = initState, action: Actions): Sourc
       ...state.myRssSources, { rss_source: action.payload, unreaded: 0 }
     ]}
 
-    case getType(SourcesActions.fallowSources): return { ...state, loading: true}
-    case getType(SourcesActions.fallowSourcesError): return { ...state, loading: false, error: action.payload.error }
-    case getType(SourcesActions.fallowSourcesSuccess): return {
+    case getType(SourcesActions.fallowSources.request): return { ...state, loading: true}
+    case getType(SourcesActions.fallowSources.success): return {
       ...state,
-      unfollowedRssSources: state.unfollowedRssSources.filter(source => source.uuid !== action.payload.source.uuid),
+      unfollowedRssSources: state.unfollowedRssSources.filter(source => source.uuid !== action.payload.uuid),
       loading: false
     }
+    case getType(SourcesActions.fallowSources.failure): return { ...state, loading: false, error: action.payload }
     default: return state
   }
 }
