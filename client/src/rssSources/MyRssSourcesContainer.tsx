@@ -58,14 +58,13 @@ class MyRssSourcesContainer extends React.PureComponent<Props> {
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
   return {
-    onLoadMySources: () => dispatch(SourcesActions.loadMySources()),
+    onLoadMySources: () => dispatch(SourcesActions.loadMySources.request()),
   }
 }
 
 const mapStateToProps = (state: GlobalState): StateProps => {
-  return {
-    myRssSources: state.sources.myRssSources
-  }
+  const { myRssSources } = state.sources
+  return { myRssSources }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyRssSourcesContainer)

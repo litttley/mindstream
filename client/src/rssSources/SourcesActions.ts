@@ -4,11 +4,11 @@ import { ApiErrors } from "services/ApiError"
 
 export const SourcesActions = {
   loadUnfollowedSources: createAsyncAction(
-    "LoadUnfollowedSources", "LoadUnfollowedSourcesSuccess", "LoadUnfollowedSourcesFailure"
+    "LoadUnfollowedSourcesRequest", "LoadUnfollowedSourcesSuccess", "LoadUnfollowedSourcesFailure"
   )<void, RssSource[], ApiErrors>(),
-  loadMySources: createAction("LoadMySources"),
-  loadMySourcesSuccess: createAction("LoadMySourcesSuccess", resolve => (myRssSources: MyRssSources[]) => resolve({ myRssSources })),
-  loadMySourcesError: createAction("LoadMySourcesError", resolve => (error: ApiErrors) => resolve({ error })),
+  loadMySources: createAsyncAction(
+    "LoadMySourcesRequest", "LoadMySourcesSuccess", "LoadMySourcesFailure"
+  )<void, MyRssSources[], ApiErrors>(),
   addMySource: createAction("AddMySource", resolve => (source: RssSource) => resolve({ source })),
   fallowSources: createAction("FallowSources", resolve => (source: RssSource) => resolve({ source })),
   fallowSourcesSuccess: createAction("FallowSourcesSuccess", resolve => (source: RssSource) => resolve({ source })),

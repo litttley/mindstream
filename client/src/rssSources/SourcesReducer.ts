@@ -43,9 +43,9 @@ const SourcesReducer = (state: SourcesState = initState, action: Actions): Sourc
     }
     case getType(SourcesActions.loadUnfollowedSources.failure): return { ...state, loading: false, error: action.payload }
 
-    case getType(SourcesActions.loadMySources): return { ...state, loading: true }
-    case getType(SourcesActions.loadMySourcesSuccess): return { ...state, myRssSources: action.payload.myRssSources, loading: false }
-    case getType(SourcesActions.loadMySourcesError): return { ...state, loading: false, error: action.payload.error }
+    case getType(SourcesActions.loadMySources.request): return { ...state, loading: true }
+    case getType(SourcesActions.loadMySources.success): return { ...state, myRssSources: action.payload, loading: false }
+    case getType(SourcesActions.loadMySources.failure): return { ...state, loading: false, error: action.payload }
 
     case getType(SourcesActions.addMySource): return { ...state, myRssSources: [
       ...state.myRssSources, { rss_source: action.payload.source, unreaded: 0 }

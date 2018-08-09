@@ -24,10 +24,10 @@ const loadUnfollowedSourcesEpic: EpicType = (action$, state, { api }) => action$
 )
 
 const loadMySourcesEpic: EpicType = (action$, state, { api }) => action$.pipe(
-  filter(isActionOf(SourcesActions.loadMySources)),
+  filter(isActionOf(SourcesActions.loadMySources.request)),
   switchMap(() => api.loadMySources(state.value.app.token).pipe(
-    map(SourcesActions.loadMySourcesSuccess),
-    catchError((error: ApiErrors) => of(SourcesActions.loadMySourcesError(error)))
+    map(SourcesActions.loadMySources.success),
+    catchError((error: ApiErrors) => of(SourcesActions.loadMySources.failure(error)))
   ))
 )
 
