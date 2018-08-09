@@ -8,10 +8,10 @@ import { EpicType } from "EpicType"
 import { SourcesActions } from "rssSources/SourcesActions"
 
 const addSourceEpic: EpicType = (action$, state, { api }) => action$.pipe(
-  filter(isActionOf(SourcesActions.addSource)),
-  switchMap(({ payload: { sourceUrl } }) => api.addSource(state.value.app.token)(sourceUrl).pipe(
-    map(SourcesActions.addSourceSuccess),
-    catchError((error: ApiErrors) => of(SourcesActions.addSourceError(error)))
+  filter(isActionOf(SourcesActions.addSource.request)),
+  switchMap(({ payload }) => api.addSource(state.value.app.token)(payload).pipe(
+    map(SourcesActions.addSource.success),
+    catchError((error: ApiErrors) => of(SourcesActions.addSource.failure(error)))
   ))
 )
 

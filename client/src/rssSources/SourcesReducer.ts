@@ -26,14 +26,14 @@ const SourcesReducer = (state: SourcesState = initState, action: Actions): Sourc
   switch (action.type) {
     case getType(SourcesActions.addSourceOnChange): return { ...state, [action.payload.field]: action.payload.value }
 
-    case getType(SourcesActions.addSource): return { ...state, addSourceLoading: true }
-    case getType(SourcesActions.addSourceSuccess): return {
+    case getType(SourcesActions.addSource.request): return { ...state, addSourceLoading: true }
+    case getType(SourcesActions.addSource.success): return {
       ...state,
       addSourceLoading: false,
       newSourceUrl: "",
-      unfollowedRssSources: [...state.unfollowedRssSources, action.payload.source]
+      unfollowedRssSources: [...state.unfollowedRssSources, action.payload]
     }
-    case getType(SourcesActions.addSourceError): return { ...state, addSourceLoading: false, error: action.payload.error }
+    case getType(SourcesActions.addSource.failure): return { ...state, addSourceLoading: false, error: action.payload }
 
     case getType(SourcesActions.loadUnfollowedSources.request): return { ...state, loading: true }
     case getType(SourcesActions.loadUnfollowedSources.success): return {

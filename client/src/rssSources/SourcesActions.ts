@@ -12,11 +12,11 @@ export const SourcesActions = {
   fallowSources: createAsyncAction(
     "FallowSourcesRequest", "FallowSourcesSuccess", "FallowSourcesFailure"
   )<RssSource, RssSource, ApiErrors>(),
-  addMySource: createStandardAction("AddMySource")<RssSource>(),
+  addSource: createAsyncAction(
+    "AddSourceRequest", "AddSourceSuccess", "AddSourceFailure"
+  )<string, RssSource, ApiErrors>(),
   addSourceOnChange: createAction("AddSourceOnChange", resolve => (field: string, value: string) => resolve({ field, value })),
-  addSource: createAction("AddSource", resolve => (sourceUrl: string) => resolve({ sourceUrl })),
-  addSourceSuccess: createAction("AddSourceSuccess", resolve => (source: RssSource) => resolve({ source })),
-  addSourceError: createAction("AddSourceError", resolve => (error: ApiErrors) => resolve({ error })),
+  addMySource: createStandardAction("AddMySource")<RssSource>(),
 }
 
 export type SourcesAction = ActionType<typeof SourcesActions>
