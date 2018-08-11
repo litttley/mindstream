@@ -1,4 +1,4 @@
-import { createAction, createAsyncAction, createStandardAction, ActionType } from "typesafe-actions"
+import { createAsyncAction, createStandardAction, ActionType } from "typesafe-actions"
 import { RssSource, MyRssSources } from "models/RssSource"
 import { ApiErrors } from "services/ApiError"
 
@@ -15,7 +15,7 @@ export const SourcesActions = {
   addSource: createAsyncAction(
     "AddSourceRequest", "AddSourceSuccess", "AddSourceFailure"
   )<string, RssSource, ApiErrors>(),
-  addSourceOnChange: createAction("AddSourceOnChange", resolve => (field: string, value: string) => resolve({ field, value })),
+  addSourceOnChange: createStandardAction("AddSourceOnChange")<{ field: string, value: string }>(),
   addMySource: createStandardAction("AddMySource")<RssSource>(),
 }
 

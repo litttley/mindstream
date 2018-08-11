@@ -29,7 +29,7 @@ const AddRssSourceContainer: React.SFC<Props> = ({ newSourceUrl, addSourceOnChan
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
   return {
-    addSourceOnChange: (field, value) => dispatch(SourcesActions.addSourceOnChange(field, value)),
+    addSourceOnChange: (field, value) => dispatch(SourcesActions.addSourceOnChange({ field, value })),
     addSourceOnSubmit: (sourceUrl) => dispatch(SourcesActions.addSource.request(sourceUrl)),
   }
 }
