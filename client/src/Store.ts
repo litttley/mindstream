@@ -17,24 +17,24 @@ import { createApiInstance } from "services/Api"
 import AuthReducer from "auth/AuthReducer"
 
 const persistConfig = {
-    key: "root_mindstream",
-    storage,
-    blacklist: ["auth", "feeds", "mindStream", "sources"]
+  key: "root_mindstream",
+  storage,
+  blacklist: ["auth", "feeds", "mindStream", "sources"]
 }
 
 const dependencies: Dependencies = {
-    api: createApiInstance()
+  api: createApiInstance()
 }
 
 const middleware = routerMiddleware(history)
 
 const reducers = combineReducers<GlobalState>({
-    app: AppReducer,
-    auth: AuthReducer,
-    feeds: FeedsReducer,
-    mindStream: MindStreamReducer,
-    sources: SourcesReducer,
-    router: routerReducer
+  app: AppReducer,
+  auth: AuthReducer,
+  feeds: FeedsReducer,
+  mindStream: MindStreamReducer,
+  sources: SourcesReducer,
+  router: routerReducer
 })
 
 const epicMiddleware = createEpicMiddleware({ dependencies })
@@ -42,8 +42,8 @@ const epicMiddleware = createEpicMiddleware({ dependencies })
 const persistedReducer: Reducer<GlobalState> = persistReducer(persistConfig, reducers)
 
 const enhancer = composeWithDevTools(
-    applyMiddleware(middleware),
-    applyMiddleware(epicMiddleware),
+  applyMiddleware(middleware),
+  applyMiddleware(epicMiddleware),
 )
 export const store = createStore(persistedReducer, enhancer)
 export const persistor = persistStore(store)

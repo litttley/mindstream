@@ -6,11 +6,11 @@ import { authEpics } from "auth/AuthEpics"
 import { appEpics } from "app/AppEpics"
 
 const RootEpic = combineEpics(
-    authEpics,
-    sourcesEpics,
-    mindstreamEpics,
-    loadfeedsEpic,
-    appEpics,
+  authEpics,
+  sourcesEpics,
+  mindstreamEpics,
+  loadfeedsEpic,
+  appEpics,
 )
 
 export default RootEpic

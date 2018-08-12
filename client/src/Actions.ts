@@ -6,9 +6,9 @@ import { FeedsAction } from "feeds/FeedsActions"
 import { AuthAction } from "auth/AuthActions"
 
 export type Actions =
-    RouterAction |
-    AppAction |
-    MindStreamAction |
-    SourcesAction |
-    FeedsAction |
-    AuthAction
+  RouterAction |
+  AppAction |
+  MindStreamAction |
+  SourcesAction |
+  FeedsAction |
+  AuthAction
