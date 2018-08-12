@@ -1,4 +1,7 @@
 export default {
   "email": "Email",
-  "validation.login.short": "Login doit être superieur à {min} caracteres"
+  "validation.email": "Email invalid",
+  "validation.login.short": "Login sould be grater than {min}",
+  "validation.password.short": "Password should be grater than {min}",
+  "validation.error": "Validations errors",
 }

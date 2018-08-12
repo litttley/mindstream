@@ -21,7 +21,6 @@ class LoginForm extends React.Component<Props & InjectedIntlProps, Login> {
   render() {
     const { email, password } = this.state
     const { errors, loading, intl } = this.props
-    console.log(intl, intl.formatMessage({ id: "validation.login.short" }))
     return (
       <div className={styles.loginForm}>
         <Input

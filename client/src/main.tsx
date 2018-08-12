@@ -23,7 +23,7 @@ import messages from "messages"
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <IntlProvider locale="fr" messages={messages}>
+      <IntlProvider locale="en" messages={messages}>
         <ConnectedRouter history={history}>
           <Switch>
             <Route exact path="/" component={MindStreamContainer}/>
