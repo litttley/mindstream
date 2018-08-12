@@ -20,8 +20,8 @@ const initState: MindStreamState = {
 const MindStreamReducer = (state: MindStreamState = initState, action: Actions) => {
   switch (action.type) {
     case getType(MindStreamActions.mindstreamApiError): return { ...state, loading: false, nextFeedLoader: false }
-    case getType(MindStreamActions.loadUnreadedFeeds): return { ...state, loading: true }
-    case getType(MindStreamActions.loadUnreadedFeedsSuccess): return { ...state, feeds: action.payload.feeds, loading: false }
+    case getType(MindStreamActions.loadUnreadedFeeds.request): return { ...state, loading: true }
+    case getType(MindStreamActions.loadUnreadedFeeds.success): return { ...state, feeds: action.payload, loading: false }
     case getType(MindStreamActions.loadUnreadedFeedsBySource): return { ...state, loading: true }
     case getType(MindStreamActions.loadUnreadedFeedsBySourceSuccess): return { ...state, feeds: action.payload.feeds, loading: false }
     case getType(MindStreamActions.nextFeed.request): return { ...state, nextFeedLoader: true }

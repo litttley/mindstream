@@ -11,9 +11,9 @@ import { ApiErrors } from "services/ApiError"
 type EpicType = Epic<Actions, Actions, GlobalState, Dependencies>
 
 const loadUnreadedFeedsEpic: EpicType = (action$, state, { api }) => action$.pipe(
-  filter(isActionOf(MindStreamActions.loadUnreadedFeeds)),
+  filter(isActionOf(MindStreamActions.loadUnreadedFeeds.request)),
   switchMap(() => api.getRssFeeds(state.value.app.token, "Unreaded").pipe(
-    map(MindStreamActions.loadUnreadedFeedsSuccess),
+    map(MindStreamActions.loadUnreadedFeeds.success),
     catchError((error: ApiErrors) => of(MindStreamActions.mindstreamApiError(error)))
   ))
 )
@@ -41,7 +41,7 @@ const reloadUnreadedFeedsEpic: EpicType = (action$, state, { api }) => action$.p
       return of(
         (sourceUuid)
           ? MindStreamActions.loadUnreadedFeedsBySource(sourceUuid)
-          : MindStreamActions.loadUnreadedFeeds(),
+          : MindStreamActions.loadUnreadedFeeds.request(),
         MindStreamActions.goToNextFeed(sourceUuid)
       )
     } else {
