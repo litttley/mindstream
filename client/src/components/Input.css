@@ -1,24 +1,36 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: 10px 0;
-  margin-bottom: 20px;
+  min-height: 65px;
+  margin-bottom: 15px;
 }
 
 .label {
-  color: #566270;
-  font-family: Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  color: var(--dark-text-color);
 }
 
 .input {
-  padding: 4px;
+  margin: 3px 0 5px 0;
+  padding-bottom: 2px;
   border: none;
   border-bottom: 1px solid #979797;
-  font-family: Helvetica, Arial, sans-serif;
+  color: var(--dark-text-color);
+  font-size: 1.1rem;
+}
+
+.input:focus {
+  border-bottom-color: #000000;
+}
+
+.input:invalid {
+  border: none;
+  border-bottom: 1px solid var(--error-text-color);
 }
 
 .error {
-  color: red;
+  font-size: .8rem;
+  color: var(--error-text-color);
 }
 
 .hideError {

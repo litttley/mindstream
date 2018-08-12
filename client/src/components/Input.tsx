@@ -3,12 +3,12 @@ import * as styles from "./Input.css"
 import classNames from "utils/classNames"
 
 interface Props {
-  key: string
+  name: string
   label: string
   value: string
   error?: string
   type: string
-  onChange(value: string, key: string): void
+  onChange: (value: string, key: string) => void
 }
 
 export default class Input extends React.PureComponent<Props> {
@@ -27,5 +27,5 @@ export default class Input extends React.PureComponent<Props> {
     )
   }
 
-  onChangeHandler = (event: React.FormEvent<HTMLInputElement>) => this.props.onChange(event.currentTarget.value, this.props.key)
+  onChangeHandler = (event: React.FormEvent<HTMLInputElement>) => this.props.onChange(event.currentTarget.value, this.props.name)
 }

@@ -24,7 +24,7 @@ class LoginForm extends React.Component<Props & InjectedIntlProps, Login> {
     return (
       <div className={styles.loginForm}>
         <Input
-          key="email"
+          name="email"
           error={getFieldErrorMessage("email", intl, errors)}
           label={intl.formatMessage({ id: "email" })}
           value={email}
@@ -33,7 +33,7 @@ class LoginForm extends React.Component<Props & InjectedIntlProps, Login> {
         />
 
         <Input
-          key="password"
+          name="password"
           label="Password"
           error={getFieldErrorMessage("password", intl, errors)}
           value={password}
@@ -53,11 +53,11 @@ class LoginForm extends React.Component<Props & InjectedIntlProps, Login> {
   }
 
   renderError = () => {
-    const { errors } = this.props
+    const { errors, intl } = this.props
     return (
       <div className={styles.errorContainer}>
         <div className={errors && errors.message ? styles.errorMessage : styles.errorMessageHidden}>
-          {errors && errors.message || ""}
+          {errors && intl.formatMessage({ id: errors.message }) || ""}
         </div>
       </div>
     )
