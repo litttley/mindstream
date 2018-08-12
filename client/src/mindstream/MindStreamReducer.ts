@@ -24,8 +24,8 @@ const MindStreamReducer = (state: MindStreamState = initState, action: Actions) 
     case getType(MindStreamActions.loadUnreadedFeedsSuccess): return { ...state, feeds: action.payload.feeds, loading: false }
     case getType(MindStreamActions.loadUnreadedFeedsBySource): return { ...state, loading: true }
     case getType(MindStreamActions.loadUnreadedFeedsBySourceSuccess): return { ...state, feeds: action.payload.feeds, loading: false }
-    case getType(MindStreamActions.nextFeed): return { ...state, nextFeedLoader: true }
-    case getType(MindStreamActions.nextFeedSuccess): return { ...state, nextFeedLoader: false }
+    case getType(MindStreamActions.nextFeed.request): return { ...state, nextFeedLoader: true }
+    case getType(MindStreamActions.nextFeed.success): return { ...state, nextFeedLoader: false }
     case getType(MindStreamActions.goToNextFeed): {
       const [first, ...rest] = state.feeds
       return { ...state, feeds: rest, previusFeeds: [first, ...state.previusFeeds.slice(0, 10)] }

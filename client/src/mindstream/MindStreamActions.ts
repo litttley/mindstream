@@ -1,12 +1,16 @@
-import { createAction, ActionType } from "typesafe-actions"
+import { createAction, createAsyncAction, ActionType } from "typesafe-actions"
 import { RssFeed, Reaction } from "models/RssFeed"
 import { ApiErrors } from "services/ApiError"
 
+type NextFeedPayload = {
+  feed: RssFeed,
+  sourceUuid?: string
+}
+
 export const MindStreamActions = {
+  nextFeed: createAsyncAction("NextFeedRequest", "NextFeedSuccess", "NextFeedFailure")<NextFeedPayload, NextFeedPayload, ApiErrors>(),
   mindstreamApiError: createAction("MindStreamApiError", resolve => (error: ApiErrors) => resolve({ error })),
   goToNextFeed: createAction("GoToNextFeed", resolve => (sourceUuid: string | undefined) => resolve({ sourceUuid })),
-  nextFeed: createAction("NextFeed", resolve => (feed: RssFeed, sourceUuid?: string) => resolve({ feed, sourceUuid })),
-  nextFeedSuccess: createAction("NextFeedSuccess", resolve => (feed: RssFeed, sourceUuid?: string) => resolve({ feed, sourceUuid })),
   previousFeed: createAction("PreviousFeed", resolve => (sourceUuid?: string) => resolve({ sourceUuid })),
   loadUnreadedFeeds: createAction("LoadUnreadedFeeds"),
   loadUnreadedFeedsSuccess: createAction("LoadUnreadedFeedsSuccess", resolve => (feeds: RssFeed[]) => resolve({ feeds })),

@@ -27,15 +27,15 @@ const loadUnreadedFeedsBySourceEpic: EpicType = (action$, state, { api }) => act
 )
 
 const nextFeedEpic: EpicType = (action$, state, { api }) => action$.pipe(
-  filter(isActionOf(MindStreamActions.nextFeed)),
+  filter(isActionOf(MindStreamActions.nextFeed.request)),
   switchMap(({ payload: { feed, sourceUuid } }) => api.feedReaction(state.value.app.token)(feed, "Readed").pipe(
-    map(updatedFeed => MindStreamActions.nextFeedSuccess(updatedFeed, updatedFeed.rss_source_uuid)),
+    map(updatedFeed => MindStreamActions.nextFeed.success({ feed: updatedFeed, sourceUuid: updatedFeed.rss_source_uuid })),
     catchError((error: ApiErrors) => of(MindStreamActions.mindstreamApiError(error)))
   ))
 )
 
 const reloadUnreadedFeedsEpic: EpicType = (action$, state, { api }) => action$.pipe(
-  filter(isActionOf(MindStreamActions.nextFeedSuccess)),
+  filter(isActionOf(MindStreamActions.nextFeed.success)),
   switchMap(({ payload: { feed, sourceUuid } }) => {
     if (state.value.mindStream.feeds.length === 1) {
       return of(
@@ -53,7 +53,7 @@ const reloadUnreadedFeedsEpic: EpicType = (action$, state, { api }) => action$.p
 const readFeedEpic: EpicType = (action$, state, dependencies) => action$.pipe(
   filter(isActionOf(MindStreamActions.readFeed)),
   mergeMap(({ payload: { feed, reaction, sourceUuid } }) => dependencies.api.feedReaction(state.value.app.token)(feed, reaction).pipe(
-    map(updatedFeed => MindStreamActions.nextFeedSuccess(updatedFeed, updatedFeed.rss_source_uuid)),
+    map(updatedFeed => MindStreamActions.nextFeed.success({ feed: updatedFeed, sourceUuid: updatedFeed.rss_source_uuid})),
     catchError((error: ApiErrors) => of(MindStreamActions.mindstreamApiError(error)))
   ))
 )
