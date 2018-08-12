@@ -19,9 +19,9 @@ const loadUnreadedFeedsEpic: EpicType = (action$, state, { api }) => action$.pip
 )
 
 const loadUnreadedFeedsBySourceEpic: EpicType = (action$, state, { api }) => action$.pipe(
-  filter(isActionOf(MindStreamActions.loadUnreadedFeedsBySource)),
-  switchMap(({ payload: { sourceUuid } }) => api.getRssFeeds(state.value.app.token, "Unreaded", sourceUuid).pipe(
-    map(MindStreamActions.loadUnreadedFeedsBySourceSuccess),
+  filter(isActionOf(MindStreamActions.loadUnreadedFeedsBySource.request)),
+  switchMap(({ payload }) => api.getRssFeeds(state.value.app.token, "Unreaded", payload).pipe(
+    map(MindStreamActions.loadUnreadedFeedsBySource.success),
     catchError((error: ApiErrors) => of(MindStreamActions.mindstreamApiError(error)))
   ))
 )
@@ -40,7 +40,7 @@ const reloadUnreadedFeedsEpic: EpicType = (action$, state, { api }) => action$.p
     if (state.value.mindStream.feeds.length === 1) {
       return of(
         (sourceUuid)
-          ? MindStreamActions.loadUnreadedFeedsBySource(sourceUuid)
+          ? MindStreamActions.loadUnreadedFeedsBySource.request(sourceUuid)
           : MindStreamActions.loadUnreadedFeeds.request(),
         MindStreamActions.goToNextFeed(sourceUuid)
       )
