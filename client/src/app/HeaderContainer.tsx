@@ -18,7 +18,7 @@ interface StateProps {
 type Props = StateProps & DispatchProps
 
 const HeaderContainer: React.SFC<Props> = ({ logout, isMenuOpen, menuToggle }) => (
-  <Header isMenuOpen={isMenuOpen} onMenuToggle={menuToggle} onLogout={logout} />
+  <Header isMenuOpen={isMenuOpen} onMenuToggle={menuToggle} />
 )
 
 const mapStateToProps = (state: GlobalState): StateProps => {
