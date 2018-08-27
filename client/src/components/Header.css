@@ -12,31 +12,15 @@
     cursor: pointer;
 }
 
-.links {
-    display: inline-flex;
-    overflow-y: scroll;
-}
-
 @media screen and (min-width: 760px) {
     .header {
         display: flex;
         align-content: center;
         box-shadow: 0 2px 5px 1px rgba(194, 194, 194, 0.20);
     }
-
-    .links {
-        display: flex;
-    }
 }
 
-.item {
-    color: #2D2D2D;
-    text-decoration: none;
-    padding: 10px 20px;
-    align-self: center;
-    cursor: pointer;
-}
-
-.item:hover {
-    background-color: #EEE;
+.appName {
+  display: flex;
+  align-items: center;
 }

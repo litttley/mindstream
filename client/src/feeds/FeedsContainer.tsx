@@ -8,6 +8,8 @@ import { FeedsActions } from "feeds/FeedsActions"
 import FeedsList from "feeds/components/FeedsList"
 import HeaderContainer from "app/HeaderContainer"
 import { Actions } from "Actions"
+import SideMenuContainer from "app/SideMenuContainer"
+import MenuContainer from "app/MenuContainer"
 
 interface PropsState {
   feeds: RssFeed[]
@@ -25,10 +27,10 @@ class FeedsContainer extends React.PureComponent<Props> {
   }
   render() {
     return (
-      <div style={{ flex: 1 }}>
+      <SideMenuContainer renderMenu={() => <MenuContainer />}>
         <HeaderContainer />
         <FeedsList feeds={this.props.feeds} />
-      </div>
+      </SideMenuContainer>
     )
   }
 }

@@ -3,32 +3,26 @@ import * as styles from "./Header.css"
 import MenuIcon from "./icons/MenuIcon"
 
 interface Props {
-    onMenuToggle(isMenuOpen: boolean): void
-    onLogout(): void
-    isMenuOpen?: boolean
+  onMenuToggle(isMenuOpen: boolean): void
+  isMenuOpen?: boolean
 }
 
 export default class Header extends React.PureComponent<Props> {
-    render() {
-        return (
-            <div className={styles.header}>
-                <div className={styles.menuToggle} onClick={this.handleOnMenuToggle}>
-                    <MenuIcon />
-                </div>
-                {this.props.isMenuOpen ?
-                    <div className={styles.links}>
-                        <a className={styles.item} href="#/">MindStream</a>
-                        <a className={styles.item} href="#/feeds">Feeds</a>
-                        <a className={styles.item} href="#/sources">Sources</a>
-                        <div className={styles.item} onClick={this.props.onLogout}>Logout</div>
-                    </div>
-                : null }
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div className={styles.header}>
+        <div className={styles.menuToggle} onClick={this.handleOnMenuToggle}>
+          <MenuIcon />
+        </div>
+        <div className={styles.appName}>
+          <div>Mindstream</div>
+        </div>
+      </div>
+    )
+  }
 
-    handleOnMenuToggle = () => {
-        const { onMenuToggle, isMenuOpen } = this.props
-        onMenuToggle(!isMenuOpen)
-    }
+  handleOnMenuToggle = () => {
+    const { onMenuToggle, isMenuOpen } = this.props
+    onMenuToggle(!isMenuOpen)
+  }
 }

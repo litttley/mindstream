@@ -1,0 +1,13 @@
+.menuContainer {
+  padding: 40px 10px 10px 10px
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  color: var(--clear-text-color);
+  padding: 10px 20px;
+}

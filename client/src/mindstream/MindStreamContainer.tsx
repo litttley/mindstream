@@ -12,6 +12,8 @@ import MindStreamCard from "./components/MindStreamCard"
 import HeaderContainer from "../app/HeaderContainer"
 import FeedActions from "./components/FeedActions"
 import { Actions } from "Actions"
+import SideMenuContainer from "app/SideMenuContainer"
+import MenuContainer from "app/MenuContainer"
 
 interface DispatchProps {
   onReaction(feed: RssFeed, reaction: Reaction, sourceUuid?: string): () => void
@@ -51,10 +53,10 @@ class MindStreamContainer extends React.PureComponent<Props> {
 
   render() {
     return (
-      <div className={styles.container}>
+      <SideMenuContainer renderMenu={() => <MenuContainer />}>
         <HeaderContainer />
         {this.renderStream()}
-      </div>
+      </SideMenuContainer>
     )
   }
 

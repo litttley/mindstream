@@ -1,0 +1,19 @@
+.sidenavContainer {
+  flex: 1;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  background-color: var(--dark-bg-color);
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.content {
+  transition: margin-left .5s;
+}
