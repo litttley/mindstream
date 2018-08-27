@@ -7,32 +7,32 @@ import { Actions } from "Actions"
 import Menu from "app/Menu"
 
 interface DispatchProps {
+  logout: () => void
 }
 
 interface StateProps {
+  // TODO
 }
 
-interface OwnProps {
-}
-
-type Props = OwnProps & StateProps & DispatchProps
+type Props = StateProps & DispatchProps
 
 class MenuContainer extends React.PureComponent<Props> {
   render() {
-    const { } = this.props
+    const { logout } = this.props
     return (
-      <Menu />
+      <Menu logout={logout} />
     )
   }
 }
 
-const mapStateToProps = (state: GlobalState, props: OwnProps): StateProps & OwnProps => {
+const mapStateToProps = (state: GlobalState): StateProps => {
   return {
   }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
   return {
+    logout: () => dispatch(AppActions.logout())
   }
 }
 

@@ -1,16 +1,14 @@
 import * as React from "react"
 import { Dispatch } from "redux"
 import { connect } from "react-redux"
-import * as ReactCSSTransitionGroup from "react-addons-css-transition-group"
 import { match as RouterMatch } from "react-router"
 
-import * as styles from "./MindStream.css"
-import { GlobalState } from "../app/AppState"
+import { GlobalState } from "app/AppState"
 import { RssFeed, Reaction } from "models/RssFeed"
-import { MindStreamActions } from "./MindStreamActions"
-import MindStreamCard from "./components/MindStreamCard"
-import HeaderContainer from "../app/HeaderContainer"
-import FeedActions from "./components/FeedActions"
+import { MindStreamActions } from "mindstream/MindStreamActions"
+import MindStreamCard from "mindstream/components/MindStreamCard"
+import HeaderContainer from "app/HeaderContainer"
+import FeedActions from "mindstream/components/FeedActions"
 import { Actions } from "Actions"
 import SideMenuContainer from "app/SideMenuContainer"
 import MenuContainer from "app/MenuContainer"
@@ -75,21 +73,7 @@ class MindStreamContainer extends React.PureComponent<Props> {
             onPreviousFeed={onPreviousFeed}
             onReaction={onReaction}
           />
-          <ReactCSSTransitionGroup
-            transitionName={{
-              enter: styles.transitionEnter,
-              enterActive: styles.transitionEnterActive,
-              leave: styles.transitionLeave,
-              leaveActive: styles.transitionLeaveActive,
-            }}
-            transitionEnterTimeout={400}
-            transitionLeaveTimeout={0}
-            key={feed.uuid}>
-            <MindStreamCard
-              key={feed.uuid}
-              feed={feed}
-            />
-          </ReactCSSTransitionGroup>
+          <MindStreamCard feed={feed} />
         </div>
       )
     } else if (loading) {

@@ -1,6 +1,6 @@
 import * as React from "react"
-
 import * as styles from "./SideMenu.css"
+import classNames from "utils/classNames"
 
 interface Props {
   isMenuOpen: boolean
@@ -11,10 +11,20 @@ interface Props {
 export default class SideMenu extends React.PureComponent<Props> {
   render() {
     const { isMenuOpen, children, renderMenu } = this.props
+    const sidenavClasses = classNames({
+      [styles.sidenav]: true,
+      [styles.sidenavOpen]: isMenuOpen,
+      [styles.sidenavClose]: !isMenuOpen,
+    })
+    const contentClasses = classNames({
+      [styles.content]: true,
+      [styles.contentOpen]: isMenuOpen,
+      [styles.contentClose]: !isMenuOpen,
+    })
     return (
       <div className={styles.sidenavContainer}>
-        <div className={styles.sidenav} style={{ width: isMenuOpen ? 250 : 0 }}>{renderMenu()}</div>
-        <div className={styles.content} style={{ marginLeft: isMenuOpen ? 250 : 0 }}>{children}</div>
+        <div className={sidenavClasses}>{renderMenu()}</div>
+        <div className={contentClasses}>{children}</div>
       </div>
     )
   }
