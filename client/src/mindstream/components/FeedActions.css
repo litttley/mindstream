@@ -1,21 +1,25 @@
 .container {
   display: flex;
-  height: 40px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  border-top: 1px solid #EEE;
+  z-index: 1000;
+}
+
+.actionNext, .actionPrevious {
+  margin-left: 20px;
 }
 
 .actionNext {
-  color: #1AA8E9;
+  background-color: var(--dark-bg-color);
 }
 
-.actionLike {
-  color: #309D22;
+.actionNext:hover {
+  background-color: var(--dark-hover-color);
 }
 
-.actionRead {
-  color: rgb(75, 75, 75);
+
+.actionPrevious {
+  background-color: #309D22;
 }

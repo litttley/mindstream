@@ -46,7 +46,7 @@ class MindStreamContainer extends React.PureComponent<Props> {
   }
 
   componentWillUnmount() {
-    document.removeEventListener("keydown", this.onKeyPressHandler as any, false) // TODO remove any
+    document.removeEventListener("keydown", this.onKeyPressHandler, false)
   }
 
   render() {
@@ -59,11 +59,11 @@ class MindStreamContainer extends React.PureComponent<Props> {
   }
 
   renderStream = () => {
-    const { feeds, loading, nextFeedLoader, sourceUuid, onReaction, onNextFeed, onPreviousFeed } = this.props
+    const { feeds, loading, nextFeedLoader, sourceUuid, onNextFeed, onPreviousFeed } = this.props
     if (feeds.length > 0) {
       const feed = feeds[0]
       return (
-        <div>
+        <>
           <FeedActions
             feed={feed}
             loading={loading}
@@ -71,10 +71,9 @@ class MindStreamContainer extends React.PureComponent<Props> {
             sourceUuid={sourceUuid}
             onNextFeed={onNextFeed}
             onPreviousFeed={onPreviousFeed}
-            onReaction={onReaction}
           />
           <MindStreamCard feed={feed} />
-        </div>
+        </>
       )
     } else if (loading) {
       return <div>Loading</div>

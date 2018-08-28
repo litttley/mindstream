@@ -1,13 +1,14 @@
 .action {
-  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
   border: none;
-  background-color: white;
-  font-size: .9rem;
+  font-size: .8rem;
   cursor: pointer;
   font-weight: bold;
   text-transform: uppercase;
-}
-
-.action:hover {
-  background-color: rgb(241, 241, 241);
+  color: var(--clear-text-color);
 }
