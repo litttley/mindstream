@@ -1,10 +1,10 @@
 import * as React from "react"
 import { Dispatch } from "redux"
 import { connect } from "react-redux"
-import { GlobalState } from "app/AppState"
 import { AppActions } from "app/AppActions"
 import { Actions } from "Actions"
 import Menu from "app/Menu"
+import { GlobalState } from "Store"
 
 interface DispatchProps {
   logout: () => void

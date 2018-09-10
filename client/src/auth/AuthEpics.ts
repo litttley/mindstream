@@ -6,7 +6,7 @@ import { filter, switchMap, map, catchError } from "rxjs/operators"
 import { ApiErrors } from "services/ApiError"
 import * as router from "router"
 import { AuthActions } from "auth/AuthActions"
-import { EpicType } from "EpicType"
+import { EpicType } from "RootEpic"
 
 const loginSubmitEpic: EpicType = (action$, _, { api }) => action$.pipe(
   filter(isActionOf(AuthActions.loginSubmit.request)),

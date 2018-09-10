@@ -1,0 +1,35 @@
+.tabsContainer {
+  width: 100%;
+}
+
+.tabs {
+  width: 100%;
+  display: inline-flex;
+}
+
+.tab {
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  font-size: .8rem;
+  text-transform: uppercase;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  border-top: 2px solid #DCDCDC;
+  cursor: pointer;
+}
+
+.tab:hover {
+  border-top: 2px solid var(--dark-hover-color);
+}
+
+.selected {
+  border-top: 2px solid var(--accent);
+  color: var(--accent);
+}
+
+.selected:hover {
+  border-top: 2px solid var(--dark-bg-color);
+  color: var(--dark-bg-color);
+}

@@ -1,7 +1,14 @@
 :root {
+
   --dark-bg-color: #114573;
   --dark-hover-color: #145288;
   --dark-text-color: #114573;
   --clear-text-color: #FFFFFF;
   --error-text-color: #F36262;
+
+  --accent: #42a5f5;
+
+  --bp-mobile: 480px;
+  --bp-medium: 980px;
+  --bp-large: 1280px;
 }

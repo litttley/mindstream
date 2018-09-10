@@ -28,7 +28,7 @@ pub fn is_user_feed_already_inserted(connection: &PgConnection, query_url: &str,
         .map(|feeds| feeds.len() > 0)
 }
 
-pub fn find_rss_feeds(connection: &PgConnection, limit: i64, offset: i64, reaction: &Reaction, user: &User) -> Result<Vec<RssFeed>, Error> {
+pub fn find_rss_feeds(connection: &PgConnection, limit: i64, offset: i64, reaction: &Reaction, user: &User) -> Result<Vec<(RssFeed, UserRssFeed)>, Error> {
     use schema::rss_feeds;
     rss_feeds::table
         .inner_join(users_rss_feeds::table)
@@ -39,11 +39,11 @@ pub fn find_rss_feeds(connection: &PgConnection, limit: i64, offset: i64, reacti
         .order_by(rss_feeds::updated.asc())
         .limit(limit)
         .offset(offset)
-        .select(rss_feeds::all_columns)
-        .get_results::<RssFeed>(&*connection)
+        .select((rss_feeds::all_columns, users_rss_feeds::all_columns))
+        .get_results::<(RssFeed, UserRssFeed)>(&*connection)
 }
 
-pub fn find_rss_feeds_by_rss_source(connection: &PgConnection, limit: i64, offset: i64, reaction: &Reaction, rss_source_uuid: &Uuid, user: &User) -> Result<Vec<RssFeed>, Error> {
+pub fn find_rss_feeds_by_rss_source(connection: &PgConnection, limit: i64, offset: i64, reaction: &Reaction, rss_source_uuid: &Uuid, user: &User) -> Result<Vec<(RssFeed, UserRssFeed)>, Error> {
     rss_feeds::table
         .inner_join(users_rss_feeds::table)
         .filter(
@@ -54,8 +54,8 @@ pub fn find_rss_feeds_by_rss_source(connection: &PgConnection, limit: i64, offse
         .order_by(rss_feeds::updated.asc())
         .limit(limit)
         .offset(offset)
-        .select(rss_feeds::all_columns)
-        .get_results::<RssFeed>(&*connection)
+        .select((rss_feeds::all_columns, users_rss_feeds::all_columns))
+        .get_results::<(RssFeed, UserRssFeed)>(&*connection)
 }
 
 pub fn update_rss_feed_reaction(connection: &PgConnection, rss_feed_uuid: &Uuid, query_reaction: &Reaction, user: &User) -> Result<UserRssFeed, Error> {

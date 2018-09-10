@@ -2,7 +2,6 @@ import * as React from "react"
 import { Dispatch } from "redux"
 import { connect } from "react-redux"
 
-import { GlobalState } from "app/AppState"
 import SignupForm from "auth/components/SignupForm"
 import { Actions } from "Actions"
 import { Signup } from "auth/Signup"
@@ -10,6 +9,7 @@ import { AuthActions } from "auth/AuthActions"
 import { ApiErrors } from "services/ApiError"
 import AuthLayout from "auth/components/AuthLayout"
 import LinkButton from "components/buttons/LinkButton"
+import { GlobalState } from "Store"
 
 interface StateProps {
   loading: boolean

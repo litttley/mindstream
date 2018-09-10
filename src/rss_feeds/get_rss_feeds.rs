@@ -2,6 +2,7 @@ use uuid::Uuid;
 use actix::prelude::*;
 use actix_web::{State, Query, HttpResponse, AsyncResponder};
 use futures::future::Future;
+use serde_json;
 
 use errors::Error;
 use auth::auth::Auth;
@@ -12,7 +13,7 @@ use app::config;
 use rss_feeds::rss_feed::RssFeed;
 use rss_feeds::users_rss_feeds_repository::find_rss_feeds;
 use rss_feeds::users_rss_feeds_repository::find_rss_feeds_by_rss_source;
-use rss_feeds::user_rss_feed::Reaction;
+use rss_feeds::user_rss_feed::{Reaction, UserRssFeed};
 
 #[derive(Debug, Deserialize)]
 pub struct RssFeedsQuery {
@@ -35,11 +36,11 @@ impl GetRssFeeds {
 }
 
 impl Message for GetRssFeeds {
-    type Result = Result<Vec<RssFeed>, Error>;
+    type Result = Result<Vec<(RssFeed, UserRssFeed)>, Error>;
 }
 
 impl Handler<GetRssFeeds> for DbExecutor {
-    type Result = Result<Vec<RssFeed>, Error>;
+    type Result = Result<Vec<(RssFeed, UserRssFeed)>, Error>;
 
     fn handle(&mut self, message: GetRssFeeds, _: &mut Self::Context) -> Self::Result {
         let connexion = self.pool.get()?;
@@ -66,7 +67,10 @@ pub fn get_rss_feeds((query, auth, state): (Query<RssFeedsQuery>, Auth, State<Ap
         .from_err()
         .and_then(|res| {
             match res {
-                Ok(rss_feeds) => Ok(HttpResponse::Ok().json(rss_feeds)),
+                Ok(rss_feeds) => Ok(HttpResponse::Ok().json(rss_feeds.iter().map(|(rss_feed, user_rss_feed)| json!({
+                  "rss_feed": rss_feed,
+                  "user_rss_feed": user_rss_feed,
+                })).collect::<serde_json::Value>())),
                 Err(err) => Err(err.into())
             }
         })

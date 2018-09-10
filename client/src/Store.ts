@@ -1,9 +1,10 @@
-import { createStore, combineReducers, applyMiddleware, Reducer } from "redux"
+import { createStore, combineReducers, applyMiddleware } from "redux"
 import { composeWithDevTools } from "redux-devtools-extension"
 import { createEpicMiddleware } from "redux-observable"
 import { persistStore, persistReducer } from "redux-persist"
 import storage from "redux-persist/lib/storage"
-import { routerReducer, routerMiddleware } from "react-router-redux"
+import { connectRouter, routerMiddleware } from "connected-react-router"
+import { StateType } from "typesafe-actions"
 import { history } from "router"
 
 import AppReducer from "app/AppReducer"
@@ -12,8 +13,7 @@ import MindStreamReducer from "mindstream/MindStreamReducer"
 import SourcesReducer from "rssSources/SourcesReducer"
 
 import RootEpic from "RootEpic"
-import { Dependencies, GlobalState } from "app/AppState"
-import { createApiInstance } from "services/Api"
+import { createApiInstance, Requests } from "services/Api"
 import AuthReducer from "auth/AuthReducer"
 
 const persistConfig = {
@@ -22,29 +22,34 @@ const persistConfig = {
   blacklist: ["auth", "feeds", "mindStream", "sources"]
 }
 
+export interface Dependencies {
+  api: Requests
+}
+
 const dependencies: Dependencies = {
   api: createApiInstance()
 }
 
-const middleware = routerMiddleware(history)
-
-const reducers = combineReducers<GlobalState>({
+const rootReducer = combineReducers({
   app: AppReducer,
   auth: AuthReducer,
   feeds: FeedsReducer,
   mindStream: MindStreamReducer,
   sources: SourcesReducer,
-  router: routerReducer
 })
+
+export type GlobalState = StateType<typeof rootReducer>
 
 const epicMiddleware = createEpicMiddleware({ dependencies })
 
-const persistedReducer: Reducer<GlobalState> = persistReducer(persistConfig, reducers)
+const routedReducer = connectRouter(history)(rootReducer)
+const persistedReducer = persistReducer(persistConfig, routedReducer)
 
 const enhancer = composeWithDevTools(
-  applyMiddleware(middleware),
+  applyMiddleware(routerMiddleware(history)),
   applyMiddleware(epicMiddleware),
 )
+
 export const store = createStore(persistedReducer, enhancer)
 export const persistor = persistStore(store)
 

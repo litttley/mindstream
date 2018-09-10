@@ -1,14 +1,12 @@
-import { RouterAction } from "react-router-redux"
 import { AppAction } from "app/AppActions"
-import { MindStreamAction } from "mindstream/MindStreamActions"
+import { MindstreamAction } from "mindstream/MindstreamActions"
 import { SourcesAction } from "rssSources/SourcesActions"
 import { FeedsAction } from "feeds/FeedsActions"
 import { AuthAction } from "auth/AuthActions"
 
 export type Actions =
-  RouterAction |
+  MindstreamAction |
   AppAction |
-  MindStreamAction |
   SourcesAction |
   FeedsAction |
   AuthAction

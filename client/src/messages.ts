@@ -4,4 +4,6 @@ export default {
   "validation.login.short": "Login sould be grater than {min}",
   "validation.password.short": "Password should be grater than {min}",
   "validation.error": "Validations errors",
+
+  "noTitle": "No title",
 }

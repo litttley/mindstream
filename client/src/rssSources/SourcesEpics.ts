@@ -4,8 +4,8 @@ import { of } from "rxjs"
 import { filter, switchMap, mergeMap, map, catchError } from "rxjs/operators"
 
 import { ApiErrors } from "services/ApiError"
-import { EpicType } from "EpicType"
 import { SourcesActions } from "rssSources/SourcesActions"
+import { EpicType } from "RootEpic"
 
 const addSourceEpic: EpicType = (action$, state, { api }) => action$.pipe(
   filter(isActionOf(SourcesActions.addSource.request)),

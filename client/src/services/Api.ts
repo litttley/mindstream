@@ -1,12 +1,13 @@
 import Axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from "axios"
 import { Observable, Observer } from "rxjs"
-import { Validator } from "validation.ts"
+import { Validator, array } from "validation.ts"
 import * as router from "router"
-import { RssFeed, Reaction } from "models/RssFeed"
+import { RssFeed, Reaction, UserRssFeed, UserRssFeedValidator } from "models/RssFeed"
 import { RssSource, MyRssSources } from "models/RssSource"
 import { AuthResponse, AuthResponseValidator } from "services/AuthResponse"
 import { Login } from "auth/Login"
 import { Signup } from "auth/Signup"
+import { RssFeedsResponse, RssFeedsResponseValidator } from "services/RssFeedsResponse"
 
 export interface Requests {
   signup(signup: Signup): Observable<AuthResponse>
@@ -16,8 +17,8 @@ export interface Requests {
   loadMySources(token: string): Observable<MyRssSources[]>
   addSource(token: string): (url: string) => Observable<RssSource>
   fallowSource(token: string): (rssSource: RssSource) => Observable<RssSource>
-  getRssFeeds(token: string, reaction: Reaction, sourceUuid?: string): Observable<RssFeed[]>
-  feedReaction(token: string): (rssFeed: RssFeed, reaction: Reaction) => Observable<RssFeed>
+  getRssFeeds(token: string, reaction: Reaction, sourceUuid?: string): Observable<RssFeedsResponse[]>
+  feedReaction(token: string): (rssFeed: RssFeed, reaction: Reaction) => Observable<UserRssFeed>
 }
 
 type Request = <T>(config: AxiosRequestConfig, validator?: Validator<T>) => Observable<T>
@@ -60,13 +61,13 @@ export function createRequests(request: Request): Requests {
     getRssFeeds: (token, reaction, sourceUuid) => request({
       url: `/api/rss/feeds${querystring({ reaction, rss_source_uuid: sourceUuid })}`,
       headers: { Authorization: token }
-    }),
+    }, array(RssFeedsResponseValidator)),
     feedReaction: token => (rssFeed, reaction) => request({
       url: `/api/rss/feeds/reaction`,
       method: "PUT",
       data: { rss_feed_uuid: rssFeed.uuid, reaction },
       headers: { Authorization: token }
-    })
+    }, UserRssFeedValidator)
   }
 }
 

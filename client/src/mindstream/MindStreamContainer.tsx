@@ -3,28 +3,31 @@ import { Dispatch } from "redux"
 import { connect } from "react-redux"
 import { match as RouterMatch } from "react-router"
 
-import { GlobalState } from "app/AppState"
 import { RssFeed, Reaction } from "models/RssFeed"
-import { MindStreamActions } from "mindstream/MindStreamActions"
-import MindStreamCard from "mindstream/components/MindStreamCard"
+import { MindstreamActions } from "mindstream/MindstreamActions"
 import HeaderContainer from "app/HeaderContainer"
 import FeedActions from "mindstream/components/FeedActions"
 import { Actions } from "Actions"
 import SideMenuContainer from "app/SideMenuContainer"
 import MenuContainer from "app/MenuContainer"
+import FeedCard from "mindstream/components/FeedCard"
+import { RssFeedsResponse } from "services/RssFeedsResponse"
+import { GlobalState } from "Store"
 
 interface DispatchProps {
   onReaction(feed: RssFeed, reaction: Reaction, sourceUuid?: string): () => void
   loadUnreadedFeeds(): void
   loadUnreadedFeedsBySource(sourceUuid: string): void
   onNextFeed(feed: RssFeed, sourceUuid: string | undefined): void
+  onLike: (feed: RssFeed) => void
   onPreviousFeed(sourceUuid: string | undefined): void
 }
 
 interface StateProps {
-  feeds: RssFeed[]
+  feeds: RssFeedsResponse[]
   loading: boolean
   nextFeedLoader: boolean
+  likedLoading: boolean
 }
 
 interface Params {
@@ -59,20 +62,20 @@ class MindStreamContainer extends React.PureComponent<Props> {
   }
 
   renderStream = () => {
-    const { feeds, loading, nextFeedLoader, sourceUuid, onNextFeed, onPreviousFeed } = this.props
+    const { feeds, loading, nextFeedLoader, sourceUuid, onNextFeed, onPreviousFeed, onLike, likedLoading } = this.props
     if (feeds.length > 0) {
       const feed = feeds[0]
       return (
         <>
           <FeedActions
-            feed={feed}
+            feed={feed.rss_feed}
             loading={loading}
             nextFeedLoader={nextFeedLoader}
             sourceUuid={sourceUuid}
             onNextFeed={onNextFeed}
             onPreviousFeed={onPreviousFeed}
           />
-          <MindStreamCard feed={feed} />
+          <FeedCard feed={feed} onLike={onLike} likedLoading={likedLoading} />
         </>
       )
     } else if (loading) {
@@ -85,7 +88,7 @@ class MindStreamContainer extends React.PureComponent<Props> {
   onKeyPressHandler = (event: KeyboardEvent) => {
     const { feeds, onNextFeed, onPreviousFeed, sourceUuid, nextFeedLoader } = this.props
     if (!nextFeedLoader && feeds.length > 0 && event.code === "ArrowRight" || event.code === "KeyD") {
-      onNextFeed(feeds[0], sourceUuid)
+      onNextFeed(feeds[0].rss_feed, sourceUuid)
     } else if (feeds.length > 0 && event.code === "ArrowLeft" || event.code === "KeyQ" || event.code === "KeyA") {
       onPreviousFeed(sourceUuid)
     }
@@ -98,17 +101,19 @@ const mapStateToProps = (state: GlobalState, props?: { match?: RouterMatch<Param
     sourceUuid,
     feeds: state.mindStream.feeds,
     loading: state.mindStream.loading,
-    nextFeedLoader: state.mindStream.nextFeedLoader
+    nextFeedLoader: state.mindStream.nextFeedLoader,
+    likedLoading: state.mindStream.likedLoading,
   }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
   return {
-    loadUnreadedFeeds: () => dispatch(MindStreamActions.loadUnreadedFeeds.request()),
-    loadUnreadedFeedsBySource: (sourceUuid: string) => dispatch(MindStreamActions.loadUnreadedFeedsBySource.request(sourceUuid)),
-    onReaction: (feed, reaction, sourceUuid?: string) => () => dispatch(MindStreamActions.readFeed({feed, reaction, sourceUuid})),
-    onNextFeed: (feed, sourceUuid: string | undefined) => dispatch(MindStreamActions.nextFeed.request({feed, sourceUuid})),
-    onPreviousFeed: (sourceUuid: string | undefined) => dispatch(MindStreamActions.previousFeed(sourceUuid)),
+    loadUnreadedFeeds: () => dispatch(MindstreamActions.loadUnreadedFeeds.request()),
+    loadUnreadedFeedsBySource: (sourceUuid: string) => dispatch(MindstreamActions.loadUnreadedFeedsBySource.request(sourceUuid)),
+    onReaction: (feed, reaction, sourceUuid?: string) => () => dispatch(MindstreamActions.readFeed({feed, reaction, sourceUuid})),
+    onNextFeed: (feed, sourceUuid: string | undefined) => dispatch(MindstreamActions.nextFeed.request({feed, sourceUuid})),
+    onPreviousFeed: (sourceUuid: string | undefined) => dispatch(MindstreamActions.previousFeed(sourceUuid)),
+    onLike: feed => dispatch(MindstreamActions.like.request(feed)),
   }
 }
 

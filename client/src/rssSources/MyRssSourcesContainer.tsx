@@ -3,11 +3,11 @@ import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import * as styles from "./MyRssSourcesContainer.css"
 
-import { GlobalState } from "app/AppState"
 import { SourcesActions } from "./SourcesActions"
 import { MyRssSources } from "models/RssSource"
 import SourcesList from "./components/SourcesList"
 import { Actions } from "Actions"
+import { GlobalState } from "Store"
 
 interface DispatchProps {
   onLoadMySources: () => void

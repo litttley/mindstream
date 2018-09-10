@@ -3,10 +3,10 @@ import { Dispatch } from "redux"
 import { connect } from "react-redux"
 import * as styles from "rssSources/UnfollowedRssSourcesContainer.css"
 import { Actions } from "Actions"
-import { GlobalState } from "app/AppState"
 import { RssSource } from "models/RssSource"
 import { SourcesActions } from "rssSources/SourcesActions"
 import SourcesList from "rssSources/components/SourcesList"
+import { GlobalState } from "Store"
 
 interface DispatchProps {
   onLoadUnfollowedSources: () => void
