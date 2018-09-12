@@ -103,4 +103,4 @@ function stripScriptWithBrowser(html: string): string {
   return div.innerHTML
 }
 
-export default injectIntl<Props>(FeedCard)
+export default injectIntl(FeedCard)
