@@ -8,13 +8,11 @@ pub struct Config {
     pub mercury_api_key: String,
     pub rss_job_interval: Duration,
     pub default_limit: i64,
+    pub host: String,
+    pub port: usize,
 }
 
 impl Config {
-    pub fn new(secret_key: String, database_url: String, mercury_api_key: String, rss_job_interval: Duration, default_limit: i64) -> Self {
-        Config { secret_key, database_url, mercury_api_key, rss_job_interval, default_limit }
-    }
-
     pub fn from_env() -> Self {
         let secret_key = env::var("SECRET_KEY").expect("SECRET_KEY must be set");
         let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
@@ -24,7 +22,19 @@ impl Config {
         let rss_job_interval = Duration::from_secs(rss_job_interval);
         let default_limit = env::var("DEFAULT_LIMIT").expect("DEFAULT_LIMIT must be an integer");
         let default_limit = default_limit.parse().expect("DEFAULT_LIMIT must be an integer");
-        Config::new(secret_key, database_url, mercury_api_key, rss_job_interval, default_limit)
+        let host = env::var("HOST").expect("HOST must be set");
+        let port = env::var("PORT").expect("PORT must be set");
+        let port = port.parse().expect("PORT must be an integer");
+
+        Config {
+          secret_key,
+          database_url,
+          mercury_api_key,
+          rss_job_interval,
+          default_limit,
+          host,
+          port,
+        }
     }
 }
 

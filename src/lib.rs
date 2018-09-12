@@ -69,6 +69,7 @@ use rss_sources::my_rss_sources::my_rss_sources;
 use rss_feeds::rss_feeds_job::run_rss_job;
 use rss_feeds::get_rss_feeds::get_rss_feeds;
 use rss_feeds::change_rss_feed_reaction::change_rss_feed_reaction;
+use app::config;
 
 fn me(auth: Auth) -> HttpResponse {
     HttpResponse::Ok().json(auth.claime.user)
@@ -84,6 +85,10 @@ pub fn run() {
     let _ = run_rss_job(pool.clone());
 
     let db_addr = SyncArbiter::start(3, move || DbExecutor::new(pool.clone()));
+
+    let host = &config::CONFIG.host;
+    let port = &config::CONFIG.port;
+    let address = format!("{}:{}", host, port);
 
     server::new(move || vec![
         App::with_state(AppState::new(db_addr.clone()))
@@ -103,11 +108,11 @@ pub fn run() {
             .boxed(),
         assets::create_static_assets_app().boxed(),
     ])
-    .bind("127.0.0.1:8999")
-    .expect("Can not bind to 127.0.0.1:8999")
+    .bind(&address)
+    .expect(&format!("Can not bind to {}", &address))
     .start();
 
-    info!("Run server at 127.0.0.1:8999");
+    info!("Run server at {}", &address);
 
     let _ = sys.run();
 }

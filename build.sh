@@ -3,9 +3,6 @@
 echo "Run build client"
 cd client && npm install && npm run build && cd ..
 
-echo "Run build mobile"
-cd mobile && npm install && npm run build && cd ..
-
 echo "Run test server"
 cargo test --all
 echo "Run build server"
