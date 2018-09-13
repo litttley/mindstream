@@ -1,4 +1,5 @@
 use std::thread;
+use std::time::Duration;
 use reqwest::Client;
 use url::Url;
 use r2d2::Pool;
@@ -39,7 +40,7 @@ pub fn run_rss_job(pool: Pool<ConnectionManager<PgConnection>>) {
             if let Err(err) = process_feeds(&client, &pool) {
                 error!("process_rss error {:?}", err);
             }
-            thread::sleep(rss_job_interval);
+            thread::sleep(Duration::from_secs(rss_job_interval));
         }
     });
 }

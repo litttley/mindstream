@@ -40,6 +40,9 @@ extern crate strum;
 #[macro_use]
 extern crate strum_macros;
 extern crate url;
+#[macro_use]
+extern crate envconfig_derive;
+extern crate envconfig;
 
 use actix_web::middleware::Logger;
 use actix_web::{server, App, http::Method, HttpResponse};
