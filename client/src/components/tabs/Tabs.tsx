@@ -17,18 +17,9 @@ export default class Tabs extends React.PureComponent<Props> {
   render() {
     const { children, selectedTabName } = this.props
     const childrens = React.Children.map(children, ch => ch)
-    const tabs = childrens
-      .filter(isReactElement)
-      // tslint:disable-next-line:no-any
-      .filter(ch => !!ch && !!ch.type && (ch.type as any).name === "Tab")
+    const tabs = childrens.filter(isReactElement)
     const labels = tabs.map(ch => ch.props as TabProps)
     const SelectedTab = tabs.find(ch => (ch.props as TabProps).name === selectedTabName)
-    if (tabs.length !== childrens.length) {
-      throw new Error("Tabs accepte only Tab component as childrens")
-    }
-    if (!SelectedTab) {
-      throw new Error("Unknown Tab name")
-    }
     return (
       <div className={styles.tabsContainer}>
         <div className={styles.tabs}>
