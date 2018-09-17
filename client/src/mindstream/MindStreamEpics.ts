@@ -1,7 +1,7 @@
 import { combineEpics } from "redux-observable"
 import { isActionOf } from "typesafe-actions"
 import { of } from "rxjs"
-import { filter, switchMap, mergeMap, map, catchError, delay } from "rxjs/operators"
+import { filter, switchMap, mergeMap, map, catchError } from "rxjs/operators"
 
 import { MindstreamActions } from "mindstream/MindstreamActions"
 import { ApiErrors } from "services/ApiError"
@@ -65,7 +65,6 @@ const readFeedEpic: EpicType = (action$, state, dependencies) => action$.pipe(
 
 const getFeedEpic: EpicType = action$ => action$.pipe(
   filter(isActionOf(MindstreamActions.getFeed.request)),
-  delay(1000),
   map(() => MindstreamActions.getFeed.success(undefined))
 )
 

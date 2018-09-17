@@ -36,9 +36,9 @@ interface Params {
 
 type Props = StateProps & DispatchProps & Params
 
-class MindStreamContainer extends React.PureComponent<Props> {
+class MindstreamContainer extends React.PureComponent<Props> {
   componentWillMount() {
-    console.log("MindStreamContainer")
+    console.log("MindstreamContainer")
     const { sourceUuid, loadUnreadedFeedsBySource, loadUnreadedFeeds } = this.props
     if (sourceUuid) {
       loadUnreadedFeedsBySource(sourceUuid)
@@ -117,4 +117,4 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MindStreamContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(MindstreamContainer)

@@ -6,6 +6,7 @@ import { filter, switchMap, mergeMap, map, catchError } from "rxjs/operators"
 import { ApiErrors } from "services/ApiError"
 import { SourcesActions } from "rssSources/SourcesActions"
 import { EpicType } from "RootEpic"
+import { AppActions } from "app/AppActions";
 
 const addSourceEpic: EpicType = (action$, state, { api }) => action$.pipe(
   filter(isActionOf(SourcesActions.addSource.request)),
@@ -24,7 +25,7 @@ const loadUnfollowedSourcesEpic: EpicType = (action$, state, { api }) => action$
 )
 
 const loadMySourcesEpic: EpicType = (action$, state, { api }) => action$.pipe(
-  filter(isActionOf(SourcesActions.loadMySources.request)),
+  filter(isActionOf(AppActions.start)),
   switchMap(() => api.loadMySources(state.value.app.token).pipe(
     map(SourcesActions.loadMySources.success),
     catchError((error: ApiErrors) => of(SourcesActions.loadMySources.failure(error)))

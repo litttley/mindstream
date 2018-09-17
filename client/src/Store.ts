@@ -1,4 +1,4 @@
-import { createStore, combineReducers, applyMiddleware } from "redux"
+import { Store, createStore, combineReducers, applyMiddleware } from "redux"
 import { composeWithDevTools } from "redux-devtools-extension"
 import { createEpicMiddleware } from "redux-observable"
 import { persistStore, persistReducer } from "redux-persist"
@@ -15,6 +15,7 @@ import SourcesReducer from "rssSources/SourcesReducer"
 import RootEpic from "RootEpic"
 import { createApiInstance, Requests } from "services/Api"
 import AuthReducer from "auth/AuthReducer"
+import { Actions } from "Actions"
 
 const persistConfig = {
   key: "root_mindstream",
@@ -50,7 +51,7 @@ const enhancer = composeWithDevTools(
   applyMiddleware(epicMiddleware),
 )
 
-export const store = createStore(persistedReducer, enhancer)
+export const store: Store<GlobalState, Actions> = createStore(persistedReducer, enhancer)
 export const persistor = persistStore(store)
 
 // tslint:disable-next-line:no-any

@@ -5,6 +5,7 @@
     proc_macro_derive_resolution_fallback
   )
 )]
+#![allow(proc_macro_derive_resolution_fallback)]
 
 extern crate actix;
 extern crate actix_web;

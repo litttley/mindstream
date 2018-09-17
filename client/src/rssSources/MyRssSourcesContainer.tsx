@@ -1,28 +1,16 @@
 import * as React from "react"
 import { connect } from "react-redux"
-import { Dispatch } from "redux"
 import * as styles from "./MyRssSourcesContainer.css"
 
-import { SourcesActions } from "./SourcesActions"
 import { MyRssSources } from "models/RssSource"
 import SourcesList from "./components/SourcesList"
-import { Actions } from "Actions"
 import { GlobalState } from "Store"
 
-interface DispatchProps {
-  onLoadMySources: () => void
-}
-
-interface StateProps {
+interface Props {
   myRssSources: MyRssSources[]
 }
 
-type Props = StateProps & DispatchProps
-
 class MyRssSourcesContainer extends React.PureComponent<Props> {
-  componentWillMount() {
-    this.props.onLoadMySources()
-  }
   render() {
     return (
       <div className={styles.myRssSources}>
@@ -56,15 +44,9 @@ class MyRssSourcesContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
-  return {
-    onLoadMySources: () => dispatch(SourcesActions.loadMySources.request()),
-  }
-}
-
-const mapStateToProps = (state: GlobalState): StateProps => {
+const mapStateToProps = (state: GlobalState): Props => {
   const { myRssSources } = state.sources
   return { myRssSources }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyRssSourcesContainer)
+export default connect(mapStateToProps)(MyRssSourcesContainer)
