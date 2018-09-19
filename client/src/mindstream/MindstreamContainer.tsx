@@ -63,7 +63,7 @@ class MindstreamContainer extends React.PureComponent<Props> {
 
   renderStream = () => {
     const { feeds, loading, nextFeedLoader, sourceUuid, onNextFeed, onPreviousFeed, onLike, likedLoading } = this.props
-    if (feeds.length > 0) {
+    if (!loading && feeds.length > 0) {
       const feed = feeds[0]
       return (
         <>

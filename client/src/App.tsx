@@ -30,7 +30,9 @@ export default class App extends React.PureComponent {
                 <Route exact path="/" component={MindstreamContainer}/>
                 <Route exact path="/feed/:uuid" component={FeedScreen} />
                 <Route exact path="/feeds" component={FeedsScreen}/>
-                <Route exact path="/stream/:sourceUuid" component={MindstreamContainer}/>
+                <Route exact path="/stream/:sourceUuid" render={props => {
+                  return <MindstreamContainer key={props.match.params.sourceUuid} {...props} />
+                }}/>
                 <Route exact path="/sources" component={RssSourcesPage}/>
                 <Route exact path="/login" component={LoginContainer}/>
                 <Route exact path="/signup" component={SignupContainer}/>

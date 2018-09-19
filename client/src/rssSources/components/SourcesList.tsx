@@ -1,10 +1,10 @@
 import * as React from "react"
 import * as styles from "./SourcesList.css"
-import { RssSource, MyRssSources } from "models/RssSource"
+import { RssSource, MyRssSource } from "models/RssSource"
 import RssSourceComponent from "../components/RssSourceComponent"
 
 interface Props {
-  sources: MyRssSources[]
+  sources: MyRssSource[]
   fallowSource?: (source: RssSource) => void
 }
 

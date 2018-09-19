@@ -1,5 +1,5 @@
 .menuContainer {
-  padding: 40px 10px 10px 10px
+  padding-top: 40px;
 }
 
 .links {
@@ -8,6 +8,12 @@
 }
 
 .item {
+  text-decoration: none;
   color: var(--clear-text-color);
   padding: 10px 20px;
+  cursor: pointer;
+}
+
+.item:hover {
+  background-color: var(--dark-hover-color);
 }

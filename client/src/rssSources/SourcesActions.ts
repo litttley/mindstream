@@ -1,5 +1,5 @@
 import { createAsyncAction, createStandardAction, ActionType } from "typesafe-actions"
-import { RssSource, MyRssSources } from "models/RssSource"
+import { RssSource, MyRssSource } from "models/RssSource"
 import { ApiErrors } from "services/ApiError"
 
 export const SourcesActions = {
@@ -8,7 +8,7 @@ export const SourcesActions = {
   )<void, RssSource[], ApiErrors>(),
   loadMySources: createAsyncAction(
     "LoadMySourcesRequest", "LoadMySourcesSuccess", "LoadMySourcesFailure"
-  )<void, MyRssSources[], ApiErrors>(),
+  )<void, MyRssSource[], ApiErrors>(),
   fallowSources: createAsyncAction(
     "FallowSourcesRequest", "FallowSourcesSuccess", "FallowSourcesFailure"
   )<RssSource, RssSource, ApiErrors>(),

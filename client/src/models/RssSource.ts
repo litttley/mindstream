@@ -17,10 +17,10 @@ export const RssSourceValidator = object({
   updated: string,
 })
 
-export const MyRssSourcesValidator = object({
+export const MyRssSourceValidator = object({
   rss_source: RssSourceValidator,
   unreaded: number
 })
 
 export type RssSource = typeof RssSourceValidator.T
-export type MyRssSources = typeof MyRssSourcesValidator.T
+export type MyRssSource = typeof MyRssSourceValidator.T

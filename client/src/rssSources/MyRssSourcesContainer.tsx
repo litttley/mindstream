@@ -2,12 +2,12 @@ import * as React from "react"
 import { connect } from "react-redux"
 import * as styles from "./MyRssSourcesContainer.css"
 
-import { MyRssSources } from "models/RssSource"
+import { MyRssSource } from "models/RssSource"
 import SourcesList from "./components/SourcesList"
 import { GlobalState } from "Store"
 
 interface Props {
-  myRssSources: MyRssSources[]
+  myRssSources: MyRssSource[]
 }
 
 class MyRssSourcesContainer extends React.PureComponent<Props> {
