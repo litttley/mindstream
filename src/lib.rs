@@ -27,8 +27,6 @@ extern crate bcrypt;
 extern crate jsonwebtoken;
 #[macro_use]
 extern crate lazy_static;
-#[macro_use]
-extern crate hyper;
 extern crate reqwest;
 extern crate feed_rs;
 extern crate validator;
