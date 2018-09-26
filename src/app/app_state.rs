@@ -1,4 +1,4 @@
-use actix::prelude::*;
+use actix::Addr;
 
 use app::db::DbExecutor;
 

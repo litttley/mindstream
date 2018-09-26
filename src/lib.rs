@@ -82,7 +82,7 @@ pub fn run() {
 
     let sys = actix::System::new("mindstream");
 
-    let pool = create_diesel_pool();
+    let pool = create_diesel_pool(config::CONFIG.database_url.clone());
 
     let _ = run_rss_job(pool.clone());
 

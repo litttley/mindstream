@@ -1,14 +1,7 @@
-use actix::prelude::*;
+use actix::{Actor, SyncContext};
 use r2d2::Pool;
 use r2d2_diesel::ConnectionManager;
 use diesel::PgConnection;
-
-use app::config;
-
-pub fn create_diesel_pool() -> Pool<ConnectionManager<PgConnection>> {
-    let manager = ConnectionManager::<PgConnection>::new(config::CONFIG.database_url.clone());
-    Pool::builder().build(manager).expect("Failed to create pool")
-}
 
 pub struct DbExecutor {
     pub pool: Pool<ConnectionManager<PgConnection>>,
@@ -21,4 +14,9 @@ impl DbExecutor {
 
 impl Actor for DbExecutor {
     type Context = SyncContext<Self>;
+}
+
+pub fn create_diesel_pool(database_url: impl Into<String>) -> Pool<ConnectionManager<PgConnection>> {
+    let manager = ConnectionManager::<PgConnection>::new(database_url);
+    Pool::builder().build(manager).expect("Failed to create pool")
 }
