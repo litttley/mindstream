@@ -1,13 +1,13 @@
 use uuid::Uuid;
 use chrono::prelude::*;
 use chrono::NaiveDateTime;
-use bcrypt::{DEFAULT_COST, hash, verify, BcryptError};
+use bcrypt::{hash, verify, BcryptError, DEFAULT_COST};
 
-use schema::users;
 use errors::Error;
+use schema::users;
 
 #[derive(Debug, Clone, PartialEq, Deserialize, Serialize, Queryable, Insertable)]
-#[table_name="users"]
+#[table_name = "users"]
 pub struct User {
     pub uuid: Uuid,
     pub login: String,
@@ -19,20 +19,28 @@ pub struct User {
 }
 
 impl User {
-    fn new(login: &str, email: &str, password: &str) -> Self {
+    fn new(
+        login: impl Into<String>,
+        email: impl Into<String>,
+        password: impl Into<String>,
+    ) -> Self {
         User {
             uuid: Uuid::new_v4(),
-            login: login.to_owned(),
-            email: email.to_owned(),
-            password: password.to_owned(),
+            login: login.into(),
+            email: email.into(),
+            password: password.into(),
             created: Utc::now().naive_utc(),
-            updated: Utc::now().naive_utc()
+            updated: Utc::now().naive_utc(),
         }
     }
 
-    pub fn new_secure(login: &str, email: &str, password: &str) -> Result<Self, Error> {
-        let hashed_password = hash_password(&password)?;
-        let user = User::new(login, email, &hashed_password);
+    pub fn new_secure(
+        login: impl Into<String>,
+        email: impl Into<String>,
+        password: impl Into<String>,
+    ) -> Result<Self, Error> {
+        let hashed_password = hash_password(&password.into())?;
+        let user = User::new(login, email, hashed_password);
         Ok(user)
     }
 }

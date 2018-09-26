@@ -1,48 +1,56 @@
-use diesel;
-use actix_web::{HttpResponse, ResponseError, http};
-use actix_web::error::JsonPayloadError;
 use actix;
-use r2d2;
+use actix_web::error::JsonPayloadError;
+use actix_web::{http, HttpResponse, ResponseError};
 use bcrypt;
+use diesel;
 use jsonwebtoken;
+use r2d2;
 use reqwest;
 use validator;
 
 #[derive(Debug, Serialize)]
 pub struct ApiError {
     message: String,
-    errors: Option<validator::ValidationErrors>
+    errors: Option<validator::ValidationErrors>,
 }
 
 impl ApiError {
     pub fn new(message: &str) -> Self {
-        Self { message: message.to_owned(), errors: None }
+        Self {
+            message: message.to_owned(),
+            errors: None,
+        }
     }
 
     pub fn with_errors(message: &str, errors: validator::ValidationErrors) -> Self {
-        Self { message: message.to_owned(), errors: Some(errors) }
+        Self {
+            message: message.to_owned(),
+            errors: Some(errors),
+        }
     }
 }
 
 #[derive(Fail, Debug)]
 pub enum Error {
-   #[fail(display="internal error")]
-   InternalError,
-   #[fail(display="bad request")]
-   BadRequest(ApiError),
-   #[fail(display="not found")]
-   NotFound,
-   #[fail(display="timeout")]
-   Timeout,
-   #[fail(display="unauthorized")]
-   Unauthorized,
+    #[fail(display = "internal error")]
+    InternalError,
+    #[fail(display = "bad request")]
+    BadRequest(ApiError),
+    #[fail(display = "not found")]
+    NotFound,
+    #[fail(display = "timeout")]
+    Timeout,
+    #[fail(display = "unauthorized")]
+    Unauthorized,
 }
 
 impl ResponseError for Error {
     fn error_response(&self) -> HttpResponse {
         match *self {
             Error::InternalError => HttpResponse::new(http::StatusCode::INTERNAL_SERVER_ERROR),
-            Error::BadRequest(ref api_error) => HttpResponse::build(http::StatusCode::BAD_REQUEST).json(api_error),
+            Error::BadRequest(ref api_error) => {
+                HttpResponse::build(http::StatusCode::BAD_REQUEST).json(api_error)
+            }
             Error::NotFound => HttpResponse::new(http::StatusCode::NOT_FOUND),
             Error::Timeout => HttpResponse::new(http::StatusCode::GATEWAY_TIMEOUT),
             Error::Unauthorized => HttpResponse::new(http::StatusCode::UNAUTHORIZED),
@@ -54,14 +62,14 @@ impl From<diesel::result::Error> for Error {
     fn from(error: diesel::result::Error) -> Error {
         error!("ERROR diesel = {:?}", error);
         match error {
-            diesel::result::Error::DatabaseError(diesel::result::DatabaseErrorKind::UniqueViolation, _) => {
-                Error::BadRequest(ApiError::new("already.exist"))
-            },
-            _ => Error::InternalError
+            diesel::result::Error::DatabaseError(
+                diesel::result::DatabaseErrorKind::UniqueViolation,
+                _,
+            ) => Error::BadRequest(ApiError::new("already.exist")),
+            _ => Error::InternalError,
         }
     }
 }
-
 
 impl From<actix::MailboxError> for Error {
     fn from(error: actix::MailboxError) -> Error {
@@ -74,8 +82,10 @@ impl From<JsonPayloadError> for Error {
     fn from(error: JsonPayloadError) -> Error {
         error!("ERROR actix JsonPayloadError = {:?}", error);
         match error {
-            JsonPayloadError::Deserialize(json_error) => Error::BadRequest(ApiError::new(&format!("{}", json_error))),
-            _ => Error::BadRequest(ApiError::new("Json parsing error"))
+            JsonPayloadError::Deserialize(json_error) => {
+                Error::BadRequest(ApiError::new(&format!("{}", json_error)))
+            }
+            _ => Error::BadRequest(ApiError::new("Json parsing error")),
         }
     }
 }

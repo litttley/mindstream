@@ -1,13 +1,13 @@
-use actix_web::{FromRequest, HttpRequest, HttpMessage};
 use actix_web::Error;
+use actix_web::{FromRequest, HttpMessage, HttpRequest};
 
-use auth::jwt::{Claime, decode_token};
 use app::config;
+use auth::jwt::{decode_token, Claime};
 use errors;
 
 #[derive(Debug)]
 pub struct Auth {
-    pub claime: Claime
+    pub claime: Claime,
 }
 
 impl Auth {
@@ -16,7 +16,10 @@ impl Auth {
     }
 }
 
-impl<S> FromRequest<S> for Auth where S: 'static {
+impl<S> FromRequest<S> for Auth
+where
+    S: 'static,
+{
     type Config = ();
     type Result = Result<Self, Error>;
 

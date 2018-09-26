@@ -1,11 +1,11 @@
-use uuid::Uuid;
 use actix::prelude::*;
-use actix_web::{State, Path, HttpResponse, AsyncResponder};
+use actix_web::{AsyncResponder, HttpResponse, Path, State};
 use futures::future::Future;
+use uuid::Uuid;
 
-use errors::Error;
 use app::app_state::AppState;
 use app::db::DbExecutor;
+use errors::Error;
 use rss_sources::rss_source::RssSource;
 use rss_sources::rss_sources_repository::find_by_uuid;
 
@@ -35,15 +35,15 @@ impl Handler<GetRssSource> for DbExecutor {
     }
 }
 
-pub fn get_rss_source((uuid, state): (Path<Uuid>, State<AppState>)) -> Box<Future<Item=HttpResponse, Error=Error>> {
-    state.db
+pub fn get_rss_source(
+    (uuid, state): (Path<Uuid>, State<AppState>),
+) -> Box<Future<Item = HttpResponse, Error = Error>> {
+    state
+        .db
         .send(GetRssSource::new(uuid.into_inner()))
         .from_err()
-        .and_then(|res| {
-            match res {
-                Ok(rss_source) => Ok(HttpResponse::Ok().json(rss_source)),
-                Err(err) => Err(err.into())
-            }
-        })
-        .responder()
+        .and_then(|res| match res {
+            Ok(rss_source) => Ok(HttpResponse::Ok().json(rss_source)),
+            Err(err) => Err(err.into()),
+        }).responder()
 }

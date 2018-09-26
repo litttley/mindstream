@@ -1,11 +1,11 @@
-use jsonwebtoken::{encode, decode, Header, Validation};
+use jsonwebtoken::{decode, encode, Header, Validation};
 
-use users::user::User;
 use errors::Error;
+use users::user::User;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Claime {
-    pub user:User,
+    pub user: User,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -24,7 +24,10 @@ pub fn create_token(user: User, secret_key: &str) -> Result<Token, Error> {
 }
 
 pub fn decode_token(token: &str, secret_key: &str) -> Result<Claime, Error> {
-    let validation = Validation { validate_exp: false, ..Default::default() };
+    let validation = Validation {
+        validate_exp: false,
+        ..Default::default()
+    };
     let claims = decode::<Claime>(token, secret_key.as_bytes(), &validation)?;
     let claims = claims.claims;
     Ok(claims)

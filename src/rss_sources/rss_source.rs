@@ -1,11 +1,11 @@
-use uuid::Uuid;
 use chrono::prelude::*;
 use chrono::NaiveDateTime;
+use uuid::Uuid;
 
 use schema::rss_sources;
 
 #[derive(Debug, Clone, Deserialize, Serialize, Queryable, Insertable)]
-#[table_name="rss_sources"]
+#[table_name = "rss_sources"]
 pub struct RssSource {
     pub uuid: Uuid,
     pub url: String,

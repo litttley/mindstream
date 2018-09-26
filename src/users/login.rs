@@ -1,22 +1,22 @@
-use actix_web::{State, HttpMessage, HttpRequest, HttpResponse, AsyncResponder};
-use futures::future::Future;
 use actix::prelude::*;
+use actix_web::{AsyncResponder, HttpMessage, HttpRequest, HttpResponse, State};
+use futures::future::Future;
 use validator::Validate;
 
-use errors::Error;
+use app::app_state::AppState;
 use app::config;
 use app::db::DbExecutor;
-use app::app_state::AppState;
-use auth::jwt::{Token, create_token};
-use users::user::{User, verify_password};
+use auth::jwt::{create_token, Token};
+use errors::Error;
+use users::user::{verify_password, User};
 use users::users;
 
 #[derive(Debug, Clone, Validate, Deserialize)]
 pub struct Login {
-    #[validate(email(message="validation.email"))]
+    #[validate(email(message = "validation.email"))]
     email: String,
-    #[validate(length(min = "6", message="validation.password.short"))]
-    password: String
+    #[validate(length(min = "6", message = "validation.password.short"))]
+    password: String,
 }
 
 impl Message for Login {
@@ -40,18 +40,17 @@ impl Handler<Login> for DbExecutor {
     }
 }
 
-pub fn login((req, state): (HttpRequest<AppState>, State<AppState>)) -> Box<Future<Item=HttpResponse, Error=Error>> {
+pub fn login(
+    (req, state): (HttpRequest<AppState>, State<AppState>),
+) -> Box<Future<Item = HttpResponse, Error = Error>> {
     req.json()
         .from_err()
         .and_then(move |login: Login| state.db.send(login.clone()).from_err())
-        .and_then(|res| {
-            match res {
-                Ok((user, token)) => Ok(HttpResponse::Ok().json(json!({
+        .and_then(|res| match res {
+            Ok((user, token)) => Ok(HttpResponse::Ok().json(json!({
                     "user": user,
                     "token": token,
                 }))),
-                Err(err) => Err(err.into())
-            }
-        })
-        .responder()
+            Err(err) => Err(err.into()),
+        }).responder()
 }

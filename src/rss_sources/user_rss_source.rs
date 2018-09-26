@@ -1,8 +1,8 @@
-use uuid::Uuid;
 use schema::users_rss_sources;
+use uuid::Uuid;
 
 #[derive(Debug, PartialEq, Deserialize, Serialize, Queryable, Insertable)]
-#[table_name="users_rss_sources"]
+#[table_name = "users_rss_sources"]
 pub struct UserRssSource {
     pub uuid: Uuid,
     pub unreaded: i64,
@@ -12,6 +12,11 @@ pub struct UserRssSource {
 
 impl UserRssSource {
     pub fn new(user_uuid: Uuid, rss_source_uuid: Uuid) -> Self {
-        UserRssSource { uuid: Uuid::new_v4(), unreaded: 0, user_uuid, rss_source_uuid }
+        UserRssSource {
+            uuid: Uuid::new_v4(),
+            unreaded: 0,
+            user_uuid,
+            rss_source_uuid,
+        }
     }
 }

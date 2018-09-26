@@ -1,13 +1,13 @@
-use std::str::FromStr;
-use serde::de::{Deserialize, Deserializer, Error};
-use uuid::Uuid;
 use chrono::prelude::*;
 use chrono::NaiveDateTime;
+use serde::de::{Deserialize, Deserializer, Error};
+use std::str::FromStr;
+use uuid::Uuid;
 
 use schema::users_rss_feeds;
 
 #[derive(Debug, Clone, PartialEq, Deserialize, Serialize, Queryable, Insertable)]
-#[table_name="users_rss_feeds"]
+#[table_name = "users_rss_feeds"]
 pub struct UserRssFeed {
     pub uuid: Uuid,
     pub reaction: String,
@@ -43,19 +43,24 @@ pub enum Reaction {
 
 impl<'de> Deserialize<'de> for Reaction {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-        where D: Deserializer<'de>
+    where
+        D: Deserializer<'de>,
     {
         let reaction = String::deserialize(deserializer)?;
-        let reaction = Reaction::from_str(&reaction)
-            .map_err(move |_| Error::unknown_field("reaction", &[
-                "Unreaded",
-                "Readed",
-                "ReadLater",
-                "Viewed",
-                "Liked",
-                "Disliked",
-                "Archived",
-            ]))?;
+        let reaction = Reaction::from_str(&reaction).map_err(move |_| {
+            Error::unknown_field(
+                "reaction",
+                &[
+                    "Unreaded",
+                    "Readed",
+                    "ReadLater",
+                    "Viewed",
+                    "Liked",
+                    "Disliked",
+                    "Archived",
+                ],
+            )
+        })?;
         Ok(reaction)
     }
 }

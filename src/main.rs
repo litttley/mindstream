@@ -1,5 +1,5 @@
-extern crate mindstream;
 extern crate dotenv;
+extern crate mindstream;
 
 use dotenv::dotenv;
 

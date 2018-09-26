@@ -1,16 +1,16 @@
-use uuid::Uuid;
-use serde_json::Value;
 use chrono::prelude::*;
 use chrono::NaiveDateTime;
 use serde_json;
+use serde_json::Value;
+use uuid::Uuid;
 
-use schema::rss_feeds;
-use rss_sources::rss_service::Rss;
 use rss_feeds::mercury::ReadableData;
+use rss_sources::rss_service::Rss;
 use rss_sources::rss_source::RssSource;
+use schema::rss_feeds;
 
 #[derive(Debug, Clone, PartialEq, Deserialize, Serialize, Queryable, Insertable)]
-#[table_name="rss_feeds"]
+#[table_name = "rss_feeds"]
 pub struct RssFeed {
     pub uuid: Uuid,
     pub rss_url: String,
@@ -23,7 +23,13 @@ pub struct RssFeed {
 }
 
 impl RssFeed {
-    pub fn new(rss_url: String, resolved_url: Option<String>, rss: Option<Rss>, readable: Option<ReadableData>, rss_source: &RssSource) -> Self {
+    pub fn new(
+        rss_url: String,
+        resolved_url: Option<String>,
+        rss: Option<Rss>,
+        readable: Option<ReadableData>,
+        rss_source: &RssSource,
+    ) -> Self {
         Self {
             uuid: Uuid::new_v4(),
             rss_url,
@@ -32,7 +38,7 @@ impl RssFeed {
             readable: serde_json::to_value(readable).ok(),
             created: Utc::now().naive_utc(),
             updated: Utc::now().naive_utc(),
-            rss_source_uuid: rss_source.uuid
+            rss_source_uuid: rss_source.uuid,
         }
     }
 }

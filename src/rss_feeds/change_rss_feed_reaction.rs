@@ -1,17 +1,17 @@
-use uuid::Uuid;
 use actix::prelude::*;
-use actix_web::{State, Json, HttpResponse, AsyncResponder};
+use actix_web::{AsyncResponder, HttpResponse, Json, State};
 use futures::future::Future;
+use uuid::Uuid;
 
-use errors::Error;
-use auth::auth::Auth;
 use app::app_state::AppState;
 use app::db::DbExecutor;
-use users::user::User;
-use rss_feeds::users_rss_feeds_repository::{update_rss_feed_reaction, find_user_rss_feed};
+use auth::auth::Auth;
+use errors::Error;
 use rss_feeds::rss_feeds_repository::find_rss_feed;
 use rss_feeds::user_rss_feed::{Reaction, UserRssFeed};
+use rss_feeds::users_rss_feeds_repository::{find_user_rss_feed, update_rss_feed_reaction};
 use rss_sources::users_rss_sources_repository::decrement_unreaded_rss_sources;
+use users::user::User;
 
 #[derive(Debug, Deserialize)]
 pub struct ChangeRssFeedReactionQuery {
@@ -47,27 +47,32 @@ impl Handler<ChangeRssFeedReaction> for DbExecutor {
         let user_rss_feed = find_user_rss_feed(&connexion, &rss_feed_uuid, &user)?;
         match user_rss_feed.reaction.as_ref() {
             "Unreaded" => {
-                let rss_feeds = update_rss_feed_reaction(&connexion, &rss_feed_uuid, &reaction, &user)?;
-                let _ = decrement_unreaded_rss_sources(&connexion, &rss_feed.rss_source_uuid, &user)?;
+                let rss_feeds =
+                    update_rss_feed_reaction(&connexion, &rss_feed_uuid, &reaction, &user)?;
+                let _ =
+                    decrement_unreaded_rss_sources(&connexion, &rss_feed.rss_source_uuid, &user)?;
                 Ok(rss_feeds)
-            },
+            }
             _ => {
-                let rss_feeds = update_rss_feed_reaction(&connexion, &rss_feed_uuid, &reaction, &user)?;
+                let rss_feeds =
+                    update_rss_feed_reaction(&connexion, &rss_feed_uuid, &reaction, &user)?;
                 Ok(rss_feeds)
             }
         }
     }
 }
 
-pub fn change_rss_feed_reaction((json, auth, state): (Json<ChangeRssFeedReactionQuery>, Auth, State<AppState>)) -> Box<Future<Item=HttpResponse, Error=Error>> {
-    state.db
-        .send(ChangeRssFeedReaction::new(json.into_inner(), auth.claime.user.clone()))
-        .from_err()
-        .and_then(|res| {
-            match res {
-                Ok(rss_feeds) => Ok(HttpResponse::Ok().json(rss_feeds)),
-                Err(err) => Err(err.into())
-            }
-        })
-        .responder()
+pub fn change_rss_feed_reaction(
+    (json, auth, state): (Json<ChangeRssFeedReactionQuery>, Auth, State<AppState>),
+) -> Box<Future<Item = HttpResponse, Error = Error>> {
+    state
+        .db
+        .send(ChangeRssFeedReaction::new(
+            json.into_inner(),
+            auth.claime.user.clone(),
+        )).from_err()
+        .and_then(|res| match res {
+            Ok(rss_feeds) => Ok(HttpResponse::Ok().json(rss_feeds)),
+            Err(err) => Err(err.into()),
+        }).responder()
 }

@@ -1,6 +1,6 @@
-use reqwest::Client;
 use app::config::CONFIG;
 use errors::Error;
+use reqwest::Client;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ReadableData {

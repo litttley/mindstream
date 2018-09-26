@@ -1,24 +1,24 @@
-use actix_web::{State, HttpMessage, HttpRequest, HttpResponse, AsyncResponder};
-use futures::future::Future;
 use actix::prelude::*;
+use actix_web::{AsyncResponder, HttpMessage, HttpRequest, HttpResponse, State};
+use futures::future::Future;
 use validator::Validate;
 
-use errors::Error;
 use app::app_state::AppState;
 use app::config;
 use app::db::DbExecutor;
-use auth::jwt::{Token, create_token};
+use auth::jwt::{create_token, Token};
+use errors::Error;
 use users::user::User;
 use users::users::insert;
 
 #[derive(Debug, Clone, Validate, Deserialize)]
 pub struct Signup {
-    #[validate(length(min = "3", message="validation.login.short"))]
+    #[validate(length(min = "3", message = "validation.login.short"))]
     login: String,
-    #[validate(email(message="validation.email"))]
+    #[validate(email(message = "validation.email"))]
     email: String,
-    #[validate(length(min = "6", message="validation.password.short"))]
-    password: String
+    #[validate(length(min = "6", message = "validation.password.short"))]
+    password: String,
 }
 
 impl Message for Signup {
@@ -41,22 +41,25 @@ impl Handler<Signup> for DbExecutor {
 
 impl User {
     pub fn from_signup(signup: &Signup) -> Result<Self, Error> {
-        Ok(User::new_secure(&signup.login, &signup.email, &signup.password)?)
+        Ok(User::new_secure(
+            signup.login.clone(),
+            signup.email.clone(),
+            signup.password.clone(),
+        )?)
     }
 }
 
-pub fn signup((req, state): (HttpRequest<AppState>, State<AppState>)) -> Box<Future<Item=HttpResponse, Error=Error>> {
+pub fn signup(
+    (req, state): (HttpRequest<AppState>, State<AppState>),
+) -> Box<Future<Item = HttpResponse, Error = Error>> {
     req.json()
         .from_err()
         .and_then(move |signup: Signup| state.db.send(signup.clone()).from_err())
-        .and_then(|res| {
-            match res {
-                Ok((user, token)) => Ok(HttpResponse::Ok().json(json!({
+        .and_then(|res| match res {
+            Ok((user, token)) => Ok(HttpResponse::Ok().json(json!({
                     "user": user,
                     "token": token,
                 }))),
-                Err(err) => Err(err.into())
-            }
-        })
-        .responder()
+            Err(err) => Err(err.into()),
+        }).responder()
 }
