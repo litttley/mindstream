@@ -3,8 +3,8 @@ import { Dispatch } from "redux"
 import { connect } from "react-redux"
 import { SourcesActions } from "./SourcesActions"
 import AddSourceForm from "./components/AddSourceForm"
-import { Actions } from "Actions"
-import { GlobalState } from "Store"
+import { Actions } from "~/Actions"
+import { GlobalState } from "~/Store"
 
 interface DispatchProps {
   addSourceOnChange: (field: string, value: string) => void

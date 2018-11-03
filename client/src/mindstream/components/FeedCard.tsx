@@ -2,12 +2,12 @@ import * as React from "react"
 import * as styles from "./FeedCard.css"
 import { InjectedIntlProps, injectIntl } from "react-intl"
 
-import { RssFeed, getTitle, getRssContent } from "models/RssFeed"
-import BaseButton from "components/buttons/BaseButton"
-import StarIcon from "components/icons/StarIcon"
-import { RssFeedsResponse } from "services/RssFeedsResponse"
-import Tabs from "components/tabs/Tabs"
-import Tab from "components/tabs/Tab"
+import { RssFeed, getTitle, getRssContent } from "~/models/RssFeed"
+import BaseButton from "~/components/buttons/BaseButton"
+import StarIcon from "~/components/icons/StarIcon"
+import { RssFeedsResponse } from "~/services/RssFeedsResponse"
+import Tabs from "~/components/tabs/Tabs"
+import Tab from "~/components/tabs/Tab"
 
 interface Props {
   feed: RssFeedsResponse

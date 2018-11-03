@@ -1,9 +1,9 @@
 import * as React from "react"
 import * as styles from "./FeedActions.css"
-import { RssFeed } from "models/RssFeed"
+import { RssFeed } from "~/models/RssFeed"
 import FeedAction from "./FeedAction"
-import NextIcon from "components/icons/NextIcon"
-import PreviousIcon from "components/icons/PreviousIcon"
+import NextIcon from "~/components/icons/NextIcon"
+import PreviousIcon from "~/components/icons/PreviousIcon"
 
 interface Props {
   feed: RssFeed

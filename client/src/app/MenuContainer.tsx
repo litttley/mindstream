@@ -1,12 +1,12 @@
 import * as React from "react"
 import { Dispatch } from "redux"
 import { connect } from "react-redux"
-import { AppActions } from "app/AppActions"
-import { Actions } from "Actions"
-import Menu from "app/Menu"
-import { GlobalState } from "Store"
-import { MyRssSource } from "models/RssSource"
-import MyRssSources from "rssSources/components/MyRssSources";
+import { AppActions } from "~/app/AppActions"
+import { Actions } from "~/Actions"
+import Menu from "~/app/Menu"
+import { GlobalState } from "~/Store"
+import { MyRssSource } from "~/models/RssSource"
+import MyRssSources from "~/rssSources/components/MyRssSources"
 
 interface DispatchProps {
   logout: () => void

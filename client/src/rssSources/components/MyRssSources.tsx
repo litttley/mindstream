@@ -1,6 +1,6 @@
 import * as React from "react"
 import * as styles from "./MyRssSources.css"
-import { MyRssSource } from "models/RssSource"
+import { MyRssSource } from "~/models/RssSource"
 
 interface Props {
   myRssSources: MyRssSource[]

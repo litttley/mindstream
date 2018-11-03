@@ -1,8 +1,8 @@
 import { getType } from "typesafe-actions"
 import { FeedsActions } from "./FeedsActions"
-import { Actions } from "Actions"
-import { ApiErrors } from "services/ApiError"
-import { RssFeedsResponse } from "services/RssFeedsResponse"
+import { Actions } from "~/Actions"
+import { ApiErrors } from "~/services/ApiError"
+import { RssFeedsResponse } from "~/services/RssFeedsResponse"
 
 export interface FeedsState {
   feeds: RssFeedsResponse[]

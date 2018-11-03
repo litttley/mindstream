@@ -1,7 +1,7 @@
 import * as React from "react"
-import classNames from "utils/classNames"
+import classNames from "~/utils/classNames"
 import * as styles from "./BaseButton.css"
-import LoaderIcon from "components/icons/LoaderIcon"
+import LoaderIcon from "~/components/icons/LoaderIcon"
 
 interface Props {
   disable?: boolean

@@ -1,12 +1,12 @@
 import * as React from "react"
 import { Dispatch } from "redux"
 import { connect } from "react-redux"
-import * as styles from "rssSources/UnfollowedRssSourcesContainer.css"
-import { Actions } from "Actions"
-import { RssSource } from "models/RssSource"
-import { SourcesActions } from "rssSources/SourcesActions"
-import SourcesList from "rssSources/components/SourcesList"
-import { GlobalState } from "Store"
+import * as styles from "~/rssSources/UnfollowedRssSourcesContainer.css"
+import { Actions } from "~/Actions"
+import { RssSource } from "~/models/RssSource"
+import { SourcesActions } from "~/rssSources/SourcesActions"
+import SourcesList from "~/rssSources/components/SourcesList"
+import { GlobalState } from "~/Store"
 
 interface DispatchProps {
   onLoadUnfollowedSources: () => void

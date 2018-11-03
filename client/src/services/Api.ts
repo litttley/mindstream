@@ -1,13 +1,13 @@
 import Axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from "axios"
 import { Observable, Observer } from "rxjs"
 import { Validator, array } from "validation.ts"
-import * as router from "router"
-import { RssFeed, Reaction, UserRssFeed, UserRssFeedValidator } from "models/RssFeed"
-import { RssSource, MyRssSource } from "models/RssSource"
-import { AuthResponse, AuthResponseValidator } from "services/AuthResponse"
-import { Login } from "auth/Login"
-import { Signup } from "auth/Signup"
-import { RssFeedsResponse, RssFeedsResponseValidator } from "services/RssFeedsResponse"
+import * as router from "~/router"
+import { RssFeed, Reaction, UserRssFeed, UserRssFeedValidator } from "~/models/RssFeed"
+import { RssSource, MyRssSource } from "~/models/RssSource"
+import { AuthResponse, AuthResponseValidator } from "~/services/AuthResponse"
+import { Login } from "~/auth/Login"
+import { Signup } from "~/auth/Signup"
+import { RssFeedsResponse, RssFeedsResponseValidator } from "~/services/RssFeedsResponse"
 
 export interface Requests {
   signup(signup: Signup): Observable<AuthResponse>

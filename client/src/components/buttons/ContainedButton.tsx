@@ -1,6 +1,6 @@
 import * as React from "react"
 import * as styles from "./ContainedButton.css"
-import BaseButton from "components/buttons/BaseButton"
+import BaseButton from "~/components/buttons/BaseButton"
 
 interface Props {
   label: string

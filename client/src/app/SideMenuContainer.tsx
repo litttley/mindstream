@@ -1,10 +1,10 @@
 import * as React from "react"
 import { Dispatch } from "redux"
 import { connect } from "react-redux"
-import { AppActions } from "app/AppActions"
-import { Actions } from "Actions"
-import SideMenu from "components/SideMenu"
-import { GlobalState } from "Store"
+import { AppActions } from "~/app/AppActions"
+import { Actions } from "~/Actions"
+import SideMenu from "~/components/SideMenu"
+import { GlobalState } from "~/Store"
 
 interface DispatchProps {
   menuToggle(): void

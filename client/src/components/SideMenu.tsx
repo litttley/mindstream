@@ -1,8 +1,8 @@
 import * as React from "react"
 import * as styles from "./SideMenu.css"
-import classNames from "utils/classNames"
-import CloseIcon from "components/icons/CloseIcon"
-import BaseButton from "components/buttons/BaseButton"
+import classNames from "~/utils/classNames"
+import CloseIcon from "~/components/icons/CloseIcon"
+import BaseButton from "~/components/buttons/BaseButton"
 
 interface Props {
   isMenuOpen: boolean

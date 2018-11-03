@@ -1,7 +1,7 @@
 import { getType } from "typesafe-actions"
-import { ApiErrors } from "services/ApiError"
-import { Actions } from "Actions"
-import { AuthActions } from "auth/AuthActions"
+import { ApiErrors } from "~/services/ApiError"
+import { Actions } from "~/Actions"
+import { AuthActions } from "~/auth/AuthActions"
 
 export interface AuthState {
   loading: boolean

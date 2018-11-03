@@ -2,9 +2,9 @@ import * as React from "react"
 import { connect } from "react-redux"
 import * as styles from "./MyRssSourcesContainer.css"
 
-import { MyRssSource } from "models/RssSource"
+import { MyRssSource } from "~/models/RssSource"
 import SourcesList from "./components/SourcesList"
-import { GlobalState } from "Store"
+import { GlobalState } from "~/Store"
 
 interface Props {
   myRssSources: MyRssSource[]

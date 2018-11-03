@@ -1,7 +1,7 @@
 import { getType } from "typesafe-actions"
-import { Actions } from "Actions"
-import { MindstreamActions } from "mindstream/MindstreamActions"
-import { RssFeedsResponse } from "services/RssFeedsResponse"
+import { Actions } from "~/Actions"
+import { MindstreamActions } from "~/mindstream/MindstreamActions"
+import { RssFeedsResponse } from "~/services/RssFeedsResponse"
 
 export interface MindStreamState {
   previusFeeds: RssFeedsResponse[]

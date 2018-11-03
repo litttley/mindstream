@@ -1,8 +1,8 @@
 import * as React from "react"
 import * as styles from "./FeedExcerpt.css"
-import { RssFeedsResponse } from "services/RssFeedsResponse"
-import { getTitle, getExcerpt } from "models/RssFeed"
-import classNames from "utils/classNames";
+import { RssFeedsResponse } from "~/services/RssFeedsResponse"
+import { getTitle, getExcerpt } from "~/models/RssFeed"
+import classNames from "~/utils/classNames"
 
 interface Props {
   feed: RssFeedsResponse

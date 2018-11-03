@@ -1,7 +1,7 @@
 import * as React from "react"
 import * as styles from "./Feeds.css"
-import FeedExcerpt from "feeds/components/FeedExcerpt"
-import { RssFeedsResponse } from "services/RssFeedsResponse"
+import FeedExcerpt from "~/feeds/components/FeedExcerpt"
+import { RssFeedsResponse } from "~/services/RssFeedsResponse"
 
 interface Props {
   feeds: RssFeedsResponse[]

@@ -1,5 +1,5 @@
 import { object, string, number, array, union } from "validation.ts"
-import { optional } from "models/optional"
+import { optional } from "~/models/optional"
 
 export const ReactionValidator = union("Unreaded", "Readed", "ReadLater", "Viewed", "Liked", "Disliked", "Archived")
 export type Reaction = typeof ReactionValidator.T

@@ -1,8 +1,8 @@
 import * as React from "react"
 import * as styles from "./FeedAction.css"
-import BaseButton from "components/buttons/BaseButton"
-import LoaderIcon from "components/icons/LoaderIcon"
-import classNames from "utils/classNames"
+import BaseButton from "~/components/buttons/BaseButton"
+import LoaderIcon from "~/components/icons/LoaderIcon"
+import classNames from "~/utils/classNames"
 
 interface FeedActionProps {
   icon: React.ReactNode

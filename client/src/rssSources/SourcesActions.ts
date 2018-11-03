@@ -1,6 +1,6 @@
 import { createAsyncAction, createStandardAction, ActionType } from "typesafe-actions"
-import { RssSource, MyRssSource } from "models/RssSource"
-import { ApiErrors } from "services/ApiError"
+import { RssSource, MyRssSource } from "~/models/RssSource"
+import { ApiErrors } from "~/services/ApiError"
 
 export const SourcesActions = {
   loadUnfollowedSources: createAsyncAction(

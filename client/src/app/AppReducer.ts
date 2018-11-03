@@ -1,8 +1,8 @@
 import { getType } from "typesafe-actions"
-import { AppActions } from "app/AppActions"
-import { Actions } from "Actions"
-import { User } from "models/User"
-import { AuthActions } from "auth/AuthActions"
+import { AppActions } from "~/app/AppActions"
+import { Actions } from "~/Actions"
+import { User } from "~/models/User"
+import { AuthActions } from "~/auth/AuthActions"
 
 export interface AppState {
   isMenuOpen: boolean

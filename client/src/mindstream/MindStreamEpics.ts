@@ -3,9 +3,9 @@ import { isActionOf } from "typesafe-actions"
 import { of } from "rxjs"
 import { filter, switchMap, mergeMap, map, catchError } from "rxjs/operators"
 
-import { MindstreamActions } from "mindstream/MindstreamActions"
-import { ApiErrors } from "services/ApiError"
-import { EpicType } from "RootEpic"
+import { MindstreamActions } from "~/mindstream/MindstreamActions"
+import { ApiErrors } from "~/services/ApiError"
+import { EpicType } from "~/RootEpic"
 
 const loadUnreadedFeedsEpic: EpicType = (action$, state, { api }) => action$.pipe(
   filter(isActionOf(MindstreamActions.loadUnreadedFeeds.request)),

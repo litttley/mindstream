@@ -1,8 +1,8 @@
 import { getType } from "typesafe-actions"
-import { RssSource, MyRssSource } from "models/RssSource"
+import { RssSource, MyRssSource } from "~/models/RssSource"
 import { SourcesActions } from "./SourcesActions"
-import { Actions } from "Actions"
-import { ApiErrors } from "services/ApiError"
+import { Actions } from "~/Actions"
+import { ApiErrors } from "~/services/ApiError"
 
 export interface SourcesState {
   unfollowedRssSources: RssSource[]

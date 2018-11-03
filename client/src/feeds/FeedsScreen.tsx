@@ -3,14 +3,14 @@ import { Dispatch } from "redux"
 import { connect } from "react-redux"
 import { ConnectedRouterProps } from "connected-react-router"
 
-import { FeedsActions } from "feeds/FeedsActions"
-import Feeds from "feeds/components/Feeds"
-import HeaderContainer from "app/HeaderContainer"
-import { Actions } from "Actions"
-import SideMenuContainer from "app/SideMenuContainer"
-import MenuContainer from "app/MenuContainer"
-import { GlobalState } from "Store"
-import { RssFeedsResponse } from "services/RssFeedsResponse"
+import { FeedsActions } from "~/feeds/FeedsActions"
+import Feeds from "~/feeds/components/Feeds"
+import HeaderContainer from "~/app/HeaderContainer"
+import { Actions } from "~/Actions"
+import SideMenuContainer from "~/app/SideMenuContainer"
+import MenuContainer from "~/app/MenuContainer"
+import { GlobalState } from "~/Store"
+import { RssFeedsResponse } from "~/services/RssFeedsResponse"
 
 interface PropsState {
   feeds: RssFeedsResponse[]

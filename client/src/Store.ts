@@ -5,17 +5,17 @@ import { persistStore, persistReducer } from "redux-persist"
 import storage from "redux-persist/lib/storage"
 import { connectRouter, routerMiddleware } from "connected-react-router"
 import { StateType } from "typesafe-actions"
-import { history } from "router"
+import { history } from "~/router"
 
-import AppReducer from "app/AppReducer"
-import FeedsReducer from "feeds/FeedsReducer"
-import MindStreamReducer from "mindstream/MindStreamReducer"
-import SourcesReducer from "rssSources/SourcesReducer"
+import AppReducer from "~/app/AppReducer"
+import FeedsReducer from "~/feeds/FeedsReducer"
+import MindStreamReducer from "~/mindstream/MindStreamReducer"
+import SourcesReducer from "~/rssSources/SourcesReducer"
 
-import RootEpic from "RootEpic"
-import { createApiInstance, Requests } from "services/Api"
-import AuthReducer from "auth/AuthReducer"
-import { Actions } from "Actions"
+import RootEpic from "~/RootEpic"
+import { createApiInstance, Requests } from "~/services/Api"
+import AuthReducer from "~/auth/AuthReducer"
+import { Actions } from "~/Actions"
 
 const persistConfig = {
   key: "root_mindstream",

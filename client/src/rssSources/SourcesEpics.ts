@@ -3,10 +3,10 @@ import { isActionOf } from "typesafe-actions"
 import { of } from "rxjs"
 import { filter, switchMap, mergeMap, map, catchError } from "rxjs/operators"
 
-import { ApiErrors } from "services/ApiError"
-import { SourcesActions } from "rssSources/SourcesActions"
-import { EpicType } from "RootEpic"
-import { AppActions } from "app/AppActions";
+import { ApiErrors } from "~/services/ApiError"
+import { SourcesActions } from "~/rssSources/SourcesActions"
+import { EpicType } from "~/RootEpic"
+import { AppActions } from "~/app/AppActions"
 
 const addSourceEpic: EpicType = (action$, state, { api }) => action$.pipe(
   filter(isActionOf(SourcesActions.addSource.request)),

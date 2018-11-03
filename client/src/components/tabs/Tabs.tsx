@@ -1,7 +1,7 @@
 import * as React from "react"
 import * as styles from "./Tabs.css"
 import { Props as TabProps } from "./Tab"
-import classNames from "utils/classNames"
+import classNames from "~/utils/classNames"
 
 interface Props {
   selectedTabName: string

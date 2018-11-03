@@ -8,7 +8,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "*": [
+      "~/*": [
         "src/*"
       ]
     },
@@ -16,8 +16,9 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "strictPropertyInitialization": true
+    "strictPropertyInitialization": true,
   },
+  "exportDefaultFrom": true,
   "include": [
     "./src/**/*"
   ],

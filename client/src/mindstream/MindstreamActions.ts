@@ -1,7 +1,7 @@
 import { createAsyncAction, createStandardAction, ActionType } from "typesafe-actions"
-import { RssFeed, Reaction, UserRssFeed } from "models/RssFeed"
-import { ApiErrors } from "services/ApiError"
-import { RssFeedsResponse } from "services/RssFeedsResponse"
+import { RssFeed, Reaction, UserRssFeed } from "~/models/RssFeed"
+import { ApiErrors } from "~/services/ApiError"
+import { RssFeedsResponse } from "~/services/RssFeedsResponse"
 
 type NextFeedPayload = {
   feed: RssFeed,

@@ -1,10 +1,10 @@
 import * as React from "react"
 import { InjectedIntlProps, injectIntl } from "react-intl"
 import * as styles from "./LoginForm.css"
-import Input from "components/Input"
-import ContainedButton from "components/buttons/ContainedButton"
-import { ApiErrors, getFieldErrorMessage } from "services/ApiError"
-import { Login } from "auth/Login"
+import Input from "~/components/Input"
+import ContainedButton from "~/components/buttons/ContainedButton"
+import { ApiErrors, getFieldErrorMessage } from "~/services/ApiError"
+import { Login } from "~/auth/Login"
 
 interface Props {
   loading: boolean

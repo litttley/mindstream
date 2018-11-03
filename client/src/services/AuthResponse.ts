@@ -1,5 +1,5 @@
 import { object, string } from "validation.ts"
-import { UserValidator } from "models/User"
+import { UserValidator } from "~/models/User"
 
 export const AuthResponseValidator = object({
   token: string,

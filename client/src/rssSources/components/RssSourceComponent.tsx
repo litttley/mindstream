@@ -1,7 +1,7 @@
 import * as React from "react"
-import * as styles from "rssSources/components/RssSourceComponent.css"
-import IconButton from "components/IconButton"
-import { RssSource } from "models/RssSource"
+import * as styles from "~/rssSources/components/RssSourceComponent.css"
+import IconButton from "~/components/IconButton"
+import { RssSource } from "~/models/RssSource"
 
 interface Props {
   rssSource: RssSource
