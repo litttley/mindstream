@@ -1,5 +1,4 @@
-import "es6-promise/auto"
-import "es6-shim"
+import "core-js/features/promise"
 import "~/reset.css"
 import "~/guide-styles.css"
 import * as React from "react"
