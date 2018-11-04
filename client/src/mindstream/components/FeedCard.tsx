@@ -60,7 +60,7 @@ class FeedCard extends React.PureComponent<Props & InjectedIntlProps, State> {
     if (!!readable && !!readable.content) {
       return (
         <Tab label="Readable" name="readable">
-          <div dangerouslySetInnerHTML={{ __html: stripScriptsWithRegex(stripScriptWithBrowser(readable.content)) }} />
+          <div dangerouslySetInnerHTML={{ __html: sanitize(readable.content) }} />
         </Tab>
       )
     }
@@ -84,15 +84,23 @@ class FeedCard extends React.PureComponent<Props & InjectedIntlProps, State> {
   handleOnReaction = () => this.props.onLike(this.props.feed.rss_feed)
 }
 
+function sanitize(content: string): string {
+  return stripScriptsWithRegex(sanitizeWithDom(content, html => sanitizeResponsiveImages(sanitizeScripts(html))))
+}
+
 function stripScriptsWithRegex(html: string): string {
   const regex = `<script(?:(?!\/\/)(?!\/\*)[^'"]|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\/\/.*(?:\n)|\/\*(?:(?:.|\s))*?\*\/)*?<\/script>`
   return html.replace(regex, regex)
 }
 
-function stripScriptWithBrowser(html: string): string {
+function sanitizeWithDom(content: string, f: (html: HTMLDivElement) => HTMLDivElement): string {
   const div = document.createElement("div")
-  div.innerHTML = html
-  const scripts = div.getElementsByTagName("script")
+  div.innerHTML = content
+  return f(div).innerHTML
+}
+
+function sanitizeScripts(html: HTMLDivElement): HTMLDivElement {
+  const scripts = html.getElementsByTagName("script")
   let i = scripts.length
   while (i--) {
     const script = scripts[i]
@@ -100,7 +108,19 @@ function stripScriptWithBrowser(html: string): string {
       script.parentNode.removeChild(script)
     }
   }
-  return div.innerHTML
+  return html
+}
+
+function sanitizeResponsiveImages(html: HTMLDivElement): HTMLDivElement {
+  // TODO find better solution
+  html.querySelectorAll("picture").forEach(p => {
+    const source = p.querySelector("source")
+    if (source) {
+      source.remove()
+    }
+  })
+
+  return html
 }
 
 export default injectIntl(FeedCard)
