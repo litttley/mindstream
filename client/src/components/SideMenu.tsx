@@ -26,7 +26,7 @@ export default class SideMenu extends React.PureComponent<Props> {
     return (
       <div className={styles.sidenavContainer}>
         <div className={sidenavClasses}>
-          <BaseButton className={styles.close} onClick={menuToggle}><CloseIcon color="#FFFFFF" /></BaseButton>
+          <BaseButton className={styles.close} onClick={menuToggle}><CloseIcon /></BaseButton>
           {renderMenu()}
         </div>
         <div className={contentClasses}>{children}</div>

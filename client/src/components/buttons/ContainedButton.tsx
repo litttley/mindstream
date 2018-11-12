@@ -19,7 +19,7 @@ export default class ContainedButton extends React.PureComponent<Props> {
         disable={disable}
         onClick={onClick}
       >
-        <div className={styles.label}>{label}</div>
+        {label}
       </BaseButton>
     )
   }

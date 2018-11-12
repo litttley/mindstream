@@ -17,7 +17,6 @@ extern crate failure;
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;
-#[macro_use]
 extern crate serde_json;
 #[macro_use]
 extern crate diesel;
@@ -27,7 +26,6 @@ extern crate jsonwebtoken;
 extern crate r2d2;
 extern crate r2d2_diesel;
 extern crate uuid;
-#[macro_use]
 extern crate lazy_static;
 extern crate feed_rs;
 extern crate reqwest;

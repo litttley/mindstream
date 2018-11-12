@@ -9,9 +9,10 @@
   z-index: 2000;
   top: 0;
   left: 0;
-  background-color: var(--dark-bg-color);
   overflow-x: hidden;
   transition: 0.5s;
+  background-color: white;
+  box-shadow: 0 2px 5px 1px rgba(194, 194, 194, 0.20);
 }
 
 .sidenavOpen {
