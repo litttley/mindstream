@@ -1,7 +1,8 @@
 import * as React from "react"
 import * as styles from "~/rssSources/components/RssSourceComponent.css"
-import IconButton from "~/components/IconButton"
 import { RssSource } from "~/models/RssSource"
+import IconButton from "~/components/buttons/IconButton"
+import AddIcon from "~/components/icons/AddIcon"
 
 interface Props {
   rssSource: RssSource
@@ -25,7 +26,9 @@ export default class RssSourceComponent extends React.PureComponent<Props> {
 
   renderFallow = () => {
     return (
-      <IconButton type="Add" onClick={this.fallowSourceHandler} />
+      <IconButton onClick={this.fallowSourceHandler}>
+        <AddIcon />
+      </IconButton>
     )
   }
 

@@ -11,6 +11,6 @@
   text-align: center;
   font-family: 'Times New Roman', Times, serif;
   text-transform: uppercase;
-  color: var(--dark-text-color);
+  color: var(--primary);
   margin: 40px 0;
 }

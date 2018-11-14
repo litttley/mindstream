@@ -4,7 +4,6 @@ import { connect } from "react-redux"
 import { Actions } from "~/Actions"
 import { AuthActions } from "~/auth/AuthActions"
 import LoginForm from "~/auth/components/LoginForm"
-import { Login } from "~/auth/Login"
 import { ApiErrors } from "~/services/ApiError"
 import AuthLayout from "~/auth/components/AuthLayout"
 import LinkButton from "~/components/buttons/LinkButton"
@@ -16,7 +15,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  onSubmit: (login: Login) => void
+  onSubmit: typeof AuthActions.loginSubmit.request
 }
 
 type Props = DispatchProps & StateProps

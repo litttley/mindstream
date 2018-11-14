@@ -1,8 +1,7 @@
 import * as React from "react"
 import * as styles from "./FeedAction.css"
-import BaseButton from "~/components/buttons/BaseButton"
-import LoaderIcon from "~/components/icons/LoaderIcon"
 import classNames from "~/utils/classNames"
+import IconButton from "~/components/buttons/IconButton"
 
 interface FeedActionProps {
   icon: React.ReactNode
@@ -19,11 +18,9 @@ export default class FeedAction extends React.PureComponent<FeedActionProps> {
       [className]: true
     })
     return (
-      <BaseButton className={classes} loading={loading} onClick={onClick} renderLoader={this.renderLoader}>
+      <IconButton className={classes} loading={loading} onClick={onClick}>
         {icon}
-      </BaseButton>
+      </IconButton>
     )
   }
-
-  renderLoader = () => <LoaderIcon width={34} height={34} color={"#FFFFFF"} />
 }

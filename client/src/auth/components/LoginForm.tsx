@@ -2,9 +2,9 @@ import * as React from "react"
 import { InjectedIntlProps, injectIntl } from "react-intl"
 import * as styles from "./LoginForm.css"
 import Input from "~/components/Input"
-import ContainedButton from "~/components/buttons/ContainedButton"
 import { ApiErrors, getFieldErrorMessage } from "~/services/ApiError"
 import { Login } from "~/auth/Login"
+import GhostdButton from "~/components/buttons/GhostButton"
 
 interface Props {
   loading: boolean
@@ -41,7 +41,7 @@ class LoginForm extends React.Component<Props & InjectedIntlProps, Login> {
           type="password"
         />
 
-        <ContainedButton
+        <GhostdButton
           label="Login"
           loading={loading}
           onClick={this.handleOnSubmit}

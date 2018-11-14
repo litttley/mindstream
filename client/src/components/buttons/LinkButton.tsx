@@ -1,5 +1,5 @@
 import * as React from "react"
-import * as styles from "./ContainedButton.css"
+import * as styles from "./LinkButton.css"
 import BaseButton from "~/components/buttons/BaseButton"
 
 interface Props {

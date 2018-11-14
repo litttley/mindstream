@@ -20,9 +20,17 @@ export default class BaseButton extends React.PureComponent<Props> {
       [className || ""]: !!className,
     })
     if (href) {
-      return <a href={href} role="button" className={classes} onClick={this.handleOnClick}>{this.renderContent()}</a>
+      return (
+        <a href={href} role="button" className={classes} onClick={this.handleOnClick}>
+          {this.renderContent()}
+        </a>
+      )
     } else {
-      return <button role="button" className={classes} onClick={this.handleOnClick}>{this.renderContent()}</button>
+      return (
+        <button role="button" className={classes} onClick={this.handleOnClick}>
+          {this.renderContent()}
+        </button>
+      )
     }
   }
 

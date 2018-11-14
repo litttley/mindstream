@@ -2,7 +2,7 @@ import * as React from "react"
 import * as styles from "./SideMenu.css"
 import classNames from "~/utils/classNames"
 import CloseIcon from "~/components/icons/CloseIcon"
-import BaseButton from "~/components/buttons/BaseButton"
+import IconButton from "~/components/buttons/IconButton"
 
 interface Props {
   isMenuOpen: boolean
@@ -26,7 +26,9 @@ export default class SideMenu extends React.PureComponent<Props> {
     return (
       <div className={styles.sidenavContainer}>
         <div className={sidenavClasses}>
-          <BaseButton className={styles.close} onClick={menuToggle}><CloseIcon /></BaseButton>
+          <div className={styles.close}>
+            <IconButton onClick={menuToggle}><CloseIcon /></IconButton>
+          </div>
           {renderMenu()}
         </div>
         <div className={contentClasses}>{children}</div>

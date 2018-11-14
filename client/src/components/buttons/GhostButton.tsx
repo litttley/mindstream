@@ -1,5 +1,5 @@
 import * as React from "react"
-import * as styles from "./ContainedButton.css"
+import * as styles from "./GhostButton.css"
 import BaseButton from "~/components/buttons/BaseButton"
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
   onClick: () => void
 }
 
-export default class ContainedButton extends React.PureComponent<Props> {
+export default class GhostdButton extends React.PureComponent<Props> {
   render() {
     const { label, loading, disable, onClick } = this.props
     return (

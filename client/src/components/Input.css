@@ -7,30 +7,30 @@
 
 .label {
   font-size: 1rem;
-  color: var(--dark-text-color);
+  color: var(--primary);
 }
 
 .input {
   margin: 3px 0 5px 0;
   padding-bottom: 2px;
   border: none;
-  border-bottom: 1px solid #979797;
-  color: var(--dark-text-color);
+  border-bottom: 1px solid var(--primary);
+  color: var(--primary);
   font-size: 1.1rem;
 }
 
 .input:focus {
-  border-bottom-color: #000000;
+  border-bottom-color: var(--accent);
 }
 
 .input:invalid {
   border: none;
-  border-bottom: 1px solid var(--error-text-color);
+  border-bottom: 1px solid var(--error);
 }
 
 .error {
   font-size: .8rem;
-  color: var(--error-text-color);
+  color: var(--error);
 }
 
 .hideError {

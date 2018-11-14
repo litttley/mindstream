@@ -24,8 +24,8 @@ class MenuContainer extends React.PureComponent<Props> {
     const { logout, loading, myRssSources } = this.props
     return (
       <>
-      <Menu logout={logout} />
-      {loading ? <div>Loading</div> : <MyRssSources myRssSources={myRssSources} />}
+        <Menu logout={logout} />
+        {loading ? <div>Loading</div> : <MyRssSources myRssSources={myRssSources} />}
       </>
     )
   }

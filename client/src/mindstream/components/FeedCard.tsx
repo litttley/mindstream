@@ -3,11 +3,11 @@ import * as styles from "./FeedCard.css"
 import { InjectedIntlProps, injectIntl } from "react-intl"
 
 import { RssFeed, getTitle, getRssContent } from "~/models/RssFeed"
-import BaseButton from "~/components/buttons/BaseButton"
 import StarIcon from "~/components/icons/StarIcon"
 import { RssFeedsResponse } from "~/services/RssFeedsResponse"
 import Tabs from "~/components/tabs/Tabs"
 import Tab from "~/components/tabs/Tab"
+import IconButton from "~/components/buttons/IconButton"
 
 interface Props {
   feed: RssFeedsResponse
@@ -40,9 +40,9 @@ class FeedCard extends React.PureComponent<Props & InjectedIntlProps, State> {
             <div className={styles.date}>
               {intl.formatRelative((!!feed.rss_feed.rss && !!feed.rss_feed.rss.published) ? feed.rss_feed.rss.published : feed.rss_feed.created)}
             </div>
-            <BaseButton loading={likedLoading} onClick={this.handleOnReaction}>
+            <IconButton loading={likedLoading} onClick={this.handleOnReaction}>
               <StarIcon color={feed.user_rss_feed.reaction === "Liked" ? "#73ff00" : "#000000"} />
-            </BaseButton>
+            </IconButton>
           </div>
         </div>
         <div className={styles.feedContent}>
