@@ -37,6 +37,7 @@ const rootReducer = combineReducers({
   feeds: FeedsReducer,
   mindStream: MindStreamReducer,
   sources: SourcesReducer,
+  router: connectRouter(history),
 })
 
 export type GlobalState = StateType<typeof rootReducer>
