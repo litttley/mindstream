@@ -45,7 +45,7 @@ impl Handler<FallowRssSource> for DbExecutor {
             let user_rss_source = UserRssSource::new(user.uuid, rss_source_uuid);
             let is_existe = is_exists(&connexion, &user_rss_source)?;
             if is_existe {
-                Err(Error::BadRequest(ApiError::new("already.exist")).into())
+                Err(Error::BadRequest(ApiError::new("already.exist")))
             } else {
                 let _ = insert(&connexion, &user_rss_source)?;
                 Ok(rss_source)
@@ -65,6 +65,6 @@ pub fn follow_rss_source(
         )).from_err()
         .and_then(|res| match res {
             Ok(rss_source) => Ok(HttpResponse::Ok().json(rss_source)),
-            Err(err) => Err(err.into()),
+            Err(err) => Err(err),
         }).responder()
 }

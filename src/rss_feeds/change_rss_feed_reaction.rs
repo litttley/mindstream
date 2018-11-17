@@ -73,6 +73,6 @@ pub fn change_rss_feed_reaction(
         )).from_err()
         .and_then(|res| match res {
             Ok(rss_feeds) => Ok(HttpResponse::Ok().json(rss_feeds)),
-            Err(err) => Err(err.into()),
+            Err(err) => Err(err),
         }).responder()
 }

@@ -21,7 +21,7 @@ impl UserRssFeed {
     pub fn new(user_uuid: Uuid, feed_uuid: Uuid, reaction: String) -> Self {
         Self {
             uuid: Uuid::new_v4(),
-            reaction: reaction,
+            reaction,
             user_uuid,
             feed_uuid,
             created: Utc::now().naive_utc(),

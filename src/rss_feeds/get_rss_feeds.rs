@@ -2,8 +2,8 @@ use actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Query, State};
 use futures::future::Future;
 use serde_json;
-use uuid::Uuid;
 use serde_json::json;
+use uuid::Uuid;
 
 use app::app_state::AppState;
 use app::config;
@@ -85,6 +85,6 @@ pub fn get_rss_feeds(
                 })
                     }).collect::<serde_json::Value>(),
             )),
-            Err(err) => Err(err.into()),
+            Err(err) => Err(err),
         }).responder()
 }

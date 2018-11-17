@@ -1,7 +1,7 @@
-use uuid::Uuid;
+use bcrypt::{hash, verify, BcryptError, DEFAULT_COST};
 use chrono::prelude::*;
 use chrono::NaiveDateTime;
-use bcrypt::{hash, verify, BcryptError, DEFAULT_COST};
+use uuid::Uuid;
 
 use errors::Error;
 use schema::users;

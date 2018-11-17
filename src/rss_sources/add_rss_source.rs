@@ -24,14 +24,14 @@ impl Handler<AddRssSource> for DbExecutor {
     type Result = Result<RssSource, Error>;
 
     fn handle(&mut self, message: AddRssSource, _: &mut Self::Context) -> Self::Result {
-        let _ = message.validate()?;
+        message.validate()?;
         let url = message.url;
         let rss_feed = fetch_feeds_channel(&url)?;
         let rss_feed = rss_feed.ok_or_else(|| Error::NotFound)?;
         let rss_source = RssSource::new(
             &url,
-            &rss_feed.title.unwrap_or(url.to_owned()),
-            &rss_feed.website.unwrap_or(url.to_owned()),
+            &rss_feed.title.unwrap_or_else(|| url.to_owned()),
+            &rss_feed.website.unwrap_or_else(|| url.to_owned()),
             rss_feed.description,
             rss_feed.language,
             rss_feed.icon_url,
@@ -55,6 +55,6 @@ pub fn add_rss_source(
         .from_err()
         .and_then(|res| match res {
             Ok(rss_source) => Ok(HttpResponse::Ok().json(rss_source)),
-            Err(err) => Err(err.into()),
+            Err(err) => Err(err),
         }).responder()
 }

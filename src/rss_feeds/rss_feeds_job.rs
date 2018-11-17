@@ -42,14 +42,14 @@ fn process_feeds(
     let rss_sources = find_rss_sources(&connexion, i64::max_value(), 0)?;
     for rss_source in rss_sources {
         let subscribers = find_rss_source_subscribers(&connexion, &rss_source)?;
-        let _ = process_rss_source(&connexion, &subscribers, &rss_source, client)?;
+        process_rss_source(&connexion, &subscribers, &rss_source, client)?;
     }
     Ok(())
 }
 
 fn process_rss_source(
     connection: &PgConnection,
-    subscribers: &Vec<User>,
+    subscribers: &[User],
     rss_source: &RssSource,
     client: &Client,
 ) -> Result<(), Error> {
@@ -91,24 +91,20 @@ fn resolve_url(url: &str, client: &Client) -> Option<Url> {
 
 fn insert_subscribers_feeds(
     connection: &PgConnection,
-    subscribers: &Vec<User>,
+    subscribers: &[User],
     rss_source: &RssSource,
     rss_feed: &RssFeed,
 ) -> Result<(), Error> {
     for subscriber in subscribers {
-        let user_feed = UserRssFeed::new(
-            subscriber.uuid,
-            rss_feed.uuid.clone(),
-            "Unreaded".to_owned(),
-        );
-        if !is_user_feed_already_inserted(&connection, &rss_feed.rss_url, &subscriber)? {
-            if insert_user_rss_feed(&connection, &user_feed).is_ok() {
-                let _ = increment_unreaded_rss_sources(&connection, rss_source, &subscriber)?;
-                info!(
-                    "insert subscriber {:?} -> {:?}",
-                    subscriber.login, &rss_feed.rss_url
-                );
-            }
+        let user_feed = UserRssFeed::new(subscriber.uuid, rss_feed.uuid, "Unreaded".to_owned());
+        if !is_user_feed_already_inserted(&connection, &rss_feed.rss_url, &subscriber)?
+            && insert_user_rss_feed(&connection, &user_feed).is_ok()
+        {
+            let _ = increment_unreaded_rss_sources(&connection, rss_source, &subscriber)?;
+            info!(
+                "insert subscriber {:?} -> {:?}",
+                subscriber.login, &rss_feed.rss_url
+            );
         }
     }
     Ok(())

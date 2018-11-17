@@ -1,11 +1,6 @@
 #![cfg_attr(
     feature = "cargo-clippy",
-    allow(
-        needless_pass_by_value,
-        module_inception,
-        too_many_arguments,
-        proc_macro_derive_resolution_fallback
-    )
+    allow(module_inception, too_many_arguments,)
 )]
 #![allow(proc_macro_derive_resolution_fallback)]
 
@@ -22,13 +17,13 @@ extern crate serde_json;
 extern crate diesel;
 extern crate bcrypt;
 extern crate chrono;
+extern crate feed_rs;
 extern crate jsonwebtoken;
+extern crate lazy_static;
 extern crate r2d2;
 extern crate r2d2_diesel;
-extern crate uuid;
-extern crate lazy_static;
-extern crate feed_rs;
 extern crate reqwest;
+extern crate uuid;
 extern crate validator;
 #[macro_use]
 extern crate validator_derive;
@@ -84,7 +79,7 @@ pub fn run() {
 
     let pool = create_diesel_pool(config::CONFIG.database_url.clone());
 
-    let _ = run_rss_job(pool.clone());
+    run_rss_job(pool.clone());
 
     let db_addr = SyncArbiter::start(3, move || DbExecutor::new(pool.clone()));
 
@@ -117,7 +112,7 @@ pub fn run() {
             assets::create_static_assets_app().boxed(),
         ]
     }).bind(&address)
-    .expect(&format!("Can not bind to {}", &address))
+    .unwrap_or_else(|_| panic!("Can not bind to {}", &address))
     .start();
 
     info!("Run server at {}", &address);

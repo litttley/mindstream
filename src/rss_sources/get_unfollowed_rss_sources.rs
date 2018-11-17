@@ -55,6 +55,6 @@ pub fn get_unfollowed_rss_sources(
         )).from_err()
         .and_then(|res| match res {
             Ok(rss_sources) => Ok(HttpResponse::Ok().json(rss_sources)),
-            Err(err) => Err(err.into()),
+            Err(err) => Err(err),
         }).responder()
 }

@@ -1,8 +1,8 @@
 use actix::prelude::*;
 use actix_web::{AsyncResponder, HttpMessage, HttpRequest, HttpResponse, State};
 use futures::future::Future;
-use validator::Validate;
 use serde_json::json;
+use validator::Validate;
 
 use app::app_state::AppState;
 use app::config;
@@ -30,7 +30,7 @@ impl Handler<Signup> for DbExecutor {
     type Result = Result<(User, Token), Error>;
 
     fn handle(&mut self, message: Signup, _: &mut Self::Context) -> Self::Result {
-        let _ = message.validate()?;
+        message.validate()?;
         let connexion = self.pool.get()?;
         let user = User::from_signup(&message)?;
         let user = insert(&connexion, &user)?;
@@ -61,6 +61,6 @@ pub fn signup(
                     "user": user,
                     "token": token,
                 }))),
-            Err(err) => Err(err.into()),
+            Err(err) => Err(err),
         }).responder()
 }

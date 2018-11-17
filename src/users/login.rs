@@ -1,8 +1,8 @@
 use actix::prelude::*;
 use actix_web::{AsyncResponder, HttpMessage, HttpRequest, HttpResponse, State};
 use futures::future::Future;
-use validator::Validate;
 use serde_json::json;
+use validator::Validate;
 
 use app::app_state::AppState;
 use app::config;
@@ -28,7 +28,7 @@ impl Handler<Login> for DbExecutor {
     type Result = Result<(User, Token), Error>;
 
     fn handle(&mut self, message: Login, _: &mut Self::Context) -> Self::Result {
-        let _ = message.validate()?;
+        message.validate()?;
         let connexion = self.pool.get()?;
         let user = users::find_by_email(&connexion, &message.email)?;
         if let Ok(true) = verify_password(&message.password, &user.password) {
@@ -52,6 +52,6 @@ pub fn login(
                     "user": user,
                     "token": token,
                 }))),
-            Err(err) => Err(err.into()),
+            Err(err) => Err(err),
         }).responder()
 }
