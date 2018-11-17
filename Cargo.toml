@@ -5,7 +5,7 @@ authors = ["Egor Berezovskiy <egor.neon@gmail.com>"]
 
 [dependencies]
 actix = "0.7.6"
-actix-web = "0.7.13"
+actix-web = "0.7.14"
 futures = "0.1.25"
 serde = "1.0.80"
 serde_derive = "1.0.80"
