@@ -4,6 +4,7 @@ use futures::future::Future;
 use serde_json;
 use serde_json::json;
 use uuid::Uuid;
+use serde_derive::Deserialize;
 
 use app::app_state::AppState;
 use app::config;

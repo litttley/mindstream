@@ -7,6 +7,7 @@ use jsonwebtoken;
 use r2d2;
 use reqwest;
 use validator;
+use serde_derive::Serialize;
 
 #[derive(Debug, Serialize)]
 pub struct ApiError {

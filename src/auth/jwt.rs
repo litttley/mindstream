@@ -1,4 +1,5 @@
 use jsonwebtoken::{decode, encode, Header, Validation};
+use serde_derive::{Deserialize, Serialize};
 
 use errors::Error;
 use users::user::User;

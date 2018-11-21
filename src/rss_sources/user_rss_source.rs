@@ -1,5 +1,6 @@
 use schema::users_rss_sources;
 use uuid::Uuid;
+use serde_derive::{Deserialize, Serialize};
 
 #[derive(Debug, PartialEq, Deserialize, Serialize, Queryable, Insertable)]
 #[table_name = "users_rss_sources"]
