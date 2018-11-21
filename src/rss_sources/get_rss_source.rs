@@ -1,8 +1,8 @@
 use actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Path, State};
 use futures::future::Future;
-use uuid::Uuid;
 use serde_derive::Deserialize;
+use uuid::Uuid;
 
 use app::app_state::AppState;
 use app::db::DbExecutor;

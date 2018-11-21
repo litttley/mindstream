@@ -1,10 +1,11 @@
 use actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Query, State};
 use futures::future::Future;
+use log::debug;
+use serde_derive::Deserialize;
 use serde_json;
 use serde_json::json;
 use uuid::Uuid;
-use serde_derive::Deserialize;
 
 use app::app_state::AppState;
 use app::config;

@@ -3,6 +3,7 @@ use chrono::NaiveDateTime;
 use serde::de::{Deserialize, Deserializer, Error};
 use serde_derive::{Deserialize, Serialize};
 use std::str::FromStr;
+use strum_macros::{EnumString, ToString};
 use uuid::Uuid;
 
 use schema::users_rss_feeds;

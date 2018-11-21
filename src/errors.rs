@@ -3,11 +3,13 @@ use actix_web::error::JsonPayloadError;
 use actix_web::{http, HttpResponse, ResponseError};
 use bcrypt;
 use diesel;
+use failure::Fail;
 use jsonwebtoken;
+use log::error;
 use r2d2;
 use reqwest;
-use validator;
 use serde_derive::Serialize;
+use validator;
 
 #[derive(Debug, Serialize)]
 pub struct ApiError {

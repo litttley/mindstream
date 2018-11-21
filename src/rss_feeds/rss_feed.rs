@@ -1,9 +1,9 @@
 use chrono::prelude::*;
 use chrono::NaiveDateTime;
+use serde_derive::{Deserialize, Serialize};
 use serde_json;
 use serde_json::Value;
 use uuid::Uuid;
-use serde_derive::{Deserialize, Serialize};
 
 use rss_feeds::mercury::ReadableData;
 use rss_sources::rss_service::Rss;

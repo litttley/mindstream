@@ -1,4 +1,5 @@
 use diesel::PgConnection;
+use log::{error, info};
 use r2d2::Pool;
 use r2d2_diesel::ConnectionManager;
 use reqwest::Client;

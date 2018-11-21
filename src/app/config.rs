@@ -1,5 +1,7 @@
 use envconfig::Envconfig;
+use envconfig_derive::Envconfig;
 use lazy_static::lazy_static;
+use log::error;
 
 #[derive(Debug, Clone, Envconfig)]
 pub struct Config {

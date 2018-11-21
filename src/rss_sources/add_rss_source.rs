@@ -1,8 +1,9 @@
 use actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Json, State};
 use futures::future::Future;
-use validator::Validate;
 use serde_derive::Deserialize;
+use validator::Validate;
+use validator_derive::Validate;
 
 use app::app_state::AppState;
 use app::db::DbExecutor;

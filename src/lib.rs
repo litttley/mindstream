@@ -1,14 +1,13 @@
 #![cfg_attr(
     feature = "cargo-clippy",
-    allow(module_inception, too_many_arguments,)
+    allow(module_inception, too_many_arguments)
 )]
 #![allow(proc_macro_derive_resolution_fallback)]
 
 extern crate actix;
 extern crate actix_web;
-extern crate futures;
-#[macro_use]
 extern crate failure;
+extern crate futures;
 extern crate serde;
 extern crate serde_derive;
 extern crate serde_json;
@@ -16,30 +15,27 @@ extern crate serde_json;
 extern crate diesel;
 extern crate bcrypt;
 extern crate chrono;
+extern crate env_logger;
+extern crate envconfig;
+extern crate envconfig_derive;
 extern crate feed_rs;
 extern crate jsonwebtoken;
 extern crate lazy_static;
+extern crate log;
 extern crate r2d2;
 extern crate r2d2_diesel;
 extern crate reqwest;
-extern crate uuid;
-extern crate validator;
-#[macro_use]
-extern crate validator_derive;
-#[macro_use]
-extern crate log;
-extern crate env_logger;
 extern crate strum;
-#[macro_use]
 extern crate strum_macros;
 extern crate url;
-#[macro_use]
-extern crate envconfig_derive;
-extern crate envconfig;
+extern crate uuid;
+extern crate validator;
+extern crate validator_derive;
 
 use actix::prelude::*;
 use actix_web::middleware::Logger;
 use actix_web::{http::Method, server, App, HttpResponse};
+use log::info;
 
 mod app;
 mod assets;
