@@ -32,7 +32,7 @@ pub fn is_user_feed_already_inserted(
                 .and(rss_feeds::rss_url.eq(query_url)),
         ).select(rss_feeds::all_columns)
         .get_results::<RssFeed>(&*connection)
-        .map(|feeds| feeds.is_empty())
+        .map(|feeds| !feeds.is_empty())
 }
 
 pub fn find_rss_feeds(

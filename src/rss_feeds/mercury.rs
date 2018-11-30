@@ -5,7 +5,7 @@ use serde_derive::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ReadableData {
-    pub url: String,
+    pub url: Option<String>,
     pub domain: Option<String>,
     pub title: Option<String>,
     pub content: Option<String>,
@@ -24,6 +24,6 @@ pub fn fetch_readable(client: &Client, url: &str) -> Result<Option<ReadableData>
     let url = format!("http://mercury.postlight.com/parser?url={}", url);
     let api_key = CONFIG.mercury_api_key.clone();
     let mut response = client.get(&url).header("x-api-key", api_key).send()?;
-    let readable_data: Option<ReadableData> = response.json()?;
+    let readable_data: Option<ReadableData> = response.json().ok();
     Ok(readable_data)
 }

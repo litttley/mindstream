@@ -1,4 +1,4 @@
-use diesel::PgConnection;
+use diesel::{Connection, PgConnection};
 use log::{error, info};
 use r2d2::Pool;
 use r2d2_diesel::ConnectionManager;
@@ -70,9 +70,9 @@ fn process_rss_source(
                         readable,
                         rss_source,
                     );
-                    if insert_rss_feed(&connection, &rss_feed).is_ok() {
-                        insert_subscribers_feeds(&connection, subscribers, rss_source, &rss_feed)?;
-                    }
+                    insert_rss_feed(&connection, &rss_feed)?;
+                    // TODO rollback if error
+                    insert_subscribers_feeds(&connection, subscribers, rss_source, &rss_feed)?;
                 }
             }
         }
@@ -98,15 +98,17 @@ fn insert_subscribers_feeds(
 ) -> Result<(), Error> {
     for subscriber in subscribers {
         let user_feed = UserRssFeed::new(subscriber.uuid, rss_feed.uuid, "Unreaded".to_owned());
-        if !is_user_feed_already_inserted(&connection, &rss_feed.rss_url, &subscriber)?
-            && insert_user_rss_feed(&connection, &user_feed).is_ok()
-        {
-            let _ = increment_unreaded_rss_sources(&connection, rss_source, &subscriber)?;
-            info!(
-                "insert subscriber {:?} -> {:?}",
-                subscriber.login, &rss_feed.rss_url
-            );
-        }
+        let _ = connection.transaction::<_, Error, _>(|| {
+            if !is_user_feed_already_inserted(&connection, &rss_feed.rss_url, &subscriber)? {
+                insert_user_rss_feed(&connection, &user_feed)?;
+                increment_unreaded_rss_sources(&connection, rss_source, &subscriber)?;
+                info!(
+                    "insert subscriber {:?} -> {:?}",
+                    subscriber.login, &rss_feed.rss_url
+                );
+            }
+            Ok(())
+        });
     }
     Ok(())
 }
