@@ -4,10 +4,10 @@ use diesel::result::Error;
 use diesel::PgConnection;
 use uuid::Uuid;
 
-use rss_feeds::rss_feed::RssFeed;
-use rss_feeds::user_rss_feed::{Reaction, UserRssFeed};
-use schema::{rss_feeds, users_rss_feeds};
-use users::user::User;
+use crate::rss_feeds::rss_feed::RssFeed;
+use crate::rss_feeds::user_rss_feed::{Reaction, UserRssFeed};
+use crate::schema::{rss_feeds, users_rss_feeds};
+use crate::users::user::User;
 
 pub fn insert_user_rss_feed(
     connection: &PgConnection,
@@ -23,7 +23,7 @@ pub fn is_user_feed_already_inserted(
     query_url: &str,
     user: &User,
 ) -> Result<bool, Error> {
-    use schema::rss_feeds;
+    use crate::schema::rss_feeds;
     users_rss_feeds::table
         .inner_join(rss_feeds::table)
         .filter(
@@ -42,7 +42,7 @@ pub fn find_rss_feeds(
     reaction: &Reaction,
     user: &User,
 ) -> Result<Vec<(RssFeed, UserRssFeed)>, Error> {
-    use schema::rss_feeds;
+    use crate::schema::rss_feeds;
     rss_feeds::table
         .inner_join(users_rss_feeds::table)
         .filter(

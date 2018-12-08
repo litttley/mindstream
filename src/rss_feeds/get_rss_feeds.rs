@@ -1,4 +1,4 @@
-use actix::prelude::*;
+use ::actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Query, State};
 use futures::future::Future;
 use log::debug;
@@ -7,16 +7,16 @@ use serde_json;
 use serde_json::json;
 use uuid::Uuid;
 
-use app::app_state::AppState;
-use app::config;
-use app::db::DbExecutor;
-use auth::auth::Auth;
-use errors::Error;
-use rss_feeds::rss_feed::RssFeed;
-use rss_feeds::user_rss_feed::{Reaction, UserRssFeed};
-use rss_feeds::users_rss_feeds_repository::find_rss_feeds;
-use rss_feeds::users_rss_feeds_repository::find_rss_feeds_by_rss_source;
-use users::user::User;
+use crate::app::app_state::AppState;
+use crate::app::config;
+use crate::app::db::DbExecutor;
+use crate::auth::auth::Auth;
+use crate::errors::Error;
+use crate::rss_feeds::rss_feed::RssFeed;
+use crate::rss_feeds::user_rss_feed::{Reaction, UserRssFeed};
+use crate::rss_feeds::users_rss_feeds_repository::find_rss_feeds;
+use crate::rss_feeds::users_rss_feeds_repository::find_rss_feeds_by_rss_source;
+use crate::users::user::User;
 
 #[derive(Debug, Deserialize)]
 pub struct RssFeedsQuery {

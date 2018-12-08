@@ -2,11 +2,11 @@ use diesel;
 use diesel::prelude::*;
 use diesel::result::Error;
 use diesel::PgConnection;
-use uuid::Uuid;
+use ::uuid::Uuid;
 
-use rss_sources::rss_source::RssSource;
-use schema::rss_sources;
-use schema::rss_sources::dsl::*;
+use crate::rss_sources::rss_source::RssSource;
+use crate::schema::rss_sources;
+use crate::schema::rss_sources::dsl::*;
 
 pub fn insert(connection: &PgConnection, rss_source: &RssSource) -> Result<RssSource, Error> {
     diesel::insert_into(rss_sources::table)

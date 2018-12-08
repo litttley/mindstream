@@ -4,8 +4,8 @@ use chrono::NaiveDateTime;
 use serde_derive::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use errors::Error;
-use schema::users;
+use crate::errors::Error;
+use crate::schema::users;
 
 #[derive(Debug, Clone, PartialEq, Deserialize, Serialize, Queryable, Insertable)]
 #[table_name = "users"]

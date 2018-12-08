@@ -7,22 +7,22 @@ use std::thread;
 use std::time::Duration;
 use url::Url;
 
-use app::config;
-use errors::Error;
-use rss_feeds::{
+use crate::app::config;
+use crate::errors::Error;
+use crate::rss_feeds::{
     mercury::fetch_readable,
     rss_feed::RssFeed,
     rss_feeds_repository::{insert_rss_feed, is_rss_feed_exists},
     user_rss_feed::UserRssFeed,
     users_rss_feeds_repository::{insert_user_rss_feed, is_user_feed_already_inserted},
 };
-use rss_sources::{
+use crate::rss_sources::{
     rss_service::fetch_feeds_channel,
     rss_source::RssSource,
     rss_sources_repository::find_rss_sources,
     users_rss_sources_repository::{find_rss_source_subscribers, increment_unreaded_rss_sources},
 };
-use users::user::User;
+use crate::users::user::User;
 
 pub fn run_rss_job(pool: Pool<ConnectionManager<PgConnection>>) {
     let client = Client::new();

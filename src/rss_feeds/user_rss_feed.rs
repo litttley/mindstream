@@ -6,7 +6,7 @@ use std::str::FromStr;
 use strum_macros::{EnumString, ToString};
 use uuid::Uuid;
 
-use schema::users_rss_feeds;
+use crate::schema::users_rss_feeds;
 
 #[derive(Debug, Clone, PartialEq, Deserialize, Serialize, Queryable, Insertable)]
 #[table_name = "users_rss_feeds"]

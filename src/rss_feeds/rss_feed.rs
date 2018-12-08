@@ -5,10 +5,10 @@ use serde_json;
 use serde_json::Value;
 use uuid::Uuid;
 
-use rss_feeds::mercury::ReadableData;
-use rss_sources::rss_service::Rss;
-use rss_sources::rss_source::RssSource;
-use schema::rss_feeds;
+use crate::rss_feeds::mercury::ReadableData;
+use crate::rss_sources::rss_service::Rss;
+use crate::rss_sources::rss_source::RssSource;
+use crate::schema::rss_feeds;
 
 #[derive(Debug, Clone, PartialEq, Deserialize, Serialize, Queryable, Insertable)]
 #[table_name = "rss_feeds"]

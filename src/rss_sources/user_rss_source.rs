@@ -1,4 +1,4 @@
-use schema::users_rss_sources;
+use crate::schema::users_rss_sources;
 use serde_derive::{Deserialize, Serialize};
 use uuid::Uuid;
 

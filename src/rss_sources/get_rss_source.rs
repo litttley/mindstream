@@ -1,14 +1,14 @@
-use actix::prelude::*;
+use ::actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Path, State};
 use futures::future::Future;
 use serde_derive::Deserialize;
 use uuid::Uuid;
 
-use app::app_state::AppState;
-use app::db::DbExecutor;
-use errors::Error;
-use rss_sources::rss_source::RssSource;
-use rss_sources::rss_sources_repository::find_by_uuid;
+use crate::app::app_state::AppState;
+use crate::app::db::DbExecutor;
+use crate::errors::Error;
+use crate::rss_sources::rss_source::RssSource;
+use crate::rss_sources::rss_sources_repository::find_by_uuid;
 
 #[derive(Debug, Deserialize)]
 pub struct GetRssSource {

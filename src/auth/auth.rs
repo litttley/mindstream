@@ -1,9 +1,9 @@
 use actix_web::Error;
 use actix_web::{FromRequest, HttpMessage, HttpRequest};
 
-use app::config;
-use auth::jwt::{decode_token, Claime};
-use errors;
+use crate::app::config;
+use crate::auth::jwt::{decode_token, Claime};
+use crate::errors;
 
 #[derive(Debug)]
 pub struct Auth {

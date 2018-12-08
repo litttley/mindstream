@@ -1,19 +1,19 @@
-use actix::prelude::*;
+use ::actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Path, State};
 use diesel::Connection;
 use futures::future::Future;
 use serde_derive::Deserialize;
 use uuid::Uuid;
 
-use app::app_state::AppState;
-use app::db::DbExecutor;
-use auth::auth::Auth;
-use errors::{ApiError, Error};
-use rss_sources::rss_source::RssSource;
-use rss_sources::rss_sources_repository::find_by_uuid;
-use rss_sources::user_rss_source::UserRssSource;
-use rss_sources::users_rss_sources_repository::{insert, is_exists};
-use users::user::User;
+use crate::app::app_state::AppState;
+use crate::app::db::DbExecutor;
+use crate::auth::auth::Auth;
+use crate::errors::{ApiError, Error};
+use crate::rss_sources::rss_source::RssSource;
+use crate::rss_sources::rss_sources_repository::find_by_uuid;
+use crate::rss_sources::user_rss_source::UserRssSource;
+use crate::rss_sources::users_rss_sources_repository::{insert, is_exists};
+use crate::users::user::User;
 
 #[derive(Debug, Deserialize)]
 pub struct FallowRssSource {

@@ -1,19 +1,19 @@
-use actix::prelude::*;
+use ::actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Query, State};
 use futures::future::Future;
 use serde_derive::Deserialize;
 use serde_json::{json, Value};
 
-use app::app_state::AppState;
-use app::config;
-use app::db::DbExecutor;
-use auth::auth::Auth;
-use errors::Error;
-use pagination::Pagination;
-use rss_sources::rss_source::RssSource;
-use rss_sources::user_rss_source::UserRssSource;
-use rss_sources::users_rss_sources_repository::rss_sources_by_user;
-use users::user::User;
+use crate::app::app_state::AppState;
+use crate::app::config;
+use crate::app::db::DbExecutor;
+use crate::auth::auth::Auth;
+use crate::errors::Error;
+use crate::pagination::Pagination;
+use crate::rss_sources::rss_source::RssSource;
+use crate::rss_sources::user_rss_source::UserRssSource;
+use crate::rss_sources::users_rss_sources_repository::rss_sources_by_user;
+use crate::users::user::User;
 
 #[derive(Debug, Deserialize)]
 pub struct MyRssSources {

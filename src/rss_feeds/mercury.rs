@@ -1,5 +1,5 @@
-use app::config::CONFIG;
-use errors::Error;
+use crate::app::config::CONFIG;
+use crate::errors::Error;
 use reqwest::Client;
 use serde_derive::{Deserialize, Serialize};
 

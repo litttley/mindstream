@@ -1,6 +1,6 @@
 use actix::Addr;
 
-use app::db::DbExecutor;
+use crate::app::db::DbExecutor;
 
 pub struct AppState {
     pub db: Addr<DbExecutor>,

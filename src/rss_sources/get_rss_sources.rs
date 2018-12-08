@@ -1,15 +1,15 @@
-use actix::prelude::*;
+use ::actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Query, State};
 use futures::future::Future;
 use serde_derive::Deserialize;
 
-use app::app_state::AppState;
-use app::config;
-use app::db::DbExecutor;
-use errors::Error;
-use pagination::Pagination;
-use rss_sources::rss_source::RssSource;
-use rss_sources::rss_sources_repository::find_rss_sources;
+use crate::app::app_state::AppState;
+use crate::app::config;
+use crate::app::db::DbExecutor;
+use crate::errors::Error;
+use crate::pagination::Pagination;
+use crate::rss_sources::rss_source::RssSource;
+use crate::rss_sources::rss_sources_repository::find_rss_sources;
 
 #[derive(Debug, Deserialize)]
 pub struct GetRssSources {

@@ -3,7 +3,7 @@ use chrono::NaiveDateTime;
 use serde_derive::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use schema::rss_sources;
+use crate::schema::rss_sources;
 
 #[derive(Debug, Clone, Deserialize, Serialize, Queryable, Insertable)]
 #[table_name = "rss_sources"]

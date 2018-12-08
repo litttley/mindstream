@@ -5,10 +5,10 @@ use diesel::result::Error;
 use diesel::PgConnection;
 use uuid::Uuid;
 
-use rss_sources::rss_source::RssSource;
-use rss_sources::user_rss_source::UserRssSource;
-use schema::users_rss_sources;
-use users::user::User;
+use crate::rss_sources::rss_source::RssSource;
+use crate::rss_sources::user_rss_source::UserRssSource;
+use crate::schema::users_rss_sources;
+use crate::users::user::User;
 
 pub fn insert(
     connection: &PgConnection,
@@ -23,7 +23,7 @@ pub fn is_exists(
     connection: &PgConnection,
     user_rss_source: &UserRssSource,
 ) -> Result<bool, Error> {
-    use schema::users_rss_sources::dsl::*;
+    use crate::schema::users_rss_sources::dsl::*;
     diesel::select(exists(
         users_rss_sources
             .filter(user_uuid.eq(user_rss_source.user_uuid))
@@ -37,7 +37,7 @@ pub fn rss_sources_by_user(
     offset: i64,
     user: &User,
 ) -> Result<Vec<(RssSource, UserRssSource)>, Error> {
-    use schema::rss_sources;
+    use crate::schema::rss_sources;
     rss_sources::table
         .inner_join(users_rss_sources::table)
         .filter(users_rss_sources::user_uuid.eq(user.uuid))
@@ -50,7 +50,7 @@ pub fn find_rss_source_subscribers(
     connection: &PgConnection,
     rss_source: &RssSource,
 ) -> Result<Vec<User>, Error> {
-    use schema::users;
+    use crate::schema::users;
     users::table
         .inner_join(users_rss_sources::table)
         .filter(users_rss_sources::rss_source_uuid.eq(rss_source.uuid))
@@ -64,7 +64,7 @@ pub fn find_unfollowed(
     offset: i64,
     user: &User,
 ) -> Result<Vec<RssSource>, Error> {
-    use schema::rss_sources;
+    use crate::schema::rss_sources;
     rss_sources::table
         .left_join(users_rss_sources::table)
         .filter(
