@@ -71,9 +71,11 @@ pub fn change_rss_feed_reaction(
         .send(ChangeRssFeedReaction::new(
             json.into_inner(),
             auth.claime.user.clone(),
-        )).from_err()
+        ))
+        .from_err()
         .and_then(|res| match res {
             Ok(rss_feeds) => Ok(HttpResponse::Ok().json(rss_feeds)),
             Err(err) => Err(err),
-        }).responder()
+        })
+        .responder()
 }

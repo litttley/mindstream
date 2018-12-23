@@ -25,7 +25,7 @@ impl User {
         email: impl Into<String>,
         password: impl Into<String>,
     ) -> Self {
-        User {
+        Self {
             uuid: Uuid::new_v4(),
             login: login.into(),
             email: email.into(),
@@ -41,7 +41,7 @@ impl User {
         password: impl Into<String>,
     ) -> Result<Self, Error> {
         let hashed_password = hash_password(&password.into())?;
-        let user = User::new(login, email, hashed_password);
+        let user = Self::new(login, email, hashed_password);
         Ok(user)
     }
 }

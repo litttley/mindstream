@@ -28,7 +28,8 @@ pub fn is_exists(
         users_rss_sources
             .filter(user_uuid.eq(user_rss_source.user_uuid))
             .filter(rss_source_uuid.eq(user_rss_source.rss_source_uuid)),
-    )).get_result(&*connection)
+    ))
+    .get_result(&*connection)
 }
 
 pub fn rss_sources_by_user(
@@ -71,7 +72,8 @@ pub fn find_unfollowed(
             users_rss_sources::user_uuid
                 .is_null()
                 .or(users_rss_sources::user_uuid.ne(user.uuid)),
-        ).limit(limit)
+        )
+        .limit(limit)
         .offset(offset)
         .select(rss_sources::all_columns)
         .get_results::<RssSource>(&*connection)
@@ -89,7 +91,8 @@ pub fn increment_unreaded_rss_sources(
         WHERE users_rss_sources.rss_source_uuid = $1
             AND users_rss_sources.user_uuid = $2
     "#,
-    ).bind::<diesel::sql_types::Uuid, _>(rss_source.uuid)
+    )
+    .bind::<diesel::sql_types::Uuid, _>(rss_source.uuid)
     .bind::<diesel::sql_types::Uuid, _>(user.uuid)
     .execute(&*connection)
 }
@@ -106,7 +109,8 @@ pub fn decrement_unreaded_rss_sources(
         WHERE users_rss_sources.rss_source_uuid = $1
             AND users_rss_sources.user_uuid = $2
     "#,
-    ).bind::<diesel::sql_types::Uuid, _>(rss_source_uuid)
+    )
+    .bind::<diesel::sql_types::Uuid, _>(rss_source_uuid)
     .bind::<diesel::sql_types::Uuid, _>(user.uuid)
     .execute(&*connection)
 }

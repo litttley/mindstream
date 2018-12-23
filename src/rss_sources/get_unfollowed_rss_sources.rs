@@ -53,9 +53,11 @@ pub fn get_unfollowed_rss_sources(
         .send(GetUnfollowedRssSources::new(
             pagination.into_inner(),
             auth.claime.user.clone(),
-        )).from_err()
+        ))
+        .from_err()
         .and_then(|res| match res {
             Ok(rss_sources) => Ok(HttpResponse::Ok().json(rss_sources)),
             Err(err) => Err(err),
-        }).responder()
+        })
+        .responder()
 }

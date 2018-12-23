@@ -51,9 +51,10 @@ pub fn login(
         .and_then(move |login: Login| state.db.send(login.clone()).from_err())
         .and_then(|res| match res {
             Ok((user, token)) => Ok(HttpResponse::Ok().json(json!({
-                    "user": user,
-                    "token": token,
-                }))),
+                "user": user,
+                "token": token,
+            }))),
             Err(err) => Err(err),
-        }).responder()
+        })
+        .responder()
 }

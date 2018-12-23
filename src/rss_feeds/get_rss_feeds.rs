@@ -75,18 +75,21 @@ pub fn get_rss_feeds(
         .send(GetRssFeeds::new(
             query.into_inner(),
             auth.claime.user.clone(),
-        )).from_err()
+        ))
+        .from_err()
         .and_then(|res| match res {
             Ok(rss_feeds) => Ok(HttpResponse::Ok().json(
                 rss_feeds
                     .iter()
                     .map(|(rss_feed, user_rss_feed)| {
                         json!({
-                  "rss_feed": rss_feed,
-                  "user_rss_feed": user_rss_feed,
-                })
-                    }).collect::<serde_json::Value>(),
+                          "rss_feed": rss_feed,
+                          "user_rss_feed": user_rss_feed,
+                        })
+                    })
+                    .collect::<serde_json::Value>(),
             )),
             Err(err) => Err(err),
-        }).responder()
+        })
+        .responder()
 }

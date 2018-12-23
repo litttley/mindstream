@@ -63,9 +63,11 @@ pub fn follow_rss_source(
         .send(FallowRssSource::new(
             uuid.into_inner(),
             auth.claime.user.clone(),
-        )).from_err()
+        ))
+        .from_err()
         .and_then(|res| match res {
             Ok(rss_source) => Ok(HttpResponse::Ok().json(rss_source)),
             Err(err) => Err(err),
-        }).responder()
+        })
+        .responder()
 }

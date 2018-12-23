@@ -1,8 +1,8 @@
+use ::uuid::Uuid;
 use diesel;
 use diesel::prelude::*;
 use diesel::result::Error;
 use diesel::PgConnection;
-use ::uuid::Uuid;
 
 use crate::rss_sources::rss_source::RssSource;
 use crate::schema::rss_sources;

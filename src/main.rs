@@ -1,14 +1,25 @@
-#![allow(clippy::module_inception, clippy::too_many_arguments)]
 #![allow(proc_macro_derive_resolution_fallback)]
+#![warn(
+    clippy::all,
+    clippy::restriction,
+    clippy::pedantic,
+    clippy::nursery,
+    clippy::cargo
+)]
+#![allow(
+    clippy::module_inception,
+    clippy::too_many_arguments,
+    clippy::missing_docs_in_private_items
+)]
 
 #[macro_use]
 extern crate diesel;
 
-use dotenv::dotenv;
 use ::actix::prelude::*;
 use ::actix_web::middleware::Logger;
 use ::actix_web::{http::Method, server, App, HttpResponse};
 use ::log::info;
+use dotenv::dotenv;
 
 mod app;
 mod assets;
@@ -66,20 +77,26 @@ pub fn run() {
                 .resource("/source", |r| r.method(Method::GET).with(get_rss_sources))
                 .resource("/source/unfollowed", |r| {
                     r.method(Method::GET).with(get_unfollowed_rss_sources)
-                }).resource("/source/my", |r| r.method(Method::GET).with(my_rss_sources))
+                })
+                .resource("/source/my", |r| r.method(Method::GET).with(my_rss_sources))
                 .resource("/source/add", |r| {
                     r.method(Method::POST).with(add_rss_source)
-                }).resource("/rss/feeds", |r| r.method(Method::GET).with(get_rss_feeds))
+                })
+                .resource("/rss/feeds", |r| r.method(Method::GET).with(get_rss_feeds))
                 .resource("/rss/feeds/reaction", |r| {
                     r.method(Method::PUT).with(change_rss_feed_reaction)
-                }).resource("/source/{uuid}/fallow", |r| {
+                })
+                .resource("/source/{uuid}/fallow", |r| {
                     r.method(Method::POST).with(follow_rss_source)
-                }).resource("/source/{uuid}", |r| {
+                })
+                .resource("/source/{uuid}", |r| {
                     r.method(Method::GET).with(get_rss_source)
-                }).boxed(),
+                })
+                .boxed(),
             assets::create_static_assets_app().boxed(),
         ]
-    }).bind(&address)
+    })
+    .bind(&address)
     .unwrap_or_else(|_| panic!("Can not bind to {}", &address))
     .start();
 

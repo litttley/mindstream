@@ -60,9 +60,10 @@ pub fn signup(
         .and_then(move |signup: Signup| state.db.send(signup.clone()).from_err())
         .and_then(|res| match res {
             Ok((user, token)) => Ok(HttpResponse::Ok().json(json!({
-                    "user": user,
-                    "token": token,
-                }))),
+                "user": user,
+                "token": token,
+            }))),
             Err(err) => Err(err),
-        }).responder()
+        })
+        .responder()
 }

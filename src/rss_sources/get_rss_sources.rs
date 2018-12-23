@@ -51,5 +51,6 @@ pub fn get_rss_sources(
         .and_then(|res| match res {
             Ok(rss_sources) => Ok(HttpResponse::Ok().json(rss_sources)),
             Err(err) => Err(err),
-        }).responder()
+        })
+        .responder()
 }

@@ -55,18 +55,21 @@ pub fn my_rss_sources(
         .send(MyRssSources::new(
             pagination.into_inner(),
             auth.claime.user.clone(),
-        )).from_err()
+        ))
+        .from_err()
         .and_then(|res| match res {
             Ok(rss_sources) => Ok(HttpResponse::Ok().json(
                 rss_sources
                     .iter()
                     .map(|(rss_source, user_rss_source)| {
                         json!({
-                    "rss_source": rss_source,
-                    "unreaded": user_rss_source.unreaded,
-                })
-                    }).collect::<Vec<Value>>(),
+                            "rss_source": rss_source,
+                            "unreaded": user_rss_source.unreaded,
+                        })
+                    })
+                    .collect::<Vec<Value>>(),
             )),
             Err(err) => Err(err),
-        }).responder()
+        })
+        .responder()
 }
