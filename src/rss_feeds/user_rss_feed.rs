@@ -1,7 +1,6 @@
 use chrono::prelude::*;
 use chrono::NaiveDateTime;
-use serde::de::{Deserialize, Deserializer, Error};
-use serde_derive::{Deserialize, Serialize};
+use serde::{de::Error, Deserialize, Deserializer, Serialize};
 use std::str::FromStr;
 use strum_macros::{EnumString, ToString};
 use uuid::Uuid;

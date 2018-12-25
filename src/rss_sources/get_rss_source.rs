@@ -1,7 +1,7 @@
 use ::actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Path, State};
 use futures::future::Future;
-use serde_derive::Deserialize;
+use serde::Deserialize;
 use uuid::Uuid;
 
 use crate::app::app_state::AppState;

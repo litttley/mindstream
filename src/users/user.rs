@@ -1,7 +1,7 @@
 use bcrypt::{hash, verify, BcryptError, DEFAULT_COST};
 use chrono::prelude::*;
 use chrono::NaiveDateTime;
-use serde_derive::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use crate::errors::Error;

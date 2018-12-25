@@ -1,5 +1,5 @@
 use jsonwebtoken::{decode, encode, Header, Validation};
-use serde_derive::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 
 use crate::errors::Error;
 use crate::users::user::User;

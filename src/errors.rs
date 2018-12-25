@@ -8,7 +8,7 @@ use jsonwebtoken;
 use log::error;
 use r2d2;
 use reqwest;
-use serde_derive::Serialize;
+use serde::Serialize;
 use validator;
 
 #[derive(Debug, Serialize)]

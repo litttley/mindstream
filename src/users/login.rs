@@ -1,7 +1,7 @@
 use ::actix::prelude::*;
 use actix_web::{AsyncResponder, HttpMessage, HttpRequest, HttpResponse, State};
 use futures::future::Future;
-use serde_derive::Deserialize;
+use serde::Deserialize;
 use serde_json::json;
 use validator::Validate;
 use validator_derive::Validate;

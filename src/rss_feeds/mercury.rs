@@ -1,7 +1,7 @@
 use crate::app::config::CONFIG;
 use crate::errors::Error;
 use reqwest::Client;
-use serde_derive::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ReadableData {

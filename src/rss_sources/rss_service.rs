@@ -2,7 +2,7 @@ use feed_rs::entry::Entry;
 use feed_rs::{parser, Feed};
 use reqwest;
 use reqwest::Error;
-use serde_derive::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 
 pub fn fetch_feeds_channel(url: &str) -> Result<Option<Feed>, Error> {
     let mut response = reqwest::get(url)?;
