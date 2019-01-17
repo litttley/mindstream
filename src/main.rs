@@ -44,6 +44,7 @@ use crate::rss_sources::get_rss_source::get_rss_source;
 use crate::rss_sources::get_rss_sources::get_rss_sources;
 use crate::rss_sources::get_unfollowed_rss_sources::get_unfollowed_rss_sources;
 use crate::rss_sources::my_rss_sources::my_rss_sources;
+use crate::rss_sources::search_rss_sources::search_rss_source_handler;
 use crate::users::login::login;
 use crate::users::signup::signup;
 
@@ -74,6 +75,9 @@ pub fn run() {
                 .resource("/users/signup", |r| r.method(Method::POST).with(signup))
                 .resource("/users/login", |r| r.method(Method::POST).with(login))
                 .resource("/users/me", |r| r.method(Method::GET).with(me))
+                .resource("/rss/sources", |r| {
+                    r.method(Method::GET).with(search_rss_source_handler)
+                })
                 .resource("/source", |r| r.method(Method::GET).with(get_rss_sources))
                 .resource("/source/unfollowed", |r| {
                     r.method(Method::GET).with(get_unfollowed_rss_sources)

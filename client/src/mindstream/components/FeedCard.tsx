@@ -102,7 +102,8 @@ function sanitizeWithDom(content: string, f: (html: HTMLDivElement) => HTMLDivEl
 function sanitizeScripts(html: HTMLDivElement): HTMLDivElement {
   const scripts = html.getElementsByTagName("script")
   let i = scripts.length
-  while (i--) {
+  while (i) {
+    i -= 1
     const script = scripts[i]
     if (script.parentNode) {
       script.parentNode.removeChild(script)

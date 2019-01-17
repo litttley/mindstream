@@ -13,7 +13,7 @@ export default class Menu extends React.PureComponent<Props> {
         <div className={styles.links}>
           <a className={styles.item} href="#/">Mindstream</a>
           <a className={styles.item} href="#/feeds">Feeds</a>
-          <a className={styles.item} href="#/sources">Sources</a>
+          <a className={styles.item} href="#/sources">Rss Sources</a>
           <a className={styles.item} onClick={logout}>Logout</a>
         </div>
       </div>

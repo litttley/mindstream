@@ -42,6 +42,7 @@ class LoginForm extends React.Component<Props & InjectedIntlProps, Login> {
         />
 
         <GhostdButton
+          className={styles.button}
           label="Login"
           loading={loading}
           onClick={this.handleOnSubmit}

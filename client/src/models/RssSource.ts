@@ -24,3 +24,13 @@ export const MyRssSourceValidator = object({
 
 export type RssSource = typeof RssSourceValidator.T
 export type MyRssSource = typeof MyRssSourceValidator.T
+
+export function getRssSourceIconUrl({ visual_url, icon_url, cover_url }: RssSource): string | undefined {
+  if (visual_url) {
+    return visual_url
+  } else if (icon_url) {
+    return icon_url
+  } else if (cover_url) {
+    return cover_url
+  }
+}

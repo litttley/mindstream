@@ -22,7 +22,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps
 
-const SignupContainer: React.SFC<Props> = ({ loading, errors, onSubmit }) => {
+const SignupContainer = ({ loading, errors, onSubmit }: Props) => {
   return (
     <AuthLayout>
       <SignupForm

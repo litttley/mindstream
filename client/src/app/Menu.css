@@ -9,11 +9,11 @@
 
 .item {
   text-decoration: none;
-  /* color: var(--clear-text-color); */
+  color: var(--dark-text-color);
   padding: 10px 20px;
   cursor: pointer;
 }
 
 .item:hover {
-  /* background-color: var(--dark-hover-color); */
+  color: var(--dark-hover-color);
 }

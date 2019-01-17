@@ -1,4 +1,5 @@
 pub mod add_rss_source;
+pub mod search_rss_sources;
 pub mod follow_rss_source;
 pub mod get_rss_source;
 pub mod get_rss_sources;

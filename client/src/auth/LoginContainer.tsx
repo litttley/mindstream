@@ -20,7 +20,7 @@ interface DispatchProps {
 
 type Props = DispatchProps & StateProps
 
-const LoginContainer: React.SFC<Props> = ({ onSubmit, loading, errors }) => {
+const LoginContainer = ({ onSubmit, loading, errors }: Props) => {
   return (
     <AuthLayout>
       <LoginForm
