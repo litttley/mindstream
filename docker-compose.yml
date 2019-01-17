@@ -1,6 +1,6 @@
-version: '3'
+version: '2'
 services:
-    mindstream_postgres:
+    postgres:
         image: postgres:10.0-alpine
         environment:
             POSTGRES_PASSWORD: mindstream
@@ -11,9 +11,24 @@ services:
         volumes:
             - .docker-data/postgresql:/var/lib/postgresql/data
 
-    mindstream_adminer:
+    adminer:
         image: adminer
         ports:
             - 5555:8080
         depends_on:
-            - mindstream_postgres
+            - postgres
+
+    zookeeper:
+        image: wurstmeister/zookeeper:latest
+        ports:
+            - "2181:2181"
+    kafka:
+        image: wurstmeister/kafka:latest
+        ports:
+            - "9092:9092"
+        environment:
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+            KAFKA_ADVERTISED_HOST_NAME: localhost
+            KAFKA_CREATE_TOPICS: "topic1:1:1"
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
