@@ -1,16 +1,16 @@
 #![allow(proc_macro_derive_resolution_fallback)]
-#![warn(
-    clippy::all,
-    clippy::restriction,
-    clippy::pedantic,
-    clippy::nursery,
-    clippy::cargo
-)]
-#![allow(
-    clippy::module_inception,
-    clippy::too_many_arguments,
-    clippy::missing_docs_in_private_items
-)]
+// #![warn(
+//     // clippy::all,
+//     // clippy::restriction,
+//     // clippy::pedantic,
+//     // clippy::nursery,
+//     clippy::cargo
+// )]
+// #![allow(
+//     clippy::module_inception,
+//     clippy::too_many_arguments,
+//     clippy::missing_docs_in_private_items
+// )]
 
 #[macro_use]
 extern crate diesel;
@@ -29,6 +29,7 @@ mod pagination;
 mod rss_feeds;
 mod rss_sources;
 mod schema;
+mod upload;
 mod users;
 
 use crate::app::app_state::AppState;
@@ -91,6 +92,9 @@ pub fn run() {
                 })
                 .resource("/source/{uuid}", |r| {
                     r.method(Method::GET).with(get_rss_source)
+                })
+                .resource("/upload", |r| {
+                    r.method(Method::POST).with(upload::upload)
                 })
                 .boxed(),
             assets::create_static_assets_app().boxed(),
