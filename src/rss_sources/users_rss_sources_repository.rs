@@ -7,8 +7,8 @@ use uuid::Uuid;
 
 use crate::models::rss_source::RssSource;
 use crate::models::user_rss_source::UserRssSource;
+use crate::models::user::User;
 use crate::schema::users_rss_sources;
-use crate::users::user::User;
 
 pub fn insert(
     connection: &PgConnection,

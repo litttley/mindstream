@@ -13,7 +13,7 @@ use crate::pagination::Pagination;
 use crate::models::rss_source::RssSource;
 use crate::models::user_rss_source::UserRssSource;
 use crate::rss_sources::users_rss_sources_repository::rss_sources_by_user;
-use crate::users::user::User;
+use crate::models::user::User;
 
 #[derive(Debug, Deserialize)]
 pub struct MyRssSources {

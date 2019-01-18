@@ -24,7 +24,7 @@ use crate::rss_sources::{
     rss_sources_repository::find_rss_sources,
     users_rss_sources_repository::{find_rss_source_subscribers, increment_unreaded_rss_sources},
 };
-use crate::users::user::User;
+use crate::models::user::User;
 
 pub fn run_rss_job(pool: Pool<ConnectionManager<PgConnection>>) {
     let client = Client::new();

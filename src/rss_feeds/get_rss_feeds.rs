@@ -16,7 +16,7 @@ use crate::models::rss_feed::RssFeed;
 use crate::models::user_rss_feed::{Reaction, UserRssFeed};
 use crate::rss_feeds::users_rss_feeds_repository::find_rss_feeds;
 use crate::rss_feeds::users_rss_feeds_repository::find_rss_feeds_by_rss_source;
-use crate::users::user::User;
+use crate::models::user::User;
 
 #[derive(Debug, Deserialize)]
 pub struct RssFeedsQuery {
