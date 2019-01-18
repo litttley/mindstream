@@ -9,7 +9,7 @@ use crate::app::config;
 use crate::app::db::DbExecutor;
 use crate::auth::auth::Auth;
 use crate::errors::Error;
-use crate::pagination::Pagination;
+use crate::models::pagination::Pagination;
 use crate::models::rss_source::RssSource;
 use crate::models::user_rss_source::UserRssSource;
 use crate::repositories::users_rss_sources::rss_sources_by_user;

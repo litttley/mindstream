@@ -25,7 +25,6 @@ mod app;
 mod assets;
 mod auth;
 mod errors;
-mod pagination;
 mod rss_feeds;
 mod rss_sources;
 mod schema;

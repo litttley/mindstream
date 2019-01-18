@@ -5,3 +5,4 @@ pub mod user_rss_source;
 pub mod user;
 pub mod readable;
 pub mod rss;
+pub mod pagination;
