@@ -4,7 +4,7 @@ use diesel::prelude::*;
 use diesel::result::Error;
 use diesel::PgConnection;
 
-use crate::rss_sources::rss_source::RssSource;
+use crate::models::rss_source::RssSource;
 use crate::schema::rss_sources;
 use crate::schema::rss_sources::dsl::*;
 

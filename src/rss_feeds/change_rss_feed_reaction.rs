@@ -9,7 +9,7 @@ use crate::app::db::DbExecutor;
 use crate::auth::auth::Auth;
 use crate::errors::Error;
 use crate::rss_feeds::rss_feeds_repository::find_rss_feed;
-use crate::rss_feeds::user_rss_feed::{Reaction, UserRssFeed};
+use crate::models::user_rss_feed::{Reaction, UserRssFeed};
 use crate::rss_feeds::users_rss_feeds_repository::{find_user_rss_feed, update_rss_feed_reaction};
 use crate::rss_sources::users_rss_sources_repository::decrement_unreaded_rss_sources;
 use crate::users::user::User;

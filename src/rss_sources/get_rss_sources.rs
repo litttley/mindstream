@@ -8,7 +8,7 @@ use crate::app::config;
 use crate::app::db::DbExecutor;
 use crate::errors::Error;
 use crate::pagination::Pagination;
-use crate::rss_sources::rss_source::RssSource;
+use crate::models::rss_source::RssSource;
 use crate::rss_sources::rss_sources_repository::find_rss_sources;
 
 #[derive(Debug, Deserialize)]

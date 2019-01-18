@@ -5,8 +5,8 @@ use diesel::result::Error;
 use diesel::PgConnection;
 use uuid::Uuid;
 
-use crate::rss_sources::rss_source::RssSource;
-use crate::rss_sources::user_rss_source::UserRssSource;
+use crate::models::rss_source::RssSource;
+use crate::models::user_rss_source::UserRssSource;
 use crate::schema::users_rss_sources;
 use crate::users::user::User;
 

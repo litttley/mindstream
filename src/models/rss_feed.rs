@@ -7,7 +7,7 @@ use uuid::Uuid;
 
 use crate::rss_feeds::mercury::ReadableData;
 use crate::rss_sources::rss_service::Rss;
-use crate::rss_sources::rss_source::RssSource;
+use crate::models::rss_source::RssSource;
 use crate::schema::rss_feeds;
 
 #[derive(Debug, Clone, PartialEq, Deserialize, Serialize, Queryable, Insertable)]

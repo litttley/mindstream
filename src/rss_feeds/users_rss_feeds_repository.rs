@@ -4,8 +4,8 @@ use diesel::result::Error;
 use diesel::PgConnection;
 use uuid::Uuid;
 
-use crate::rss_feeds::rss_feed::RssFeed;
-use crate::rss_feeds::user_rss_feed::{Reaction, UserRssFeed};
+use crate::models::rss_feed::RssFeed;
+use crate::models::user_rss_feed::{Reaction, UserRssFeed};
 use crate::schema::{rss_feeds, users_rss_feeds};
 use crate::users::user::User;
 

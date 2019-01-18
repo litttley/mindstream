@@ -9,7 +9,7 @@ use crate::app::app_state::AppState;
 use crate::app::db::DbExecutor;
 use crate::errors::Error;
 use crate::rss_sources::rss_service::fetch_feeds_channel;
-use crate::rss_sources::rss_source::RssSource;
+use crate::models::rss_source::RssSource;
 use crate::rss_sources::rss_sources_repository::insert;
 
 #[derive(Debug, Validate, Deserialize)]

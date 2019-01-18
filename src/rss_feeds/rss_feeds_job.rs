@@ -9,16 +9,18 @@ use url::Url;
 
 use crate::app::config;
 use crate::errors::Error;
+use crate::models::{
+    rss_feed::RssFeed,
+    user_rss_feed::UserRssFeed,
+    rss_source::RssSource,
+};
 use crate::rss_feeds::{
     mercury::fetch_readable,
-    rss_feed::RssFeed,
     rss_feeds_repository::{insert_rss_feed, is_rss_feed_exists},
-    user_rss_feed::UserRssFeed,
     users_rss_feeds_repository::{insert_user_rss_feed, is_user_feed_already_inserted},
 };
 use crate::rss_sources::{
     rss_service::fetch_feeds_channel,
-    rss_source::RssSource,
     rss_sources_repository::find_rss_sources,
     users_rss_sources_repository::{find_rss_source_subscribers, increment_unreaded_rss_sources},
 };

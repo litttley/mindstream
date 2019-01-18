@@ -30,6 +30,7 @@ mod rss_feeds;
 mod rss_sources;
 mod schema;
 mod users;
+mod models;
 
 use crate::app::app_state::AppState;
 use crate::app::config;
