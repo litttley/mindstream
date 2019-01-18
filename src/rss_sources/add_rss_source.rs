@@ -10,7 +10,7 @@ use crate::app::db::DbExecutor;
 use crate::errors::Error;
 use crate::rss_sources::rss_service::fetch_feeds_channel;
 use crate::models::rss_source::RssSource;
-use crate::rss_sources::rss_sources_repository::insert;
+use crate::repositories::rss_sources::insert;
 
 #[derive(Debug, Validate, Deserialize)]
 pub struct AddRssSource {

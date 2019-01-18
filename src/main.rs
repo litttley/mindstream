@@ -31,6 +31,7 @@ mod rss_sources;
 mod schema;
 mod users;
 mod models;
+mod repositories;
 
 use crate::app::app_state::AppState;
 use crate::app::config;

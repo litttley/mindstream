@@ -12,7 +12,7 @@ use crate::app::db::DbExecutor;
 use crate::auth::jwt::{create_token, Token};
 use crate::errors::Error;
 use crate::models::user::{verify_password, User};
-use crate::users::users;
+use crate::repositories::users;
 
 #[derive(Debug, Clone, Validate, Deserialize)]
 pub struct Login {
