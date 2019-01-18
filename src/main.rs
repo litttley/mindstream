@@ -32,6 +32,7 @@ mod schema;
 mod users;
 mod models;
 mod repositories;
+mod services;
 
 use crate::app::app_state::AppState;
 use crate::app::config;

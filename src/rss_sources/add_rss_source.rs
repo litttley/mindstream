@@ -8,7 +8,7 @@ use validator_derive::Validate;
 use crate::app::app_state::AppState;
 use crate::app::db::DbExecutor;
 use crate::errors::Error;
-use crate::rss_sources::rss_service::fetch_feeds_channel;
+use crate::services::rss_service::fetch_feeds_channel;
 use crate::models::rss_source::RssSource;
 use crate::repositories::rss_sources::insert;
 
