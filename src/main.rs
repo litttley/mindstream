@@ -32,6 +32,7 @@ mod users;
 mod models;
 mod repositories;
 mod services;
+mod rss_feeds_job;
 
 use crate::app::app_state::AppState;
 use crate::app::config;
@@ -39,7 +40,7 @@ use crate::app::db::{create_diesel_pool, DbExecutor};
 use crate::auth::auth::Auth;
 use crate::rss_feeds::change_rss_feed_reaction::change_rss_feed_reaction;
 use crate::rss_feeds::get_rss_feeds::get_rss_feeds;
-use crate::rss_feeds::rss_feeds_job::run_rss_job;
+use crate::rss_feeds_job::run_rss_job;
 use crate::rss_sources::add_rss_source::add_rss_source;
 use crate::rss_sources::follow_rss_source::follow_rss_source;
 use crate::rss_sources::get_rss_source::get_rss_source;
