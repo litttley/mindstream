@@ -1,16 +1,13 @@
 import * as React from "react"
-import HeaderContainer from "~/app/HeaderContainer"
 import RssSourcesContainer from "~/rssSources/RssSourcesContainer"
 import SearchRssSourceContainer from "~/rssSources/SearchRssSourceContainer"
-import SideMenuContainer from "~/app/SideMenuContainer"
-import MenuContainer from "~/app/MenuContainer"
+import Layout from "~/components/Layout"
 
 const RssSourcesPage = () => (
-  <SideMenuContainer renderMenu={() => <MenuContainer />}>
-    <HeaderContainer />
+  <Layout>
     <SearchRssSourceContainer />
     <RssSourcesContainer />
-  </SideMenuContainer>
+  </Layout>
 )
 
 export default RssSourcesPage

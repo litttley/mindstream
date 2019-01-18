@@ -3,15 +3,13 @@ import { Dispatch } from "redux"
 import { connect } from "react-redux"
 import { match as RouterMatch } from "react-router"
 
-import SideMenuContainer from "~/app/SideMenuContainer"
-import MenuContainer from "~/app/MenuContainer"
-import HeaderContainer from "~/app/HeaderContainer"
 import { GlobalState } from "~/Store"
 import { Actions } from "~/Actions"
 import { RssFeedsResponse } from "~/services/RssFeedsResponse"
 import FeedCard from "~/mindstream/components/FeedCard"
 import { RssFeed } from "~/models/RssFeed"
 import { MindstreamActions } from "~/mindstream/MindstreamActions"
+import Layout from "~/components/Layout"
 
 interface DispatchProps {
   onLike: (feed: RssFeed) => void
@@ -43,10 +41,9 @@ class FeedScreen extends React.PureComponent<Props> {
 
   render() {
     return (
-      <SideMenuContainer renderMenu={() => <MenuContainer />}>
-        <HeaderContainer />
+      <Layout>
         {this.renderFeedCard()}
-      </SideMenuContainer>
+      </Layout>
     )
   }
 

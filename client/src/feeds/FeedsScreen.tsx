@@ -5,12 +5,10 @@ import { ConnectedRouterProps } from "connected-react-router"
 
 import { FeedsActions } from "~/feeds/FeedsActions"
 import Feeds from "~/feeds/components/Feeds"
-import HeaderContainer from "~/app/HeaderContainer"
 import { Actions } from "~/Actions"
-import SideMenuContainer from "~/app/SideMenuContainer"
-import MenuContainer from "~/app/MenuContainer"
 import { GlobalState } from "~/Store"
 import { RssFeedsResponse } from "~/services/RssFeedsResponse"
+import Layout from "~/components/Layout"
 
 interface PropsState {
   feeds: RssFeedsResponse[]
@@ -31,10 +29,9 @@ class FeedsContainer extends React.PureComponent<Props> {
     console.log(this.props)
     const { feeds } = this.props
     return (
-      <SideMenuContainer renderMenu={() => <MenuContainer />}>
-        <HeaderContainer />
+      <Layout>
         <Feeds feeds={feeds} onFeedClick={this.handleOnFeedClick} />
-      </SideMenuContainer>
+      </Layout>
     )
   }
 

@@ -5,14 +5,12 @@ import { match as RouterMatch } from "react-router"
 
 import { RssFeed, Reaction } from "~/models/RssFeed"
 import { MindstreamActions } from "~/mindstream/MindstreamActions"
-import HeaderContainer from "~/app/HeaderContainer"
 import FeedActions from "~/mindstream/components/FeedActions"
 import { Actions } from "~/Actions"
-import SideMenuContainer from "~/app/SideMenuContainer"
-import MenuContainer from "~/app/MenuContainer"
 import FeedCard from "~/mindstream/components/FeedCard"
 import { RssFeedsResponse } from "~/services/RssFeedsResponse"
 import { GlobalState } from "~/Store"
+import Layout from "~/components/Layout"
 
 interface DispatchProps {
   onReaction(feed: RssFeed, reaction: Reaction, sourceUuid?: string): () => void
@@ -54,10 +52,9 @@ class MindstreamContainer extends React.PureComponent<Props> {
 
   render() {
     return (
-      <SideMenuContainer renderMenu={() => <MenuContainer />}>
-        <HeaderContainer />
+      <Layout>
         {this.renderStream()}
-      </SideMenuContainer>
+      </Layout>
     )
   }
 

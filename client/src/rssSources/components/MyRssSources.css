@@ -1,10 +1,8 @@
 .myRssSources {
   overflow-y: auto;
-  width: 250px;
 }
 
 .title {
-  width: 250px;
   color: var(--dark-text-color);
   font-size: 1rem;
   margin: 30px 20px 5px 20px;
