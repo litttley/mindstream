@@ -2,6 +2,7 @@ use chrono::prelude::*;
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
+use feed_rs::Feed;
 
 use crate::schema::rss_sources;
 
@@ -53,5 +54,20 @@ impl RssSource {
             created: Utc::now().naive_utc(),
             updated: Utc::now().naive_utc(),
         }
+    }
+
+    pub fn from_feed(url: &str, rss_feed: Feed) -> Self {
+        Self::new(
+            url,
+            &rss_feed.title.unwrap_or_else(|| url.to_owned()),
+            &rss_feed.website.unwrap_or_else(|| url.to_owned()),
+            rss_feed.description,
+            rss_feed.language,
+            rss_feed.icon_url,
+            rss_feed.cover_url,
+            rss_feed.visual_url,
+            rss_feed.topics,
+            rss_feed.last_updated,
+        )
     }
 }

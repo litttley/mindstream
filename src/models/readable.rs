@@ -1,10 +1,7 @@
-use crate::app::config::CONFIG;
-use crate::errors::Error;
-use reqwest::Client;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ReadableData {
+pub struct Readable {
     pub url: Option<String>,
     pub domain: Option<String>,
     pub title: Option<String>,
@@ -18,12 +15,4 @@ pub struct ReadableData {
     pub total_pages: Option<i32>,
     pub rendered_pages: Option<i32>,
     pub next_page_url: Option<String>,
-}
-
-pub fn fetch_readable(client: &Client, url: &str) -> Result<Option<ReadableData>, Error> {
-    let url = format!("http://mercury.postlight.com/parser?url={}", url);
-    let api_key = CONFIG.mercury_api_key.clone();
-    let mut response = client.get(&url).header("x-api-key", api_key).send()?;
-    let readable_data: Option<ReadableData> = response.json().ok();
-    Ok(readable_data)
 }

@@ -11,8 +11,8 @@ use crate::app::config;
 use crate::app::db::DbExecutor;
 use crate::auth::jwt::{create_token, Token};
 use crate::errors::Error;
-use crate::users::user::User;
-use crate::users::users::insert;
+use crate::models::user::User;
+use crate::repositories::users::insert;
 
 #[derive(Debug, Clone, Validate, Deserialize)]
 pub struct Signup {

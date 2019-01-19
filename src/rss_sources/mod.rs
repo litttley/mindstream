@@ -1,11 +1,7 @@
 pub mod add_rss_source;
+pub mod search_rss_sources;
 pub mod follow_rss_source;
 pub mod get_rss_source;
 pub mod get_rss_sources;
 pub mod get_unfollowed_rss_sources;
 pub mod my_rss_sources;
-pub mod rss_service;
-pub mod rss_source;
-pub mod rss_sources_repository;
-pub mod user_rss_source;
-pub mod users_rss_sources_repository;

@@ -16,20 +16,20 @@
   text-transform: uppercase;
   padding-top: 13px;
   padding-bottom: 13px;
-  border-top: 2px solid #DCDCDC;
+  border-top: 2px solid var(--secondary-clear);
+  color: var(--secondary);
   cursor: pointer;
 }
 
 .tab:hover {
-  border-top: 2px solid var(--dark-hover-color);
-}
-
-.selected {
-  border-top: 2px solid var(--accent);
   color: var(--accent);
 }
 
+.selected {
+  border-top-color: var(--secondary);
+  color: var(--secondary);
+}
+
 .selected:hover {
-  border-top: 2px solid var(--dark-bg-color);
-  color: var(--dark-bg-color);
+  color: var(--accent);
 }

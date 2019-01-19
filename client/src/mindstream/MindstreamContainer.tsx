@@ -2,17 +2,19 @@ import * as React from "react"
 import { Dispatch } from "redux"
 import { connect } from "react-redux"
 import { match as RouterMatch } from "react-router"
+import { InjectedIntlProps, injectIntl } from "react-intl"
 
 import { RssFeed, Reaction } from "~/models/RssFeed"
 import { MindstreamActions } from "~/mindstream/MindstreamActions"
-import HeaderContainer from "~/app/HeaderContainer"
 import FeedActions from "~/mindstream/components/FeedActions"
 import { Actions } from "~/Actions"
-import SideMenuContainer from "~/app/SideMenuContainer"
-import MenuContainer from "~/app/MenuContainer"
 import FeedCard from "~/mindstream/components/FeedCard"
 import { RssFeedsResponse } from "~/services/RssFeedsResponse"
 import { GlobalState } from "~/Store"
+import Layout from "~/components/Layout"
+import Empty from "~/components/Empty"
+import Loader from "~/components/Loader"
+import KeyDownAction from "~/components/KeyDownAction"
 
 interface DispatchProps {
   onReaction(feed: RssFeed, reaction: Reaction, sourceUuid?: string): () => void
@@ -34,35 +36,28 @@ interface Params {
   sourceUuid?: string
 }
 
-type Props = StateProps & DispatchProps & Params
+type Props = StateProps & DispatchProps & Params & InjectedIntlProps
 
 class MindstreamContainer extends React.PureComponent<Props> {
   componentWillMount() {
-    console.log("MindstreamContainer")
     const { sourceUuid, loadUnreadedFeedsBySource, loadUnreadedFeeds } = this.props
     if (sourceUuid) {
       loadUnreadedFeedsBySource(sourceUuid)
     } else {
       loadUnreadedFeeds()
     }
-    document.addEventListener("keydown", this.onKeyPressHandler, false)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.onKeyPressHandler, false)
   }
 
   render() {
     return (
-      <SideMenuContainer renderMenu={() => <MenuContainer />}>
-        <HeaderContainer />
+      <Layout>
         {this.renderStream()}
-      </SideMenuContainer>
+      </Layout>
     )
   }
 
   renderStream = () => {
-    const { feeds, loading, nextFeedLoader, sourceUuid, onNextFeed, onPreviousFeed, onLike, likedLoading } = this.props
+    const { feeds, loading, nextFeedLoader, sourceUuid, onNextFeed, onPreviousFeed, onLike, likedLoading, intl } = this.props
     if (!loading && feeds.length > 0) {
       const feed = feeds[0]
       return (
@@ -76,12 +71,13 @@ class MindstreamContainer extends React.PureComponent<Props> {
             onPreviousFeed={onPreviousFeed}
           />
           <FeedCard feed={feed} onLike={onLike} likedLoading={likedLoading} />
+          <KeyDownAction onKeyDown={this.onKeyPressHandler} />
         </>
       )
     } else if (loading) {
-      return <div>Loading</div>
+      return <Loader />
     } else {
-      return <div>No more feeds</div>
+      return <Empty message={intl.formatMessage({ id: "noMoreFeeds" })} />
     }
   }
 
@@ -117,4 +113,4 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MindstreamContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(MindstreamContainer))

@@ -3,4 +3,6 @@
   outline: none;
   text-decoration: none;
   -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
 }

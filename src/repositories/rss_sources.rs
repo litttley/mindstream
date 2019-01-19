@@ -4,7 +4,7 @@ use diesel::prelude::*;
 use diesel::result::Error;
 use diesel::PgConnection;
 
-use crate::rss_sources::rss_source::RssSource;
+use crate::models::rss_source::RssSource;
 use crate::schema::rss_sources;
 use crate::schema::rss_sources::dsl::*;
 
@@ -35,4 +35,16 @@ pub fn find_by_uuid(connection: &PgConnection, searched_uuid: &Uuid) -> Result<R
     rss_sources
         .filter(uuid.eq(searched_uuid))
         .first::<RssSource>(&*connection)
+}
+
+pub fn find_by_url(connection: &PgConnection, searched_url: &str) -> Result<RssSource, Error> {
+    rss_sources
+        .filter(url.eq(searched_url))
+        .first::<RssSource>(&*connection)
+}
+
+pub fn search(connection: &PgConnection, query: &str) -> Result<Vec<RssSource>, Error> {
+    rss_sources
+        .filter(title.ilike(&format!("%{}%", query)))
+        .load::<RssSource>(&*connection)
 }

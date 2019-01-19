@@ -12,11 +12,10 @@ use crate::app::config;
 use crate::app::db::DbExecutor;
 use crate::auth::auth::Auth;
 use crate::errors::Error;
-use crate::rss_feeds::rss_feed::RssFeed;
-use crate::rss_feeds::user_rss_feed::{Reaction, UserRssFeed};
-use crate::rss_feeds::users_rss_feeds_repository::find_rss_feeds;
-use crate::rss_feeds::users_rss_feeds_repository::find_rss_feeds_by_rss_source;
-use crate::users::user::User;
+use crate::models::rss_feed::RssFeed;
+use crate::models::user_rss_feed::{Reaction, UserRssFeed};
+use crate::repositories::users_rss_feeds::{find_rss_feeds_by_rss_source, find_rss_feeds};
+use crate::models::user::User;
 
 #[derive(Debug, Deserialize)]
 pub struct RssFeedsQuery {

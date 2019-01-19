@@ -9,20 +9,22 @@ use url::Url;
 
 use crate::app::config;
 use crate::errors::Error;
-use crate::rss_feeds::{
-    mercury::fetch_readable,
+use crate::models::{
     rss_feed::RssFeed,
-    rss_feeds_repository::{insert_rss_feed, is_rss_feed_exists},
     user_rss_feed::UserRssFeed,
-    users_rss_feeds_repository::{insert_user_rss_feed, is_user_feed_already_inserted},
-};
-use crate::rss_sources::{
-    rss_service::fetch_feeds_channel,
     rss_source::RssSource,
-    rss_sources_repository::find_rss_sources,
-    users_rss_sources_repository::{find_rss_source_subscribers, increment_unreaded_rss_sources},
 };
-use crate::users::user::User;
+use crate::services::mercury::fetch_readable;
+use crate::repositories::{
+    rss_sources::find_rss_sources,
+    users_rss_feeds::{insert_user_rss_feed, is_user_feed_already_inserted},
+    rss_feeds::{insert_rss_feed, is_rss_feed_exists},
+    users_rss_sources::{find_rss_source_subscribers, increment_unreaded_rss_sources},
+};
+use crate::services::{
+    rss_service::fetch_feeds_channel,
+};
+use crate::models::user::User;
 
 pub fn run_rss_job(pool: Pool<ConnectionManager<PgConnection>>) {
     let client = Client::new();

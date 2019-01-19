@@ -9,11 +9,11 @@ use crate::app::app_state::AppState;
 use crate::app::db::DbExecutor;
 use crate::auth::auth::Auth;
 use crate::errors::{ApiError, Error};
-use crate::rss_sources::rss_source::RssSource;
-use crate::rss_sources::rss_sources_repository::find_by_uuid;
-use crate::rss_sources::user_rss_source::UserRssSource;
-use crate::rss_sources::users_rss_sources_repository::{insert, is_exists};
-use crate::users::user::User;
+use crate::models::rss_source::RssSource;
+use crate::repositories::rss_sources::find_by_uuid;
+use crate::models::user_rss_source::UserRssSource;
+use crate::repositories::users_rss_sources::{insert, is_exists};
+use crate::models::user::User;
 
 #[derive(Debug, Deserialize)]
 pub struct FallowRssSource {

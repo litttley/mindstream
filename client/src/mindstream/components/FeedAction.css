@@ -10,5 +10,5 @@
   cursor: pointer;
   font-weight: bold;
   text-transform: uppercase;
-  color: var(--clear-text-color);
+  color: var(--primary-clear);
 }

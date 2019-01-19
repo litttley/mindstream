@@ -1,11 +1,9 @@
 .myRssSources {
   overflow-y: auto;
-  width: 250px;
 }
 
 .title {
-  width: 250px;
-  /* color: var(--clear-text-color); */
+  color: var(--secondary);
   font-size: 1rem;
   margin: 30px 20px 5px 20px;
 }
@@ -19,16 +17,16 @@
 }
 
 .myRssSource:hover {
-  /* background-color: var(--dark-hover-color); */
+  background-color: var(--secondary-clear);
 }
 
 .unreaded {
   text-decoration: none;
   font-size: 0.8rem;
-  /* color: var(--clear-text-color); */
+  color: var(--primary);
 }
 
 .myRssSourceTitle {
   font-size: 0.8rem;
-  /* color: var(--clear-text-color); */
+  color: var(--primary);
 }

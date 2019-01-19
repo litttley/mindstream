@@ -1,17 +1,18 @@
 import * as React from "react"
 import * as styles from "./MyRssSources.css"
 import { MyRssSource } from "~/models/RssSource"
+import { InjectedIntlProps, injectIntl } from "react-intl"
 
 interface Props {
   myRssSources: MyRssSource[]
 }
 
-export default class MyRssSources extends React.PureComponent<Props> {
+class MyRssSources extends React.PureComponent<Props & InjectedIntlProps> {
   render() {
-    const { myRssSources } = this.props
+    const { myRssSources, intl } = this.props
     return (
       <>
-        <div className={styles.title}>My Rss Sources</div>
+        <div className={styles.title}>{intl.formatMessage({ id: "myRssSources" })}</div>
         <div className={styles.myRssSources}>
           {myRssSources.map(myRssSource => {
             return (
@@ -26,3 +27,5 @@ export default class MyRssSources extends React.PureComponent<Props> {
     )
   }
 }
+
+export default injectIntl(MyRssSources)

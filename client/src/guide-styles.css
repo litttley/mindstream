@@ -1,16 +1,11 @@
 :root {
-
   --primary: #3C3B3B;
   --primary-clear: #ffffff;
   --secondary: #b9b9b9;
+  --secondary-clear: #e9e9e9;
   --error: #F36262;
   --accent: #46C882;
-
-  --dark-bg-color: #114573;
-  --dark-hover-color: #145288;
-  --dark-text-color: #114573;
-  --clear-text-color: #FFFFFF;
-  --error-text-color: #F36262;
+  --accent-clear: #68eea6;
 
   --bp-mobile: 480px;
   --bp-medium: 980px;

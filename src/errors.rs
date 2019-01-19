@@ -69,6 +69,7 @@ impl From<diesel::result::Error> for Error {
                 diesel::result::DatabaseErrorKind::UniqueViolation,
                 _,
             ) => Error::BadRequest(ApiError::new("already.exist")),
+            diesel::result::Error::NotFound => Error::NotFound,
             _ => Error::InternalError,
         }
     }
