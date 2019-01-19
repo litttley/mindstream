@@ -1,0 +1,31 @@
+.searchSourceForm {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.title {
+  font-size: 1.4rem;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.search {
+  display: flex;
+  flex-direction: row;
+}
+
+.input {
+  flex: 1;
+  padding: 10px;
+  font-size: 1.4rem;
+  border: 1px solid var(--secondary);
+}
+
+.button {
+  font-size: 1.5rem;
+  border: 1px solid var(--secondary);
+  color: var(--primary);
+  border-left: none;
+  background-color: transparent;
+}

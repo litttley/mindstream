@@ -5,6 +5,7 @@ import Input from "~/components/Input"
 import { ApiErrors, getFieldErrorMessage } from "~/services/ApiError"
 import { Signup } from "~/auth/Signup"
 import GhostdButton from "~/components/buttons/GhostButton"
+import KeyDownAction from "~/components/KeyDownAction"
 
 interface Props {
   loading: boolean
@@ -26,7 +27,7 @@ class SignupForm extends React.Component<Props & InjectedIntlProps, Signup> {
       <div className={styles.signupForm}>
         <Input
           name="login"
-          label="Login"
+          label={intl.formatMessage({ id: "login" })}
           error={getFieldErrorMessage("login", intl, errors)}
           value={login}
           onChange={this.handleOnChange}
@@ -35,7 +36,7 @@ class SignupForm extends React.Component<Props & InjectedIntlProps, Signup> {
 
         <Input
           name="email"
-          label="Email"
+          label={intl.formatMessage({ id: "email" })}
           error={getFieldErrorMessage("email", intl, errors)}
           value={email}
           onChange={this.handleOnChange}
@@ -44,7 +45,7 @@ class SignupForm extends React.Component<Props & InjectedIntlProps, Signup> {
 
         <Input
           name="password"
-          label="Password"
+          label={intl.formatMessage({ id: "password" })}
           error={getFieldErrorMessage("password", intl, errors)}
           value={password}
           onChange={this.handleOnChange}
@@ -52,12 +53,15 @@ class SignupForm extends React.Component<Props & InjectedIntlProps, Signup> {
         />
 
         <GhostdButton
-          label="Signup"
+          className={styles.button}
+          label={intl.formatMessage({ id: "auth.signup" })}
           loading={loading}
           onClick={this.handleOnSubmit}
         />
 
         {this.renderError()}
+
+        <KeyDownAction onKeyDown={this.hendleOnKeyDown} />
       </div>
     )
   }
@@ -80,6 +84,12 @@ class SignupForm extends React.Component<Props & InjectedIntlProps, Signup> {
   }
 
   handleOnSubmit = () => this.props.onSubmit(this.state)
+
+  hendleOnKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      this.handleOnSubmit()
+    }
+  }
 }
 
 export default injectIntl(SignupForm)

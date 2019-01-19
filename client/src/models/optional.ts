@@ -1,7 +1,7 @@
 import { Validator, Configuration, Value, Context, getContext, success } from "validation.ts"
 
 export class OptionalValidator<V> extends Validator<V | undefined> {
-  constructor(private validator: Validator<V>) { super() }
+  constructor(private readonly validator: Validator<V>) { super() }
 
   validate(v: Value, config: Configuration = {}, c: Context = getContext("root")) {
     if (v === undefined || v === null) { return success(v as undefined) }

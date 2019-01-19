@@ -19,6 +19,7 @@ export interface Requests {
   fallowSource(token: string): (rssSource: RssSource) => Observable<RssSource>
   getRssFeeds(token: string, reaction: Reaction, sourceUuid?: string): Observable<RssFeedsResponse[]>
   feedReaction(token: string): (rssFeed: RssFeed, reaction: Reaction) => Observable<UserRssFeed>
+  searchRssSource: (query: string) => Observable<RssSource[]>
 }
 
 type Request = <T>(config: AxiosRequestConfig, validator?: Validator<T>) => Observable<T>
@@ -67,7 +68,11 @@ export function createRequests(request: Request): Requests {
       method: "PUT",
       data: { rss_feed_uuid: rssFeed.uuid, reaction },
       headers: { Authorization: token }
-    }, UserRssFeedValidator)
+    }, UserRssFeedValidator),
+    searchRssSource: query => request({
+      url: `/api/rss/sources?query=${query}`,
+      method: "GET",
+    }),
   }
 }
 
@@ -99,7 +104,7 @@ export function createRequest(instance: AxiosInstance): Request {
         observer.complete()
       })
       .catch((error: AxiosError) => {
-        console.log("createRequest error", error)
+        console.error("createRequest error", error)
         if (error.response && error.response.status === 401) {
           router.replace("/login")
           observer.error(error.response.data)

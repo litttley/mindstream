@@ -1,6 +1,6 @@
 import { combineEpics } from "redux-observable"
 import { isActionOf } from "typesafe-actions"
-import { empty } from "rxjs"
+import { EMPTY } from "rxjs"
 import { filter, switchMap } from "rxjs/operators"
 
 import { AppActions } from "~/app/AppActions"
@@ -11,7 +11,7 @@ const logoutEpic: EpicType = action$ => action$.pipe(
   filter(isActionOf(AppActions.logout)),
   switchMap(() => {
     router.replace("/login")
-    return empty()
+    return EMPTY
   })
 )
 

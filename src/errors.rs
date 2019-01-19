@@ -8,7 +8,7 @@ use jsonwebtoken;
 use log::error;
 use r2d2;
 use reqwest;
-use serde_derive::Serialize;
+use serde::Serialize;
 use validator;
 
 #[derive(Debug, Serialize)]
@@ -69,6 +69,7 @@ impl From<diesel::result::Error> for Error {
                 diesel::result::DatabaseErrorKind::UniqueViolation,
                 _,
             ) => Error::BadRequest(ApiError::new("already.exist")),
+            diesel::result::Error::NotFound => Error::NotFound,
             _ => Error::InternalError,
         }
     }

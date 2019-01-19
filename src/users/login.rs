@@ -1,7 +1,7 @@
 use ::actix::prelude::*;
 use actix_web::{AsyncResponder, HttpMessage, HttpRequest, HttpResponse, State};
 use futures::future::Future;
-use serde_derive::Deserialize;
+use serde::Deserialize;
 use serde_json::json;
 use validator::Validate;
 use validator_derive::Validate;
@@ -11,8 +11,8 @@ use crate::app::config;
 use crate::app::db::DbExecutor;
 use crate::auth::jwt::{create_token, Token};
 use crate::errors::Error;
-use crate::users::user::{verify_password, User};
-use crate::users::users;
+use crate::models::user::{verify_password, User};
+use crate::repositories::users;
 
 #[derive(Debug, Clone, Validate, Deserialize)]
 pub struct Login {

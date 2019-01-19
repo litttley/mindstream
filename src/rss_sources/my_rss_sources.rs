@@ -1,7 +1,7 @@
 use ::actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Query, State};
 use futures::future::Future;
-use serde_derive::Deserialize;
+use serde::Deserialize;
 use serde_json::{json, Value};
 
 use crate::app::app_state::AppState;
@@ -9,11 +9,11 @@ use crate::app::config;
 use crate::app::db::DbExecutor;
 use crate::auth::auth::Auth;
 use crate::errors::Error;
-use crate::pagination::Pagination;
-use crate::rss_sources::rss_source::RssSource;
-use crate::rss_sources::user_rss_source::UserRssSource;
-use crate::rss_sources::users_rss_sources_repository::rss_sources_by_user;
-use crate::users::user::User;
+use crate::models::pagination::Pagination;
+use crate::models::rss_source::RssSource;
+use crate::models::user_rss_source::UserRssSource;
+use crate::repositories::users_rss_sources::rss_sources_by_user;
+use crate::models::user::User;
 
 #[derive(Debug, Deserialize)]
 pub struct MyRssSources {

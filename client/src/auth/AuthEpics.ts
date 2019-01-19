@@ -1,6 +1,6 @@
 import { combineEpics } from "redux-observable"
 import { isActionOf } from "typesafe-actions"
-import { of, empty } from "rxjs"
+import { of, EMPTY } from "rxjs"
 import { filter, switchMap, map, catchError } from "rxjs/operators"
 
 import { ApiErrors } from "~/services/ApiError"
@@ -28,7 +28,7 @@ const authSuccessEpic: EpicType = action$ => action$.pipe(
   filter(isActionOf([AuthActions.signupSubmit.success, AuthActions.loginSubmit.success])),
   switchMap(() => {
     router.replace("/")
-    return empty()
+    return EMPTY
   })
 )
 

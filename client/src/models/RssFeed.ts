@@ -5,7 +5,7 @@ export const ReactionValidator = union("Unreaded", "Readed", "ReadLater", "Viewe
 export type Reaction = typeof ReactionValidator.T
 
 export const ReadableValidator = object({
-  url: string,
+  url: optional(string),
   domain: optional(string),
   title: optional(string),
   content: optional(string),

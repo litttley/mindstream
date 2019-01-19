@@ -1,16 +1,16 @@
 use ::actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Json, State};
 use futures::future::Future;
-use serde_derive::Deserialize;
+use serde::Deserialize;
 use validator::Validate;
 use validator_derive::Validate;
 
 use crate::app::app_state::AppState;
 use crate::app::db::DbExecutor;
 use crate::errors::Error;
-use crate::rss_sources::rss_service::fetch_feeds_channel;
-use crate::rss_sources::rss_source::RssSource;
-use crate::rss_sources::rss_sources_repository::insert;
+use crate::services::rss_service::fetch_feeds_channel;
+use crate::models::rss_source::RssSource;
+use crate::repositories::rss_sources::insert;
 
 #[derive(Debug, Validate, Deserialize)]
 pub struct AddRssSource {
@@ -30,18 +30,7 @@ impl Handler<AddRssSource> for DbExecutor {
         let url = message.url;
         let rss_feed = fetch_feeds_channel(&url)?;
         let rss_feed = rss_feed.ok_or_else(|| Error::NotFound)?;
-        let rss_source = RssSource::new(
-            &url,
-            &rss_feed.title.unwrap_or_else(|| url.to_owned()),
-            &rss_feed.website.unwrap_or_else(|| url.to_owned()),
-            rss_feed.description,
-            rss_feed.language,
-            rss_feed.icon_url,
-            rss_feed.cover_url,
-            rss_feed.visual_url,
-            rss_feed.topics,
-            rss_feed.last_updated,
-        );
+        let rss_source = RssSource::from_feed(&url, rss_feed);
         let connexion = self.pool.get()?;
         let rss_source = insert(&connexion, &rss_source)?;
         Ok(rss_source)

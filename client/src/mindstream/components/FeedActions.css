@@ -1,25 +1,26 @@
 .container {
   display: flex;
-  position: absolute;
+  flex-direction: row;
+  justify-content: space-between;
   bottom: 20px;
   right: 20px;
   position: fixed;
   z-index: 1000;
-}
-
-.actionNext, .actionPrevious {
-  margin-left: 20px;
+  width: calc(60px * 2 + 20px);
 }
 
 .actionNext {
-  background-color: var(--dark-bg-color);
+  background-color: var(--accent);
 }
 
 .actionNext:hover {
-  background-color: var(--dark-hover-color);
+  background-color: var(--accent-clear);
 }
 
-
 .actionPrevious {
-  background-color: #309D22;
+  background-color: var(--secondary);
+}
+
+.actionPrevious:hover {
+  background-color: var(--secondary-clear);
 }

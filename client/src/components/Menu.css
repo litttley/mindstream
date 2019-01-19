@@ -1,0 +1,19 @@
+.menuContainer {
+  padding-top: 10px;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  text-decoration: none;
+  color: var(--primary);
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.item:hover {
+  color: var(--accent);
+}
