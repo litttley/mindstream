@@ -68,12 +68,15 @@ class FeedCard extends React.PureComponent<Props & InjectedIntlProps, State> {
 
   renderRssTab = () => {
     const { rss } = this.props.feed.rss_feed
-    if (!!rss && !!getRssContent(rss)) {
-      return (
-        <Tab label="Rss" name="rss">
-          {getRssContent(rss)}
-        </Tab>
-      )
+    if (rss) {
+      const rssContent = getRssContent(rss)
+      if (rssContent) {
+        return (
+          <Tab label="Rss" name="rss">
+            <div dangerouslySetInnerHTML={{ __html: sanitize(rssContent) }} />
+          </Tab>
+        )
+      }
     }
   }
 
