@@ -1,5 +1,6 @@
 import * as React from "react"
 import * as styles from "./SearchSourceForm.css"
+import { InjectedIntlProps, injectIntl } from "react-intl"
 
 interface Props {
   disable: boolean
@@ -10,22 +11,21 @@ interface State {
   query: string
 }
 
-export default class SearchSourceForm extends React.Component<Props, State> {
-  state = {
-    query: ""
-  }
+class SearchSourceForm extends React.Component<Props & InjectedIntlProps, State> {
+  state = { query: "" }
 
   render() {
+    const { intl } = this.props
     const { query } = this.state
     return (
       <div className={styles.searchSourceForm}>
-        <label className={styles.title}>Search new rss sources</label>
+        <label className={styles.title}>{intl.formatMessage({ id: "searchNewRssSources" })}</label>
         <div className={styles.search}>
           <input
             className={styles.input}
             type="search"
             value={query}
-            placeholder="Search"
+            placeholder={intl.formatMessage({ id: "search" })}
             onChange={this.onChangeHandler}
           />
         </div>
@@ -40,3 +40,5 @@ export default class SearchSourceForm extends React.Component<Props, State> {
     onChange(query)
   }
 }
+
+export default injectIntl(SearchSourceForm)

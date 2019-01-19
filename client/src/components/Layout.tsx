@@ -44,7 +44,7 @@ const Layout: React.FunctionComponent<Props> = ({ isMenuOpen, myRssSources, menu
         <MyRssSources myRssSources={myRssSources} />
       </div>
       <div className={headerClasses}>
-        <Header isMenuOpen={isMenuOpen} onMenuToggle={menuToggle} />
+        <Header appName="Mindstream" isMenuOpen={isMenuOpen} onMenuToggle={menuToggle} />
       </div>
       <div className={contentClasses}>
         {children}

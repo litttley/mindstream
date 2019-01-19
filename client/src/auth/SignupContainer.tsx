@@ -10,6 +10,7 @@ import { ApiErrors } from "~/services/ApiError"
 import AuthLayout from "~/auth/components/AuthLayout"
 import LinkButton from "~/components/buttons/LinkButton"
 import { GlobalState } from "~/Store"
+import { InjectedIntlProps, injectIntl } from "react-intl"
 
 interface StateProps {
   loading: boolean
@@ -20,9 +21,9 @@ interface DispatchProps {
   onSubmit: (signup: Signup) => void
 }
 
-type Props = StateProps & DispatchProps
+type Props = StateProps & DispatchProps & InjectedIntlProps
 
-const SignupContainer = ({ loading, errors, onSubmit }: Props) => {
+const SignupContainer = ({ loading, errors, onSubmit, intl }: Props) => {
   return (
     <AuthLayout>
       <SignupForm
@@ -31,7 +32,7 @@ const SignupContainer = ({ loading, errors, onSubmit }: Props) => {
         onSubmit={onSubmit}
       />
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <LinkButton href="#/login">Login</LinkButton>
+        <LinkButton href="#/login">{intl.formatMessage({ id: "auth.login" })}</LinkButton>
       </div>
     </AuthLayout>
   )
@@ -48,4 +49,4 @@ const mapStateToProps = (state: GlobalState): StateProps => {
   return { loading, errors: signupErrors }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignupContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(SignupContainer))

@@ -10,6 +10,9 @@ import FeedCard from "~/mindstream/components/FeedCard"
 import { RssFeed } from "~/models/RssFeed"
 import { MindstreamActions } from "~/mindstream/MindstreamActions"
 import Layout from "~/components/Layout"
+import Loader from "~/components/Loader"
+import Empty from "~/components/Empty"
+import { InjectedIntlProps, injectIntl } from "react-intl"
 
 interface DispatchProps {
   onLike: (feed: RssFeed) => void
@@ -27,7 +30,7 @@ interface Params {
   uuid: string
 }
 
-type Props = StateProps & DispatchProps & Params
+type Props = StateProps & DispatchProps & Params & InjectedIntlProps
 
 class FeedScreen extends React.PureComponent<Props> {
 
@@ -48,14 +51,14 @@ class FeedScreen extends React.PureComponent<Props> {
   }
 
   renderFeedCard = () => {
-    const { onLike, likedLoading, getFeedLoading } = this.props
+    const { onLike, likedLoading, getFeedLoading, intl } = this.props
     const feed = this.getFeed()
     if (getFeedLoading) {
-      return <div>Loading</div>
+      return <Loader />
     } else if (!!feed) {
       return <FeedCard feed={feed} onLike={onLike} likedLoading={likedLoading} />
     } else {
-      return <div>Not Found</div>
+      return <Empty message={intl.formatMessage({ id: "notFound" })} />
     }
   }
 
@@ -84,4 +87,4 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeedScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(FeedScreen))

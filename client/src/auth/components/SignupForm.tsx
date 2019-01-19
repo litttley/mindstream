@@ -27,7 +27,7 @@ class SignupForm extends React.Component<Props & InjectedIntlProps, Signup> {
       <div className={styles.signupForm}>
         <Input
           name="login"
-          label="Login"
+          label={intl.formatMessage({ id: "login" })}
           error={getFieldErrorMessage("login", intl, errors)}
           value={login}
           onChange={this.handleOnChange}
@@ -36,7 +36,7 @@ class SignupForm extends React.Component<Props & InjectedIntlProps, Signup> {
 
         <Input
           name="email"
-          label="Email"
+          label={intl.formatMessage({ id: "email" })}
           error={getFieldErrorMessage("email", intl, errors)}
           value={email}
           onChange={this.handleOnChange}
@@ -45,7 +45,7 @@ class SignupForm extends React.Component<Props & InjectedIntlProps, Signup> {
 
         <Input
           name="password"
-          label="Password"
+          label={intl.formatMessage({ id: "password" })}
           error={getFieldErrorMessage("password", intl, errors)}
           value={password}
           onChange={this.handleOnChange}
@@ -54,7 +54,7 @@ class SignupForm extends React.Component<Props & InjectedIntlProps, Signup> {
 
         <GhostdButton
           className={styles.button}
-          label="Signup"
+          label={intl.formatMessage({ id: "auth.signup" })}
           loading={loading}
           onClick={this.handleOnSubmit}
         />

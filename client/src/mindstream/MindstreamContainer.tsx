@@ -2,6 +2,7 @@ import * as React from "react"
 import { Dispatch } from "redux"
 import { connect } from "react-redux"
 import { match as RouterMatch } from "react-router"
+import { InjectedIntlProps, injectIntl } from "react-intl"
 
 import { RssFeed, Reaction } from "~/models/RssFeed"
 import { MindstreamActions } from "~/mindstream/MindstreamActions"
@@ -35,7 +36,7 @@ interface Params {
   sourceUuid?: string
 }
 
-type Props = StateProps & DispatchProps & Params
+type Props = StateProps & DispatchProps & Params & InjectedIntlProps
 
 class MindstreamContainer extends React.PureComponent<Props> {
   componentWillMount() {
@@ -56,7 +57,7 @@ class MindstreamContainer extends React.PureComponent<Props> {
   }
 
   renderStream = () => {
-    const { feeds, loading, nextFeedLoader, sourceUuid, onNextFeed, onPreviousFeed, onLike, likedLoading } = this.props
+    const { feeds, loading, nextFeedLoader, sourceUuid, onNextFeed, onPreviousFeed, onLike, likedLoading, intl } = this.props
     if (!loading && feeds.length > 0) {
       const feed = feeds[0]
       return (
@@ -76,7 +77,7 @@ class MindstreamContainer extends React.PureComponent<Props> {
     } else if (loading) {
       return <Loader />
     } else {
-      return <Empty message="No more feeds" />
+      return <Empty message={intl.formatMessage({ id: "noMoreFeeds" })} />
     }
   }
 
@@ -112,4 +113,4 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MindstreamContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(MindstreamContainer))

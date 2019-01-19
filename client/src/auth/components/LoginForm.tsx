@@ -35,7 +35,7 @@ class LoginForm extends React.Component<Props & InjectedIntlProps, Login> {
 
         <Input
           name="password"
-          label="Password"
+          label={intl.formatMessage({ id: "password" })}
           error={getFieldErrorMessage("password", intl, errors)}
           value={password}
           onChange={this.handleOnChange}
@@ -44,7 +44,7 @@ class LoginForm extends React.Component<Props & InjectedIntlProps, Login> {
 
         <GhostdButton
           className={styles.button}
-          label="Login"
+          label={intl.formatMessage({ id: "auth.login" })}
           loading={loading}
           onClick={this.handleOnSubmit}
         />
