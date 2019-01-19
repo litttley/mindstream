@@ -26,7 +26,6 @@ class FeedsContainer extends React.PureComponent<Props> {
   }
 
   render() {
-    console.log(this.props)
     const { feeds } = this.props
     return (
       <Layout>

@@ -19,7 +19,7 @@
 }
 
 .errorMessage {
-  color: var(--error-text-color);
+  color: var(--error);
 }
 
 .errorMessageHidden {

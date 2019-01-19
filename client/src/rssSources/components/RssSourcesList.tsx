@@ -2,7 +2,8 @@ import * as React from "react"
 import * as styles from "./RssSourcesList.css"
 import { RssSource } from "~/models/RssSource"
 import RssSourceCard from "./RssSourceCard"
-import LoaderIcon from "~/components/icons/LoaderIcon"
+import Empty from "~/components/Empty"
+import Loader from "~/components/Loader"
 
 interface Props {
   loading: boolean
@@ -11,10 +12,6 @@ interface Props {
 }
 
 export default function RssSourcesList({ rssSources, fallowSource, loading }: Props) {
-  const Empty = <div className={styles.empty}>No rss source found</div>
-
-  const Loading = <div className={styles.loader}><LoaderIcon width={60} height={60} /></div>
-
   const List = rssSources.map(rssSource => (
     <RssSourceCard
       key={rssSource.uuid}
@@ -23,9 +20,9 @@ export default function RssSourcesList({ rssSources, fallowSource, loading }: Pr
     />
   ))
 
-  const list = rssSources.length > 0 ? List : Empty
+  const list = rssSources.length > 0 ? List : <Empty message="No rss source found" />
 
-  const content = loading ? Loading : list
+  const content = loading ? <Loader /> : list
 
   return <div className={styles.rssSourcesList}>{content}</div>
 }

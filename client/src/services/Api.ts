@@ -104,7 +104,7 @@ export function createRequest(instance: AxiosInstance): Request {
         observer.complete()
       })
       .catch((error: AxiosError) => {
-        console.log("createRequest error", error)
+        console.error("createRequest error", error)
         if (error.response && error.response.status === 401) {
           router.replace("/login")
           observer.error(error.response.data)

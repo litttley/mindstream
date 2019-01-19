@@ -11,6 +11,9 @@ import FeedCard from "~/mindstream/components/FeedCard"
 import { RssFeedsResponse } from "~/services/RssFeedsResponse"
 import { GlobalState } from "~/Store"
 import Layout from "~/components/Layout"
+import Empty from "~/components/Empty"
+import Loader from "~/components/Loader"
+import KeyDownAction from "~/components/KeyDownAction"
 
 interface DispatchProps {
   onReaction(feed: RssFeed, reaction: Reaction, sourceUuid?: string): () => void
@@ -36,18 +39,12 @@ type Props = StateProps & DispatchProps & Params
 
 class MindstreamContainer extends React.PureComponent<Props> {
   componentWillMount() {
-    console.log("MindstreamContainer")
     const { sourceUuid, loadUnreadedFeedsBySource, loadUnreadedFeeds } = this.props
     if (sourceUuid) {
       loadUnreadedFeedsBySource(sourceUuid)
     } else {
       loadUnreadedFeeds()
     }
-    document.addEventListener("keydown", this.onKeyPressHandler, false)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.onKeyPressHandler, false)
   }
 
   render() {
@@ -73,12 +70,13 @@ class MindstreamContainer extends React.PureComponent<Props> {
             onPreviousFeed={onPreviousFeed}
           />
           <FeedCard feed={feed} onLike={onLike} likedLoading={likedLoading} />
+          <KeyDownAction onKeyDown={this.onKeyPressHandler} />
         </>
       )
     } else if (loading) {
-      return <div>Loading</div>
+      return <Loader />
     } else {
-      return <div>No more feeds</div>
+      return <Empty message="No more feeds" />
     }
   }
 

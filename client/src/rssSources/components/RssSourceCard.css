@@ -25,7 +25,7 @@
 .title {
   display: block;
   font-size: 1.4rem;
-  color: var(--dark-text-color);
+  color: var(--primary);
   text-decoration: none;
   margin-bottom: 5px;
 }
@@ -33,7 +33,7 @@
 .url {
   display: block;
   font-size: .9rem;
-  color: var(--dark-text-color);
+  color: var(--primary);
   text-decoration: none;
   margin-bottom: 5px;
 }

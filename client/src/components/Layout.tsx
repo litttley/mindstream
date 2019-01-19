@@ -9,12 +9,12 @@ import { Actions } from "~/Actions"
 import { AppActions } from "~/app/AppActions"
 import Header from "./Header"
 import Menu from "~/components/Menu"
+import { MyRssSource } from "~/models/RssSource"
 import MyRssSources from "~/rssSources/components/MyRssSources"
-import { RssSource } from "~/models/RssSource"
 
 interface StateProps {
   isMenuOpen: boolean
-  myRssSources: RssSource[]
+  myRssSources: MyRssSource[]
 }
 
 interface DispatchProps {

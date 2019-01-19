@@ -23,9 +23,9 @@
   left: 0;
   width: 260px;
   transition: margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
-  background-color: white;
+  background-color: var(--primary-clear);
   margin-left: -260px;
-  border-right: 1px solid var(--secondary);
+  border-right: 1px solid var(--secondary-clear);
 }
 
 .menuOpen {
@@ -34,7 +34,7 @@
 
 .content {
   flex-grow: 1;
-  background-color: white;
+  background-color: var(--primary-clear);
   margin-top: 50px;
 }
 
@@ -53,7 +53,6 @@
   .content {
     flex: 1;
     transition: margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
-    background-color: white;
   }
   
   .contentMenuOpen {

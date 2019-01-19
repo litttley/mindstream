@@ -5,6 +5,7 @@ import Input from "~/components/Input"
 import { ApiErrors, getFieldErrorMessage } from "~/services/ApiError"
 import { Login } from "~/auth/Login"
 import GhostdButton from "~/components/buttons/GhostButton"
+import KeyDownAction from "~/components/KeyDownAction"
 
 interface Props {
   loading: boolean
@@ -47,7 +48,7 @@ class LoginForm extends React.Component<Props & InjectedIntlProps, Login> {
           loading={loading}
           onClick={this.handleOnSubmit}
         />
-
+        <KeyDownAction onKeyDown={this.hendleOnKeyDown} />
         {this.renderError()}
       </div>
     )
@@ -71,6 +72,12 @@ class LoginForm extends React.Component<Props & InjectedIntlProps, Login> {
   }
 
   handleOnSubmit = () => this.props.onSubmit(this.state)
+
+  hendleOnKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      this.handleOnSubmit()
+    }
+  }
 }
 
 export default injectIntl(LoginForm)
