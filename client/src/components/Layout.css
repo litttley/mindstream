@@ -35,7 +35,7 @@
 .content {
   flex-grow: 1;
   background-color: var(--primary-clear);
-  margin-top: 50px;
+  margin-top: 60px;
 }
 
 .contentMenuOpen {
