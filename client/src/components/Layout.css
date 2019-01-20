@@ -43,19 +43,7 @@
 }
 
 @media screen and (min-width: 480px) {
-  .menu {
-    position: initial;
-    width: 260px;
-    height: 100vh;
-    flex-shrink: 0;
-  }
-  
-  .content {
-    flex: 1;
-    transition: margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
-  }
-  
   .contentMenuOpen {
-    margin-left: 0;
+    margin-left: 260px;
   }
 }
