@@ -17,8 +17,8 @@
     "url": "https://github.com/Wadjetz/mindstream/issues"
   },
   "scripts": {
-    "build": "parcel build src/main.tsx --out-dir ../static --public-url assets --no-cache",
-    "watch": "parcel watch src/main.tsx --out-dir ../static --public-url assets --no-hmr",
+    "build": "parcel build src/main.tsx --out-dir ../static --public-url /assets --no-cache",
+    "watch": "parcel watch src/main.tsx --out-dir ../static --public-url /assets --no-hmr",
     "tslint": "tslint --format stylish --project tsconfig.json",
     "tslint-fix": "npm run tslint -- --fix"
   },
