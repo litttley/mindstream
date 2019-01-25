@@ -48,7 +48,7 @@
 .feedContent iframe,
 .feedContent code,
 .feedContent pre {
-  width: 100%;
+  max-width: 100%;
 }
 
 .feedContent p,
