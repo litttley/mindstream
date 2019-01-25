@@ -1,15 +1,24 @@
-#![allow(proc_macro_derive_resolution_fallback)]
 #![warn(
     clippy::all,
-    clippy::restriction,
     clippy::pedantic,
     clippy::nursery,
-    clippy::cargo
+    clippy::style,
+    clippy::complexity,
+    clippy::restriction,
+    clippy::perf,
+    clippy::cargo,
+    clippy::correctness
 )]
 #![allow(
     clippy::module_inception,
     clippy::too_many_arguments,
-    clippy::missing_docs_in_private_items
+    clippy::missing_docs_in_private_items,
+    clippy::use_self,
+    clippy::multiple_inherent_impl,
+    clippy::stutter,
+    clippy::pub_enum_variant_names,
+    clippy::multiple_crate_versions,
+    clippy::cargo_common_metadata,
 )]
 
 #[macro_use]
@@ -25,14 +34,14 @@ mod app;
 mod assets;
 mod auth;
 mod errors;
-mod rss_feeds;
-mod rss_sources;
-mod schema;
-mod users;
 mod models;
 mod repositories;
-mod services;
+mod rss_feeds;
 mod rss_feeds_job;
+mod rss_sources;
+mod schema;
+mod services;
+mod users;
 
 use crate::app::app_state::AppState;
 use crate::app::config;
@@ -79,26 +88,16 @@ pub fn run() {
                 .resource("/users/login", |r| r.method(Method::POST).with(login))
                 .resource("/users/me", |r| r.method(Method::GET).with(me))
                 .resource("/rss/sources", |r| {
-                    r.method(Method::GET).with(search_rss_source_handler)
+                    r.method(Method::GET).with(my_rss_sources);
+                    r.method(Method::POST).with(add_rss_source);
                 })
-                .resource("/source", |r| r.method(Method::GET).with(get_rss_sources))
-                .resource("/source/unfollowed", |r| {
-                    r.method(Method::GET).with(get_unfollowed_rss_sources)
-                })
-                .resource("/source/my", |r| r.method(Method::GET).with(my_rss_sources))
-                .resource("/source/add", |r| {
-                    r.method(Method::POST).with(add_rss_source)
-                })
+                .resource("/rss/sources/search", |r| r.method(Method::GET).with(search_rss_source_handler))
+                .resource("/rss/sources/unfollowed", |r| r.method(Method::GET).with(get_unfollowed_rss_sources))
+                .resource("/rss/sources/public", |r| r.method(Method::GET).with(get_rss_sources))
+                .resource("/rss/sources/{uuid}", |r| r.method(Method::GET).with(get_rss_source))
+                .resource("/rss/sources/{uuid}/follow", |r| r.method(Method::POST).with(follow_rss_source))
                 .resource("/rss/feeds", |r| r.method(Method::GET).with(get_rss_feeds))
-                .resource("/rss/feeds/reaction", |r| {
-                    r.method(Method::PUT).with(change_rss_feed_reaction)
-                })
-                .resource("/source/{uuid}/fallow", |r| {
-                    r.method(Method::POST).with(follow_rss_source)
-                })
-                .resource("/source/{uuid}", |r| {
-                    r.method(Method::GET).with(get_rss_source)
-                })
+                .resource("/rss/feeds/reaction", |r| r.method(Method::PUT).with(change_rss_feed_reaction))
                 .boxed(),
             assets::create_static_assets_app().boxed(),
         ]

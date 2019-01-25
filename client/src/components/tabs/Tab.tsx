@@ -5,13 +5,5 @@ export interface Props {
   label: string
 }
 
-export default class Tab extends React.PureComponent<Props> {
-  render() {
-    const { children } = this.props
-    return (
-      <>
-        {children}
-      </>
-    )
-  }
-}
+const Tab: React.FunctionComponent<Props> = ({ children }) => <> {children} </>
+export default Tab

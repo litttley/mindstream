@@ -1,10 +1,13 @@
 {
   "compilerOptions": {
     "jsx": "react",
-    "target": "es5",
+    "target": "es2015",
+    "module": "es6",
+    "moduleResolution": "node",
     "noUnusedLocals": true,
     "sourceMap": true,
     "skipLibCheck": true,
+    "strict": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
@@ -13,20 +16,24 @@
       ]
     },
     "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
   },
   "exportDefaultFrom": true,
   "include": [
     "./src/**/*"
   ],
+  "exclude": [
+    "node_modules",
+    "webpack.config.js",
+  ],
   "lib": [
-    "es5",
-    "es6",
-    "es2015.promise",
-    "es2017",
-    "dom"
+    "ESNext",
   ]
 }

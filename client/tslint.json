@@ -1,5 +1,5 @@
 {
-  "extends": "tslint:all",
+  "extends": ["tslint:all", "tslint-react"],
   "rules": {
     "ordered-imports": false,
     "member-access": false,
@@ -30,12 +30,12 @@
     "interface-over-type-literal": false,
     "no-parameter-properties": false,
     "align": false,
-    "max-classes-per-file": false,
     "newline-before-return": false,
     "type-literal-delimiter": false,
     "only-arrow-functions": false,
     "arrow-parens": false,
     "arrow-return-shorthand": false,
+    "promise-function-async": false,
     "newline-per-chained-call": false,
     "file-name-casing": false,
     "no-default-import": false,
@@ -43,6 +43,11 @@
     "semicolon": [true, "never"],
     "indent": [true, "spaces", 2],
     "quotemark": [true, "double", "jsx-double"],
-    "variable-name": [true, "ban-keywords"]
+    "variable-name": [true, "ban-keywords"],
+
+    "jsx-curly-spacing": false,
+    "jsx-boolean-value": false,
+    "jsx-no-multiline-js": false,
+    "jsx-no-lambda": false
   }
 }

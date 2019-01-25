@@ -1,4 +1,5 @@
-import "core-js/features/promise"
+import "core-js/es/promise"
+import "core-js/es/array/find"
 import "~/reset.css"
 import "~/guide-styles.css"
 import * as React from "react"

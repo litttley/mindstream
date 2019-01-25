@@ -10,5 +10,8 @@ pub fn create_static_assets_app() -> App {
     App::new()
         .middleware(Logger::default())
         .resource("/", |r| r.method(Method::GET).f(index_html))
-        .handler("/", StaticFiles::new("./static/").unwrap())
+        .handler(
+            "/",
+            StaticFiles::new("./static/").expect("static folder not found"),
+        )
 }

@@ -9,22 +9,16 @@ use url::Url;
 
 use crate::app::config;
 use crate::errors::Error;
-use crate::models::{
-    rss_feed::RssFeed,
-    user_rss_feed::UserRssFeed,
-    rss_source::RssSource,
-};
-use crate::services::mercury::fetch_readable;
+use crate::models::user::User;
+use crate::models::{rss_feed::RssFeed, rss_source::RssSource, user_rss_feed::UserRssFeed};
 use crate::repositories::{
+    rss_feeds::{insert_rss_feed, is_rss_feed_exists},
     rss_sources::find_rss_sources,
     users_rss_feeds::{insert_user_rss_feed, is_user_feed_already_inserted},
-    rss_feeds::{insert_rss_feed, is_rss_feed_exists},
     users_rss_sources::{find_rss_source_subscribers, increment_unreaded_rss_sources},
 };
-use crate::services::{
-    rss_service::fetch_feeds_channel,
-};
-use crate::models::user::User;
+use crate::services::mercury::fetch_readable;
+use crate::services::rss_service::fetch_feeds_channel;
 
 pub fn run_rss_job(pool: Pool<ConnectionManager<PgConnection>>) {
     let client = Client::new();
@@ -61,7 +55,7 @@ fn process_rss_source(
             for link in &rss.alternate {
                 let rss_url = link.href.clone();
                 let resolved_url = resolve_url(&rss_url, client).map(|url| url.into_string());
-                if !is_rss_feed_exists(&connection, &rss_url)? {
+                if !is_rss_feed_exists(connection, &rss_url)? {
                     let readable = fetch_readable(client, &rss_url)
                         .ok()
                         .and_then(|readable| readable);
@@ -72,9 +66,9 @@ fn process_rss_source(
                         readable,
                         rss_source,
                     );
-                    insert_rss_feed(&connection, &rss_feed)?;
+                    insert_rss_feed(connection, &rss_feed)?;
                     // TODO rollback if error
-                    insert_subscribers_feeds(&connection, subscribers, rss_source, &rss_feed)?;
+                    insert_subscribers_feeds(connection, subscribers, rss_source, &rss_feed)?;
                 }
             }
         }
@@ -101,9 +95,9 @@ fn insert_subscribers_feeds(
     for subscriber in subscribers {
         let user_feed = UserRssFeed::new(subscriber.uuid, rss_feed.uuid, "Unreaded".to_owned());
         let _ = connection.transaction::<_, Error, _>(|| {
-            if !is_user_feed_already_inserted(&connection, &rss_feed.rss_url, &subscriber)? {
-                insert_user_rss_feed(&connection, &user_feed)?;
-                increment_unreaded_rss_sources(&connection, rss_source, &subscriber)?;
+            if !is_user_feed_already_inserted(connection, &rss_feed.rss_url, subscriber)? {
+                insert_user_rss_feed(connection, &user_feed)?;
+                increment_unreaded_rss_sources(connection, rss_source, subscriber)?;
                 info!(
                     "insert subscriber {:?} -> {:?}",
                     subscriber.login, &rss_feed.rss_url

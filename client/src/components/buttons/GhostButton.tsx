@@ -1,7 +1,7 @@
 import * as React from "react"
+import classNames from "classnames"
 import * as styles from "./GhostButton.css"
 import BaseButton from "~/components/buttons/BaseButton"
-import classNames from "~/utils/classNames"
 
 interface Props {
   label: string
@@ -11,22 +11,15 @@ interface Props {
   className?: string
 }
 
-export default class GhostdButton extends React.PureComponent<Props> {
-  render() {
-    const { label, loading, disable, onClick, className } = this.props
-    const classes = classNames({
-      [styles.ghostButton]: true,
-      [className || ""]: !!className
-    })
-    return (
-      <BaseButton
-        className={classes}
-        loading={loading}
-        disable={disable}
-        onClick={onClick}
-      >
-        {label}
-      </BaseButton>
-    )
-  }
+export default function GhostdButton({ label, loading, disable, onClick, className }: Props) {
+  return (
+    <BaseButton
+      className={classNames(styles.ghostButton, className)}
+      loading={loading}
+      disable={disable}
+      onClick={onClick}
+    >
+      {label}
+    </BaseButton>
+  )
 }

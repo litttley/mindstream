@@ -8,18 +8,17 @@ interface Props {
   onClick?: () => void
 }
 
-export default class LinkButton extends React.PureComponent<Props> {
-  render() {
-    const { href, children, disable, onClick } = this.props
-    return (
-      <BaseButton
-        className={styles.linkButton}
-        disable={disable}
-        href={href}
-        onClick={onClick}
-      >
-        {children}
-      </BaseButton>
-    )
-  }
+const LinkButton: React.FunctionComponent<Props> = ({ href, children, disable, onClick }) => {
+  return (
+    <BaseButton
+      className={styles.linkButton}
+      disable={disable}
+      href={href}
+      onClick={onClick}
+    >
+      {children}
+    </BaseButton>
+  )
 }
+
+export default LinkButton
