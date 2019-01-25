@@ -8,15 +8,15 @@ import Loader from "~/components/Loader"
 interface Props {
   loading: boolean
   rssSources: RssSource[]
-  fallowSource?: (source: RssSource) => void
+  followSource: (rssSource: RssSource) => void
 }
 
-export default function RssSourcesList({ rssSources, fallowSource, loading }: Props) {
+export default function RssSourcesList({ rssSources, followSource, loading }: Props) {
   const List = rssSources.map(rssSource => (
     <RssSourceCard
       key={rssSource.uuid}
       rssSource={rssSource}
-      fallowRssSource={fallowSource}
+      followRssSource={followSource}
     />
   ))
 

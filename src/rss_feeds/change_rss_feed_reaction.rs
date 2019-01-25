@@ -8,13 +8,13 @@ use crate::app::app_state::AppState;
 use crate::app::db::DbExecutor;
 use crate::auth::auth::Auth;
 use crate::errors::Error;
+use crate::models::user::User;
 use crate::models::user_rss_feed::{Reaction, UserRssFeed};
 use crate::repositories::{
     rss_feeds::find_rss_feed,
     users_rss_feeds::{find_user_rss_feed, update_rss_feed_reaction},
     users_rss_sources::decrement_unreaded_rss_sources,
 };
-use crate::models::user::User;
 
 #[derive(Debug, Deserialize)]
 pub struct ChangeRssFeedReactionQuery {
@@ -48,19 +48,13 @@ impl Handler<ChangeRssFeedReaction> for DbExecutor {
         let rss_feed_uuid = message.query.rss_feed_uuid;
         let rss_feed = find_rss_feed(&connexion, &rss_feed_uuid)?;
         let user_rss_feed = find_user_rss_feed(&connexion, &rss_feed_uuid, &user)?;
-        match user_rss_feed.reaction.as_ref() {
-            "Unreaded" => {
-                let rss_feeds =
-                    update_rss_feed_reaction(&connexion, &rss_feed_uuid, &reaction, &user)?;
-                let _ =
-                    decrement_unreaded_rss_sources(&connexion, &rss_feed.rss_source_uuid, &user)?;
-                Ok(rss_feeds)
-            }
-            _ => {
-                let rss_feeds =
-                    update_rss_feed_reaction(&connexion, &rss_feed_uuid, &reaction, &user)?;
-                Ok(rss_feeds)
-            }
+        if user_rss_feed.reaction == "Unreaded" {
+            let rss_feeds = update_rss_feed_reaction(&connexion, &rss_feed_uuid, &reaction, &user)?;
+            let _ = decrement_unreaded_rss_sources(&connexion, &rss_feed.rss_source_uuid, &user)?;
+            Ok(rss_feeds)
+        } else {
+            let rss_feeds = update_rss_feed_reaction(&connexion, &rss_feed_uuid, &reaction, &user)?;
+            Ok(rss_feeds)
         }
     }
 }

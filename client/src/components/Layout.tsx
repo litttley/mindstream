@@ -1,70 +1,36 @@
 import * as React from "react"
+import classNames from "classnames"
 import * as styles from "./Layout.css"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-
-import classNames from "~/utils/classNames"
-import { GlobalState } from "~/Store"
-import { Actions } from "~/Actions"
-import { AppActions } from "~/app/AppActions"
 import Header from "./Header"
 import Menu from "~/components/Menu"
-import { MyRssSource } from "~/models/RssSource"
 import MyRssSources from "~/rssSources/components/MyRssSources"
+import { useIntlMessage } from "~/hooks/useIntlMessage"
+import { useMenuToggle } from "~/app/AppState"
+import { useMyRssSources } from "~/rssSources/RssSourcesState"
+import { api } from "~/services/Api"
+import * as router from "~/router"
 
-interface StateProps {
-  isMenuOpen: boolean
-  myRssSources: MyRssSource[]
-}
-
-interface DispatchProps {
-  menuToggle: () => void
-  logout: () => void
-}
-
-type Props = DispatchProps & StateProps
-
-const Layout: React.FunctionComponent<Props> = ({ isMenuOpen, myRssSources, menuToggle, logout, children }) => {
-  const menuClasses = classNames({
-    [styles.menu]: true,
-    [styles.menuOpen]: isMenuOpen,
-  })
-  const contentClasses = classNames({
-    [styles.content]: true,
-    [styles.contentMenuOpen]: isMenuOpen,
-  })
-  const headerClasses = classNames({
-    [styles.header]: true,
-    [styles.headerMenuOpen]: isMenuOpen,
-  })
+const Layout: React.FunctionComponent = ({ children }) => {
+  const { loadMySources, myRssSources } = useMyRssSources()
+  React.useEffect(() => {
+    loadMySources()
+  }, [])
+  const titleLabel = useIntlMessage("myRssSources")
+  const { isMenuOpen, menuToggle } = useMenuToggle()
   return (
     <div className={styles.layout}>
-      <div className={menuClasses}>
-        <Menu logout={logout} />
-        <MyRssSources myRssSources={myRssSources} />
+      <div className={classNames(styles.menu, { [styles.menuOpen]: isMenuOpen })}>
+        <Menu logout={() => api.logout().then(() => router.replace("/login"))} />
+        <MyRssSources title={titleLabel} myRssSources={myRssSources} />
       </div>
-      <div className={headerClasses}>
+      <div className={classNames(styles.header, { [styles.headerMenuOpen]: isMenuOpen })}>
         <Header appName="Mindstream" isMenuOpen={isMenuOpen} onMenuToggle={menuToggle} />
       </div>
-      <div className={contentClasses}>
+      <div className={classNames(styles.content, { [styles.contentMenuOpen]: isMenuOpen })}>
         {children}
       </div>
     </div>
   )
 }
 
-const mapStateToProps = (state: GlobalState): StateProps => {
-  return {
-    isMenuOpen: state.app.isMenuOpen,
-    myRssSources: state.sources.myRssSources,
-  }
-}
-
-const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => {
-  return {
-    menuToggle: () => dispatch(AppActions.menuToggle()),
-    logout: () => dispatch(AppActions.logout()),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Layout)
+export default Layout

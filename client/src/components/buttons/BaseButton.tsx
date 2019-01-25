@@ -1,5 +1,5 @@
 import * as React from "react"
-import classNames from "~/utils/classNames"
+import classNames from "classnames"
 import * as styles from "./BaseButton.css"
 import LoaderIcon from "~/components/icons/LoaderIcon"
 
@@ -15,10 +15,7 @@ interface Props {
 export default class BaseButton extends React.PureComponent<Props> {
   render() {
     const { className, href } = this.props
-    const classes = classNames({
-      [styles.baseButton]: true,
-      [className || ""]: !!className,
-    })
+    const classes = classNames(styles.baseButton, className)
     if (href) {
       return (
         <a href={href} role="button" className={classes} onClick={this.handleOnClick}>
@@ -37,7 +34,7 @@ export default class BaseButton extends React.PureComponent<Props> {
   renderContent = () => {
     const { children, renderLoader, loading = false } = this.props
     if (loading) {
-      return renderLoader !== undefined ? renderLoader() : this.renderDefaultLoader()
+      return renderLoader !== undefined ? renderLoader() : <LoaderIcon width={34} height={34} color="#FFFFFF" />
     } else {
       return children
     }
@@ -49,6 +46,4 @@ export default class BaseButton extends React.PureComponent<Props> {
       onClick()
     }
   }
-
-  renderDefaultLoader = () => <LoaderIcon width={34} height={34} color="#FFFFFF" />
 }

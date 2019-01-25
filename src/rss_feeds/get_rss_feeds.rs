@@ -13,9 +13,9 @@ use crate::app::db::DbExecutor;
 use crate::auth::auth::Auth;
 use crate::errors::Error;
 use crate::models::rss_feed::RssFeed;
-use crate::models::user_rss_feed::{Reaction, UserRssFeed};
-use crate::repositories::users_rss_feeds::{find_rss_feeds_by_rss_source, find_rss_feeds};
 use crate::models::user::User;
+use crate::models::user_rss_feed::{Reaction, UserRssFeed};
+use crate::repositories::users_rss_feeds::{find_rss_feeds, find_rss_feeds_by_rss_source};
 
 #[derive(Debug, Deserialize)]
 pub struct RssFeedsQuery {

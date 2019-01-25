@@ -10,8 +10,8 @@ use crate::auth::auth::Auth;
 use crate::errors::Error;
 use crate::models::pagination::Pagination;
 use crate::models::rss_source::RssSource;
-use crate::repositories::users_rss_sources::find_unfollowed;
 use crate::models::user::User;
+use crate::repositories::users_rss_sources::find_unfollowed;
 
 #[derive(Debug, Deserialize)]
 pub struct GetUnfollowedRssSources {
