@@ -33,6 +33,7 @@
 }
 
 .content {
+  width: 100%;
   flex-grow: 1;
   background-color: var(--primary-clear);
   margin-top: 60px;
