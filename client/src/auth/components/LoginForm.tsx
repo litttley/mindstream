@@ -18,9 +18,8 @@ interface Props {
 export default function LoginForm({ errors, loading, onSubmit }: Props) {
   const emailInput = useFormInput("")
   const passwordInput = useFormInput("")
-  const emailLabel = useIntlMessage("form.email")
-  const passwordLabel = useIntlMessage("form.password")
-  const loginLabel = useIntlMessage("action.login")
+  const message = useIntlMessage()
+
   useKeyDown(event => {
     if (event.key === "Enter") {
       onSubmit({ email: emailInput.value, password: passwordInput.value })
@@ -31,19 +30,19 @@ export default function LoginForm({ errors, loading, onSubmit }: Props) {
     <div className={styles.loginForm}>
       <Input
         {...emailInput}
-        label={emailLabel}
+        label={message("form.email")}
         type="email"
-        error={getFieldErrorMessage("email", errors)}
+        error={getFieldErrorMessage("email", message, errors)}
       />
       <Input
         {...passwordInput}
-        label={passwordLabel}
+        label={message("form.password")}
         type="password"
-        error={getFieldErrorMessage("password", errors)}
+        error={getFieldErrorMessage("password", message, errors)}
       />
       <GhostdButton
         className={styles.button}
-        label={loginLabel}
+        label={message("action.login")}
         loading={loading}
         onClick={() => onSubmit({ email: emailInput.value, password: passwordInput.value })}
       />

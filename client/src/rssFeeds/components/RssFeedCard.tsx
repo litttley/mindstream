@@ -28,7 +28,7 @@ function CardTab({ label, name, content }: { label: string, name: TabName, conte
 
 export default function RssFeedCard({ feed, likedLoading, onLike, onUnlike }: Props) {
   const [selectedTab, setSelectedTab] = React.useState<TabName>(feed.rss_feed.readable ? "readable" : "rss")
-  const noTitle = useIntlMessage("noTitle")
+  const message = useIntlMessage()
   const { readable } = feed.rss_feed
   const { rss } = feed.rss_feed
   const ReadableTab = !!readable && !!readable.content ? <CardTab label="Readable" name="readable" content={readable.content} /> : undefined
@@ -51,7 +51,7 @@ export default function RssFeedCard({ feed, likedLoading, onLike, onUnlike }: Pr
   return (
     <div className={styles.feedCard}>
       <div className={styles.head}>
-        <h1 className={styles.title}>{getTitle(feed.rss_feed) || noTitle}</h1>
+        <h1 className={styles.title}>{getTitle(feed.rss_feed) || message("noTitle")}</h1>
         <a className={styles.url} target="_blanc" href={feed.rss_feed.rss_url}>{feed.rss_feed.rss_url}</a>
         <div className={styles.dates}>
           <div className={styles.date}>

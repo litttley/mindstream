@@ -7,17 +7,14 @@ interface Props {
 }
 
 export default function Menu({ logout }: Props) {
-  const homeLabel = useIntlMessage("menu.home")
-  const feedsLabel = useIntlMessage("menu.feeds")
-  const rssSourcesLabel = useIntlMessage("menu.rssSources")
-  const logoutLabel = useIntlMessage("menu.logout")
+  const message = useIntlMessage()
   return (
     <div className={styles.menuContainer}>
       <div className={styles.links}>
-        <a className={styles.item} href="#/">{homeLabel}</a>
-        <a className={styles.item} href="#/rss/feeds/liked">{feedsLabel}</a>
-        <a className={styles.item} href="#/rss/sources">{rssSourcesLabel}</a>
-        <a className={styles.item} onClick={logout}>{logoutLabel}</a>
+        <a className={styles.item} href="#/">{message("menu.home")}</a>
+        <a className={styles.item} href="#/rss/feeds/liked">{message("menu.feeds")}</a>
+        <a className={styles.item} href="#/rss/sources">{message("menu.rssSources")}</a>
+        <a className={styles.item} onClick={logout}>{message("menu.logout")}</a>
       </div>
     </div>
   )

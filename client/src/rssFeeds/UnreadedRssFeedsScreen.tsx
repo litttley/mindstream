@@ -22,7 +22,7 @@ export default function UnreadedRssFeedsScreen() {
     likeRssFeedLoading,
     unlikleRssFeed,
   } = useUnreadedRssFeeds()
-  const noMoreFeeds = useIntlMessage("noMoreFeeds")
+  const message = useIntlMessage()
 
   useKeyDown((event: KeyboardEvent) => {
     if (!goToNextRssFeedLoading && unreadedRssFeeds.length > 0 && (event.code === "ArrowRight" || event.code === "KeyD")) {
@@ -42,7 +42,7 @@ export default function UnreadedRssFeedsScreen() {
     if (getRssFeedsLoading) {
       return <Loader />
     } else if (!nextRssFeed) {
-      return <Empty message={noMoreFeeds} />
+      return <Empty message={message("noMoreFeeds")} />
     } else {
       return (
         <>

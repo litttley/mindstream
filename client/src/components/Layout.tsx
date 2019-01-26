@@ -12,16 +12,16 @@ import * as router from "~/router"
 
 const Layout: React.FunctionComponent = ({ children }) => {
   const { loadMySources, myRssSources } = useMyRssSources()
+  const message = useIntlMessage()
   React.useEffect(() => {
     loadMySources()
   }, [])
-  const titleLabel = useIntlMessage("myRssSources")
   const { isMenuOpen, menuToggle } = useMenuToggle()
   return (
     <div className={styles.layout}>
       <div className={classNames(styles.menu, { [styles.menuOpen]: isMenuOpen })}>
         <Menu logout={() => api.logout().then(() => router.replace("/login"))} />
-        <MyRssSources title={titleLabel} myRssSources={myRssSources} />
+        <MyRssSources title={message("myRssSources")} myRssSources={myRssSources} />
       </div>
       <div className={classNames(styles.header, { [styles.headerMenuOpen]: isMenuOpen })}>
         <Header appName="Mindstream" isMenuOpen={isMenuOpen} onMenuToggle={menuToggle} />

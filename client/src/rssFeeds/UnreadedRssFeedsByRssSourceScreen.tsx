@@ -28,7 +28,7 @@ export default function UnreadedRssFeedsByRssSourceScreen(props: RouteComponentP
     unlikleRssFeed,
     getRssFeedsLoading,
   } = useUnreadedRssFeeds()
-  const noMoreFeeds = useIntlMessage("noMoreFeeds")
+  const message = useIntlMessage()
 
   React.useEffect(() => {
     getUnreadedRssFeeds(rssSourceUuid)
@@ -48,7 +48,7 @@ export default function UnreadedRssFeedsByRssSourceScreen(props: RouteComponentP
     if (getRssFeedsLoading) {
       return <Loader />
     } else if (!nextRssFeed) {
-      return <Empty message={noMoreFeeds} />
+      return <Empty message={message("noMoreFeeds")} />
     } else {
       return (
         <>

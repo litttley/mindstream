@@ -12,14 +12,14 @@ interface Params {
 
 export default function RssFeedScreen({ match: { params: { rssFeedUuid } } }: RouteComponentProps<Params>) {
   const { getRssFeed, likeRssFeed, unlikeRssFeed } = useRssFeed()
-  const notFound = useIntlMessage("notFound")
+  const message = useIntlMessage()
   const rssFeed = getRssFeed(rssFeedUuid)
   return (
     <Layout>
       {
         rssFeed
           ? <RssFeedCard feed={rssFeed} onLike={likeRssFeed} onUnlike={unlikeRssFeed} likedLoading={false} />
-          : <Empty message={notFound} />
+          : <Empty message={message("notFound")} />
       }
     </Layout>
   )
