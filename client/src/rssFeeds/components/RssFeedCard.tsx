@@ -33,6 +33,10 @@ export default function RssFeedCard({ feed, likedLoading, onLike, onUnlike }: Pr
   const { rss } = feed.rss_feed
   const ReadableTab = !!readable && !!readable.content ? <CardTab label="Readable" name="readable" content={readable.content} /> : undefined
 
+  React.useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [feed.rss_feed.uuid])
+
   const RssTab = () => {
     if (rss) {
       const rssContent = getRssContent(rss)

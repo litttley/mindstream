@@ -28,19 +28,19 @@ export function useUnreadedRssFeeds() {
   const { update, ...state } = React.useContext(RssFeedsContext)
 
   const getUnreadedRssFeeds = (rssSourceUuid?: string) => {
-    update({ ...state, getRssFeedsLoading: true })
+    update({ getRssFeedsLoading: true })
     api.getRssFeeds("Unreaded", rssSourceUuid)
-      .then(unreadedRssFeeds => update({ ...state, unreadedRssFeeds: unreadedRssFeeds.slice(0, 3), getRssFeedsLoading: false }))
+      .then(unreadedRssFeeds => update({ unreadedRssFeeds: unreadedRssFeeds.slice(0, 3), getRssFeedsLoading: false }))
       .catch(error => {
         // TODO
-        update({ ...state, getRssFeedsLoading: false })
+        update({ getRssFeedsLoading: false })
       })
   }
 
   const goToPreviuosRssFeed = () => {
     const [first, ...rest] = state.previousRssFeeds
     if (first) {
-      const newState = { ...state, unreadedRssFeeds: [first, ...state.unreadedRssFeeds], previousRssFeeds: rest }
+      const newState = { unreadedRssFeeds: [first, ...state.unreadedRssFeeds], previousRssFeeds: rest }
       update(newState)
     }
   }
@@ -50,11 +50,10 @@ export function useUnreadedRssFeeds() {
   const goToNextRssFeed = () => {
     const [first, ...rest] = state.unreadedRssFeeds
     if (first && rest.length === 0) {
-      update({ ...state, goToNextRssFeedLoading: true })
+      update({ goToNextRssFeedLoading: true })
       api.feedReaction(first.rss_feed, "Readed").then(user_rss_feed => {
         return api.getRssFeeds("Unreaded").then(newUnreadedRssFeeds => {
           const newState = {
-            ...state,
             unreadedRssFeeds: newUnreadedRssFeeds.filter(r => r.rss_feed.uuid !== first.rss_feed.uuid),
             previousRssFeeds: [{ ...first, user_rss_feed }, ...state.previousRssFeeds.slice(0, 30)],
             goToNextRssFeedLoading: false,
@@ -63,13 +62,12 @@ export function useUnreadedRssFeeds() {
         })
       }).catch(error => {
         // TODO
-        update({ ...state, goToNextRssFeedLoading: false })
+        update({ goToNextRssFeedLoading: false })
       })
     } else if (first && first.user_rss_feed.reaction === "Unreaded") {
-      update({ ...state, goToNextRssFeedLoading: true })
+      update({ goToNextRssFeedLoading: true })
       api.feedReaction(first.rss_feed, "Readed").then(user_rss_feed => {
         const newState = {
-          ...state,
           unreadedRssFeeds: rest,
           previousRssFeeds: [{ ...first, user_rss_feed }, ...state.previousRssFeeds.slice(0, 30)],
           goToNextRssFeedLoading: false,
@@ -77,10 +75,10 @@ export function useUnreadedRssFeeds() {
         update(newState)
       }).catch(error => {
         // TODO
-        update({ ...state, goToNextRssFeedLoading: false })
+        update({ goToNextRssFeedLoading: false })
       })
     } else if (first && (first.user_rss_feed.reaction === "Readed" || first.user_rss_feed.reaction === "Liked")) {
-      const newState = { ...state, unreadedRssFeeds: rest, previousRssFeeds: [first, ...state.previousRssFeeds.slice(0, 30)] }
+      const newState = { unreadedRssFeeds: rest, previousRssFeeds: [first, ...state.previousRssFeeds.slice(0, 30)] }
       update(newState)
     }
   }
@@ -88,11 +86,10 @@ export function useUnreadedRssFeeds() {
   const likeRssFeed = () => {
     const [rssFeed, ...rest] = state.unreadedRssFeeds
     if (rssFeed) {
-      update({ ...state, likeRssFeedLoading: true })
+      update({ likeRssFeedLoading: true })
       api.feedReaction(rssFeed.rss_feed, "Liked")
         .then(user_rss_feed => {
           const newState = {
-            ...state,
             unreadedRssFeeds: [{ ...rssFeed, user_rss_feed }, ...rest],
             likeRssFeedLoading: false,
           }
@@ -100,7 +97,7 @@ export function useUnreadedRssFeeds() {
         })
         .catch(error => {
           // TODO
-          update({ ...state, likeRssFeedLoading: false })
+          update({ likeRssFeedLoading: false })
         })
     }
   }
@@ -108,11 +105,10 @@ export function useUnreadedRssFeeds() {
   const unlikleRssFeed = () => {
     const [rssFeed, ...rest] = state.unreadedRssFeeds
     if (rssFeed) {
-      update({ ...state, likeRssFeedLoading: true })
+      update({ likeRssFeedLoading: true })
       api.feedReaction(rssFeed.rss_feed, "Unreaded")
         .then(user_rss_feed => {
           const newState = {
-            ...state,
             unreadedRssFeeds: [{ ...rssFeed, user_rss_feed }, ...rest],
             likeRssFeedLoading: false,
           }
@@ -120,7 +116,7 @@ export function useUnreadedRssFeeds() {
         })
         .catch(error => {
           // TODO
-          update({ ...state, likeRssFeedLoading: false })
+          update({ likeRssFeedLoading: false })
         })
     }
   }
@@ -141,7 +137,7 @@ export function useLikedRssFeeds() {
 
   const getLikedRssFeeds = () => {
     api.getRssFeeds("Liked")
-      .then(likedFeeds => update({ ...state, likedFeeds }))
+      .then(likedFeeds => update({ likedFeeds }))
       .catch(error => { /* TODO */ })
   }
 
@@ -169,7 +165,7 @@ export function useRssFeed() {
             return r
           }
         })
-        update({ ...state, likedFeeds })
+        update({ likedFeeds })
       })
       .catch(error => { /* TODO */ })
   }
@@ -184,7 +180,7 @@ export function useRssFeed() {
             return r
           }
         })
-        update({ ...state, likedFeeds })
+        update({ likedFeeds })
       })
       .catch(error => { /* TODO */ })
   }
