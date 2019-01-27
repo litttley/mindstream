@@ -62,7 +62,7 @@ export function useSearchRssSources() {
 
   const followSources = (rssSource: RssSource) => {
     update({ followRssSourceLoading: true })
-    api.followSource(rssSource)
+    api.followRssSource(rssSource)
       .then(myRssSource => {
         update({ followRssSourceLoading: false, myRssSources: [...state.myRssSources, myRssSource] })
       })

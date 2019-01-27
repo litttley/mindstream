@@ -30,7 +30,7 @@ export function useUnreadedRssFeeds() {
   const getUnreadedRssFeeds = (rssSourceUuid?: string) => {
     update({ getRssFeedsLoading: true })
     api.getRssFeeds("Unreaded", rssSourceUuid)
-      .then(unreadedRssFeeds => update({ unreadedRssFeeds: unreadedRssFeeds.slice(0, 3), getRssFeedsLoading: false }))
+      .then(unreadedRssFeeds => update({ unreadedRssFeeds, getRssFeedsLoading: false }))
       .catch(error => {
         // TODO
         update({ getRssFeedsLoading: false })
