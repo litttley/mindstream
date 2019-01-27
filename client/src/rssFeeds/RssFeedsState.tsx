@@ -47,12 +47,12 @@ export function useUnreadedRssFeeds() {
 
   const getNextRssFeed = () => state.unreadedRssFeeds.length > 0 ? state.unreadedRssFeeds[0] : undefined
 
-  const goToNextRssFeed = () => {
+  const goToNextRssFeed = (rssSourceUuid?: string) => {
     const [first, ...rest] = state.unreadedRssFeeds
     if (first && rest.length === 0) {
       update({ goToNextRssFeedLoading: true })
       api.feedReaction(first.rss_feed, "Readed").then(user_rss_feed => {
-        return api.getRssFeeds("Unreaded").then(newUnreadedRssFeeds => {
+        return api.getRssFeeds("Unreaded", rssSourceUuid).then(newUnreadedRssFeeds => {
           const newState = {
             unreadedRssFeeds: newUnreadedRssFeeds.filter(r => r.rss_feed.uuid !== first.rss_feed.uuid),
             previousRssFeeds: [{ ...first, user_rss_feed }, ...state.previousRssFeeds.slice(0, 30)],

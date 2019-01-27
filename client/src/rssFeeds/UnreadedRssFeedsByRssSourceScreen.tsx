@@ -36,7 +36,7 @@ export default function UnreadedRssFeedsByRssSourceScreen(props: RouteComponentP
 
   useKeyDown((event: KeyboardEvent) => {
     if (!goToNextRssFeedLoading && unreadedRssFeeds.length > 0 && (event.code === "ArrowRight" || event.code === "KeyD")) {
-      goToNextRssFeed()
+      goToNextRssFeed(rssSourceUuid)
     } else if (previousRssFeeds.length > 0 && event.code === "ArrowLeft" || event.code === "KeyQ" || event.code === "KeyA") {
       goToPreviuosRssFeed()
     }
