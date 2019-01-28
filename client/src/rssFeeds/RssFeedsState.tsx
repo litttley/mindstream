@@ -3,6 +3,7 @@ import { createStore } from "~/store"
 import { api } from "~/services/Api"
 import { RssFeed } from "~/models/RssFeed"
 import { RssFeedsResponse } from "~/models/RssFeedsResponse"
+import { useMyRssSources } from "~/rssSources/RssSourcesState"
 
 interface RssFeedsState {
   getRssFeedsLoading: boolean
@@ -26,6 +27,7 @@ export const [RssFeedsContext, RssFeedsProvider] = createStore(initialState)
 
 export function useUnreadedRssFeeds() {
   const { update, ...state } = React.useContext(RssFeedsContext)
+  const { decrementRssSource } = useMyRssSources()
 
   const getUnreadedRssFeeds = (rssSourceUuid?: string) => {
     update({ getRssFeedsLoading: true })
@@ -59,6 +61,7 @@ export function useUnreadedRssFeeds() {
             goToNextRssFeedLoading: false,
           }
           update(newState)
+          decrementRssSource(first.rss_feed)
         })
       }).catch(error => {
         // TODO
@@ -73,6 +76,7 @@ export function useUnreadedRssFeeds() {
           goToNextRssFeedLoading: false,
         }
         update(newState)
+        decrementRssSource(first.rss_feed)
       }).catch(error => {
         // TODO
         update({ goToNextRssFeedLoading: false })

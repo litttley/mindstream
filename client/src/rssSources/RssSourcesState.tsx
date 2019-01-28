@@ -3,6 +3,7 @@ import { MyRssSource, RssSource } from "~/models/RssSource"
 import { createStore } from "~/store"
 import { api } from "~/services/Api"
 import debounce from "lodash.debounce"
+import { RssFeed } from "~/models/RssFeed"
 
 export interface RssSourcesState {
   loading: boolean
@@ -36,9 +37,20 @@ export function useMyRssSources() {
     return state.myRssSources.find(s => s.rss_source.uuid === rssSource.uuid) !== undefined
   }
 
+  const decrementRssSource = (rssFeed: RssFeed) => {
+    update({ myRssSources: state.myRssSources.map(myRssSource => {
+      if (myRssSource.rss_source.uuid === rssFeed.rss_source_uuid) {
+        return { ...myRssSource, unreaded: myRssSource.unreaded - 1 }
+      } else {
+        return myRssSource
+      }
+    })})
+  }
+
   return {
     isFollowed,
     loadMySources,
+    decrementRssSource,
     loading: state.loading,
     myRssSources: state.myRssSources,
   }
