@@ -40,11 +40,7 @@ export default function RssFeedCard({ feed, likedLoading, onLike, onUnlike }: Pr
   const RssTab = () => {
     if (rss) {
       const rssContent = getRssContent(rss)
-      if (rssContent) {
-        return <CardTab label="Rss" name="rss" content={rssContent} />
-      } else {
-        return undefined
-      }
+      return <CardTab label="Rss" name="rss" content={rssContent || ""} />
     } else {
       return undefined
     }
