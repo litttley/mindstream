@@ -76,6 +76,7 @@ pub fn find_unfollowed(
         .limit(limit)
         .offset(offset)
         .select(rss_sources::all_columns)
+        .distinct()
         .get_results::<RssSource>(&*connection)
 }
 
