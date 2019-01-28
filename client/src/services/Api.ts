@@ -97,7 +97,7 @@ export class ApiService {
 
   getUnfollowedRssSources(): Promise<RssSource[]> {
     return this.withAuth({
-      url: `/rss/sources/unfollowed`,
+      url: `/api/rss/sources/unfollowed`,
       method: "GET",
     })
   }
