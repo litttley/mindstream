@@ -50,7 +50,7 @@ export interface UserRssFeed {
 }
 
 export function getTitle({ readable, rss }: RssFeed): string | undefined {
-  if (readable) {
+  if (!!readable && !!readable.title) {
     return readable.title
   } else if (rss) {
     return rss.title
