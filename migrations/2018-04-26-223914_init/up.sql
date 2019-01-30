@@ -26,11 +26,20 @@ CREATE TABLE rss_sources (
     updated TIMESTAMP NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS rss_sources_categories (
+    uuid UUID PRIMARY KEY,
+    title TEXT NOT NULL,
+    created TIMESTAMP NOT NULL,
+    updated TIMESTAMP NOT NULL,
+    user_uuid UUID NOT NULL REFERENCES users(uuid)
+);
+
 CREATE TABLE users_rss_sources (
     uuid UUID PRIMARY KEY,
     unreaded BIGINT NOT NULL DEFAULT 0,
     user_uuid UUID NOT NULL REFERENCES users(uuid),
-    rss_source_uuid UUID NOT NULL REFERENCES rss_sources(uuid)
+    rss_source_uuid UUID NOT NULL REFERENCES rss_sources(uuid),
+    rss_source_category_uuid UUID NOT NULL REFERENCES rss_sources_categories(uuid)
 );
 
 CREATE TABLE IF NOT EXISTS rss_feeds (

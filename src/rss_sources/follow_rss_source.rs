@@ -15,6 +15,7 @@ use crate::models::user::User;
 use crate::models::user_rss_source::UserRssSource;
 use crate::repositories::rss_sources::find_by_uuid;
 use crate::repositories::users_rss_sources::{insert, is_exists};
+use crate::repositories::rss_sources_categories::find_rss_sources_categories;
 
 #[derive(Debug, Deserialize)]
 pub struct FollowRssSource {
@@ -46,7 +47,8 @@ impl Handler<FollowRssSource> for DbExecutor {
         let user = message.user;
         Ok(connexion.transaction::<_, Error, _>(|| {
             let rss_source = find_by_uuid(&connexion, &rss_source_uuid)?;
-            let user_rss_source = UserRssSource::new(user.uuid, rss_source_uuid);
+            let rss_sources_categories = find_rss_sources_categories(&connexion, &user)?;
+            let user_rss_source = UserRssSource::new(&user, &rss_source, rss_sources_categories.first().unwrap()); // TODO unwrap
             let is_existe = is_exists(&connexion, &user_rss_source)?;
             if is_existe {
                 Err(Error::BadRequest(ApiError::new("already.exist")))

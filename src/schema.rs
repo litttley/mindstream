@@ -31,6 +31,16 @@ table! {
 }
 
 table! {
+    rss_sources_categories (uuid) {
+        uuid -> Uuid,
+        title -> Text,
+        created -> Timestamp,
+        updated -> Timestamp,
+        user_uuid -> Uuid,
+    }
+}
+
+table! {
     users (uuid) {
         uuid -> Uuid,
         login -> Text,
@@ -58,18 +68,22 @@ table! {
         unreaded -> Int8,
         user_uuid -> Uuid,
         rss_source_uuid -> Uuid,
+        rss_source_category_uuid -> Uuid,
     }
 }
 
 joinable!(rss_feeds -> rss_sources (rss_source_uuid));
+joinable!(rss_sources_categories -> users (user_uuid));
 joinable!(users_rss_feeds -> rss_feeds (feed_uuid));
 joinable!(users_rss_feeds -> users (user_uuid));
 joinable!(users_rss_sources -> rss_sources (rss_source_uuid));
+joinable!(users_rss_sources -> rss_sources_categories (rss_source_category_uuid));
 joinable!(users_rss_sources -> users (user_uuid));
 
 allow_tables_to_appear_in_same_query!(
     rss_feeds,
     rss_sources,
+    rss_sources_categories,
     users,
     users_rss_feeds,
     users_rss_sources,

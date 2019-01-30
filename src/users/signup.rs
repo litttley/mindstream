@@ -11,8 +11,14 @@ use crate::app::config;
 use crate::app::db::DbExecutor;
 use crate::auth::jwt::{create_token, Token};
 use crate::errors::Error;
-use crate::models::user::User;
-use crate::repositories::users::insert;
+use crate::models::{
+    user::User,
+    rss_source_category::RssSourceCategory,
+};
+use crate::repositories::{
+    users::insert,
+    rss_sources_categories,
+};
 
 #[derive(Debug, Clone, Validate, Deserialize)]
 pub struct Signup {
@@ -36,6 +42,9 @@ impl Handler<Signup> for DbExecutor {
         let connexion = self.pool.get()?;
         let user = User::from_signup(&message)?;
         let user = insert(&connexion, &user)?;
+        let rss_source_category = RssSourceCategory::new("All".to_owned(), &user);
+        let _ = rss_sources_categories::insert(&connexion, &rss_source_category)?;
+        // TODO rollback
         let config = &config::CONFIG;
         let token = create_token(user.clone(), &config.secret_key)?;
         Ok((user, token))
