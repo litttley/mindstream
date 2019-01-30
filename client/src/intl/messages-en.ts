@@ -23,4 +23,5 @@ export const messagesEn: Record<string, string> = {
   "notFound": "Not Found",
   "noMoreFeeds":  "No more feeds",
   "noTitle": "No title",
+  "nextRssSource": "Next Rss Source"
 }
