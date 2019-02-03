@@ -1,14 +1,14 @@
 import * as React from "react"
+import classNames from "classnames"
 import * as styles from "./Tabs.css"
 import { Props as TabProps } from "./Tab"
-import classNames from "~/utils/classNames"
 
 interface Props {
   selectedTabName: string
   onChange: (tab: string) => void
 }
 
-function isReactElement<T>(rc: React.ReactChild): rc is React.ReactElement<T> {
+function isReactElement<T>(rc: React.ReactNode): rc is React.ReactElement<T> {
   const re = rc as React.ReactElement<T>
   return !!re.type && !!re.props
 }
@@ -34,10 +34,7 @@ export default class Tabs extends React.PureComponent<Props> {
 
   renderTab = (props: TabProps) => {
     const { selectedTabName } = this.props
-    const classes = classNames({
-      [styles.tab]: true,
-      [styles.selected]: selectedTabName === props.name
-    })
+    const classes = classNames(styles.tab, { [styles.selected]: selectedTabName === props.name })
     return (
       <div key={props.name} className={classes} onClick={this.handleTabOnClick(props.name)}>
         {props.label}

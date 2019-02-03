@@ -6,8 +6,8 @@ use diesel::PgConnection;
 use uuid::Uuid;
 
 use crate::models::rss_source::RssSource;
-use crate::models::user_rss_source::UserRssSource;
 use crate::models::user::User;
+use crate::models::user_rss_source::UserRssSource;
 use crate::schema::users_rss_sources;
 
 pub fn insert(
@@ -76,6 +76,7 @@ pub fn find_unfollowed(
         .limit(limit)
         .offset(offset)
         .select(rss_sources::all_columns)
+        .distinct()
         .get_results::<RssSource>(&*connection)
 }
 

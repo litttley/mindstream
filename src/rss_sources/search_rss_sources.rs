@@ -1,18 +1,18 @@
-use url::Url;
 use actix::prelude::*;
-use actix_web::{AsyncResponder, HttpResponse, State, Query};
+use actix_web::{AsyncResponder, HttpResponse, Query, State};
+use diesel::PgConnection;
 use futures::future::Future;
 use serde::Deserialize;
+use url::Url;
 use validator::Validate;
 use validator_derive::Validate;
-use diesel::PgConnection;
 
 use crate::app::app_state::AppState;
 use crate::app::db::DbExecutor;
 use crate::errors::Error;
-use crate::services::rss_service::fetch_feeds_channel;
 use crate::models::rss_source::RssSource;
-use crate::repositories::rss_sources::{find_by_url, search, insert};
+use crate::repositories::rss_sources::{find_by_url, insert, search};
+use crate::services::rss_service::fetch_feeds_channel;
 
 #[derive(Debug, Validate, Deserialize)]
 pub struct SearchRssSource {
@@ -33,7 +33,7 @@ impl Handler<SearchRssSource> for DbExecutor {
         message.validate()?;
         let connection = self.pool.get()?;
         let query = &message.query;
-        if let Ok(_) = Url::parse(query) {
+        if Url::parse(query).is_ok() {
             find_rss_source_by_url(&connection, query)
         } else {
             Ok(search(&connection, query)?)
@@ -42,16 +42,14 @@ impl Handler<SearchRssSource> for DbExecutor {
 }
 
 fn find_rss_source_by_url(connection: &PgConnection, url: &str) -> Result<Vec<RssSource>, Error> {
-    if let Ok(rss_source) = find_by_url(&connection, url) {
+    if let Ok(rss_source) = find_by_url(connection, url) {
+        Ok(vec![rss_source])
+    } else if let Ok(Some(rss_feed)) = fetch_feeds_channel(url) {
+        let rss_source = RssSource::from_feed(url, rss_feed);
+        insert(connection, &rss_source)?;
         Ok(vec![rss_source])
     } else {
-        if let Ok(Some(rss_feed)) = fetch_feeds_channel(url) {
-            let rss_source = RssSource::from_feed(url, rss_feed);
-            insert(&connection, &rss_source)?;
-            Ok(vec![rss_source])
-        } else {
-            Ok(vec![])
-        }
+        Ok(vec![])
     }
 }
 
@@ -68,4 +66,3 @@ pub fn search_rss_source_handler(
         })
         .responder()
 }
-

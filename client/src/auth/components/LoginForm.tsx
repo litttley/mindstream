@@ -1,11 +1,13 @@
 import * as React from "react"
-import { InjectedIntlProps, injectIntl } from "react-intl"
 import * as styles from "./LoginForm.css"
 import Input from "~/components/Input"
-import { ApiErrors, getFieldErrorMessage } from "~/services/ApiError"
-import { Login } from "~/auth/Login"
+import { ApiErrors, getFieldErrorMessage } from "~/models/ApiError"
+import { Login } from "~/models/Login"
 import GhostdButton from "~/components/buttons/GhostButton"
-import KeyDownAction from "~/components/KeyDownAction"
+import FormErrors from "./FormErrors"
+import { useFormInput } from "~/hooks/useFormInput"
+import { useIntlMessage } from "~/hooks/useIntlMessage"
+import { useKeyDown } from "~/hooks/useKeyDown"
 
 interface Props {
   loading: boolean
@@ -13,71 +15,38 @@ interface Props {
   onSubmit: (login: Login) => void
 }
 
-class LoginForm extends React.Component<Props & InjectedIntlProps, Login> {
-  state = {
-    email: "",
-    password: ""
-  }
+export default function LoginForm({ errors, loading, onSubmit }: Props) {
+  const emailInput = useFormInput("")
+  const passwordInput = useFormInput("")
+  const message = useIntlMessage()
 
-  render() {
-    const { email, password } = this.state
-    const { errors, loading, intl } = this.props
-    return (
-      <div className={styles.loginForm}>
-        <Input
-          name="email"
-          error={getFieldErrorMessage("email", intl, errors)}
-          label={intl.formatMessage({ id: "email" })}
-          value={email}
-          onChange={this.handleOnChange}
-          type="email"
-        />
-
-        <Input
-          name="password"
-          label={intl.formatMessage({ id: "password" })}
-          error={getFieldErrorMessage("password", intl, errors)}
-          value={password}
-          onChange={this.handleOnChange}
-          type="password"
-        />
-
-        <GhostdButton
-          className={styles.button}
-          label={intl.formatMessage({ id: "auth.login" })}
-          loading={loading}
-          onClick={this.handleOnSubmit}
-        />
-        <KeyDownAction onKeyDown={this.hendleOnKeyDown} />
-        {this.renderError()}
-      </div>
-    )
-  }
-
-  renderError = () => {
-    const { errors, intl } = this.props
-    return (
-      <div className={styles.errorContainer}>
-        <div className={errors && errors.message ? styles.errorMessage : styles.errorMessageHidden}>
-          {errors && intl.formatMessage({ id: errors.message }) || ""}
-        </div>
-      </div>
-    )
-  }
-
-  handleOnChange = (value: string, field: keyof Login) => {
-    this.setState(() => ({
-      [field]: value
-    } as Pick<Login, keyof Login>))
-  }
-
-  handleOnSubmit = () => this.props.onSubmit(this.state)
-
-  hendleOnKeyDown = (event: KeyboardEvent) => {
+  useKeyDown(event => {
     if (event.key === "Enter") {
-      this.handleOnSubmit()
+      onSubmit({ email: emailInput.value, password: passwordInput.value })
     }
-  }
-}
+  })
 
-export default injectIntl(LoginForm)
+  return (
+    <div className={styles.loginForm}>
+      <Input
+        {...emailInput}
+        label={message("form.email")}
+        type="email"
+        error={getFieldErrorMessage("email", message, errors)}
+      />
+      <Input
+        {...passwordInput}
+        label={message("form.password")}
+        type="password"
+        error={getFieldErrorMessage("password", message, errors)}
+      />
+      <GhostdButton
+        className={styles.button}
+        label={message("action.login")}
+        loading={loading}
+        onClick={() => onSubmit({ email: emailInput.value, password: passwordInput.value })}
+      />
+      <FormErrors errors={errors} />
+    </div>
+  )
+}

@@ -1,11 +1,13 @@
 import * as React from "react"
-import { InjectedIntlProps, injectIntl } from "react-intl"
 import * as styles from "./SignupForm.css"
 import Input from "~/components/Input"
-import { ApiErrors, getFieldErrorMessage } from "~/services/ApiError"
-import { Signup } from "~/auth/Signup"
+import { ApiErrors, getFieldErrorMessage } from "~/models/ApiError"
+import { Signup } from "~/models/Signup"
 import GhostdButton from "~/components/buttons/GhostButton"
-import KeyDownAction from "~/components/KeyDownAction"
+import { useFormInput } from "~/hooks/useFormInput"
+import { useIntlMessage } from "~/hooks/useIntlMessage"
+import { useKeyDown } from "~/hooks/useKeyDown"
+import FormErrors from "./FormErrors"
 
 interface Props {
   loading: boolean
@@ -13,83 +15,45 @@ interface Props {
   onSubmit: (signup: Signup) => void
 }
 
-class SignupForm extends React.Component<Props & InjectedIntlProps, Signup> {
-  state = {
-    login: "",
-    email: "",
-    password: "",
-  }
+export default function SignupForm({ loading, errors, onSubmit }: Props) {
+  const loginInput = useFormInput("")
+  const emailInput = useFormInput("")
+  const passwordInput = useFormInput("")
+  const message = useIntlMessage()
 
-  render() {
-    const { login, email, password } = this.state
-    const { loading, errors, intl } = this.props
-    return (
-      <div className={styles.signupForm}>
-        <Input
-          name="login"
-          label={intl.formatMessage({ id: "login" })}
-          error={getFieldErrorMessage("login", intl, errors)}
-          value={login}
-          onChange={this.handleOnChange}
-          type="text"
-        />
-
-        <Input
-          name="email"
-          label={intl.formatMessage({ id: "email" })}
-          error={getFieldErrorMessage("email", intl, errors)}
-          value={email}
-          onChange={this.handleOnChange}
-          type="email"
-        />
-
-        <Input
-          name="password"
-          label={intl.formatMessage({ id: "password" })}
-          error={getFieldErrorMessage("password", intl, errors)}
-          value={password}
-          onChange={this.handleOnChange}
-          type="password"
-        />
-
-        <GhostdButton
-          className={styles.button}
-          label={intl.formatMessage({ id: "auth.signup" })}
-          loading={loading}
-          onClick={this.handleOnSubmit}
-        />
-
-        {this.renderError()}
-
-        <KeyDownAction onKeyDown={this.hendleOnKeyDown} />
-      </div>
-    )
-  }
-
-  renderError = () => {
-    const { errors, intl } = this.props
-    return (
-      <div className={styles.errorContainer}>
-        <div className={errors && errors.message ? styles.errorMessage : styles.errorMessageHidden}>
-          {errors && intl.formatMessage({ id: errors.message }) || ""}
-        </div>
-      </div>
-    )
-  }
-
-  handleOnChange = (value: string, field: keyof Signup) => {
-    this.setState(() => ({
-      [field]: value
-    } as Pick<Signup, keyof Signup>))
-  }
-
-  handleOnSubmit = () => this.props.onSubmit(this.state)
-
-  hendleOnKeyDown = (event: KeyboardEvent) => {
+  useKeyDown(event => {
     if (event.key === "Enter") {
-      this.handleOnSubmit()
+      onSubmit({ login: loginInput.value, email: emailInput.value, password: passwordInput.value })
     }
-  }
-}
+  })
 
-export default injectIntl(SignupForm)
+  return (
+    <div className={styles.signupForm}>
+      <Input
+        {...loginInput}
+        label={message("form.login")}
+        type="text"
+        error={getFieldErrorMessage("login", message, errors)}
+      />
+      <Input
+        {...emailInput}
+        label={message("form.email")}
+        type="email"
+        error={getFieldErrorMessage("email", message, errors)}
+      />
+      <Input
+        {...passwordInput}
+        label={message("form.password")}
+        type="password"
+        error={getFieldErrorMessage("password", message, errors)}
+      />
+      <GhostdButton
+        className={styles.button}
+        label={message("action.signup")}
+        loading={loading}
+        onClick={() => onSubmit({ login: loginInput.value, email: emailInput.value, password: passwordInput.value })}
+      />
+      <FormErrors errors={errors} />
+    </div>
+  )
+}

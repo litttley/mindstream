@@ -1,44 +1,30 @@
 import * as React from "react"
 import * as styles from "./SearchSourceForm.css"
-import { InjectedIntlProps, injectIntl } from "react-intl"
+import { useIntlMessage } from "~/hooks/useIntlMessage"
+import { useFormInput } from "~/hooks/useFormInput"
 
 interface Props {
-  disable: boolean
   onChange: (value: string) => void
 }
 
-interface State {
-  query: string
-}
-
-class SearchSourceForm extends React.Component<Props & InjectedIntlProps, State> {
-  state = { query: "" }
-
-  render() {
-    const { intl } = this.props
-    const { query } = this.state
-    return (
-      <div className={styles.searchSourceForm}>
-        <label className={styles.title}>{intl.formatMessage({ id: "searchNewRssSources" })}</label>
-        <div className={styles.search}>
-          <input
-            className={styles.input}
-            type="search"
-            value={query}
-            placeholder={intl.formatMessage({ id: "search" })}
-            onChange={this.onChangeHandler}
-          />
-        </div>
+export default function SearchSourceForm({ onChange }: Props) {
+  const queryInput = useFormInput("")
+  const message = useIntlMessage()
+  return (
+    <div className={styles.searchSourceForm}>
+      <label className={styles.title}>{message("searchNewRssSources")}</label>
+      <div className={styles.search}>
+        <input
+          value={queryInput.value}
+          onChange={event => {
+            queryInput.onChange(event)
+            onChange(event.currentTarget.value)
+          }}
+          className={styles.input}
+          type="search"
+          placeholder={message("search")}
+        />
       </div>
-    )
-  }
-
-  onChangeHandler = (event: React.FormEvent<HTMLInputElement>) => {
-    const { onChange } = this.props
-    const query = event.currentTarget.value
-    this.setState({ query })
-    onChange(query)
-  }
+    </div>
+  )
 }
-
-export default injectIntl(SearchSourceForm)

@@ -5,8 +5,8 @@ use serde_json;
 use serde_json::Value;
 use uuid::Uuid;
 
-use crate::models::rss::Rss;
 use crate::models::readable::Readable;
+use crate::models::rss::Rss;
 use crate::models::rss_source::RssSource;
 use crate::schema::rss_feeds;
 

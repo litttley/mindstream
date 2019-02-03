@@ -48,7 +48,7 @@ pub fn login(
 ) -> Box<Future<Item = HttpResponse, Error = Error>> {
     req.json()
         .from_err()
-        .and_then(move |login: Login| state.db.send(login.clone()).from_err())
+        .and_then(move |login: Login| state.db.send(login).from_err())
         .and_then(|res| match res {
             Ok((user, token)) => Ok(HttpResponse::Ok().json(json!({
                 "user": user,

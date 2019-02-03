@@ -27,7 +27,7 @@ pub fn create_token(user: User, secret_key: &str) -> Result<Token, Error> {
 pub fn decode_token(token: &str, secret_key: &str) -> Result<Claime, Error> {
     let validation = Validation {
         validate_exp: false,
-        ..Default::default()
+        ..Validation::default()
     };
     let claims = decode::<Claime>(token, secret_key.as_bytes(), &validation)?;
     let claims = claims.claims;

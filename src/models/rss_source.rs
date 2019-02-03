@@ -1,8 +1,8 @@
 use chrono::prelude::*;
 use chrono::NaiveDateTime;
+use feed_rs::Feed;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
-use feed_rs::Feed;
 
 use crate::schema::rss_sources;
 

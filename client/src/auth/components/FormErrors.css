@@ -1,0 +1,15 @@
+.errorContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 24px 0;
+}
+
+.errorMessage {
+  color: var(--error);
+}
+
+.errorMessageHidden {
+  visibility: hidden;
+}

@@ -9,6 +9,8 @@ interface Props {
 
 export default function Loader({ size = 60, paddingTop = "30px" }: Props) {
   return (
-    <div className={styles.loader} style={{ paddingTop }} ><LoaderIcon width={size} height={size} /></div>
+    <div className={styles.loader} style={{ paddingTop }}>
+      <LoaderIcon width={size} height={size} />
+    </div>
   )
 }
