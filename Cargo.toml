@@ -14,7 +14,7 @@ failure = "0.1.5"
 diesel = {version = "1.4.1",features = ["postgres","uuidv07","chrono","serde_json"]}
 r2d2 = "0.8.3"
 r2d2-diesel = "1.0.0"
-uuid = {version = "0.7.1",features = ["serde","v4"]}
+uuid = {version = "0.7.2",features = ["serde","v4"]}
 chrono = {version = "0.4.6",features = ["serde"]}
 dotenv = "0.13.0"
 bcrypt = "0.3.0"
