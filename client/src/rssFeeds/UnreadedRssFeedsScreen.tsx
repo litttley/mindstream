@@ -6,9 +6,12 @@ import Empty from "~/components/Empty"
 import { useIntlMessage } from "~/hooks/useIntlMessage"
 import FeedActions from "./components/FeedActions"
 import Loader from "~/components/Loader"
+import { useKeyDown } from "~/hooks/useKeyDown"
 
 export default function UnreadedRssFeedsScreen() {
   const {
+    unreadedRssFeeds,
+    previousRssFeeds,
     getRssFeedsLoading,
     goToNextRssFeedLoading,
     getUnreadedRssFeeds,
@@ -19,7 +22,15 @@ export default function UnreadedRssFeedsScreen() {
     likeRssFeedLoading,
     unlikleRssFeed,
   } = useUnreadedRssFeeds()
-  const noMoreFeeds = useIntlMessage("noMoreFeeds")
+  const message = useIntlMessage()
+
+  useKeyDown((event: KeyboardEvent) => {
+    if (!goToNextRssFeedLoading && unreadedRssFeeds.length > 0 && (event.code === "ArrowRight" || event.code === "KeyD")) {
+      goToNextRssFeed()
+    } else if (previousRssFeeds.length > 0 && event.code === "ArrowLeft" || event.code === "KeyQ" || event.code === "KeyA") {
+      goToPreviuosRssFeed()
+    }
+  })
 
   React.useEffect(() => {
     getUnreadedRssFeeds()
@@ -31,7 +42,7 @@ export default function UnreadedRssFeedsScreen() {
     if (getRssFeedsLoading) {
       return <Loader />
     } else if (!nextRssFeed) {
-      return <Empty message={noMoreFeeds} />
+      return <Empty message={message("noMoreFeeds")} />
     } else {
       return (
         <>

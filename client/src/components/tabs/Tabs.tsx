@@ -8,7 +8,7 @@ interface Props {
   onChange: (tab: string) => void
 }
 
-function isReactElement<T>(rc: React.ReactChild): rc is React.ReactElement<T> {
+function isReactElement<T>(rc: React.ReactNode): rc is React.ReactElement<T> {
   const re = rc as React.ReactElement<T>
   return !!re.type && !!re.props
 }

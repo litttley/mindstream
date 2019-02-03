@@ -4,11 +4,13 @@ import { RssSource, getRssSourceIconUrl } from "~/models/RssSource"
 import GhostdButton from "~/components/buttons/GhostButton"
 
 interface Props {
+  isFollowed: boolean
   rssSource: RssSource
   followRssSource: (rssSource: RssSource) => void
+  unfollowRssSource: (rssSource: RssSource) => void
 }
 
-export default function RssSourceCard({ rssSource, followRssSource }: Props) {
+export default function RssSourceCard({ rssSource, isFollowed, followRssSource, unfollowRssSource }: Props) {
   const { uuid, url, title, description } = rssSource
   const icon = getRssSourceIconUrl(rssSource)
 
@@ -27,7 +29,10 @@ export default function RssSourceCard({ rssSource, followRssSource }: Props) {
         <a className={styles.url} href={url}>{url}</a>
         {Description}
         <div className={styles.actions}>
-          <GhostdButton label="Follow" onClick={() => followRssSource(rssSource)} />
+          {!isFollowed
+            ? <GhostdButton label="Follow" onClick={() => followRssSource(rssSource)} />
+            : <GhostdButton label="Unfollow" onClick={() => unfollowRssSource(rssSource)} />
+          }
         </div>
       </div>
     </div>

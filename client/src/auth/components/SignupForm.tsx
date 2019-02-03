@@ -19,10 +19,8 @@ export default function SignupForm({ loading, errors, onSubmit }: Props) {
   const loginInput = useFormInput("")
   const emailInput = useFormInput("")
   const passwordInput = useFormInput("")
-  const loginLabel = useIntlMessage("form.login")
-  const emailLabel = useIntlMessage("form.email")
-  const passwordLabel = useIntlMessage("form.password")
-  const signupLabel = useIntlMessage("action.signup")
+  const message = useIntlMessage()
+
   useKeyDown(event => {
     if (event.key === "Enter") {
       onSubmit({ login: loginInput.value, email: emailInput.value, password: passwordInput.value })
@@ -33,25 +31,25 @@ export default function SignupForm({ loading, errors, onSubmit }: Props) {
     <div className={styles.signupForm}>
       <Input
         {...loginInput}
-        label={loginLabel}
+        label={message("form.login")}
         type="text"
-        error={getFieldErrorMessage("login", errors)}
+        error={getFieldErrorMessage("login", message, errors)}
       />
       <Input
         {...emailInput}
-        label={emailLabel}
+        label={message("form.email")}
         type="email"
-        error={getFieldErrorMessage("email", errors)}
+        error={getFieldErrorMessage("email", message, errors)}
       />
       <Input
         {...passwordInput}
-        label={passwordLabel}
+        label={message("form.password")}
         type="password"
-        error={getFieldErrorMessage("password", errors)}
+        error={getFieldErrorMessage("password", message, errors)}
       />
       <GhostdButton
         className={styles.button}
-        label={signupLabel}
+        label={message("action.signup")}
         loading={loading}
         onClick={() => onSubmit({ login: loginInput.value, email: emailInput.value, password: passwordInput.value })}
       />

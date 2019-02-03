@@ -24,15 +24,15 @@ export function useLogin() {
   const { update, ...state } = React.useContext(AuthContext)
 
   const loginSubmit = (login: Login) => {
-    update({ ...state, loading: true })
+    update({ loading: true })
     api
       .login(login)
       .then(response => {
-        update({ ...state, ...response, loading: false })
+        update({ ...response, loading: false })
         router.replace("/")
       })
       .catch(loginErrors => {
-        update({ ...state, loginErrors, loading: false })
+        update({ loginErrors, loading: false })
       })
   }
 
@@ -46,15 +46,15 @@ export function useLogin() {
 export function useSignup() {
   const { update, ...state } = React.useContext(AuthContext)
   const signupSubmit = (signup: Signup) => {
-    update({ ...state, loading: true })
+    update({ loading: true })
     api
       .signup(signup)
       .then(response => {
-        update({ ...state, ...response, loading: false })
+        update({ ...response, loading: false })
         router.replace("/")
       })
       .catch(signupErrors => {
-        update({ ...state, signupErrors, loading: false })
+        update({ signupErrors, loading: false })
       })
   }
 

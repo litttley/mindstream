@@ -95,7 +95,14 @@ export class ApiService {
     })
   }
 
-  followSource(rssSource: RssSource): Promise<MyRssSource> {
+  getUnfollowedRssSources(): Promise<RssSource[]> {
+    return this.withAuth({
+      url: `/api/rss/sources/unfollowed`,
+      method: "GET",
+    })
+  }
+
+  followRssSource(rssSource: RssSource): Promise<MyRssSource> {
     return this.withAuth({
       url: `/api/rss/sources/${rssSource.uuid}/follow`,
       method: "POST",

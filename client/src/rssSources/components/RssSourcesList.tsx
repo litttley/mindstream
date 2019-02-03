@@ -4,6 +4,7 @@ import { RssSource } from "~/models/RssSource"
 import RssSourceCard from "./RssSourceCard"
 import Empty from "~/components/Empty"
 import Loader from "~/components/Loader"
+import { useMyRssSources } from "../RssSourcesState"
 
 interface Props {
   loading: boolean
@@ -12,11 +13,14 @@ interface Props {
 }
 
 export default function RssSourcesList({ rssSources, followSource, loading }: Props) {
+  const { isFollowed } = useMyRssSources()
   const List = rssSources.map(rssSource => (
     <RssSourceCard
+      isFollowed={isFollowed(rssSource)}
       key={rssSource.uuid}
       rssSource={rssSource}
       followRssSource={followSource}
+      unfollowRssSource={() => { /* TODO */ }}
     />
   ))
 

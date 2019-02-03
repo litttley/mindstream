@@ -9,11 +9,10 @@ interface Props {
 
 export default function SearchSourceForm({ onChange }: Props) {
   const queryInput = useFormInput("")
-  const title = useIntlMessage("searchNewRssSources")
-  const placeholder = useIntlMessage("search")
+  const message = useIntlMessage()
   return (
     <div className={styles.searchSourceForm}>
-      <label className={styles.title}>{title}</label>
+      <label className={styles.title}>{message("searchNewRssSources")}</label>
       <div className={styles.search}>
         <input
           value={queryInput.value}
@@ -23,7 +22,7 @@ export default function SearchSourceForm({ onChange }: Props) {
           }}
           className={styles.input}
           type="search"
-          placeholder={placeholder}
+          placeholder={message("search")}
         />
       </div>
     </div>

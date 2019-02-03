@@ -7,7 +7,8 @@ import { useIntlMessage } from "~/hooks/useIntlMessage"
 
 export default function LoginScreen() {
   const { loading, loginErrors, loginSubmit } = useLogin()
-  const signupLabel = useIntlMessage("action.signup")
+  const message = useIntlMessage()
+
   return (
     <AuthLayout>
       <LoginForm
@@ -16,7 +17,7 @@ export default function LoginScreen() {
         onSubmit={loginSubmit}
       />
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <LinkButton href="#/signup">{signupLabel}</LinkButton>
+        <LinkButton href="#/signup">{message("action.signup")}</LinkButton>
       </div>
     </AuthLayout>
   )

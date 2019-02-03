@@ -5,7 +5,12 @@ import { useSearchRssSources } from "./RssSourcesState"
 import RssSourcesList from "./components/RssSourcesList"
 
 export default function RssSourcesScreen() {
-  const { findedRssSources, searchRssSourceLoading, searchRssSources, followSources } = useSearchRssSources()
+  const { clear, findedRssSources, searchRssSourceLoading, searchRssSources, followSources } = useSearchRssSources()
+
+  React.useEffect(() => {
+    clear()
+  }, [])
+
   return (
     <Layout>
       <SearchSourceForm onChange={searchRssSources} />
