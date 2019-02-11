@@ -3,6 +3,10 @@ name = "mindstream"
 version = "0.1.0"
 authors = ["Egor Berezovskiy <egor.neon@gmail.com>"]
 edition = "2018"
+publish = false
+
+[profile.release]
+lto = false
 
 [dependencies]
 actix = "0.7.9"
@@ -12,6 +16,7 @@ serde = {version = "1.0.87",features = ["derive"]}
 serde_json = "1.0.38"
 failure = "0.1.5"
 diesel = {version = "1.4.1",features = ["postgres","uuidv07","chrono","serde_json"]}
+diesel_migrations = "1.4.0"
 r2d2 = "0.8.3"
 r2d2-diesel = "1.0.0"
 uuid = {version = "0.7.2",features = ["serde","v4"]}
