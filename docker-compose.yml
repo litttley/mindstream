@@ -1,7 +1,24 @@
 version: '3'
 services:
-    mindstream_postgres:
-        image: postgres:10.0-alpine
+    demo:
+        image: wadjetz/mindstream
+        ports:
+            - 8899:8899
+        environment:
+            DATABASE_URL: postgres://mindstream:mindstream@database/mindstream
+            SECRET_KEY:
+            MERCURY_API_KEY:
+            RSS_JOB_INTERVAL: 10
+            DEFAULT_LIMIT: 50
+            HOST: 0.0.0.0
+            PORT: 8899
+            RUST_LOG: mindstream=debug,errors=debug
+            ASSETS: /mindstream/static
+        depends_on:
+            - database
+
+    database:
+        image: postgres:11.1-alpine
         environment:
             POSTGRES_PASSWORD: mindstream
             POSTGRES_USER: mindstream
@@ -11,9 +28,9 @@ services:
         volumes:
             - .docker-data/postgresql:/var/lib/postgresql/data
 
-    mindstream_adminer:
+    adminer:
         image: adminer
         ports:
             - 5555:8080
         depends_on:
-            - mindstream_postgres
+            - database
