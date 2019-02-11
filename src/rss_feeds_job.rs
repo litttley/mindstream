@@ -17,7 +17,7 @@ use crate::repositories::{
     users_rss_feeds::{insert_user_rss_feed, is_user_feed_already_inserted},
     users_rss_sources::{find_rss_source_subscribers, increment_unreaded_rss_sources},
 };
-use crate::services::mercury::fetch_readable;
+use crate::services::readable::fetch_readable;
 use crate::services::rss_service::fetch_feeds_channel;
 
 pub fn run_rss_job(pool: Pool<ConnectionManager<PgConnection>>) {

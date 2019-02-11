@@ -14,9 +14,12 @@ jobs:
         - cp -r static build/static && cp target/release/mindstream build/mindstream && cp Dockerfile build/Dockerfile
         - cd build
         - docker build -f Dockerfile -t wadjetz/mindstream .
+        - cd ../readable;
+        - docker build -f Dockerfile -t wadjetz/readable .
         - if [ "$TRAVIS_BRANCH" == "master" ]; then
           docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
           docker push wadjetz/mindstream;
+          docker push wadjetz/readable;
           fi
 cache:
   - cargo
