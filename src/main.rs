@@ -23,6 +23,8 @@
 
 #[macro_use]
 extern crate diesel;
+#[macro_use]
+extern crate diesel_migrations;
 
 use ::actix::prelude::*;
 use ::actix_web::middleware::Logger;
@@ -65,12 +67,17 @@ fn me(auth: Auth) -> HttpResponse {
     HttpResponse::Ok().json(auth.claime.user)
 }
 
+embed_migrations!("./migrations");
+
 pub fn run() {
     env_logger::init();
 
     let sys = actix::System::new("mindstream");
 
     let pool = create_diesel_pool(config::CONFIG.database_url.clone());
+
+    let connection = pool.clone().get().unwrap();
+    embedded_migrations::run(&*connection).expect("Embed migrations failed");
 
     run_rss_job(pool.clone());
 
