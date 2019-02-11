@@ -8,6 +8,7 @@ import FeedActions from "./components/FeedActions"
 import { RouteComponentProps } from "react-router"
 import { useKeyDown } from "~/hooks/useKeyDown"
 import Loader from "~/components/Loader"
+import NextRssSource from "./components/NextRssSource"
 
 interface Params {
   rssSourceUuid: string
@@ -48,13 +49,18 @@ export default function UnreadedRssFeedsByRssSourceScreen(props: RouteComponentP
     if (getRssFeedsLoading) {
       return <Loader />
     } else if (!nextRssFeed) {
-      return <Empty message={message("noMoreFeeds")} />
+      return (
+        <>
+          <Empty message={message("noMoreFeeds")} />
+          <NextRssSource rssSourceUuid={rssSourceUuid} />
+        </>
+      )
     } else {
       return (
         <>
           <FeedActions
             nextLoading={goToNextRssFeedLoading}
-            onNext={() => goToNextRssFeed()}
+            onNext={() => goToNextRssFeed(rssSourceUuid)}
             onPrevious={() => goToPreviuosRssFeed()}
           />
           <RssFeedCard feed={nextRssFeed} onLike={() => likeRssFeed()} onUnlike={() => unlikleRssFeed()} likedLoading={likeRssFeedLoading} />

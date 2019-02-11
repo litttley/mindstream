@@ -25,6 +25,9 @@ pub struct Config {
 
     #[envconfig(from = "PORT")]
     pub port: usize,
+
+    #[envconfig(from = "ASSETS")]
+    pub assets: Option<String>,
 }
 
 lazy_static! {
