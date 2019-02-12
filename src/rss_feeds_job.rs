@@ -50,28 +50,32 @@ fn process_rss_source(
     rss_source: &RssSource,
     client: &Client,
 ) -> Result<(), Error> {
-    if let Ok(Some(feeds_channel)) = fetch_feeds_channel(&rss_source.url) {
-        for rss in &feeds_channel.entries {
-            for link in &rss.alternate {
-                let rss_url = link.href.clone();
-                let resolved_url = resolve_url(&rss_url, client).map(|url| url.into_string());
-                if !is_rss_feed_exists(connection, &rss_url)? {
-                    let readable = fetch_readable(client, &rss_url)
-                        .ok()
-                        .and_then(|readable| readable);
-                    let rss_feed = RssFeed::new(
-                        rss_url,
-                        resolved_url,
-                        Some(rss.clone().into()),
-                        readable,
-                        rss_source,
-                    );
-                    insert_rss_feed(connection, &rss_feed)?;
-                    // TODO rollback if error
-                    insert_subscribers_feeds(connection, subscribers, rss_source, &rss_feed)?;
+    match fetch_feeds_channel(&rss_source.url) {
+        Ok(Some(feeds_channel)) => {
+            for rss in &feeds_channel.entries {
+                for link in &rss.alternate {
+                    let rss_url = link.href.clone();
+                    let resolved_url = resolve_url(&rss_url, client).map(|url| url.into_string());
+                    if !is_rss_feed_exists(connection, &rss_url)? {
+                        let readable = fetch_readable(client, &rss_url)
+                            .ok()
+                            .and_then(|readable| readable);
+                        let rss_feed = RssFeed::new(
+                            rss_url,
+                            resolved_url,
+                            Some(rss.clone().into()),
+                            readable,
+                            rss_source,
+                        );
+                        insert_rss_feed(connection, &rss_feed)?;
+                        // TODO rollback if error
+                        insert_subscribers_feeds(connection, subscribers, rss_source, &rss_feed)?;
+                    }
                 }
             }
-        }
+        },
+        Err(error) => error!("{}", error),
+        _ => (),
     }
     Ok(())
 }
