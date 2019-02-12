@@ -59,7 +59,8 @@ fn process_rss_source(
                     if !is_rss_feed_exists(connection, &rss_url)? {
                         let readable = fetch_readable(client, &rss_url)
                             .ok()
-                            .and_then(|readable| readable);
+                            .and_then(|readable| readable)
+                            .filter(|readable| !readable.is_empty());
                         let rss_feed = RssFeed::new(
                             rss_url,
                             resolved_url,
