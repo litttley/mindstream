@@ -15,8 +15,8 @@ pub struct User {
     pub email: String,
     #[serde(skip_serializing, skip_deserializing)]
     pub password: String,
-    pub created: NaiveDateTime,
-    pub updated: NaiveDateTime,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
 }
 
 impl User {
@@ -30,8 +30,8 @@ impl User {
             login: login.into(),
             email: email.into(),
             password: password.into(),
-            created: Utc::now().naive_utc(),
-            updated: Utc::now().naive_utc(),
+            created_at: Utc::now().naive_utc(),
+            updated_at: Utc::now().naive_utc(),
         }
     }
 

@@ -104,7 +104,7 @@ pub fn run() {
                 .resource("/rss/sources/{uuid}", |r| r.method(Method::GET).with(get_rss_source))
                 .resource("/rss/sources/{uuid}/follow", |r| r.method(Method::POST).with(follow_rss_source))
                 .resource("/rss/feeds", |r| r.method(Method::GET).with(get_rss_feeds))
-                .resource("/rss/feeds/reaction", |r| r.method(Method::PUT).with(change_rss_feed_reaction))
+                .resource("/rss/feeds/{uuid}/reaction", |r| r.method(Method::PUT).with(change_rss_feed_reaction))
                 .boxed(),
             assets::create_static_assets_app().boxed(),
         ]

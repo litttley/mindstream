@@ -5,8 +5,8 @@ table! {
         resolved_url -> Nullable<Text>,
         rss -> Nullable<Jsonb>,
         readable -> Nullable<Jsonb>,
-        created -> Timestamp,
-        updated -> Timestamp,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
         rss_source_uuid -> Uuid,
     }
 }
@@ -25,8 +25,8 @@ table! {
         topics -> Nullable<Array<Text>>,
         last_updated -> Nullable<Timestamp>,
         error -> Nullable<Text>,
-        created -> Timestamp,
-        updated -> Timestamp,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
     }
 }
 
@@ -36,17 +36,22 @@ table! {
         login -> Text,
         email -> Text,
         password -> Text,
-        created -> Timestamp,
-        updated -> Timestamp,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
     }
 }
 
 table! {
     users_rss_feeds (uuid) {
         uuid -> Uuid,
-        reaction -> Text,
-        created -> Timestamp,
-        updated -> Timestamp,
+        viewed -> Bool,
+        readed -> Bool,
+        read_later -> Bool,
+        liked -> Bool,
+        disliked -> Bool,
+        archived -> Bool,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
         feed_uuid -> Uuid,
         user_uuid -> Uuid,
     }
@@ -58,6 +63,8 @@ table! {
         unreaded -> Int8,
         user_uuid -> Uuid,
         rss_source_uuid -> Uuid,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
     }
 }
 

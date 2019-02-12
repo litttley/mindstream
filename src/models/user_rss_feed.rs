@@ -1,9 +1,7 @@
+use uuid::Uuid;
 use chrono::prelude::*;
 use chrono::NaiveDateTime;
-use serde::{de::Error, Deserialize, Deserializer, Serialize};
-use std::str::FromStr;
-use strum_macros::{EnumString, ToString};
-use uuid::Uuid;
+use serde::{Deserialize, Serialize};
 
 use crate::schema::users_rss_feeds;
 
@@ -11,57 +9,32 @@ use crate::schema::users_rss_feeds;
 #[table_name = "users_rss_feeds"]
 pub struct UserRssFeed {
     pub uuid: Uuid,
-    pub reaction: String,
-    pub created: NaiveDateTime,
-    pub updated: NaiveDateTime,
+    pub viewed: bool,
+    pub readed: bool,
+    pub read_later: bool,
+    pub liked: bool,
+    pub disliked: bool,
+    pub archived: bool,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
     pub feed_uuid: Uuid,
     pub user_uuid: Uuid,
 }
 
 impl UserRssFeed {
-    pub fn new(user_uuid: Uuid, feed_uuid: Uuid, reaction: String) -> Self {
+    pub fn new(user_uuid: Uuid, feed_uuid: Uuid) -> Self {
         Self {
             uuid: Uuid::new_v4(),
-            reaction,
+            viewed: false,
+            readed: false,
+            read_later: false,
+            liked: false,
+            disliked: false,
+            archived: false,
             user_uuid,
             feed_uuid,
-            created: Utc::now().naive_utc(),
-            updated: Utc::now().naive_utc(),
+            created_at: Utc::now().naive_utc(),
+            updated_at: Utc::now().naive_utc(),
         }
-    }
-}
-
-#[derive(Debug, EnumString, ToString)]
-pub enum Reaction {
-    Unreaded,
-    Readed,
-    ReadLater,
-    Viewed,
-    Liked,
-    Disliked,
-    Archived,
-}
-
-impl<'de> Deserialize<'de> for Reaction {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let reaction = String::deserialize(deserializer)?;
-        let reaction = Reaction::from_str(&reaction).map_err(move |_| {
-            Error::unknown_field(
-                "reaction",
-                &[
-                    "Unreaded",
-                    "Readed",
-                    "ReadLater",
-                    "Viewed",
-                    "Liked",
-                    "Disliked",
-                    "Archived",
-                ],
-            )
-        })?;
-        Ok(reaction)
     }
 }

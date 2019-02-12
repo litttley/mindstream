@@ -21,8 +21,8 @@ pub struct RssSource {
     pub topics: Option<Vec<String>>,
     pub last_updated: Option<NaiveDateTime>,
     pub error: Option<String>,
-    pub created: NaiveDateTime,
-    pub updated: NaiveDateTime,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
 }
 
 impl RssSource {
@@ -51,8 +51,8 @@ impl RssSource {
             topics,
             last_updated,
             error: None,
-            created: Utc::now().naive_utc(),
-            updated: Utc::now().naive_utc(),
+            created_at: Utc::now().naive_utc(),
+            updated_at: Utc::now().naive_utc(),
         }
     }
 

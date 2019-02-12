@@ -5,8 +5,8 @@ CREATE TABLE IF NOT EXISTS users (
     login TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    created TIMESTAMP NOT NULL,
-    updated TIMESTAMP NOT NULL
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE rss_sources (
@@ -22,15 +22,17 @@ CREATE TABLE rss_sources (
     topics TEXT ARRAY,
     last_updated TIMESTAMP,
     error TEXT,
-    created TIMESTAMP NOT NULL,
-    updated TIMESTAMP NOT NULL
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE users_rss_sources (
     uuid UUID PRIMARY KEY,
     unreaded BIGINT NOT NULL DEFAULT 0,
     user_uuid UUID NOT NULL REFERENCES users(uuid),
-    rss_source_uuid UUID NOT NULL REFERENCES rss_sources(uuid)
+    rss_source_uuid UUID NOT NULL REFERENCES rss_sources(uuid),
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS rss_feeds (
@@ -39,16 +41,21 @@ CREATE TABLE IF NOT EXISTS rss_feeds (
     resolved_url TEXT,
     rss JSONB,
     readable JSONB,
-    created TIMESTAMP NOT NULL,
-    updated TIMESTAMP NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
     rss_source_uuid UUID NOT NULL REFERENCES rss_sources(uuid)
 );
 
 CREATE TABLE IF NOT EXISTS users_rss_feeds (
     uuid UUID PRIMARY KEY,
-    reaction TEXT NOT NULL DEFAULT 'Unreaded',
-    created TIMESTAMP NOT NULL,
-    updated TIMESTAMP NOT NULL,
+    viewed BOOLEAN NOT NULL DEFAULT false,
+    readed BOOLEAN NOT NULL DEFAULT false,
+    read_later BOOLEAN NOT NULL DEFAULT false,
+    liked BOOLEAN NOT NULL DEFAULT false,
+    disliked BOOLEAN NOT NULL DEFAULT false,
+    archived BOOLEAN NOT NULL DEFAULT false,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
     feed_uuid UUID NOT NULL REFERENCES rss_feeds(uuid),
     user_uuid UUID NOT NULL REFERENCES users(uuid)
 );

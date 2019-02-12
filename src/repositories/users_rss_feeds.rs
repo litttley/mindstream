@@ -6,7 +6,8 @@ use uuid::Uuid;
 
 use crate::models::rss_feed::RssFeed;
 use crate::models::user::User;
-use crate::models::user_rss_feed::{Reaction, UserRssFeed};
+use crate::models::user_rss_feed::UserRssFeed;
+use crate::models::rss_feeds_reaction::RssFeedsReaction;
 use crate::schema::{rss_feeds, users_rss_feeds};
 
 pub fn insert_user_rss_feed(
@@ -40,18 +41,19 @@ pub fn find_rss_feeds(
     connection: &PgConnection,
     limit: i64,
     offset: i64,
-    reaction: &Reaction,
     user: &User,
+    reaction: &RssFeedsReaction,
 ) -> Result<Vec<(RssFeed, UserRssFeed)>, Error> {
     use crate::schema::rss_feeds;
     rss_feeds::table
         .inner_join(users_rss_feeds::table)
         .filter(
-            users_rss_feeds::reaction
-                .eq(&reaction.to_string())
-                .and(users_rss_feeds::user_uuid.eq(user.uuid)),
+            users_rss_feeds::viewed
+                .eq(reaction.viewed.unwrap_or(false))
+                .and(users_rss_feeds::user_uuid.eq(user.uuid))
+                .and(users_rss_feeds::liked.eq(reaction.liked.unwrap_or(false))), // TODO add other reactions
         )
-        .order_by(rss_feeds::updated.asc())
+        .order_by(rss_feeds::updated_at.asc())
         .limit(limit)
         .offset(offset)
         .select((rss_feeds::all_columns, users_rss_feeds::all_columns))
@@ -62,29 +64,30 @@ pub fn find_rss_feeds_by_rss_source(
     connection: &PgConnection,
     limit: i64,
     offset: i64,
-    reaction: &Reaction,
     rss_source_uuid: &Uuid,
     user: &User,
 ) -> Result<Vec<(RssFeed, UserRssFeed)>, Error> {
     rss_feeds::table
         .inner_join(users_rss_feeds::table)
         .filter(
-            users_rss_feeds::reaction
-                .eq(&reaction.to_string())
+            users_rss_feeds::viewed
+                .eq(false)
                 .and(users_rss_feeds::user_uuid.eq(user.uuid))
                 .and(rss_feeds::rss_source_uuid.eq(rss_source_uuid)),
         )
-        .order_by(rss_feeds::updated.asc())
+        .order_by(rss_feeds::updated_at.asc())
         .limit(limit)
         .offset(offset)
         .select((rss_feeds::all_columns, users_rss_feeds::all_columns))
         .get_results::<(RssFeed, UserRssFeed)>(&*connection)
 }
 
+
+
 pub fn update_rss_feed_reaction(
     connection: &PgConnection,
     rss_feed_uuid: &Uuid,
-    query_reaction: &Reaction,
+    reaction: &RssFeedsReaction,
     user: &User,
 ) -> Result<UserRssFeed, Error> {
     diesel::update(
@@ -94,7 +97,7 @@ pub fn update_rss_feed_reaction(
                 .and(users_rss_feeds::feed_uuid.eq(rss_feed_uuid)),
         ),
     )
-    .set(users_rss_feeds::reaction.eq(query_reaction.to_string()))
+    .set(reaction)
     .get_result::<UserRssFeed>(&*connection)
 }
 

@@ -18,8 +18,8 @@ pub struct RssFeed {
     pub resolved_url: Option<String>,
     pub rss: Option<Value>,
     pub readable: Option<Value>,
-    pub created: NaiveDateTime,
-    pub updated: NaiveDateTime,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
     pub rss_source_uuid: Uuid,
 }
 
@@ -37,8 +37,8 @@ impl RssFeed {
             resolved_url,
             rss: serde_json::to_value(rss).ok(),
             readable: serde_json::to_value(readable).ok(),
-            created: Utc::now().naive_utc(),
-            updated: Utc::now().naive_utc(),
+            created_at: Utc::now().naive_utc(),
+            updated_at: Utc::now().naive_utc(),
             rss_source_uuid: rss_source.uuid,
         }
     }

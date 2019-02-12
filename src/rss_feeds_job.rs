@@ -98,7 +98,7 @@ fn insert_subscribers_feeds(
     rss_feed: &RssFeed,
 ) -> Result<(), Error> {
     for subscriber in subscribers {
-        let user_feed = UserRssFeed::new(subscriber.uuid, rss_feed.uuid, "Unreaded".to_owned());
+        let user_feed = UserRssFeed::new(subscriber.uuid, rss_feed.uuid);
         let _ = connection.transaction::<_, Error, _>(|| {
             if !is_user_feed_already_inserted(connection, &rss_feed.rss_url, subscriber)? {
                 insert_user_rss_feed(connection, &user_feed)?;
