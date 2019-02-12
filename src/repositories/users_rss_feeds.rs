@@ -65,13 +65,14 @@ pub fn find_rss_feeds_by_rss_source(
     limit: i64,
     offset: i64,
     rss_source_uuid: &Uuid,
+    reaction: &RssFeedsReaction,
     user: &User,
 ) -> Result<Vec<(RssFeed, UserRssFeed)>, Error> {
     rss_feeds::table
         .inner_join(users_rss_feeds::table)
         .filter(
             users_rss_feeds::viewed
-                .eq(false)
+                .eq(reaction.viewed.unwrap_or(false)) // TODO add other reactions
                 .and(users_rss_feeds::user_uuid.eq(user.uuid))
                 .and(rss_feeds::rss_source_uuid.eq(rss_source_uuid)),
         )
@@ -81,8 +82,6 @@ pub fn find_rss_feeds_by_rss_source(
         .select((rss_feeds::all_columns, users_rss_feeds::all_columns))
         .get_results::<(RssFeed, UserRssFeed)>(&*connection)
 }
-
-
 
 pub fn update_rss_feed_reaction(
     connection: &PgConnection,

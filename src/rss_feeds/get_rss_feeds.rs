@@ -56,6 +56,7 @@ impl Handler<GetRssFeeds> for DbExecutor {
                 limit,
                 offset,
                 &rss_source_uuid,
+                &reaction_query,
                 &user,
             )?,
             None => find_rss_feeds(&connexion, limit, offset, &user, &reaction_query)?,
