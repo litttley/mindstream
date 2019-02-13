@@ -31,7 +31,7 @@ export function useUnreadedRssFeeds() {
 
   const getUnreadedRssFeeds = (rssSourceUuid?: string) => {
     update({ getRssFeedsLoading: true })
-    api.getRssFeeds("Unreaded", rssSourceUuid)
+    api.getRssFeeds({ viewed: false }, rssSourceUuid)
       .then(unreadedRssFeeds => update({ unreadedRssFeeds, getRssFeedsLoading: false }))
       .catch(error => {
         // TODO
@@ -53,8 +53,8 @@ export function useUnreadedRssFeeds() {
     const [first, ...rest] = state.unreadedRssFeeds
     if (first && rest.length === 0) {
       update({ goToNextRssFeedLoading: true })
-      api.feedReaction(first.rss_feed, "Readed").then(user_rss_feed => {
-        return api.getRssFeeds("Unreaded", rssSourceUuid).then(newUnreadedRssFeeds => {
+      api.feedReaction(first.rss_feed, { viewed: true }).then(user_rss_feed => {
+        return api.getRssFeeds({ viewed: false }, rssSourceUuid).then(newUnreadedRssFeeds => {
           const newState = {
             unreadedRssFeeds: newUnreadedRssFeeds.filter(r => r.rss_feed.uuid !== first.rss_feed.uuid),
             previousRssFeeds: [{ ...first, user_rss_feed }, ...state.previousRssFeeds.slice(0, 30)],
@@ -67,9 +67,9 @@ export function useUnreadedRssFeeds() {
         // TODO
         update({ goToNextRssFeedLoading: false })
       })
-    } else if (first && first.user_rss_feed.reaction === "Unreaded") {
+    } else if (first && !first.user_rss_feed.viewed) {
       update({ goToNextRssFeedLoading: true })
-      api.feedReaction(first.rss_feed, "Readed").then(user_rss_feed => {
+      api.feedReaction(first.rss_feed, { viewed: true }).then(user_rss_feed => {
         const newState = {
           unreadedRssFeeds: rest,
           previousRssFeeds: [{ ...first, user_rss_feed }, ...state.previousRssFeeds.slice(0, 30)],
@@ -81,7 +81,7 @@ export function useUnreadedRssFeeds() {
         // TODO
         update({ goToNextRssFeedLoading: false })
       })
-    } else if (first && (first.user_rss_feed.reaction === "Readed" || first.user_rss_feed.reaction === "Liked")) {
+    } else if (first && (first.user_rss_feed.readed || first.user_rss_feed.liked)) {
       const newState = { unreadedRssFeeds: rest, previousRssFeeds: [first, ...state.previousRssFeeds.slice(0, 30)] }
       update(newState)
     }
@@ -91,7 +91,7 @@ export function useUnreadedRssFeeds() {
     const [rssFeed, ...rest] = state.unreadedRssFeeds
     if (rssFeed) {
       update({ likeRssFeedLoading: true })
-      api.feedReaction(rssFeed.rss_feed, "Liked")
+      api.feedReaction(rssFeed.rss_feed, { liked: true })
         .then(user_rss_feed => {
           const newState = {
             unreadedRssFeeds: [{ ...rssFeed, user_rss_feed }, ...rest],
@@ -110,7 +110,7 @@ export function useUnreadedRssFeeds() {
     const [rssFeed, ...rest] = state.unreadedRssFeeds
     if (rssFeed) {
       update({ likeRssFeedLoading: true })
-      api.feedReaction(rssFeed.rss_feed, "Unreaded")
+      api.feedReaction(rssFeed.rss_feed, { liked: false })
         .then(user_rss_feed => {
           const newState = {
             unreadedRssFeeds: [{ ...rssFeed, user_rss_feed }, ...rest],
@@ -140,7 +140,7 @@ export function useLikedRssFeeds() {
   const { update, ...state } = React.useContext(RssFeedsContext)
 
   const getLikedRssFeeds = () => {
-    api.getRssFeeds("Liked")
+    api.getRssFeeds({ liked: true })
       .then(likedFeeds => update({ likedFeeds }))
       .catch(error => { /* TODO */ })
   }
@@ -160,7 +160,7 @@ export function useRssFeed() {
   }
 
   const likeRssFeed = (rssFeed: RssFeed) => {
-    api.feedReaction(rssFeed, "Liked")
+    api.feedReaction(rssFeed, { liked: true })
       .then(user_rss_feed => {
         const likedFeeds = state.likedFeeds.map(r => {
           if (r.rss_feed.uuid === rssFeed.uuid) {
@@ -175,7 +175,7 @@ export function useRssFeed() {
   }
 
   const unlikeRssFeed = (rssFeed: RssFeed) => {
-    api.feedReaction(rssFeed, "Readed")
+    api.feedReaction(rssFeed, { liked: false })
       .then(user_rss_feed => {
         const likedFeeds = state.likedFeeds.map(r => {
           if (r.rss_feed.uuid === rssFeed.uuid) {

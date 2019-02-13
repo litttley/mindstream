@@ -1,4 +1,11 @@
-export type Reaction = "Unreaded" | "Readed" | "ReadLater" | "Viewed" | "Liked" | "Disliked" | "Archived"
+export interface RssFeedReaction {
+  viewed?: boolean
+  readed?: boolean
+  read_later?: boolean
+  liked?: boolean
+  disliked?: boolean
+  archived?: boolean
+}
 
 export interface Readable {
   url?: string
@@ -44,7 +51,12 @@ export interface UserRssFeed {
   uuid: string
   user_uuid: string
   feed_uuid: string
-  reaction: Reaction
+  viewed: boolean,
+  readed: boolean,
+  read_later: boolean,
+  liked: boolean,
+  disliked: boolean,
+  archived: boolean,
   created: string
   updated: string
 }

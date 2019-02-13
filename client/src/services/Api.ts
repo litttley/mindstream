@@ -1,6 +1,6 @@
 import Axios, { AxiosInstance,  AxiosRequestConfig } from "axios"
 import * as router from "~/router"
-import { RssFeed, Reaction, UserRssFeed } from "~/models/RssFeed"
+import { RssFeed, RssFeedReaction, UserRssFeed } from "~/models/RssFeed"
 import { RssSource, MyRssSource } from "~/models/RssSource"
 import { AuthResponse } from "~/models/AuthResponse"
 import { Login } from "~/models/Login"
@@ -109,26 +109,28 @@ export class ApiService {
     })
   }
 
-  getRssFeeds(reaction: Reaction, rssSourceUuid?: string): Promise<RssFeedsResponse[]> {
+  getRssFeeds(reaction: RssFeedReaction, rssSourceUuid?: string): Promise<RssFeedsResponse[]> {
     return this.withAuth({
-      url: `/api/rss/feeds${querystring({ reaction, rss_source_uuid: rssSourceUuid })}`,
+      url: `/api/rss/feeds${querystring({ ...reaction, rss_source_uuid: rssSourceUuid })}`,
       method: "GET",
     })
   }
 
-  feedReaction(rssFeed: RssFeed, reaction: Reaction): Promise<UserRssFeed> {
+  feedReaction(rssFeed: RssFeed, reaction: RssFeedReaction): Promise<UserRssFeed> {
     return this.withAuth({
-      url: `/api/rss/feeds/reaction`,
+      url: `/api/rss/feeds/${rssFeed.uuid}/reaction`,
       method: "PUT",
-      data: { rss_feed_uuid: rssFeed.uuid, reaction },
+      data: reaction,
     })
   }
 }
 
 export const api = new ApiService()
 
-export default function querystring(queries: Record<string, string | undefined>): string {
-  const querystrings = Object.keys(queries).filter(key => !!queries[key]).map(key => `${key}=${encodeURI(queries[key]!)}`)
+export default function querystring(queries: Record<string, string | undefined | boolean>): string {
+  const querystrings = Object.keys(queries)
+    .filter(key => !!queries[key])
+    .map(key => `${key}=${encodeURI(queries[key]!.toString())}`)
   if (querystrings.length > 0) {
     return `?${querystrings.join("&")}`
   } else {

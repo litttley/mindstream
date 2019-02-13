@@ -46,7 +46,7 @@ export default function RssFeedCard({ feed, likedLoading, onLike, onUnlike }: Pr
     }
   }
 
-  const onLikeUnlike = feed.user_rss_feed.reaction === "Liked" ? onUnlike : onLike
+  const onLikeUnlike = feed.user_rss_feed.liked ? onUnlike : onLike
 
   return (
     <div className={styles.feedCard}>
@@ -58,7 +58,7 @@ export default function RssFeedCard({ feed, likedLoading, onLike, onUnlike }: Pr
             {"Date" /* TODO */}
           </div>
           <IconButton loading={likedLoading} onClick={() => onLikeUnlike(feed.rss_feed)}>
-            <StarIcon color={feed.user_rss_feed.reaction === "Liked" ? "#73ff00" : "#000000"} />
+            <StarIcon color={feed.user_rss_feed.liked ? "#73ff00" : "#000000"} />
           </IconButton>
         </div>
       </div>
