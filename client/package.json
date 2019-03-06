@@ -29,18 +29,18 @@
     "history": "4.7.2",
     "intl-messageformat": "2.2.0",
     "lodash.debounce": "4.0.8",
-    "react": "16.8.1",
-    "react-dom": "16.8.1",
+    "react": "16.8.4",
+    "react-dom": "16.8.4",
     "react-router-dom": "4.3.1"
   },
   "devDependencies": {
     "@types/classnames": "2.2.7",
     "@types/history": "4.7.2",
-    "@types/lodash.debounce": "4.0.4",
-    "@types/react": "16.8.2",
-    "@types/react-dom": "16.8.0",
+    "@types/lodash.debounce": "4.0.6",
+    "@types/react": "16.8.7",
+    "@types/react-dom": "16.8.2",
     "@types/react-router-dom": "4.3.1",
-    "autoprefixer": "9.4.7",
+    "autoprefixer": "9.4.10",
     "css-loader": "2.1.0",
     "extract-text-webpack-plugin": "4.0.0-beta.0",
     "optimize-css-assets-webpack-plugin": "5.0.1",
@@ -50,8 +50,8 @@
     "tslint": "5.12.1",
     "tslint-loader": "3.5.4",
     "tslint-react": "3.6.0",
-    "typescript": "3.3.3",
-    "webpack": "4.29.3",
+    "typescript": "3.3.3333",
+    "webpack": "4.29.6",
     "webpack-cli": "3.2.3"
   }
 }
