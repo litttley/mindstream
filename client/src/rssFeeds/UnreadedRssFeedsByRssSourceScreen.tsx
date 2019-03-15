@@ -1,21 +1,21 @@
 import * as React from "react"
-import Layout from "~/components/Layout"
+import { Layout } from "~/components/Layout"
 import { useUnreadedRssFeeds } from "./RssFeedsState"
-import RssFeedCard from "~/rssFeeds/components/RssFeedCard"
-import Empty from "~/components/Empty"
+import { RssFeedCard } from "~/rssFeeds/components/RssFeedCard"
+import { Empty } from "~/components/Empty"
 import { useIntlMessage } from "~/hooks/useIntlMessage"
-import FeedActions from "./components/FeedActions"
+import { FeedActions } from "./components/FeedActions"
 import { RouteComponentProps } from "react-router"
 import { useKeyDown } from "~/hooks/useKeyDown"
-import Loader from "~/components/Loader"
-import NextRssSource from "./components/NextRssSource"
+import { Loader } from "~/components/Loader"
+import { NextRssSource } from "./components/NextRssSource"
 
 interface Params {
   rssSourceUuid: string
 }
 
 // TODO make one with UnreadedRssFeeds
-export default function UnreadedRssFeedsByRssSourceScreen(props: RouteComponentProps<Params>) {
+export function UnreadedRssFeedsByRssSourceScreen(props: RouteComponentProps<Params>) {
   const { match: { params: { rssSourceUuid } } } = props
   const {
     goToNextRssFeed,

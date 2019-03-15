@@ -7,7 +7,7 @@ interface Props {
   onChange: (value: string) => void
 }
 
-export default function SearchSourceForm({ onChange }: Props) {
+export function SearchSourceForm({ onChange }: Props) {
   const queryInput = useFormInput("")
   const message = useIntlMessage()
   return (

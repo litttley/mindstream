@@ -2,11 +2,11 @@ import * as React from "react"
 import * as styles from "./RssFeedCard.css"
 
 import { RssFeed, getTitle, getRssContent } from "~/models/RssFeed"
-import StarIcon from "~/components/icons/StarIcon"
+import { StarIcon } from "~/components/icons/StarIcon"
 import { RssFeedsResponse } from "~/models/RssFeedsResponse"
-import Tabs from "~/components/tabs/Tabs"
-import Tab from "~/components/tabs/Tab"
-import IconButton from "~/components/buttons/IconButton"
+import { Tabs } from "~/components/tabs/Tabs"
+import { Tab } from "~/components/tabs/Tab"
+import { IconButton } from "~/components/buttons/IconButton"
 import { useIntlMessage } from "~/hooks/useIntlMessage"
 
 interface Props {
@@ -26,7 +26,7 @@ function CardTab({ label, name, content }: { label: string, name: TabName, conte
   )
 }
 
-export default function RssFeedCard({ feed, likedLoading, onLike, onUnlike }: Props) {
+export function RssFeedCard({ feed, likedLoading, onLike, onUnlike }: Props) {
   const [selectedTab, setSelectedTab] = React.useState<TabName>(feed.rss_feed.readable ? "readable" : "rss")
   const message = useIntlMessage()
   const { readable } = feed.rss_feed

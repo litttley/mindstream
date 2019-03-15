@@ -1,7 +1,7 @@
 import * as React from "react"
 import classNames from "classnames"
 import * as styles from "./BaseButton.css"
-import LoaderIcon from "~/components/icons/LoaderIcon"
+import { LoaderIcon } from "~/components/icons/LoaderIcon"
 
 interface Props {
   disable?: boolean
@@ -12,7 +12,7 @@ interface Props {
   renderLoader?: () => React.ReactNode
 }
 
-export default class BaseButton extends React.PureComponent<Props> {
+export class BaseButton extends React.PureComponent<Props> {
   render() {
     const { className, href } = this.props
     const classes = classNames(styles.baseButton, className)

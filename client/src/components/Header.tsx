@@ -1,6 +1,6 @@
 import * as React from "react"
 import * as styles from "./Header.css"
-import MenuIcon from "./icons/MenuIcon"
+import { MenuIcon } from "./icons/MenuIcon"
 
 interface Props {
   appName: string
@@ -8,7 +8,7 @@ interface Props {
   isMenuOpen?: boolean
 }
 
-export default class Header extends React.PureComponent<Props> {
+export class Header extends React.PureComponent<Props> {
   render() {
     const { appName } = this.props
     return (

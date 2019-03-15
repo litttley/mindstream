@@ -5,7 +5,7 @@ interface Props {
   message: string
 }
 
-export default function Empty({ message }: Props) {
+export function Empty({ message }: Props) {
   return (
     <div className={styles.empty}>{message}</div>
   )

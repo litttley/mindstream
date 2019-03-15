@@ -13,7 +13,7 @@ function isReactElement<T>(rc: React.ReactNode): rc is React.ReactElement<T> {
   return !!re.type && !!re.props
 }
 
-export default class Tabs extends React.PureComponent<Props> {
+export class Tabs extends React.PureComponent<Props> {
   render() {
     const { children, selectedTabName } = this.props
     const childrens = React.Children.map(children, ch => ch)

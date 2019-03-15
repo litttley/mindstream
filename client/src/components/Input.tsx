@@ -10,7 +10,7 @@ interface Props {
   onChange: (event: React.FormEvent<HTMLInputElement>) => void
 }
 
-export default function Input({ label, type, error, value, onChange }: Props) {
+export function Input({ label, type, error, value, onChange }: Props) {
   return (
     <div className={styles.container}>
       <label className={styles.label}>{label}</label>
