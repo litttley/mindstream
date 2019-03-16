@@ -1,10 +1,10 @@
 import * as React from "react"
-import Layout from "~/components/Layout"
-import SearchSourceForm from "./components/SearchSourceForm"
+import { Layout } from "~/components/Layout"
+import { SearchSourceForm } from "./components/SearchSourceForm"
 import { useSearchRssSources } from "./RssSourcesState"
-import RssSourcesList from "./components/RssSourcesList"
+import { RssSourcesList } from "./components/RssSourcesList"
 
-export default function RssSourcesScreen() {
+export function RssSourcesScreen() {
   const { clear, findedRssSources, searchRssSourceLoading, searchRssSources, followSources } = useSearchRssSources()
 
   React.useEffect(() => {

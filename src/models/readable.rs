@@ -16,3 +16,21 @@ pub struct Readable {
     pub rendered_pages: Option<i32>,
     pub next_page_url: Option<String>,
 }
+
+impl Readable {
+    pub fn is_empty(&self) -> bool {
+        self.url.is_none() &&
+        self.domain.is_none() &&
+        self.title.is_none() &&
+        self.content.is_none() &&
+        self.date_published.is_none() &&
+        self.lead_image_url.is_none() &&
+        self.dek.is_none() &&
+        self.excerpt.is_none() &&
+        self.word_count.is_none() &&
+        self.direction.is_none() &&
+        self.total_pages.is_none() &&
+        self.rendered_pages.is_none() &&
+        self.next_page_url.is_none()
+    }
+}

@@ -1,7 +1,7 @@
 import * as React from "react"
 import * as styles from "./RssSourceCard.css"
 import { RssSource, getRssSourceIconUrl } from "~/models/RssSource"
-import GhostdButton from "~/components/buttons/GhostButton"
+import { GhostdButton } from "~/components/buttons/GhostButton"
 
 interface Props {
   isFollowed: boolean
@@ -10,7 +10,7 @@ interface Props {
   unfollowRssSource: (rssSource: RssSource) => void
 }
 
-export default function RssSourceCard({ rssSource, isFollowed, followRssSource, unfollowRssSource }: Props) {
+export function RssSourceCard({ rssSource, isFollowed, followRssSource, unfollowRssSource }: Props) {
   const { uuid, url, title, description } = rssSource
   const icon = getRssSourceIconUrl(rssSource)
 
