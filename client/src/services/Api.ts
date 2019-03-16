@@ -54,6 +54,7 @@ export class ApiService {
 
         return response.data
       }).catch(error => {
+        // tslint:disable-next-line: no-unsafe-any
         return Promise.reject(error.response.data)
       })
   }
