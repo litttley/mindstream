@@ -48,10 +48,15 @@ export function UnreadedRssFeedsScreen() {
         <>
           <FeedActions
             nextLoading={goToNextRssFeedLoading}
-            onNext={() => goToNextRssFeed()}
-            onPrevious={() => goToPreviuosRssFeed()}
+            onNext={goToNextRssFeed}
+            onPrevious={goToPreviuosRssFeed}
           />
-          <RssFeedCard feed={nextRssFeed} onLike={() => likeRssFeed()} onUnlike={() => unlikleRssFeed()} likedLoading={likeRssFeedLoading} />
+          <RssFeedCard
+            feed={nextRssFeed}
+            onLike={likeRssFeed}
+            onUnlike={unlikleRssFeed}
+            likedLoading={likeRssFeedLoading}
+          />
         </>
       )
     }

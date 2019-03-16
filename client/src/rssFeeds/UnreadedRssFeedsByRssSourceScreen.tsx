@@ -61,9 +61,14 @@ export function UnreadedRssFeedsByRssSourceScreen(props: RouteComponentProps<Par
           <FeedActions
             nextLoading={goToNextRssFeedLoading}
             onNext={() => goToNextRssFeed(rssSourceUuid)}
-            onPrevious={() => goToPreviuosRssFeed()}
+            onPrevious={goToPreviuosRssFeed}
           />
-          <RssFeedCard feed={nextRssFeed} onLike={() => likeRssFeed()} onUnlike={() => unlikleRssFeed()} likedLoading={likeRssFeedLoading} />
+          <RssFeedCard
+            feed={nextRssFeed}
+            onLike={likeRssFeed}
+            onUnlike={unlikleRssFeed}
+            likedLoading={likeRssFeedLoading}
+          />
         </>
       )
     }

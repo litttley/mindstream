@@ -1,9 +1,15 @@
 {
   "extends": ["tslint:all", "tslint-react"],
   "rules": {
+    "no-console": false,
     "ordered-imports": false,
     "member-ordering": false,
     "object-literal-sort-keys": false,
+    "interface-name": false,
+    "no-implicit-dependencies": false,
+    "no-submodule-imports": false,
+    "no-magic-numbers": false,
+    "completed-docs": false,
     "trailing-comma": [
       true,
       {
@@ -16,17 +22,9 @@
         "esSpecCompliant": true
       }
     ],
-    "interface-name": false,
-    "no-console": false,
-    "no-implicit-dependencies": false,
-    "no-submodule-imports": false,
-    "no-null-keyword": false,
-    "no-magic-numbers": false,
     "no-import-side-effect": false,
-    "completed-docs": false,
     "no-void-expression": false,
     "strict-boolean-expressions": false,
-    "no-unnecessary-callback-wrapper": false,
     "no-inferred-empty-object-type": false,
     "no-object-literal-type-assertion": false,
     "typedef": false,
