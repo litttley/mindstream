@@ -53,10 +53,10 @@ export class ApiService {
         this.setToken(response.data.token)
 
         return response.data
-      }).catch(error => {
+      }).catch(error =>
         // tslint:disable-next-line: no-unsafe-any
-        return Promise.reject(error.response.data)
-      })
+        Promise.reject(error.response.data)
+      )
   }
 
   private withAuth<T>(config: AxiosRequestConfig): Promise<T> {

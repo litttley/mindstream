@@ -27,7 +27,6 @@
     "type-literal-delimiter": false,
     "only-arrow-functions": false,
     "arrow-parens": false,
-    "arrow-return-shorthand": false,
     "promise-function-async": false,
     "newline-per-chained-call": false,
     "file-name-casing": [false, {".tsx": "pascal-case", ".ts": "camel-case"}],
