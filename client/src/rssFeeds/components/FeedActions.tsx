@@ -1,8 +1,8 @@
 import * as React from "react"
 import * as styles from "./FeedActions.css"
-import FeedAction from "./FeedAction"
-import NextIcon from "~/components/icons/NextIcon"
-import PreviousIcon from "~/components/icons/PreviousIcon"
+import { FeedAction } from "./FeedAction"
+import { NextIcon } from "~/components/icons/NextIcon"
+import { PreviousIcon } from "~/components/icons/PreviousIcon"
 
 interface Props {
   previusLoading?: boolean
@@ -11,7 +11,7 @@ interface Props {
   onNext: () => void
 }
 
-export default function FeedActions({ previusLoading  = false, nextLoading, onNext, onPrevious }: Props) {
+export function FeedActions({ previusLoading  = false, nextLoading, onNext, onPrevious }: Props) {
   return (
     <div className={styles.container}>
       <FeedAction

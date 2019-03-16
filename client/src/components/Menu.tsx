@@ -6,8 +6,9 @@ interface Props {
   logout: () => void
 }
 
-export default function Menu({ logout }: Props) {
+export function Menu({ logout }: Props) {
   const message = useIntlMessage()
+
   return (
     <div className={styles.menuContainer}>
       <div className={styles.links}>

@@ -33,9 +33,8 @@ export function useMyRssSources() {
       .catch(error => update({ loading: false }))
   }
 
-  const isFollowed = (rssSource: RssSource) => {
-    return state.myRssSources.find(s => s.rss_source.uuid === rssSource.uuid) !== undefined
-  }
+  const isFollowed = (rssSource: RssSource) =>
+    state.myRssSources.find(s => s.rss_source.uuid === rssSource.uuid) !== undefined
 
   const decrementRssSource = (rssFeed: RssFeed) => {
     update({ myRssSources: state.myRssSources.map(myRssSource => {

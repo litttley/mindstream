@@ -7,8 +7,9 @@ interface ErrorsProps {
   errors?: ApiErrors
 }
 
-export default function FormErrors({ errors }: ErrorsProps) {
+export function FormErrors({ errors }: ErrorsProps) {
   const message = useIntlMessage()
+
   return (
     <div className={styles.errorContainer}>
       <div className={errors && errors.message ? styles.errorMessage : styles.errorMessageHidden}>

@@ -1,22 +1,23 @@
 import * as React from "react"
 import classNames from "classnames"
 import * as styles from "./Layout.css"
-import Header from "./Header"
-import Menu from "~/components/Menu"
-import MyRssSources from "~/rssSources/components/MyRssSources"
+import { Header } from "./Header"
+import { Menu } from "~/components/Menu"
+import { MyRssSources } from "~/rssSources/components/MyRssSources"
 import { useIntlMessage } from "~/hooks/useIntlMessage"
 import { useMenuToggle } from "~/app/AppState"
 import { useMyRssSources } from "~/rssSources/RssSourcesState"
 import { api } from "~/services/Api"
 import * as router from "~/router"
 
-const Layout: React.FunctionComponent = ({ children }) => {
+export function Layout({ children }: React.PropsWithChildren<{}>) {
   const { loadMySources, myRssSources } = useMyRssSources()
   const message = useIntlMessage()
   React.useEffect(() => {
     loadMySources()
   }, [])
   const { isMenuOpen, menuToggle } = useMenuToggle()
+
   return (
     <div className={styles.layout}>
       <div className={classNames(styles.menu, { [styles.menuOpen]: isMenuOpen })}>
@@ -32,5 +33,3 @@ const Layout: React.FunctionComponent = ({ children }) => {
     </div>
   )
 }
-
-export default Layout

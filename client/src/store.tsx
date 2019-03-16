@@ -13,22 +13,24 @@ export function createStore<T, K extends keyof T>(initialState: T, name?: string
     const [state, dispatch] = React.useReducer(reducer, initialState)
     const update: Update<T> = s => dispatch(s as Pick<T, K> | T)
     const value = { ...state, update }
+
     return <Context.Provider value={value}>{children}</Context.Provider>
   }
+
   return [Context, Provider]
 }
 
-export function createPersistedStore<T, K extends keyof T>(
-  initialState: T, key: string, storageEngine: Storage
-): [React.Context<T & Dispatcher<T>>, React.FunctionComponent] {
+export function createPersistedStore<S, K extends keyof S>(
+  initialState: S, key: string, storageEngine: Storage
+): [React.Context<S & Dispatcher<S>>, React.FunctionComponent] {
   const maybeStoredData = storageEngine.getItem(key)
-  const storedData = maybeStoredData ? JSON.parse(maybeStoredData) : initialState
-  const Context = React.createContext<T & Dispatcher<T>>({ ...storedData, update: s => s })
-  const reducer: React.Reducer<T, Pick<T, K> | T> = (s, a) => ({ ...s, ...a })
+  const storedData = maybeStoredData ? JSON.parse(maybeStoredData) as S : initialState
+  const Context = React.createContext<S & Dispatcher<S>>({ ...storedData, update: s => s })
+  const reducer: React.Reducer<S, Pick<S, K> | S> = (s, a) => ({ ...s, ...a })
 
   const Provider: React.FunctionComponent = ({ children }) => {
     const [state, dispatch] = React.useReducer(reducer, storedData)
-    const update: Update<T> = s => dispatch(s as Pick<T, K> | T)
+    const update: Update<S> = s => dispatch(s as Pick<S, K> | S)
     const value = { ...state, update }
 
     React.useEffect(() => {
@@ -37,5 +39,6 @@ export function createPersistedStore<T, K extends keyof T>(
 
     return <Context.Provider value={value}>{children}</Context.Provider>
   }
+
   return [Context, Provider]
 }

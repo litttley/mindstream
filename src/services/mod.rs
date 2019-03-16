@@ -1,2 +1,2 @@
-pub mod mercury;
+pub mod readable;
 pub mod rss_service;

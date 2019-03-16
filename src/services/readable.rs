@@ -5,9 +5,9 @@ use reqwest::Client;
 use crate::models::readable::Readable;
 
 pub fn fetch_readable(client: &Client, url: &str) -> Result<Option<Readable>, Error> {
-    let url = format!("http://mercury.postlight.com/parser?url={}", url);
-    let api_key = CONFIG.mercury_api_key.clone();
-    let mut response = client.get(&url).header("x-api-key", api_key).send()?;
+    let readable_api_url = CONFIG.readable_api_url.clone();
+    let url = format!("{}?url={}", readable_api_url, url);
+    let mut response = client.get(&url).send()?;
     let readable: Option<Readable> = response.json().ok();
     Ok(readable)
 }
