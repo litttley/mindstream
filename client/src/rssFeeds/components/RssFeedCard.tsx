@@ -18,7 +18,13 @@ interface Props {
 
 type TabName = "rss" | "readable"
 
-function CardTab({ label, name, content }: { label: string, name: TabName, content: string }) {
+interface CardTabProps {
+  label: string
+  name: TabName
+  content: string
+}
+
+function CardTab({ label, name, content }: CardTabProps) {
   return (
     <Tab label={label} name={name}>
       <div dangerouslySetInnerHTML={{ __html: sanitize(content) }} />

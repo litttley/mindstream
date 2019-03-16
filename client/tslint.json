@@ -12,6 +12,10 @@
     "completed-docs": false,
     "typedef": false,
     "no-void-expression": false,
+    "strict-boolean-expressions": false,
+    "prefer-method-signature": false,
+    "comment-format": false,
+    "align": false,
     "trailing-comma": [
       true,
       {
@@ -24,15 +28,6 @@
         "esSpecCompliant": true
       }
     ],
-    "no-import-side-effect": true,
-    "strict-boolean-expressions": false,
-    "no-inferred-empty-object-type": false,
-    "no-object-literal-type-assertion": false,
-    "prefer-function-over-method": false,
-    "prefer-method-signature": false,
-    "comment-format": false,
-    "align": false,
-    "type-literal-delimiter": false,
     "only-arrow-functions": false,
     "arrow-parens": false,
     "promise-function-async": false,
