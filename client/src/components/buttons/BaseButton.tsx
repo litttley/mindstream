@@ -12,27 +12,9 @@ interface Props {
   renderLoader?: () => React.ReactNode
 }
 
-export class BaseButton extends React.PureComponent<Props> {
-  render() {
-    const { className, href } = this.props
-    const classes = classNames(styles.baseButton, className)
-    if (href) {
-      return (
-        <a href={href} role="button" className={classes} onClick={this.handleOnClick}>
-          {this.renderContent()}
-        </a>
-      )
-    } else {
-      return (
-        <button role="button" className={classes} onClick={this.handleOnClick}>
-          {this.renderContent()}
-        </button>
-      )
-    }
-  }
-
-  renderContent = () => {
-    const { children, renderLoader, loading = false } = this.props
+export function BaseButton(props: React.PropsWithChildren<Props>) {
+  const { href, onClick, disable = false, loading = false, renderLoader, children, className } = props
+  const renderContent = () => {
     if (loading) {
       return renderLoader !== undefined ? renderLoader() : <LoaderIcon width={34} height={34} color="#FFFFFF" />
     } else {
@@ -40,10 +22,24 @@ export class BaseButton extends React.PureComponent<Props> {
     }
   }
 
-  handleOnClick = () => {
-    const { onClick, disable = false, loading = false } = this.props
+  const handleOnClick = () => {
     if (!disable && !loading && onClick) {
       onClick()
     }
+  }
+
+  const classes = classNames(styles.baseButton, className)
+  if (href) {
+    return (
+      <a href={href} role="button" className={classes} onClick={handleOnClick}>
+        {renderContent()}
+      </a>
+    )
+  } else {
+    return (
+      <button role="button" className={classes} onClick={handleOnClick}>
+        {renderContent()}
+      </button>
+    )
   }
 }

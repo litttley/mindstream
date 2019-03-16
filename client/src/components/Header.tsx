@@ -8,24 +8,19 @@ interface Props {
   isMenuOpen?: boolean
 }
 
-export class Header extends React.PureComponent<Props> {
-  render() {
-    const { appName } = this.props
+export function Header({ appName, onMenuToggle, isMenuOpen }: Props) {
+  const handleOnMenuToggle = React.useCallback(() =>
+    onMenuToggle(!isMenuOpen), [isMenuOpen]
+  )
 
-    return (
-      <div className={styles.header}>
-        <div className={styles.menuToggle} onClick={this.handleOnMenuToggle}>
-          <MenuIcon />
-        </div>
-        <div className={styles.appName}>
-          <div>{appName}</div>
-        </div>
+  return (
+    <div className={styles.header}>
+      <div className={styles.menuToggle} onClick={handleOnMenuToggle}>
+        <MenuIcon />
       </div>
-    )
-  }
-
-  handleOnMenuToggle = () => {
-    const { onMenuToggle, isMenuOpen } = this.props
-    onMenuToggle(!isMenuOpen)
-  }
+      <div className={styles.appName}>
+        <div>{appName}</div>
+      </div>
+    </div>
+  )
 }

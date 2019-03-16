@@ -12,7 +12,7 @@ const STORAGE_AUTH_TOKEN_KEY = "AUTH_TOKEN"
 export class ApiService {
   private readonly instance: AxiosInstance
   private token?: string
-  constructor(baseURL?: string) {
+  public constructor(baseURL?: string) {
     this.instance = Axios.create({
       baseURL,
       timeout: 5 * 60 * 1000,
@@ -73,54 +73,54 @@ export class ApiService {
     }
   }
 
-  login(login: Login): Promise<AuthResponse> {
+  public login(login: Login): Promise<AuthResponse> {
     return this.authenticate({ url: "/api/users/login", method: "POST", data: login })
   }
 
-  signup(signup: Signup): Promise<AuthResponse> {
+  public signup(signup: Signup): Promise<AuthResponse> {
     return this.authenticate({ url: "/api/users/signup", method: "POST", data: signup })
   }
 
-  logout(): Promise<void> {
+  public logout(): Promise<void> {
     return this.withAuth({ url: "/api/users/logout", method: "POST" })
       .then(() => router.replace("/login"))
       .catch(() => router.replace("/login"))
       .then(() => localStorage.removeItem(STORAGE_AUTH_TOKEN_KEY))
   }
 
-  loadMyRssSources(): Promise<MyRssSource[]> {
+  public loadMyRssSources(): Promise<MyRssSource[]> {
     return this.withAuth({ url: "/api/rss/sources", method: "GET" })
   }
 
-  searchRssSource(query: string): Promise<RssSource[]> {
+  public searchRssSource(query: string): Promise<RssSource[]> {
     return this.withAuth({
       url: `/api/rss/sources/search?query=${query}`,
       method: "GET",
     })
   }
 
-  getUnfollowedRssSources(): Promise<RssSource[]> {
+  public getUnfollowedRssSources(): Promise<RssSource[]> {
     return this.withAuth({
       url: `/api/rss/sources/unfollowed`,
       method: "GET",
     })
   }
 
-  followRssSource(rssSource: RssSource): Promise<MyRssSource> {
+  public followRssSource(rssSource: RssSource): Promise<MyRssSource> {
     return this.withAuth({
       url: `/api/rss/sources/${rssSource.uuid}/follow`,
       method: "POST",
     })
   }
 
-  getRssFeeds(reaction: Reaction, rssSourceUuid?: string): Promise<RssFeedsResponse[]> {
+  public getRssFeeds(reaction: Reaction, rssSourceUuid?: string): Promise<RssFeedsResponse[]> {
     return this.withAuth({
       url: `/api/rss/feeds${querystring({ reaction, rss_source_uuid: rssSourceUuid })}`,
       method: "GET",
     })
   }
 
-  feedReaction(rssFeed: RssFeed, reaction: Reaction): Promise<UserRssFeed> {
+  public feedReaction(rssFeed: RssFeed, reaction: Reaction): Promise<UserRssFeed> {
     return this.withAuth({
       url: `/api/rss/feeds/reaction`,
       method: "PUT",

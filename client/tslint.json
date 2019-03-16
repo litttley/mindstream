@@ -2,7 +2,6 @@
   "extends": ["tslint:all", "tslint-react"],
   "rules": {
     "ordered-imports": false,
-    "member-access": false,
     "member-ordering": false,
     "object-literal-sort-keys": false,
     "trailing-comma": false,
