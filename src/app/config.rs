@@ -11,8 +11,8 @@ pub struct Config {
     #[envconfig(from = "DATABASE_URL")]
     pub database_url: String,
 
-    #[envconfig(from = "MERCURY_API_KEY")]
-    pub mercury_api_key: String,
+    #[envconfig(from = "READABLE_API_URL")]
+    pub readable_api_url: String,
 
     #[envconfig(from = "RSS_JOB_INTERVAL")]
     pub rss_job_interval: u64,

@@ -7,7 +7,7 @@ services:
         environment:
             DATABASE_URL: postgres://mindstream:mindstream@database/mindstream
             SECRET_KEY:
-            MERCURY_API_KEY:
+            READABLE_API_URL: http://readable:3000/readable
             RSS_JOB_INTERVAL: 10
             DEFAULT_LIMIT: 50
             HOST: 0.0.0.0
@@ -16,6 +16,13 @@ services:
             ASSETS: /mindstream/static
         depends_on:
             - database
+            - readable
+
+    readable:
+        image: wadjetz/readable
+        ports:
+            - 3000:3000
+
 
     database:
         image: postgres:11.1-alpine

@@ -53,8 +53,8 @@ export function useUnreadedRssFeeds() {
     const [first, ...rest] = state.unreadedRssFeeds
     if (first && rest.length === 0) {
       update({ goToNextRssFeedLoading: true })
-      api.feedReaction(first.rss_feed, "Readed").then(user_rss_feed => {
-        return api.getRssFeeds("Unreaded", rssSourceUuid).then(newUnreadedRssFeeds => {
+      api.feedReaction(first.rss_feed, "Readed").then(user_rss_feed =>
+        api.getRssFeeds("Unreaded", rssSourceUuid).then(newUnreadedRssFeeds => {
           const newState = {
             unreadedRssFeeds: newUnreadedRssFeeds.filter(r => r.rss_feed.uuid !== first.rss_feed.uuid),
             previousRssFeeds: [{ ...first, user_rss_feed }, ...state.previousRssFeeds.slice(0, 30)],
@@ -63,7 +63,7 @@ export function useUnreadedRssFeeds() {
           update(newState)
           decrementRssSource(first.rss_feed)
         })
-      }).catch(error => {
+      ).catch(error => {
         // TODO
         update({ goToNextRssFeedLoading: false })
       })
@@ -132,7 +132,7 @@ export function useUnreadedRssFeeds() {
     goToNextRssFeed,
     goToPreviuosRssFeed,
     likeRssFeed,
-    unlikleRssFeed
+    unlikleRssFeed,
   }
 }
 
@@ -154,10 +154,10 @@ export function useLikedRssFeeds() {
 export function useRssFeed() {
   const { update, ...state } = React.useContext(RssFeedsContext)
 
-  const getRssFeed = (rssFeedUuid: string): RssFeedsResponse | undefined => {
-    // TODO get from api
-    return [...state.unreadedRssFeeds, ...state.previousRssFeeds, ...state.likedFeeds].find(rssFeed => rssFeed.rss_feed.uuid === rssFeedUuid)
-  }
+  // TODO get from api
+  const getRssFeed = (rssFeedUuid: string): RssFeedsResponse | undefined =>
+    [...state.unreadedRssFeeds, ...state.previousRssFeeds, ...state.likedFeeds]
+      .find(rssFeed => rssFeed.rss_feed.uuid === rssFeedUuid)
 
   const likeRssFeed = (rssFeed: RssFeed) => {
     api.feedReaction(rssFeed, "Liked")
@@ -192,6 +192,6 @@ export function useRssFeed() {
   return {
     getRssFeed,
     likeRssFeed,
-    unlikeRssFeed
+    unlikeRssFeed,
   }
 }

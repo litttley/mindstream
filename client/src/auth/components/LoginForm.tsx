@@ -1,10 +1,10 @@
 import * as React from "react"
 import * as styles from "./LoginForm.css"
-import Input from "~/components/Input"
+import { Input } from "~/components/Input"
 import { ApiErrors, getFieldErrorMessage } from "~/models/ApiError"
 import { Login } from "~/models/Login"
-import GhostdButton from "~/components/buttons/GhostButton"
-import FormErrors from "./FormErrors"
+import { GhostdButton } from "~/components/buttons/GhostButton"
+import { FormErrors } from "./FormErrors"
 import { useFormInput } from "~/hooks/useFormInput"
 import { useIntlMessage } from "~/hooks/useIntlMessage"
 import { useKeyDown } from "~/hooks/useKeyDown"
@@ -15,7 +15,7 @@ interface Props {
   onSubmit: (login: Login) => void
 }
 
-export default function LoginForm({ errors, loading, onSubmit }: Props) {
+export function LoginForm({ errors, loading, onSubmit }: Props) {
   const emailInput = useFormInput("")
   const passwordInput = useFormInput("")
   const message = useIntlMessage()

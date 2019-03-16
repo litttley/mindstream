@@ -32,6 +32,7 @@ export function useLogin() {
         router.replace("/")
       })
       .catch(loginErrors => {
+        // tslint:disable-next-line: no-unsafe-any
         update({ loginErrors, loading: false })
       })
   }
@@ -39,7 +40,7 @@ export function useLogin() {
   return {
     loading: state.loading,
     loginErrors: state.loginErrors,
-    loginSubmit
+    loginSubmit,
   }
 }
 
@@ -54,6 +55,7 @@ export function useSignup() {
         router.replace("/")
       })
       .catch(signupErrors => {
+        // tslint:disable-next-line: no-unsafe-any
         update({ signupErrors, loading: false })
       })
   }
@@ -61,6 +63,6 @@ export function useSignup() {
   return {
     loading: state.loading,
     signupErrors: state.signupErrors,
-    signupSubmit
+    signupSubmit,
   }
 }

@@ -1,13 +1,13 @@
 import * as React from "react"
 import * as styles from "./SignupForm.css"
-import Input from "~/components/Input"
+import { Input } from "~/components/Input"
 import { ApiErrors, getFieldErrorMessage } from "~/models/ApiError"
 import { Signup } from "~/models/Signup"
-import GhostdButton from "~/components/buttons/GhostButton"
+import { GhostdButton } from "~/components/buttons/GhostButton"
 import { useFormInput } from "~/hooks/useFormInput"
 import { useIntlMessage } from "~/hooks/useIntlMessage"
 import { useKeyDown } from "~/hooks/useKeyDown"
-import FormErrors from "./FormErrors"
+import { FormErrors } from "./FormErrors"
 
 interface Props {
   loading: boolean
@@ -15,7 +15,7 @@ interface Props {
   onSubmit: (signup: Signup) => void
 }
 
-export default function SignupForm({ loading, errors, onSubmit }: Props) {
+export function SignupForm({ loading, errors, onSubmit }: Props) {
   const loginInput = useFormInput("")
   const emailInput = useFormInput("")
   const passwordInput = useFormInput("")

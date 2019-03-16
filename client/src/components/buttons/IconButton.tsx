@@ -1,7 +1,7 @@
 import * as React from "react"
 import classNames from "classnames"
 import * as styles from "./IconButton.css"
-import BaseButton from "~/components/buttons/BaseButton"
+import { BaseButton } from "~/components/buttons/BaseButton"
 
 interface Props {
   loading?: boolean
@@ -11,7 +11,7 @@ interface Props {
   onClick?: () => void
 }
 
-const IconButton: React.FunctionComponent<Props> = ({ children, loading, disable, href, onClick, className }) => {
+export function IconButton({ children, loading, disable, href, onClick, className }: React.PropsWithChildren<Props>) {
   return (
     <BaseButton
       loading={loading}
@@ -24,5 +24,3 @@ const IconButton: React.FunctionComponent<Props> = ({ children, loading, disable
     </BaseButton>
   )
 }
-
-export default IconButton
