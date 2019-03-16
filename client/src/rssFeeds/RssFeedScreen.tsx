@@ -14,6 +14,7 @@ export function RssFeedScreen({ match: { params: { rssFeedUuid } } }: RouteCompo
   const { getRssFeed, likeRssFeed, unlikeRssFeed } = useRssFeed()
   const message = useIntlMessage()
   const rssFeed = getRssFeed(rssFeedUuid)
+
   return (
     <Layout>
       {

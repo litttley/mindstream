@@ -10,6 +10,7 @@ interface Props {
 
 function isReactElement<T>(rc: React.ReactNode): rc is React.ReactElement<T> {
   const re = rc as React.ReactElement<T>
+
   return !!re.type && !!re.props
 }
 
@@ -20,6 +21,7 @@ export class Tabs extends React.PureComponent<Props> {
     const tabs = childrens.filter(isReactElement)
     const labels = tabs.map(ch => ch.props as TabProps)
     const SelectedTab = tabs.find(ch => (ch.props as TabProps).name === selectedTabName)
+
     return (
       <div className={styles.tabsContainer}>
         <div className={styles.tabs}>
@@ -35,6 +37,7 @@ export class Tabs extends React.PureComponent<Props> {
   renderTab = (props: TabProps) => {
     const { selectedTabName } = this.props
     const classes = classNames(styles.tab, { [styles.selected]: selectedTabName === props.name })
+
     return (
       <div key={props.name} className={classes} onClick={this.handleTabOnClick(props.name)}>
         {props.label}

@@ -17,6 +17,7 @@ export function Layout({ children }: React.PropsWithChildren<{}>) {
     loadMySources()
   }, [])
   const { isMenuOpen, menuToggle } = useMenuToggle()
+
   return (
     <div className={styles.layout}>
       <div className={classNames(styles.menu, { [styles.menuOpen]: isMenuOpen })}>

@@ -40,6 +40,7 @@ export function RssFeedCard({ feed, likedLoading, onLike, onUnlike }: Props) {
   const RssTab = () => {
     if (rss) {
       const rssContent = getRssContent(rss)
+
       return <CardTab label="Rss" name="rss" content={rssContent || ""} />
     } else {
       return undefined
@@ -78,12 +79,14 @@ function sanitize(content: string): string {
 
 function stripScriptsWithRegex(html: string): string {
   const regex = `<script(?:(?!\/\/)(?!\/\*)[^'"]|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\/\/.*(?:\n)|\/\*(?:(?:.|\s))*?\*\/)*?<\/script>`
+
   return html.replace(regex, regex)
 }
 
 function sanitizeWithDom(content: string, f: (html: HTMLDivElement) => HTMLDivElement): string {
   const div = document.createElement("div")
   div.innerHTML = content
+
   return f(div).innerHTML
 }
 
@@ -97,6 +100,7 @@ function sanitizeScripts(html: HTMLDivElement): HTMLDivElement {
       script.parentNode.removeChild(script)
     }
   }
+
   return html
 }
 

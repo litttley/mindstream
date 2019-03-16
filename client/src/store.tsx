@@ -13,8 +13,10 @@ export function createStore<T, K extends keyof T>(initialState: T, name?: string
     const [state, dispatch] = React.useReducer(reducer, initialState)
     const update: Update<T> = s => dispatch(s as Pick<T, K> | T)
     const value = { ...state, update }
+
     return <Context.Provider value={value}>{children}</Context.Provider>
   }
+
   return [Context, Provider]
 }
 
@@ -37,5 +39,6 @@ export function createPersistedStore<T, K extends keyof T>(
 
     return <Context.Provider value={value}>{children}</Context.Provider>
   }
+
   return [Context, Provider]
 }

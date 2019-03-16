@@ -34,6 +34,7 @@ export class ApiService {
       const token = localStorage.getItem(STORAGE_AUTH_TOKEN_KEY)
       if (token) {
         this.setToken(token)
+
         return token
       } else {
         return undefined
@@ -50,6 +51,7 @@ export class ApiService {
     return this.instance.request<AuthResponse>(config)
       .then(response => {
         this.setToken(response.data.token)
+
         return response.data
       }).catch(error => {
         return Promise.reject(error.response.data)
@@ -65,6 +67,7 @@ export class ApiService {
       }}).then(response => response.data)
     } else {
       router.replace("/login")
+
       return Promise.reject()
     }
   }

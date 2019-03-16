@@ -13,6 +13,7 @@ export function NextRssSource({ rssSourceUuid }: Props) {
   const message = useIntlMessage()
   const index = myRssSources.findIndex(s => s.rss_source.uuid === rssSourceUuid)
   const nextRssSource = myRssSources.length > index ? myRssSources[index + 1] : undefined
+
   return (
     <div className={styles.nextRssSource}>
       {nextRssSource

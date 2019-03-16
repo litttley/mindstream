@@ -11,6 +11,7 @@ interface Props {
 export class Header extends React.PureComponent<Props> {
   render() {
     const { appName } = this.props
+
     return (
       <div className={styles.header}>
         <div className={styles.menuToggle} onClick={this.handleOnMenuToggle}>

@@ -10,6 +10,7 @@ interface Props {
 export function SearchSourceForm({ onChange }: Props) {
   const queryInput = useFormInput("")
   const message = useIntlMessage()
+
   return (
     <div className={styles.searchSourceForm}>
       <label className={styles.title}>{message("searchNewRssSources")}</label>
