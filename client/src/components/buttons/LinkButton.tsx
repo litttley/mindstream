@@ -1,6 +1,6 @@
 import * as React from "react"
 import * as styles from "./LinkButton.css"
-import BaseButton from "~/components/buttons/BaseButton"
+import { BaseButton } from "~/components/buttons/BaseButton"
 
 interface Props {
   disable?: boolean
@@ -8,7 +8,7 @@ interface Props {
   onClick?: () => void
 }
 
-const LinkButton: React.FunctionComponent<Props> = ({ href, children, disable, onClick }) => {
+export function LinkButton({ href, children, disable, onClick }: React.PropsWithChildren<Props>) {
   return (
     <BaseButton
       className={styles.linkButton}
@@ -20,5 +20,3 @@ const LinkButton: React.FunctionComponent<Props> = ({ href, children, disable, o
     </BaseButton>
   )
 }
-
-export default LinkButton

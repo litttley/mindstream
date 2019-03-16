@@ -1,14 +1,14 @@
 import * as React from "react"
-import Layout from "~/components/Layout"
+import { Layout } from "~/components/Layout"
 import { useUnreadedRssFeeds } from "./RssFeedsState"
-import RssFeedCard from "~/rssFeeds/components/RssFeedCard"
-import Empty from "~/components/Empty"
+import { RssFeedCard } from "~/rssFeeds/components/RssFeedCard"
+import { Empty } from "~/components/Empty"
 import { useIntlMessage } from "~/hooks/useIntlMessage"
-import FeedActions from "./components/FeedActions"
-import Loader from "~/components/Loader"
+import { FeedActions } from "./components/FeedActions"
+import { Loader } from "~/components/Loader"
 import { useKeyDown } from "~/hooks/useKeyDown"
 
-export default function UnreadedRssFeedsScreen() {
+export function UnreadedRssFeedsScreen() {
   const {
     unreadedRssFeeds,
     previousRssFeeds,
@@ -48,10 +48,15 @@ export default function UnreadedRssFeedsScreen() {
         <>
           <FeedActions
             nextLoading={goToNextRssFeedLoading}
-            onNext={() => goToNextRssFeed()}
-            onPrevious={() => goToPreviuosRssFeed()}
+            onNext={goToNextRssFeed}
+            onPrevious={goToPreviuosRssFeed}
           />
-          <RssFeedCard feed={nextRssFeed} onLike={() => likeRssFeed()} onUnlike={() => unlikleRssFeed()} likedLoading={likeRssFeedLoading} />
+          <RssFeedCard
+            feed={nextRssFeed}
+            onLike={likeRssFeed}
+            onUnlike={unlikleRssFeed}
+            likedLoading={likeRssFeedLoading}
+          />
         </>
       )
     }

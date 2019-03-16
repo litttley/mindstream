@@ -13,6 +13,7 @@ export function getFieldErrorMessage(field: string, intl: (key: string, params?:
     const fieldsErrors = errors.errors && errors.errors[field] as ApiError[] | undefined
     if (fieldsErrors && fieldsErrors.length > 0) {
       const error = fieldsErrors[0]
+
       return intl(error.message, error.params)
     } else {
       return undefined

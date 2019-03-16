@@ -2,11 +2,11 @@ import * as React from "react"
 import * as styles from "./RssFeedCard.css"
 
 import { RssFeed, getTitle, getRssContent } from "~/models/RssFeed"
-import StarIcon from "~/components/icons/StarIcon"
+import { StarIcon } from "~/components/icons/StarIcon"
 import { RssFeedsResponse } from "~/models/RssFeedsResponse"
-import Tabs from "~/components/tabs/Tabs"
-import Tab from "~/components/tabs/Tab"
-import IconButton from "~/components/buttons/IconButton"
+import { Tabs } from "~/components/tabs/Tabs"
+import { Tab } from "~/components/tabs/Tab"
+import { IconButton } from "~/components/buttons/IconButton"
 import { useIntlMessage } from "~/hooks/useIntlMessage"
 
 interface Props {
@@ -18,7 +18,13 @@ interface Props {
 
 type TabName = "rss" | "readable"
 
-function CardTab({ label, name, content }: { label: string, name: TabName, content: string }) {
+interface CardTabProps {
+  label: string
+  name: TabName
+  content: string
+}
+
+function CardTab({ label, name, content }: CardTabProps) {
   return (
     <Tab label={label} name={name}>
       <div dangerouslySetInnerHTML={{ __html: sanitize(content) }} />
@@ -26,7 +32,7 @@ function CardTab({ label, name, content }: { label: string, name: TabName, conte
   )
 }
 
-export default function RssFeedCard({ feed, likedLoading, onLike, onUnlike }: Props) {
+export function RssFeedCard({ feed, likedLoading, onLike, onUnlike }: Props) {
   const [selectedTab, setSelectedTab] = React.useState<TabName>(feed.rss_feed.readable ? "readable" : "rss")
   const message = useIntlMessage()
   const { readable } = feed.rss_feed
@@ -40,6 +46,7 @@ export default function RssFeedCard({ feed, likedLoading, onLike, onUnlike }: Pr
   const RssTab = () => {
     if (rss) {
       const rssContent = getRssContent(rss)
+
       return <CardTab label="Rss" name="rss" content={rssContent || ""} />
     } else {
       return undefined
@@ -78,12 +85,14 @@ function sanitize(content: string): string {
 
 function stripScriptsWithRegex(html: string): string {
   const regex = `<script(?:(?!\/\/)(?!\/\*)[^'"]|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\/\/.*(?:\n)|\/\*(?:(?:.|\s))*?\*\/)*?<\/script>`
+
   return html.replace(regex, regex)
 }
 
 function sanitizeWithDom(content: string, f: (html: HTMLDivElement) => HTMLDivElement): string {
   const div = document.createElement("div")
   div.innerHTML = content
+
   return f(div).innerHTML
 }
 
@@ -97,6 +106,7 @@ function sanitizeScripts(html: HTMLDivElement): HTMLDivElement {
       script.parentNode.removeChild(script)
     }
   }
+
   return html
 }
 

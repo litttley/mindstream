@@ -5,5 +5,6 @@ export function useFormInput(initialValue: string) {
   function onChange(event: React.FormEvent<HTMLInputElement>) {
     setValue(event.currentTarget.value)
   }
+
   return { value, onChange }
 }
