@@ -132,7 +132,7 @@ export function useUnreadedRssFeeds() {
     goToNextRssFeed,
     goToPreviuosRssFeed,
     likeRssFeed,
-    unlikleRssFeed
+    unlikleRssFeed,
   }
 }
 
@@ -192,6 +192,6 @@ export function useRssFeed() {
   return {
     getRssFeed,
     likeRssFeed,
-    unlikeRssFeed
+    unlikeRssFeed,
   }
 }

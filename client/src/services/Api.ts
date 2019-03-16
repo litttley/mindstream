@@ -17,8 +17,8 @@ export class ApiService {
       baseURL,
       timeout: 5 * 60 * 1000,
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
 
     const token = localStorage.getItem(STORAGE_AUTH_TOKEN_KEY)
@@ -64,7 +64,7 @@ export class ApiService {
     if (token) {
       return this.instance.request<T>({ ...config, headers: {
         ...config.headers,
-        Authorization: token
+        Authorization: token,
       }}).then(response => response.data)
     } else {
       router.replace("/login")

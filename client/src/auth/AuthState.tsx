@@ -40,7 +40,7 @@ export function useLogin() {
   return {
     loading: state.loading,
     loginErrors: state.loginErrors,
-    loginSubmit
+    loginSubmit,
   }
 }
 
@@ -63,6 +63,6 @@ export function useSignup() {
   return {
     loading: state.loading,
     signupErrors: state.signupErrors,
-    signupSubmit
+    signupSubmit,
   }
 }

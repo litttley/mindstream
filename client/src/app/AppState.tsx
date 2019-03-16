@@ -6,7 +6,7 @@ export interface AppState {
 }
 
 const initState: AppState = {
-  isMenuOpen: false
+  isMenuOpen: false,
 }
 
 export const [AppContext, AppProvider] = createPersistedStore(initState, "APP_STATE", localStorage)
@@ -16,6 +16,6 @@ export function useMenuToggle() {
 
   return {
     ...state,
-    menuToggle: () => update({ isMenuOpen: !state.isMenuOpen })
+    menuToggle: () => update({ isMenuOpen: !state.isMenuOpen }),
   }
 }
