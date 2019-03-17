@@ -1,5 +1,5 @@
 import * as React from "react"
-import { RssFeedsResponse } from "~/models/RssFeedsResponse"
+import { RssFeedsResponse } from "~/models/rssFeedsResponse"
 import { Layout } from "~/components/Layout"
 import { RssFeeds } from "./components/RssFeeds"
 import * as router from "~/router"

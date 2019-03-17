@@ -1,8 +1,8 @@
 import * as React from "react"
-import { createStore } from "~/store"
-import { api } from "~/services/Api"
-import { RssFeed } from "~/models/RssFeed"
-import { RssFeedsResponse } from "~/models/RssFeedsResponse"
+import { createStore } from "~/Store"
+import { api } from "~/services/api"
+import { RssFeed } from "~/models/rssFeed"
+import { RssFeedsResponse } from "~/models/rssFeedsResponse"
 import { useMyRssSources } from "~/rssSources/RssSourcesState"
 
 interface RssFeedsState {
@@ -63,7 +63,7 @@ export function useUnreadedRssFeeds() {
           update(newState)
           decrementRssSource(first.rss_feed)
         })
-      ).catch(error => {
+      ).catch(() => {
         // TODO
         update({ goToNextRssFeedLoading: false })
       })
@@ -154,10 +154,10 @@ export function useLikedRssFeeds() {
 export function useRssFeed() {
   const { update, ...state } = React.useContext(RssFeedsContext)
 
-  // TODO get from api
-  const getRssFeed = (rssFeedUuid: string): RssFeedsResponse | undefined =>
-    [...state.unreadedRssFeeds, ...state.previousRssFeeds, ...state.likedFeeds]
-      .find(rssFeed => rssFeed.rss_feed.uuid === rssFeedUuid)
+  function getRssFeed(rssFeedUuid: string): RssFeedsResponse | undefined {
+    // TODO get from api
+    return [...state.unreadedRssFeeds, ...state.previousRssFeeds, ...state.likedFeeds].find(rssFeed => rssFeed.rss_feed.uuid === rssFeedUuid)
+  }
 
   const likeRssFeed = (rssFeed: RssFeed) => {
     api.feedReaction(rssFeed, "Liked")

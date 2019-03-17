@@ -1,4 +1,4 @@
-import { RssFeed, UserRssFeed } from "~/models/RssFeed"
+import { RssFeed, UserRssFeed } from "~/models/rssFeed"
 
 export interface RssFeedsResponse {
   rss_feed: RssFeed
