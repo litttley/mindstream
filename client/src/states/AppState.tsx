@@ -1,5 +1,5 @@
 import * as React from "react"
-import { createPersistedStore } from "~/store"
+import { createPersistedStore } from "~/Store"
 
 export interface AppState {
   isMenuOpen: boolean

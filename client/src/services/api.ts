@@ -1,11 +1,11 @@
 import Axios, { AxiosInstance,  AxiosRequestConfig } from "axios"
 import * as router from "~/router"
-import { RssFeed, Reaction, UserRssFeed } from "~/models/RssFeed"
-import { RssSource, MyRssSource } from "~/models/RssSource"
-import { AuthResponse } from "~/models/AuthResponse"
-import { Login } from "~/models/Login"
-import { Signup } from "~/models/Signup"
-import { RssFeedsResponse } from "~/models/RssFeedsResponse"
+import { RssFeed, Reaction, UserRssFeed } from "~/models/rssFeed"
+import { RssSource, MyRssSource } from "~/models/rssSource"
+import { AuthResponse } from "~/models/authResponse"
+import { Login } from "~/models/login"
+import { Signup } from "~/models/signup"
+import { RssFeedsResponse } from "~/models/rssFeedsResponse"
 
 const STORAGE_AUTH_TOKEN_KEY = "AUTH_TOKEN"
 

@@ -1,7 +1,8 @@
 import * as React from "react"
-import classNames from "classnames"
-import * as styles from "./Tabs.css"
+import { StyleSheet, css, CSSProperties } from "aphrodite/no-important"
+
 import { Props as TabProps } from "./Tab"
+import { colors } from "~/guideStyles"
 
 interface Props {
   selectedTabName: string
@@ -23,7 +24,7 @@ export function Tabs({ children, onChange, selectedTabName }: React.PropsWithChi
   const handleTabOnClick = (tab: string) => React.useCallback(() => onChange(tab), [tab])
 
   const renderTab = (props: TabProps) => {
-    const classes = classNames(styles.tab, { [styles.selected]: selectedTabName === props.name })
+    const classes = css(styles.tab, selectedTabName === props.name ? styles.selected : undefined)
 
     return (
       <div key={props.name} className={classes} onClick={handleTabOnClick(props.name)}>
@@ -33,8 +34,8 @@ export function Tabs({ children, onChange, selectedTabName }: React.PropsWithChi
   }
 
   return (
-    <div className={styles.tabsContainer}>
-      <div className={styles.tabs}>
+    <div className={css(styles.tabsContainer)}>
+      <div className={css(styles.tabs)}>
         {labels.map(renderTab)}
       </div>
       <div>
@@ -43,3 +44,38 @@ export function Tabs({ children, onChange, selectedTabName }: React.PropsWithChi
     </div>
   )
 }
+
+const styles = StyleSheet.create<Record<string, CSSProperties>>({
+  tabsContainer: {
+    width: "100%",
+  },
+  tabs: {
+    width: "100%",
+    display: "inline-flex",
+  },
+  tab: {
+    flex: 1,
+    justifyContent: "space-between",
+    alignItems: "center",
+    textAlign: "center",
+    fontSize: ".8rem",
+    textTransform: "uppercase",
+    paddingTop: 13,
+    paddingBottom: 13,
+    borderTopWidth: 2,
+    borderTopStyle: "solid",
+    borderTopColor: colors.secondaryClear,
+    color: colors.secondary,
+    cursor: "pointer",
+    ":hover": {
+      color: colors.accent,
+    },
+  },
+  selected: {
+    borderTopColor: colors.secondary,
+    color: colors.secondary,
+    ":hover": {
+      color: colors.accent,
+    },
+  },
+})

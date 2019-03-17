@@ -6,12 +6,12 @@ import { LikedRssFeedsScreen } from "~/rssFeeds/LikedRssFeedsScreen"
 import { UnreadedRssFeedsScreen } from "./rssFeeds/UnreadedRssFeedsScreen"
 import { RssSourcesScreen } from "~/rssSources/RssSourcesScreen"
 import { RssFeedScreen } from "~/rssFeeds/RssFeedScreen"
-import { IntlContext, intlContextInitialValues } from "~/intl/IntlContext"
-import { AppProvider } from "./app/AppState"
+import { IntlContext, intlContextInitialValues } from "~/intl/intlContext"
+import { AppProvider } from "~/states/AppState"
 import { RssSourcesProvider } from "./rssSources/RssSourcesState"
 import { RssFeedsProvider } from "./rssFeeds/RssFeedsState"
 import { AuthProvider } from "./auth/AuthState"
-import { UnreadedRssFeedsByRssSourceScreen } from "./rssFeeds/UnreadedRssFeedsByRssSourceScreen"
+import { UnreadedRssFeedsByRssSourceScreen } from "~/rssFeeds/UnreadedRssFeedsByRssSourceScreen"
 
 export function App() {
   return (

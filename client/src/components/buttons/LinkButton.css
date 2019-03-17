@@ -1,7 +1,0 @@
-.linkButton {
-  color: var(--primary);
-}
-
-.linkButton:hover, .linkButton:focus {
-  text-decoration: underline;
-}
