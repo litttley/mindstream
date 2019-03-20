@@ -15,8 +15,8 @@
     "react": "16.8.4",
     "react-native": "0.59.1",
     "react-native-gesture-handler": "1.1.0",
-    "react-native-vector-icons": "6.4.1",
-    "react-navigation": "3.4.0"
+    "react-native-vector-icons": "6.4.2",
+    "react-navigation": "3.5.1"
   },
   "devDependencies": {
     "@babel/core": "7.4.0",
@@ -32,7 +32,7 @@
     "react-test-renderer": "16.8.4",
     "tslint": "5.14.0",
     "tslint-react": "3.6.0",
-    "typescript": "3.3.3333"
+    "typescript": "3.3.4000"
   },
   "jest": {
     "preset": "react-native"
