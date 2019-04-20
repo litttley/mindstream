@@ -17,7 +17,7 @@ pub struct GetRssSources {
 }
 
 impl GetRssSources {
-    pub fn new(pagination: Pagination) -> Self {
+    pub const fn new(pagination: Pagination) -> Self {
         Self { pagination }
     }
 }

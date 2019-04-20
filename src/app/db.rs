@@ -7,7 +7,7 @@ pub struct DbExecutor {
     pub pool: Pool<ConnectionManager<PgConnection>>,
 }
 impl DbExecutor {
-    pub fn new(pool: Pool<ConnectionManager<PgConnection>>) -> Self {
+    pub const fn new(pool: Pool<ConnectionManager<PgConnection>>) -> Self {
         DbExecutor { pool }
     }
 }

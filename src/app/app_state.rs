@@ -7,7 +7,7 @@ pub struct AppState {
 }
 
 impl AppState {
-    pub fn new(db: Addr<DbExecutor>) -> Self {
+    pub const fn new(db: Addr<DbExecutor>) -> Self {
         AppState { db }
     }
 }

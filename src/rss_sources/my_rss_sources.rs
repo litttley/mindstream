@@ -22,7 +22,7 @@ pub struct MyRssSources {
 }
 
 impl MyRssSources {
-    pub fn new(pagination: Pagination, user: User) -> Self {
+    pub const fn new(pagination: Pagination, user: User) -> Self {
         Self { pagination, user }
     }
 }
@@ -54,7 +54,7 @@ pub fn my_rss_sources(
         .db
         .send(MyRssSources::new(
             pagination.into_inner(),
-            auth.claime.user.clone(),
+            auth.claime.user,
         ))
         .from_err()
         .and_then(|res| match res {

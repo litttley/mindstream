@@ -29,7 +29,7 @@ pub struct ChangeRssFeedReaction {
 }
 
 impl ChangeRssFeedReaction {
-    pub fn new(query: ChangeRssFeedReactionQuery, user: User) -> Self {
+    pub const fn new(query: ChangeRssFeedReactionQuery, user: User) -> Self {
         Self { query, user }
     }
 }
@@ -66,7 +66,7 @@ pub fn change_rss_feed_reaction(
         .db
         .send(ChangeRssFeedReaction::new(
             json.into_inner(),
-            auth.claime.user.clone(),
+            auth.claime.user,
         ))
         .from_err()
         .and_then(|res| match res {

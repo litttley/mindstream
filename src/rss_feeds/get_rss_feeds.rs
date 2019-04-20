@@ -32,7 +32,7 @@ pub struct GetRssFeeds {
 }
 
 impl GetRssFeeds {
-    pub fn new(query: RssFeedsQuery, user: User) -> Self {
+    pub const fn new(query: RssFeedsQuery, user: User) -> Self {
         Self { query, user }
     }
 }
@@ -73,7 +73,7 @@ pub fn get_rss_feeds(
         .db
         .send(GetRssFeeds::new(
             query.into_inner(),
-            auth.claime.user.clone(),
+            auth.claime.user,
         ))
         .from_err()
         .and_then(|res| match res {

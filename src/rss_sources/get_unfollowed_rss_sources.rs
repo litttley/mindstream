@@ -20,7 +20,7 @@ pub struct GetUnfollowedRssSources {
 }
 
 impl GetUnfollowedRssSources {
-    pub fn new(pagination: Pagination, user: User) -> Self {
+    pub const fn new(pagination: Pagination, user: User) -> Self {
         Self { pagination, user }
     }
 }
@@ -52,7 +52,7 @@ pub fn get_unfollowed_rss_sources(
         .db
         .send(GetUnfollowedRssSources::new(
             pagination.into_inner(),
-            auth.claime.user.clone(),
+            auth.claime.user,
         ))
         .from_err()
         .and_then(|res| match res {

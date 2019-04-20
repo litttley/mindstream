@@ -11,7 +11,7 @@ pub struct Auth {
 }
 
 impl Auth {
-    fn new(claime: Claime) -> Self {
+    const fn new(claime: Claime) -> Self {
         Auth { claime }
     }
 }
@@ -30,6 +30,6 @@ where
             .and_then(|token| token.to_str().map_err(|_| errors::Error::Unauthorized))
             .and_then(|token| decode_token(token, &config::CONFIG.secret_key))
             .map(Auth::new)
-            .map_err(|e| e.into())
+            .map_err(Into::into)
     }
 }

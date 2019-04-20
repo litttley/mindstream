@@ -16,7 +16,7 @@ pub struct GetRssSource {
 }
 
 impl GetRssSource {
-    pub fn new(uuid: Uuid) -> Self {
+    pub const fn new(uuid: Uuid) -> Self {
         Self { uuid }
     }
 }

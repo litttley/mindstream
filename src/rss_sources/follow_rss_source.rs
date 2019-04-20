@@ -23,7 +23,7 @@ pub struct FollowRssSource {
 }
 
 impl FollowRssSource {
-    pub fn new(rss_source_uuid: Uuid, user: User) -> Self {
+    pub const fn new(rss_source_uuid: Uuid, user: User) -> Self {
         FollowRssSource {
             rss_source_uuid,
             user,
@@ -65,7 +65,7 @@ pub fn follow_rss_source(
         .db
         .send(FollowRssSource::new(
             uuid.into_inner(),
-            auth.claime.user.clone(),
+            auth.claime.user,
         ))
         .from_err()
         .and_then(|res| match res {

@@ -13,7 +13,7 @@ pub struct Claime {
 pub struct Token(String);
 
 impl Claime {
-    pub fn new(user: User) -> Self {
+    pub const fn new(user: User) -> Self {
         Claime { user }
     }
 }
