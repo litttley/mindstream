@@ -36,7 +36,7 @@ impl ApiError {
 #[derive(Fail, Debug)]
 pub enum Error {
     #[fail(display = "internal error")]
-    InternalError,
+    Internal,
     #[fail(display = "bad request")]
     BadRequest(ApiError),
     #[fail(display = "not found")]
@@ -50,7 +50,7 @@ pub enum Error {
 impl ResponseError for Error {
     fn error_response(&self) -> HttpResponse {
         match *self {
-            Error::InternalError => HttpResponse::new(http::StatusCode::INTERNAL_SERVER_ERROR),
+            Error::Internal => HttpResponse::new(http::StatusCode::INTERNAL_SERVER_ERROR),
             Error::BadRequest(ref api_error) => {
                 HttpResponse::build(http::StatusCode::BAD_REQUEST).json(api_error)
             }
@@ -70,7 +70,7 @@ impl From<diesel::result::Error> for Error {
                 _,
             ) => Error::BadRequest(ApiError::new("already.exist")),
             diesel::result::Error::NotFound => Error::NotFound,
-            _ => Error::InternalError,
+            _ => Error::Internal,
         }
     }
 }
@@ -78,7 +78,7 @@ impl From<diesel::result::Error> for Error {
 impl From<actix::MailboxError> for Error {
     fn from(error: actix::MailboxError) -> Self {
         error!("ERROR actix mailbox = {:?}", error);
-        Error::InternalError
+        Error::Internal
     }
 }
 
@@ -97,14 +97,14 @@ impl From<JsonPayloadError> for Error {
 impl From<r2d2::Error> for Error {
     fn from(error: r2d2::Error) -> Self {
         error!("ERROR r2d2 = {:?}", error);
-        Error::InternalError
+        Error::Internal
     }
 }
 
 impl From<bcrypt::BcryptError> for Error {
     fn from(error: bcrypt::BcryptError) -> Self {
         error!("ERROR bcrypt = {:?}", error);
-        Error::InternalError
+        Error::Internal
     }
 }
 
@@ -118,7 +118,7 @@ impl From<jsonwebtoken::errors::Error> for Error {
 impl From<reqwest::Error> for Error {
     fn from(error: reqwest::Error) -> Self {
         error!("ERROR reqwest = {:?}", error);
-        Error::InternalError
+        Error::Internal
     }
 }
 

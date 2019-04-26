@@ -10,13 +10,13 @@
     clippy::correctness
 )]
 #![allow(
-    clippy::too_many_arguments,
-    clippy::missing_docs_in_private_items,
     clippy::multiple_inherent_impl,
     clippy::module_name_repetitions,
     clippy::wildcard_enum_match_arm,
     clippy::implicit_return,
-    clippy::pub_enum_variant_names,
+
+    clippy::too_many_arguments,
+    clippy::missing_docs_in_private_items,
     clippy::multiple_crate_versions,
     clippy::cargo_common_metadata,
 )]
