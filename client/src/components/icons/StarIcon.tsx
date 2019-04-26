@@ -1,5 +1,5 @@
 import * as React from "react"
-import { IconProps } from "./IconProps"
+import { IconProps } from "./iconProps"
 
 export function StarIcon({ className, color = "#000000", width = 34, height = 34 }: IconProps) {
   return (

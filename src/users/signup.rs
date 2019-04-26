@@ -1,4 +1,4 @@
-use ::actix::prelude::*;
+use actix::prelude::*;
 use actix_web::{AsyncResponder, HttpMessage, HttpRequest, HttpResponse, State};
 use futures::future::Future;
 use serde::Deserialize;
@@ -9,7 +9,7 @@ use validator_derive::Validate;
 use crate::app::app_state::AppState;
 use crate::app::config;
 use crate::app::db::DbExecutor;
-use crate::auth::jwt::{create_token, Token};
+use crate::jwt::{create_token, Token};
 use crate::errors::Error;
 use crate::models::user::User;
 use crate::repositories::users::insert;
@@ -44,7 +44,7 @@ impl Handler<Signup> for DbExecutor {
 
 impl User {
     pub fn from_signup(signup: &Signup) -> Result<Self, Error> {
-        Ok(User::new_secure(
+        Ok(Self::new_secure(
             signup.login.clone(),
             signup.email.clone(),
             signup.password.clone(),

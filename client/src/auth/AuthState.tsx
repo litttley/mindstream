@@ -1,11 +1,12 @@
 import * as React from "react"
-import { User } from "~/models/User"
-import { createStore } from "~/store"
-import { ApiErrors } from "~/models/ApiError"
-import { api } from "~/services/Api"
+
 import * as router from "~/router"
-import { Signup } from "~/models/Signup"
-import { Login } from "~/models/Login"
+import { createStore } from "~/Store"
+import { api } from "~/services/api"
+import { User } from "~/models/user"
+import { Signup } from "~/models/signup"
+import { Login } from "~/models/login"
+import { ApiErrors } from "~/models/apiError"
 
 export interface AuthState {
   user?: User

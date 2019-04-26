@@ -1,6 +1,7 @@
 import * as React from "react"
-import * as styles from "./RssFeeds.css"
-import { RssFeedsResponse } from "~/models/RssFeedsResponse"
+import { StyleSheet, css, CSSProperties } from "aphrodite/no-important"
+
+import { RssFeedsResponse } from "~/models/rssFeedsResponse"
 import { RssFeedExcerpt } from "./RssFeedExcerpt"
 
 interface Props {
@@ -10,11 +11,11 @@ interface Props {
 
 export function RssFeeds({ rssFeeds, onRssFeedClick }: Props) {
   return (
-    <div className={styles.feeds}>
+    <div className={css(styles.feeds)}>
       {rssFeeds.map(rssFeed =>
         <RssFeedExcerpt
           key={rssFeed.rss_feed.uuid}
-          className={styles.feedExcerpt}
+          style={styles.feedExcerpt}
           rssFeed={rssFeed}
           onClick={onRssFeedClick}
         />
@@ -22,3 +23,24 @@ export function RssFeeds({ rssFeeds, onRssFeedClick }: Props) {
     </div>
   )
 }
+
+const styles = StyleSheet.create<Record<string, CSSProperties>>({
+  feeds: {
+    width: "100%",
+    hyphens: "auto",
+    overflow: "hidden",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    padding: "20px 20px 50px 20px",
+    "@media screen and (min-width: 980px)": {
+      width: 900,
+      alignSelf: "center",
+      padding: "40px 20px 50px 20px",
+      margin: "auto",
+    },
+  },
+  feedExcerpt: {
+    marginBottom: 30,
+  },
+})

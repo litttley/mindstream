@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use serde_xml_rs::{Error, from_reader};
+use serde_xml_rs::{Error as SerdeXmlError, from_reader};
 
 use actix_web::{
     dev, error, http, middleware, multipart, server, App, Error, FutureResponse,
@@ -40,9 +40,7 @@ pub struct Outline {
     pub body: Vec<Outline>,
 }
 
-pub fn parse(content: &str) -> Result<Opml, Error> {
+pub fn parse(content: &str) -> Result<Opml, SerdeXmlError> {
     let opml: Opml = from_reader(content.as_bytes())?;
     Ok(opml)
 }
-
-pub fn import(req: HttpRequest) -> 
