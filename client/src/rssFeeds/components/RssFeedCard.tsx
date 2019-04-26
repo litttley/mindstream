@@ -1,9 +1,9 @@
 import * as React from "react"
-import * as styles from "./RssFeedCard.css"
+import { StyleSheet, css, CSSProperties } from "aphrodite/no-important"
 
-import { RssFeed, getTitle, getRssContent } from "~/models/RssFeed"
+import { RssFeed, getTitle, getRssContent } from "~/models/rssFeed"
 import { StarIcon } from "~/components/icons/StarIcon"
-import { RssFeedsResponse } from "~/models/RssFeedsResponse"
+import { RssFeedsResponse } from "~/models/rssFeedsResponse"
 import { Tabs } from "~/components/tabs/Tabs"
 import { Tab } from "~/components/tabs/Tab"
 import { IconButton } from "~/components/buttons/IconButton"
@@ -56,12 +56,12 @@ export function RssFeedCard({ feed, likedLoading, onLike, onUnlike }: Props) {
   const onLikeUnlike = feed.user_rss_feed.reaction === "Liked" ? onUnlike : onLike
 
   return (
-    <div className={styles.feedCard}>
-      <div className={styles.head}>
-        <h1 className={styles.title}>{getTitle(feed.rss_feed) || message("noTitle")}</h1>
-        <a className={styles.url} target="_blanc" href={feed.rss_feed.rss_url}>{feed.rss_feed.rss_url}</a>
-        <div className={styles.dates}>
-          <div className={styles.date}>
+    <div className={css(styles.feedCard)}>
+      <div className={css(styles.head)}>
+        <h1 className={css(styles.title)}>{getTitle(feed.rss_feed) || message("noTitle")}</h1>
+        <a className={css(styles.url)} target="_blanc" href={feed.rss_feed.rss_url}>{feed.rss_feed.rss_url}</a>
+        <div className={css(styles.dates)}>
+          <div className={css(styles.date)}>
             {"Date" /* TODO */}
           </div>
           <IconButton loading={likedLoading} onClick={() => onLikeUnlike(feed.rss_feed)}>
@@ -69,7 +69,7 @@ export function RssFeedCard({ feed, likedLoading, onLike, onUnlike }: Props) {
           </IconButton>
         </div>
       </div>
-      <div className={styles.feedContent}>
+      <div className="feedContent">
         <Tabs selectedTabName={selectedTab} onChange={tab => setSelectedTab(tab as TabName)}>
           {ReadableTab}
           {RssTab()}
@@ -121,3 +121,51 @@ function sanitizeResponsiveImages(html: HTMLDivElement): HTMLDivElement {
 
   return html
 }
+
+const styles = StyleSheet.create<Record<string, CSSProperties>>({
+  feedCard: {
+    width: "100%",
+    hyphens: "auto",
+    overflow: "hidden",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    padding: "20px 20px 100px 20px",
+    "@media screen and (min-width: 980px)": {
+      maxWidth: 900,
+      alignSelf: "center",
+      padding: "40px 20px 50px 20px",
+      margin: "auto",
+    },
+  },
+  title: {
+    fontSize: "1.5rem",
+    "@media screen and (min-width: 480px)": {
+      fontSize: "1.9rem",
+    },
+  },
+  url: {
+    display: "block",
+    fontSize: "0.9rem",
+    padding: "5px 0",
+    margin: "5px 0",
+    textDecoration: "none",
+    color: "#999999",
+    ":hover": {
+      color: "#777777",
+    },
+  },
+  dates: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  date: {
+    fontSize: "0.9rem",
+    color: "#777777",
+  },
+  head: {
+    paddingBottom: 5,
+  },
+})

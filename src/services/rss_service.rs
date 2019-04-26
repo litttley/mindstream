@@ -13,7 +13,7 @@ pub fn fetch_feeds_channel(url: &str) -> Result<Option<Feed>, Error> {
 
 impl From<Entry> for Rss {
     fn from(entry: Entry) -> Self {
-        Rss {
+        Self {
             id: entry.id,
             title: entry.title,
             content: entry.content,

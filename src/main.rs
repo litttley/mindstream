@@ -10,15 +10,13 @@
     clippy::correctness
 )]
 #![allow(
-    clippy::module_inception,
-    clippy::too_many_arguments,
-    clippy::missing_docs_in_private_items,
-    clippy::use_self,
     clippy::multiple_inherent_impl,
-    clippy::stutter,
-    clippy::pub_enum_variant_names,
+    clippy::module_name_repetitions,
+    clippy::wildcard_enum_match_arm,
+    clippy::implicit_return,
     clippy::multiple_crate_versions,
-    clippy::cargo_common_metadata,
+    clippy::missing_docs_in_private_items,
+    clippy::too_many_arguments,
 )]
 
 #[macro_use]
@@ -26,15 +24,16 @@ extern crate diesel;
 #[macro_use]
 extern crate diesel_migrations;
 
-use ::actix::prelude::*;
-use ::actix_web::middleware::Logger;
-use ::actix_web::{http::Method, server, App, HttpResponse};
-use ::log::info;
+use actix::prelude::*;
+use actix_web::middleware::Logger;
+use actix_web::{http::Method, server, App, HttpResponse};
+use log::info;
 use dotenv::dotenv;
 
 mod app;
 mod assets;
 mod auth;
+mod jwt;
 mod errors;
 mod models;
 mod repositories;
@@ -49,7 +48,7 @@ mod users;
 use crate::app::app_state::AppState;
 use crate::app::config;
 use crate::app::db::{create_diesel_pool, DbExecutor};
-use crate::auth::auth::Auth;
+use crate::auth::Auth;
 use crate::rss_feeds::change_rss_feed_reaction::change_rss_feed_reaction;
 use crate::rss_feeds::get_rss_feeds::get_rss_feeds;
 use crate::rss_feeds_job::run_rss_job;

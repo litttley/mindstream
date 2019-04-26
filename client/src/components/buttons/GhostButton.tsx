@@ -1,7 +1,7 @@
 import * as React from "react"
-import classNames from "classnames"
-import * as styles from "./GhostButton.css"
+import { StyleSheet, CSSProperties, StyleDeclarationValue } from "aphrodite/no-important"
 import { BaseButton } from "~/components/buttons/BaseButton"
+import { colors } from "~/guideStyles"
 
 interface Props {
   label: string
@@ -9,13 +9,13 @@ interface Props {
   disable?: boolean
   onClick?: () => void
   href?: string
-  className?: string
+  style?: StyleDeclarationValue
 }
 
-export function GhostdButton({ href, label, loading, disable, onClick, className }: Props) {
+export function GhostdButton({ href, label, loading, disable, onClick, style }: Props) {
   return (
     <BaseButton
-      className={classNames(styles.ghostButton, className)}
+      style={[styles.ghostButton, style]}
       loading={loading}
       disable={disable}
       href={href}
@@ -25,3 +25,37 @@ export function GhostdButton({ href, label, loading, disable, onClick, className
     </BaseButton>
   )
 }
+
+const styles = StyleSheet.create<Record<string, CSSProperties>>({
+  ghostButton: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    cursor: "pointer",
+    padding: "3px 20px",
+    backgroundColor: "transparent",
+    fontSize: "1rem",
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: colors.primary,
+    color: colors.primary,
+    textTransform: "uppercase",
+    transitionDelay: ".05s",
+
+    ":hover": {
+      backgroundColor: colors.primary,
+      color: colors.primaryClear,
+    },
+    ":focus": {
+      backgroundColor: colors.primary,
+      color: colors.primaryClear,
+    },
+
+  },
+  "ghostButton path": {
+    fill: colors.primary,
+  },
+  "ghostButton:hover path": {
+    fill: colors.primaryClear,
+  },
+})

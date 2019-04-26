@@ -1,5 +1,7 @@
 import * as React from "react"
-import * as styles from "./LinkButton.css"
+import { StyleSheet, CSSProperties } from "aphrodite/no-important"
+
+import { colors } from "~/guideStyles"
 import { BaseButton } from "~/components/buttons/BaseButton"
 
 interface Props {
@@ -11,7 +13,7 @@ interface Props {
 export function LinkButton({ href, children, disable, onClick }: React.PropsWithChildren<Props>) {
   return (
     <BaseButton
-      className={styles.linkButton}
+      style={styles.linkButton}
       disable={disable}
       href={href}
       onClick={onClick}
@@ -20,3 +22,15 @@ export function LinkButton({ href, children, disable, onClick }: React.PropsWith
     </BaseButton>
   )
 }
+
+const styles = StyleSheet.create<Record<string, CSSProperties>>({
+  linkButton: {
+    color: colors.primary,
+    ":hover": {
+      textDecoration: "underline",
+    },
+    ":focus": {
+      textDecoration: "underline",
+    },
+  },
+})

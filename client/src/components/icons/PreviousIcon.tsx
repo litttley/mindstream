@@ -1,5 +1,5 @@
 import * as React from "react"
-import { IconProps } from "./IconProps"
+import { IconProps } from "./iconProps"
 
 export function PreviousIcon({ className, color = "#FFFFFF", width = 34, height = 34 }: IconProps) {
   return (

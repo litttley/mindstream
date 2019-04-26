@@ -1,35 +1,87 @@
 import * as React from "react"
-import classNames from "classnames"
-import * as styles from "./Layout.css"
+import { StyleSheet, css, CSSProperties } from "aphrodite/no-important"
+
+import { useIntlMessage } from "~/hooks/useIntlMessage"
+import { useMenuToggle } from "~/states/AppState"
+import { useMyRssSources } from "~/rssSources/RssSourcesState"
+import { colors } from "~/guideStyles"
+import { api } from "~/services/api"
+import * as router from "~/router"
 import { Header } from "./Header"
 import { Menu } from "~/components/Menu"
 import { MyRssSources } from "~/rssSources/components/MyRssSources"
-import { useIntlMessage } from "~/hooks/useIntlMessage"
-import { useMenuToggle } from "~/app/AppState"
-import { useMyRssSources } from "~/rssSources/RssSourcesState"
-import { api } from "~/services/Api"
-import * as router from "~/router"
 
 export function Layout({ children }: React.PropsWithChildren<{}>) {
   const { loadMySources, myRssSources } = useMyRssSources()
+  const { isMenuOpen, menuToggle } = useMenuToggle()
   const message = useIntlMessage()
+
   React.useEffect(() => {
     loadMySources()
   }, [])
-  const { isMenuOpen, menuToggle } = useMenuToggle()
+
+  const logout = React.useCallback(() => api.logout().then(() => router.replace("/login")), [])
 
   return (
-    <div className={styles.layout}>
-      <div className={classNames(styles.menu, { [styles.menuOpen]: isMenuOpen })}>
-        <Menu logout={() => api.logout().then(() => router.replace("/login"))} />
+    <div className={css(styles.layout)}>
+      <div className={css(styles.menu, isMenuOpen ? styles.menuOpen : undefined)}>
+        <Menu logout={logout} />
         <MyRssSources title={message("myRssSources")} myRssSources={myRssSources} />
       </div>
-      <div className={classNames(styles.header, { [styles.headerMenuOpen]: isMenuOpen })}>
+      <div className={css(styles.header, isMenuOpen ? styles.headerMenuOpen : undefined)}>
         <Header appName="Mindstream" isMenuOpen={isMenuOpen} onMenuToggle={menuToggle} />
       </div>
-      <div className={classNames(styles.content, { [styles.contentMenuOpen]: isMenuOpen })}>
+      <div className={css(styles.content, isMenuOpen ? styles.contentMenuOpen : undefined)}>
         {children}
       </div>
     </div>
   )
 }
+
+const styles = StyleSheet.create<Record<string, CSSProperties>>({
+  layout: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  header: {
+    position: "fixed",
+    height: 55,
+    top: 0,
+    left: 0,
+    right: 0,
+    transition: "margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms",
+  },
+  headerMenuOpen: {
+    marginLeft: 260,
+  },
+  menu: {
+    position: "fixed",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    width: 260,
+    overflowY: "auto",
+    transition: "margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms",
+    backgroundColor: colors.primaryClear,
+    marginLeft: -260,
+    borderRightWidth: 1,
+    borderRightStyle: "solid",
+    borderRightColor: colors.secondaryClear,
+  },
+  menuOpen: {
+    marginLeft: 0,
+  },
+  content: {
+    width: "100%",
+    flexGrow: 1,
+    backgroundColor: colors.primaryClear,
+    marginTop: 60,
+    transition: "margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms",
+  },
+  contentMenuOpen: {
+    marginLeft: 0,
+    "@media screen and (min-width: 480px)": {
+      marginLeft: 260,
+    },
+  },
+})

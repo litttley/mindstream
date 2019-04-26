@@ -1,5 +1,5 @@
 import * as React from "react"
-import { IconProps } from "./IconProps"
+import { IconProps } from "./iconProps"
 
 export function LoaderIcon({ className, color = "#000000", width = 24, height = 24 }: IconProps) {
   return (

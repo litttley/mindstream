@@ -1,8 +1,9 @@
-use bcrypt::{hash, verify, BcryptError, DEFAULT_COST};
+use uuid::Uuid;
 use chrono::prelude::*;
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
-use uuid::Uuid;
+use diesel::{Queryable, Insertable};
+use bcrypt::{hash, verify, BcryptError, DEFAULT_COST};
 
 use crate::errors::Error;
 use crate::schema::users;

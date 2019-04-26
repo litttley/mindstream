@@ -1,9 +1,9 @@
 import * as React from "react"
-import { MyRssSource, RssSource } from "~/models/RssSource"
-import { createStore } from "~/store"
-import { api } from "~/services/Api"
+import { MyRssSource, RssSource } from "~/models/rssSource"
+import { createStore } from "~/Store"
+import { api } from "~/services/api"
 import debounce from "lodash.debounce"
-import { RssFeed } from "~/models/RssFeed"
+import { RssFeed } from "~/models/rssFeed"
 
 export interface RssSourcesState {
   loading: boolean
@@ -33,8 +33,7 @@ export function useMyRssSources() {
       .catch(error => update({ loading: false }))
   }
 
-  const isFollowed = (rssSource: RssSource) =>
-    state.myRssSources.find(s => s.rss_source.uuid === rssSource.uuid) !== undefined
+  const isFollowed = (rssSource: RssSource) => state.myRssSources.find(s => s.rss_source.uuid === rssSource.uuid) !== undefined
 
   const decrementRssSource = (rssFeed: RssFeed) => {
     update({ myRssSources: state.myRssSources.map(myRssSource => {
