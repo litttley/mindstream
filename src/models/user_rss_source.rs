@@ -1,11 +1,13 @@
-use crate::schema::users_rss_sources;
-use serde::{Deserialize, Serialize};
 use uuid::Uuid;
+use serde::{Deserialize, Serialize};
 use crate::models::{
     user::User,
     rss_source::RssSource,
     rss_source_category::RssSourceCategory,
 };
+use diesel::{Queryable, Insertable};
+
+use crate::schema::users_rss_sources;
 
 #[derive(Debug, PartialEq, Deserialize, Serialize, Queryable, Insertable)]
 #[table_name = "users_rss_sources"]
@@ -19,7 +21,7 @@ pub struct UserRssSource {
 
 impl UserRssSource {
     pub fn new(user: &User, rss_source: &RssSource, rss_source_category: &RssSourceCategory) -> Self {
-        UserRssSource {
+        Self {
             uuid: Uuid::new_v4(),
             unreaded: 0,
             user_uuid: user.uuid,

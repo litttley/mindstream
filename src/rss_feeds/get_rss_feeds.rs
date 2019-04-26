@@ -1,4 +1,4 @@
-use ::actix::prelude::*;
+use actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Query, State};
 use futures::future::Future;
 use log::debug;
@@ -6,11 +6,12 @@ use serde::Deserialize;
 use serde_json;
 use serde_json::json;
 use uuid::Uuid;
+use derive_new::new;
 
 use crate::app::app_state::AppState;
 use crate::app::config;
 use crate::app::db::DbExecutor;
-use crate::auth::auth::Auth;
+use crate::auth::Auth;
 use crate::errors::Error;
 use crate::models::rss_feed::RssFeed;
 use crate::models::user::User;
@@ -25,16 +26,10 @@ pub struct RssFeedsQuery {
     pub reaction: Option<Reaction>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, new, Deserialize)]
 pub struct GetRssFeeds {
     pub user: User,
     pub query: RssFeedsQuery,
-}
-
-impl GetRssFeeds {
-    pub fn new(query: RssFeedsQuery, user: User) -> Self {
-        Self { query, user }
-    }
 }
 
 impl Message for GetRssFeeds {
@@ -72,8 +67,8 @@ pub fn get_rss_feeds(
     state
         .db
         .send(GetRssFeeds::new(
+            auth.claime.user,
             query.into_inner(),
-            auth.claime.user.clone(),
         ))
         .from_err()
         .and_then(|res| match res {

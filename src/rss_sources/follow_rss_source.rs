@@ -1,14 +1,15 @@
-use ::actix::prelude::*;
+use actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Path, State};
 use diesel::Connection;
 use futures::future::Future;
 use serde::Deserialize;
 use serde_json::json;
 use uuid::Uuid;
+use derive_new::new;
 
 use crate::app::app_state::AppState;
 use crate::app::db::DbExecutor;
-use crate::auth::auth::Auth;
+use crate::auth::Auth;
 use crate::errors::{ApiError, Error};
 use crate::models::rss_source::RssSource;
 use crate::models::user::User;
@@ -17,19 +18,10 @@ use crate::repositories::rss_sources::find_by_uuid;
 use crate::repositories::users_rss_sources::{insert, is_exists};
 use crate::repositories::rss_sources_categories::find_rss_sources_categories;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, new, Deserialize)]
 pub struct FollowRssSource {
     rss_source_uuid: Uuid,
     user: User,
-}
-
-impl FollowRssSource {
-    pub fn new(rss_source_uuid: Uuid, user: User) -> Self {
-        FollowRssSource {
-            rss_source_uuid,
-            user,
-        }
-    }
 }
 
 type ResultType = Result<(RssSource, UserRssSource), Error>;
@@ -67,7 +59,7 @@ pub fn follow_rss_source(
         .db
         .send(FollowRssSource::new(
             uuid.into_inner(),
-            auth.claime.user.clone(),
+            auth.claime.user,
         ))
         .from_err()
         .and_then(|res| match res {

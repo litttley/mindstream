@@ -1,6 +1,7 @@
 import * as React from "react"
-import * as styles from "./RssSourcesList.css"
-import { RssSource } from "~/models/RssSource"
+import { StyleSheet, css, CSSProperties } from "aphrodite/no-important"
+
+import { RssSource } from "~/models/rssSource"
 import { RssSourceCard } from "./RssSourceCard"
 import { Empty } from "~/components/Empty"
 import { Loader } from "~/components/Loader"
@@ -14,13 +15,16 @@ interface Props {
 
 export function RssSourcesList({ rssSources, followSource, loading }: Props) {
   const { isFollowed } = useMyRssSources()
+
+  const unfollowRssSource = () => { /* TODO */ }
+
   const List = rssSources.map(rssSource => (
     <RssSourceCard
       isFollowed={isFollowed(rssSource)}
       key={rssSource.uuid}
       rssSource={rssSource}
       followRssSource={followSource}
-      unfollowRssSource={() => { /* TODO */ }}
+      unfollowRssSource={unfollowRssSource}
     />
   ))
 
@@ -28,5 +32,11 @@ export function RssSourcesList({ rssSources, followSource, loading }: Props) {
 
   const content = loading ? <Loader /> : list
 
-  return <div className={styles.rssSourcesList}>{content}</div>
+  return <div className={css(styles.rssSourcesList)}>{content}</div>
 }
+
+const styles = StyleSheet.create<Record<string, CSSProperties>>({
+  rssSourcesList: {
+    padding: 20,
+  },
+})
