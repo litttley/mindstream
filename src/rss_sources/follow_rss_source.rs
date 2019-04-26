@@ -5,6 +5,7 @@ use futures::future::Future;
 use serde::Deserialize;
 use serde_json::json;
 use uuid::Uuid;
+use derive_new::new;
 
 use crate::app::app_state::AppState;
 use crate::app::db::DbExecutor;
@@ -16,19 +17,10 @@ use crate::models::user_rss_source::UserRssSource;
 use crate::repositories::rss_sources::find_by_uuid;
 use crate::repositories::users_rss_sources::{insert, is_exists};
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, new, Deserialize)]
 pub struct FollowRssSource {
     rss_source_uuid: Uuid,
     user: User,
-}
-
-impl FollowRssSource {
-    pub const fn new(rss_source_uuid: Uuid, user: User) -> Self {
-        FollowRssSource {
-            rss_source_uuid,
-            user,
-        }
-    }
 }
 
 type ResultType = Result<(RssSource, UserRssSource), Error>;

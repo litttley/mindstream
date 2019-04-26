@@ -1,19 +1,14 @@
 use actix_web::Error;
 use actix_web::{FromRequest, HttpMessage, HttpRequest};
+use derive_new::new;
 
 use crate::app::config;
 use crate::auth::jwt::{decode_token, Claime};
 use crate::errors;
 
-#[derive(Debug)]
+#[derive(Debug, new)]
 pub struct Auth {
     pub claime: Claime,
-}
-
-impl Auth {
-    const fn new(claime: Claime) -> Self {
-        Auth { claime }
-    }
 }
 
 impl<S> FromRequest<S> for Auth

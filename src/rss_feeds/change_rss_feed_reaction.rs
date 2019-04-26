@@ -3,6 +3,7 @@ use actix_web::{AsyncResponder, HttpResponse, Json, State};
 use futures::future::Future;
 use serde::Deserialize;
 use uuid::Uuid;
+use derive_new::new;
 
 use crate::app::app_state::AppState;
 use crate::app::db::DbExecutor;
@@ -22,16 +23,10 @@ pub struct ChangeRssFeedReactionQuery {
     pub reaction: Reaction,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, new, Deserialize)]
 pub struct ChangeRssFeedReaction {
     pub user: User,
     pub query: ChangeRssFeedReactionQuery,
-}
-
-impl ChangeRssFeedReaction {
-    pub const fn new(query: ChangeRssFeedReactionQuery, user: User) -> Self {
-        Self { query, user }
-    }
 }
 
 impl Message for ChangeRssFeedReaction {
@@ -65,8 +60,8 @@ pub fn change_rss_feed_reaction(
     state
         .db
         .send(ChangeRssFeedReaction::new(
-            json.into_inner(),
             auth.claime.user,
+            json.into_inner(),
         ))
         .from_err()
         .and_then(|res| match res {

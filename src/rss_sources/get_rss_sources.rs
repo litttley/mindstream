@@ -2,6 +2,7 @@ use ::actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Query, State};
 use futures::future::Future;
 use serde::Deserialize;
+use derive_new::new;
 
 use crate::app::app_state::AppState;
 use crate::app::config;
@@ -11,15 +12,9 @@ use crate::models::pagination::Pagination;
 use crate::models::rss_source::RssSource;
 use crate::repositories::rss_sources::find_rss_sources;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, new, Deserialize)]
 pub struct GetRssSources {
     pub pagination: Pagination,
-}
-
-impl GetRssSources {
-    pub const fn new(pagination: Pagination) -> Self {
-        Self { pagination }
-    }
 }
 
 impl Message for GetRssSources {
