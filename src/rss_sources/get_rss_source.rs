@@ -1,4 +1,4 @@
-use ::actix::prelude::*;
+use actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Path, State};
 use futures::future::Future;
 use serde::Deserialize;

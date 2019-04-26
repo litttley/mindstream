@@ -28,10 +28,10 @@ extern crate diesel;
 #[macro_use]
 extern crate diesel_migrations;
 
-use ::actix::prelude::*;
-use ::actix_web::middleware::Logger;
-use ::actix_web::{http::Method, server, App, HttpResponse};
-use ::log::info;
+use actix::prelude::*;
+use actix_web::middleware::Logger;
+use actix_web::{http::Method, server, App, HttpResponse};
+use log::info;
 use dotenv::dotenv;
 
 mod app;

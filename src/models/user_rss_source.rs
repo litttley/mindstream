@@ -1,6 +1,8 @@
-use crate::schema::users_rss_sources;
-use serde::{Deserialize, Serialize};
 use uuid::Uuid;
+use serde::{Deserialize, Serialize};
+use diesel::{Queryable, Insertable};
+
+use crate::schema::users_rss_sources;
 
 #[derive(Debug, PartialEq, Deserialize, Serialize, Queryable, Insertable)]
 #[table_name = "users_rss_sources"]
