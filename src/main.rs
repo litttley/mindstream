@@ -10,7 +10,6 @@
     clippy::correctness
 )]
 #![allow(
-    clippy::module_inception,
     clippy::too_many_arguments,
     clippy::missing_docs_in_private_items,
     clippy::use_self,
@@ -37,6 +36,7 @@ use dotenv::dotenv;
 mod app;
 mod assets;
 mod auth;
+mod jwt;
 mod errors;
 mod models;
 mod repositories;
@@ -50,7 +50,7 @@ mod users;
 use crate::app::app_state::AppState;
 use crate::app::config;
 use crate::app::db::{create_diesel_pool, DbExecutor};
-use crate::auth::auth::Auth;
+use crate::auth::Auth;
 use crate::rss_feeds::change_rss_feed_reaction::change_rss_feed_reaction;
 use crate::rss_feeds::get_rss_feeds::get_rss_feeds;
 use crate::rss_feeds_job::run_rss_job;

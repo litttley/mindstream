@@ -9,7 +9,7 @@ use validator_derive::Validate;
 use crate::app::app_state::AppState;
 use crate::app::config;
 use crate::app::db::DbExecutor;
-use crate::auth::jwt::{create_token, Token};
+use crate::jwt::{create_token, Token};
 use crate::errors::Error;
 use crate::models::user::{verify_password, User};
 use crate::repositories::users;

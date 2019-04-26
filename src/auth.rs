@@ -3,7 +3,7 @@ use actix_web::{FromRequest, HttpMessage, HttpRequest};
 use derive_new::new;
 
 use crate::app::config;
-use crate::auth::jwt::{decode_token, Claime};
+use crate::jwt::{decode_token, Claime};
 use crate::errors;
 
 #[derive(Debug, new)]

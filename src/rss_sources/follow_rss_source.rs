@@ -9,7 +9,7 @@ use derive_new::new;
 
 use crate::app::app_state::AppState;
 use crate::app::db::DbExecutor;
-use crate::auth::auth::Auth;
+use crate::auth::Auth;
 use crate::errors::{ApiError, Error};
 use crate::models::rss_source::RssSource;
 use crate::models::user::User;
