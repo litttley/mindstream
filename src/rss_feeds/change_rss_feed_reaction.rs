@@ -1,12 +1,13 @@
-use ::actix::prelude::*;
+use actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Json, State, Path};
 use futures::future::Future;
 use serde::Deserialize;
 use uuid::Uuid;
+use derive_new::new;
 
 use crate::app::app_state::AppState;
 use crate::app::db::DbExecutor;
-use crate::auth::auth::Auth;
+use crate::auth::Auth;
 use crate::errors::Error;
 use crate::models::user::User;
 use crate::models::user_rss_feed::UserRssFeed;
@@ -17,17 +18,11 @@ use crate::repositories::{
     users_rss_sources::decrement_unreaded_rss_sources,
 };
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, new, Deserialize)]
 pub struct ChangeRssFeedReaction {
     pub rss_feed_uuid: Uuid,
     pub reaction: RssFeedsReaction,
     pub user: User,
-}
-
-impl ChangeRssFeedReaction {
-    pub fn new(rss_feed_uuid: Uuid, reaction: RssFeedsReaction, user: User) -> Self {
-        Self { rss_feed_uuid, reaction, user }
-    }
 }
 
 impl Message for ChangeRssFeedReaction {
@@ -60,7 +55,7 @@ pub fn change_rss_feed_reaction(
         .send(ChangeRssFeedReaction::new(
             rss_feed_uuid.into_inner(),
             reaction.into_inner(),
-            auth.claime.user.clone(),
+            auth.claime.user,
         ))
         .from_err()
         .and_then(|res| match res {

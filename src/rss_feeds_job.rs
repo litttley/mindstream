@@ -55,7 +55,7 @@ fn process_rss_source(
             for rss in &feeds_channel.entries {
                 for link in &rss.alternate {
                     let rss_url = link.href.clone();
-                    let resolved_url = resolve_url(&rss_url, client).map(|url| url.into_string());
+                    let resolved_url = resolve_url(&rss_url, client).map(Url::into_string);
                     if !is_rss_feed_exists(connection, &rss_url)? {
                         let readable = fetch_readable(client, &rss_url)
                             .ok()

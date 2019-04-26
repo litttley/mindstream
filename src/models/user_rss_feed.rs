@@ -2,6 +2,7 @@ use uuid::Uuid;
 use chrono::prelude::*;
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
+use diesel::{Queryable, Insertable};
 
 use crate::schema::users_rss_feeds;
 

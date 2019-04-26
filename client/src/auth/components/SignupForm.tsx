@@ -1,13 +1,14 @@
 import * as React from "react"
-import * as styles from "./SignupForm.css"
-import Input from "~/components/Input"
-import { ApiErrors, getFieldErrorMessage } from "~/models/ApiError"
-import { Signup } from "~/models/Signup"
-import GhostdButton from "~/components/buttons/GhostButton"
+import { StyleSheet, css, CSSProperties } from "aphrodite/no-important"
+
+import { Signup } from "~/models/signup"
+import { ApiErrors, getFieldErrorMessage } from "~/models/apiError"
 import { useFormInput } from "~/hooks/useFormInput"
 import { useIntlMessage } from "~/hooks/useIntlMessage"
 import { useKeyDown } from "~/hooks/useKeyDown"
-import FormErrors from "./FormErrors"
+import { FormErrors } from "./FormErrors"
+import { Input } from "~/components/Input"
+import { GhostdButton } from "~/components/buttons/GhostButton"
 
 interface Props {
   loading: boolean
@@ -15,7 +16,7 @@ interface Props {
   onSubmit: (signup: Signup) => void
 }
 
-export default function SignupForm({ loading, errors, onSubmit }: Props) {
+export function SignupForm({ loading, errors, onSubmit }: Props) {
   const loginInput = useFormInput("")
   const emailInput = useFormInput("")
   const passwordInput = useFormInput("")
@@ -27,8 +28,10 @@ export default function SignupForm({ loading, errors, onSubmit }: Props) {
     }
   })
 
+  const onClick = () => onSubmit({ login: loginInput.value, email: emailInput.value, password: passwordInput.value })
+
   return (
-    <div className={styles.signupForm}>
+    <div className={css(styles.signupForm)}>
       <Input
         {...loginInput}
         label={message("form.login")}
@@ -48,12 +51,27 @@ export default function SignupForm({ loading, errors, onSubmit }: Props) {
         error={getFieldErrorMessage("password", message, errors)}
       />
       <GhostdButton
-        className={styles.button}
+        style={styles.button}
         label={message("action.signup")}
         loading={loading}
-        onClick={() => onSubmit({ login: loginInput.value, email: emailInput.value, password: passwordInput.value })}
+        onClick={onClick}
       />
       <FormErrors errors={errors} />
     </div>
   )
 }
+
+const styles = StyleSheet.create<Record<string, CSSProperties>>({
+  signupForm: {
+    width: "100%",
+    padding: "24px",
+    "@media screen and (min-width: 400px)": {
+      width: "400px",
+      alignSelf: "center",
+    },
+  },
+  button: {
+    width: "100%",
+    height: "40px",
+  },
+})

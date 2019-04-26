@@ -12,13 +12,13 @@ const STORAGE_AUTH_TOKEN_KEY = "AUTH_TOKEN"
 export class ApiService {
   private readonly instance: AxiosInstance
   private token?: string
-  constructor(baseURL?: string) {
+  public constructor(baseURL?: string) {
     this.instance = Axios.create({
       baseURL,
       timeout: 5 * 60 * 1000,
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
 
     const token = localStorage.getItem(STORAGE_AUTH_TOKEN_KEY)
@@ -34,6 +34,7 @@ export class ApiService {
       const token = localStorage.getItem(STORAGE_AUTH_TOKEN_KEY)
       if (token) {
         this.setToken(token)
+
         return token
       } else {
         return undefined
@@ -50,10 +51,12 @@ export class ApiService {
     return this.instance.request<AuthResponse>(config)
       .then(response => {
         this.setToken(response.data.token)
+
         return response.data
-      }).catch(error => {
-        return Promise.reject(error.response.data)
-      })
+      }).catch(error =>
+        // tslint:disable-next-line: no-unsafe-any
+        Promise.reject(error.response.data)
+      )
   }
 
   private withAuth<T>(config: AxiosRequestConfig): Promise<T> {
@@ -61,48 +64,49 @@ export class ApiService {
     if (token) {
       return this.instance.request<T>({ ...config, headers: {
         ...config.headers,
-        Authorization: token
+        Authorization: token,
       }}).then(response => response.data)
     } else {
       router.replace("/login")
+
       return Promise.reject()
     }
   }
 
-  login(login: Login): Promise<AuthResponse> {
+  public login(login: Login): Promise<AuthResponse> {
     return this.authenticate({ url: "/api/users/login", method: "POST", data: login })
   }
 
-  signup(signup: Signup): Promise<AuthResponse> {
+  public signup(signup: Signup): Promise<AuthResponse> {
     return this.authenticate({ url: "/api/users/signup", method: "POST", data: signup })
   }
 
-  logout(): Promise<void> {
+  public logout(): Promise<void> {
     return this.withAuth({ url: "/api/users/logout", method: "POST" })
       .then(() => router.replace("/login"))
       .catch(() => router.replace("/login"))
       .then(() => localStorage.removeItem(STORAGE_AUTH_TOKEN_KEY))
   }
 
-  loadMyRssSources(): Promise<MyRssSource[]> {
+  public loadMyRssSources(): Promise<MyRssSource[]> {
     return this.withAuth({ url: "/api/rss/sources", method: "GET" })
   }
 
-  searchRssSource(query: string): Promise<RssSource[]> {
+  public searchRssSource(query: string): Promise<RssSource[]> {
     return this.withAuth({
       url: `/api/rss/sources/search?query=${query}`,
       method: "GET",
     })
   }
 
-  getUnfollowedRssSources(): Promise<RssSource[]> {
+  public getUnfollowedRssSources(): Promise<RssSource[]> {
     return this.withAuth({
       url: `/api/rss/sources/unfollowed`,
       method: "GET",
     })
   }
 
-  followRssSource(rssSource: RssSource): Promise<MyRssSource> {
+  public followRssSource(rssSource: RssSource): Promise<MyRssSource> {
     return this.withAuth({
       url: `/api/rss/sources/${rssSource.uuid}/follow`,
       method: "POST",

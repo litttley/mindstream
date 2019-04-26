@@ -1,11 +1,12 @@
 import * as React from "react"
-import { User } from "~/models/User"
-import { createStore } from "~/store"
-import { ApiErrors } from "~/models/ApiError"
-import { api } from "~/services/Api"
+
 import * as router from "~/router"
-import { Signup } from "~/models/Signup"
-import { Login } from "~/models/Login"
+import { createStore } from "~/Store"
+import { api } from "~/services/api"
+import { User } from "~/models/user"
+import { Signup } from "~/models/signup"
+import { Login } from "~/models/login"
+import { ApiErrors } from "~/models/apiError"
 
 export interface AuthState {
   user?: User
@@ -32,6 +33,7 @@ export function useLogin() {
         router.replace("/")
       })
       .catch(loginErrors => {
+        // tslint:disable-next-line: no-unsafe-any
         update({ loginErrors, loading: false })
       })
   }
@@ -39,7 +41,7 @@ export function useLogin() {
   return {
     loading: state.loading,
     loginErrors: state.loginErrors,
-    loginSubmit
+    loginSubmit,
   }
 }
 
@@ -54,6 +56,7 @@ export function useSignup() {
         router.replace("/")
       })
       .catch(signupErrors => {
+        // tslint:disable-next-line: no-unsafe-any
         update({ signupErrors, loading: false })
       })
   }
@@ -61,6 +64,6 @@ export function useSignup() {
   return {
     loading: state.loading,
     signupErrors: state.signupErrors,
-    signupSubmit
+    signupSubmit,
   }
 }

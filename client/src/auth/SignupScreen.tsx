@@ -1,11 +1,12 @@
 import * as React from "react"
-import SignupForm from "~/auth/components/SignupForm"
-import AuthLayout from "~/auth/components/AuthLayout"
-import LinkButton from "~/components/buttons/LinkButton"
+
 import { useSignup } from "~/auth/AuthState"
 import { useIntlMessage } from "~/hooks/useIntlMessage"
+import { LinkButton } from "~/components/buttons/LinkButton"
+import { SignupForm } from "~/auth/components/SignupForm"
+import { AuthLayout } from "~/auth/components/AuthLayout"
 
-export default function SignupScreen() {
+export function SignupScreen() {
   const { loading, signupErrors, signupSubmit } = useSignup()
   const message = useIntlMessage()
 

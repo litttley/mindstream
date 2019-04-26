@@ -1,6 +1,8 @@
 import * as React from "react"
-import * as styles from "./Header.css"
-import MenuIcon from "./icons/MenuIcon"
+import { StyleSheet, css, CSSProperties } from "aphrodite/no-important"
+
+import { colors } from "~/guideStyles"
+import { MenuIcon } from "./icons/MenuIcon"
 
 interface Props {
   appName: string
@@ -8,23 +10,44 @@ interface Props {
   isMenuOpen?: boolean
 }
 
-export default class Header extends React.PureComponent<Props> {
-  render() {
-    const { appName } = this.props
-    return (
-      <div className={styles.header}>
-        <div className={styles.menuToggle} onClick={this.handleOnMenuToggle}>
-          <MenuIcon />
-        </div>
-        <div className={styles.appName}>
-          <div>{appName}</div>
-        </div>
-      </div>
-    )
-  }
+export function Header({ appName, isMenuOpen, onMenuToggle }: Props) {
+  const handleOnMenuToggle = React.useCallback(() => onMenuToggle(!isMenuOpen), [isMenuOpen])
 
-  handleOnMenuToggle = () => {
-    const { onMenuToggle, isMenuOpen } = this.props
-    onMenuToggle(!isMenuOpen)
-  }
+  return (
+    <div className={css(styles.header)}>
+      <div className={css(styles.menuToggle)} onClick={handleOnMenuToggle}>
+        <MenuIcon />
+      </div>
+      <div className={css(styles.appName)}>
+        <div>{appName}</div>
+      </div>
+    </div>
+  )
 }
+
+const styles = StyleSheet.create<Record<string, CSSProperties>>({
+  appName: {
+    display: "flex",
+    alignItems: "center",
+  },
+  header: {
+    display: "flex",
+    height: 55,
+    alignContent: "center",
+    borderBottomWidth: 1,
+    borderBottomStyle: "solid",
+    borderBottomColor: colors.secondaryClear,
+    backgroundColor: colors.primaryClear,
+    "@media screen and (min-width: 760px)": {
+      display: "flex",
+      alignContent: "center",
+    },
+  },
+  menuToggle: {
+    display: "flex",
+    alignItems: "center",
+    paddingLeft: 15,
+    paddingRight: 15,
+    cursor: "pointer",
+  },
+})

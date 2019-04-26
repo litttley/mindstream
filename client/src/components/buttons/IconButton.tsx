@@ -1,21 +1,21 @@
 import * as React from "react"
-import classNames from "classnames"
-import * as styles from "./IconButton.css"
-import BaseButton from "~/components/buttons/BaseButton"
+import { StyleSheet, CSSProperties, StyleDeclarationValue } from "aphrodite/no-important"
+
+import { BaseButton } from "~/components/buttons/BaseButton"
 
 interface Props {
   loading?: boolean
   disable?: boolean
   href?: string
-  className?: string
+  style?: StyleDeclarationValue
   onClick?: () => void
 }
 
-const IconButton: React.FunctionComponent<Props> = ({ children, loading, disable, href, onClick, className }) => {
+export function IconButton({ children, loading, disable, href, onClick, style }: React.PropsWithChildren<Props>) {
   return (
     <BaseButton
       loading={loading}
-      className={classNames(styles.iconButton, className)}
+      style={[styles.iconButton, style]}
       disable={disable}
       href={href}
       onClick={onClick}
@@ -25,4 +25,10 @@ const IconButton: React.FunctionComponent<Props> = ({ children, loading, disable
   )
 }
 
-export default IconButton
+const styles = StyleSheet.create<Record<string, CSSProperties>>({
+  iconButton: {
+    border: "none",
+    padding: 0,
+    margin: 0,
+  },
+})

@@ -1,13 +1,31 @@
 import * as React from "react"
-import * as styles from "./AuthLayout.css"
+import { StyleSheet, css, CSSProperties } from "aphrodite/no-important"
 
-const AuthLayout: React.FunctionComponent = ({ children }) => {
+import { colors } from "~/guideStyles"
+
+export function AuthLayout({ children }: React.PropsWithChildren<{}>) {
   return (
-    <div className={styles.authLayout}>
-      <h1 className={styles.appName}>Mindstream</h1>
+    <div className={css(styles.authLayout)}>
+      <h1 className={css(styles.appName)}>Mindstream</h1>
       {children}
     </div>
   )
 }
 
-export default AuthLayout
+const styles = StyleSheet.create<Record<string, CSSProperties>>({
+  authLayout: {
+    display: "flex",
+    flex: 1,
+    minHeight: "100vh",
+    flexDirection: "column",
+  },
+  appName: {
+    fontSize: "1.5rem",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontFamily: "'Times New Roman', Times, serif",
+    textTransform: "uppercase",
+    color: colors.primary,
+    margin: "40px 0",
+  },
+})

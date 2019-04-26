@@ -1,7 +1,7 @@
 import * as React from "react"
-import { IconProps } from "./IconProps"
+import { IconProps } from "./iconProps"
 
-export default function LoaderIcon({ className, color = "#000000", width = 24, height = 24 }: IconProps) {
+export function LoaderIcon({ className, color = "#000000", width = 24, height = 24 }: IconProps) {
   return (
     <svg className={className} width={width} height={height} viewBox="0 0 40 40" enableBackground="new 0 0 40 40">
       <path

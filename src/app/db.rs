@@ -2,14 +2,11 @@ use actix::{Actor, SyncContext};
 use diesel::PgConnection;
 use r2d2::Pool;
 use r2d2_diesel::ConnectionManager;
+use derive_new::new;
 
+#[derive(new)]
 pub struct DbExecutor {
     pub pool: Pool<ConnectionManager<PgConnection>>,
-}
-impl DbExecutor {
-    pub fn new(pool: Pool<ConnectionManager<PgConnection>>) -> Self {
-        DbExecutor { pool }
-    }
 }
 
 impl Actor for DbExecutor {

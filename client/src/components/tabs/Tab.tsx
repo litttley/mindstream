@@ -5,5 +5,4 @@ export interface Props {
   label: string
 }
 
-const Tab: React.FunctionComponent<Props> = ({ children }) => <> {children} </>
-export default Tab
+export const Tab: React.FunctionComponent<Props> = ({ children }) => <> {children} </>

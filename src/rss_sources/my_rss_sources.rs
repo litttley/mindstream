@@ -1,13 +1,14 @@
-use ::actix::prelude::*;
+use actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Query, State};
 use futures::future::Future;
 use serde::Deserialize;
 use serde_json::{json, Value};
+use derive_new::new;
 
 use crate::app::app_state::AppState;
 use crate::app::config;
 use crate::app::db::DbExecutor;
-use crate::auth::auth::Auth;
+use crate::auth::Auth;
 use crate::errors::Error;
 use crate::models::pagination::Pagination;
 use crate::models::rss_source::RssSource;
@@ -15,16 +16,10 @@ use crate::models::user::User;
 use crate::models::user_rss_source::UserRssSource;
 use crate::repositories::users_rss_sources::rss_sources_by_user;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, new, Deserialize)]
 pub struct MyRssSources {
     user: User,
     pagination: Pagination,
-}
-
-impl MyRssSources {
-    pub fn new(pagination: Pagination, user: User) -> Self {
-        Self { pagination, user }
-    }
 }
 
 impl Message for MyRssSources {
@@ -53,8 +48,8 @@ pub fn my_rss_sources(
     state
         .db
         .send(MyRssSources::new(
+            auth.claime.user,
             pagination.into_inner(),
-            auth.claime.user.clone(),
         ))
         .from_err()
         .and_then(|res| match res {

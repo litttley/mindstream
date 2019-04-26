@@ -1,8 +1,9 @@
+use uuid::Uuid;
+use feed_rs::Feed;
 use chrono::prelude::*;
 use chrono::NaiveDateTime;
-use feed_rs::Feed;
 use serde::{Deserialize, Serialize};
-use uuid::Uuid;
+use diesel::{Queryable, Insertable};
 
 use crate::schema::rss_sources;
 
@@ -38,7 +39,7 @@ impl RssSource {
         topics: Option<Vec<String>>,
         last_updated: Option<NaiveDateTime>,
     ) -> Self {
-        RssSource {
+        Self {
             uuid: Uuid::new_v4(),
             url: url.to_owned(),
             title: title.to_owned(),

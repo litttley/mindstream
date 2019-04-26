@@ -1,11 +1,11 @@
 import * as React from "react"
-import { RssFeedsResponse } from "~/models/RssFeedsResponse"
-import Layout from "~/components/Layout"
-import RssFeeds from "./components/RssFeeds"
+import { RssFeedsResponse } from "~/models/rssFeedsResponse"
+import { Layout } from "~/components/Layout"
+import { RssFeeds } from "./components/RssFeeds"
 import * as router from "~/router"
 import { useLikedRssFeeds } from "./RssFeedsState"
 
-export default function LikedRssFeedsScreen() {
+export function LikedRssFeedsScreen() {
   const { likedFeeds, getLikedRssFeeds } = useLikedRssFeeds()
 
   React.useEffect(() => {

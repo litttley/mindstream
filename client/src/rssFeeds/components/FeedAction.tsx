@@ -1,19 +1,36 @@
 import * as React from "react"
-import classNames from "classnames"
-import * as styles from "./FeedAction.css"
-import IconButton from "~/components/buttons/IconButton"
+import { StyleSheet, CSSProperties, StyleDeclarationValue } from "aphrodite/no-important"
+import { IconButton } from "~/components/buttons/IconButton"
+import { colors } from "~/guideStyles"
 
 interface FeedActionProps {
   icon: React.ReactNode
   loading: boolean
-  className: string
+  style: StyleDeclarationValue
   onClick: () => void
 }
 
-export default function FeedAction({ icon, loading, className, onClick }: FeedActionProps) {
+export function FeedAction({ icon, loading, style, onClick }: FeedActionProps) {
   return (
-    <IconButton className={classNames(styles.action, className)} loading={loading} onClick={onClick}>
+    <IconButton style={[styles.action, style]} loading={loading} onClick={onClick}>
       {icon}
     </IconButton>
   )
 }
+
+const styles = StyleSheet.create<Record<string, CSSProperties>>({
+  action: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    border: "none",
+    fontSize: ".8rem",
+    cursor: "pointer",
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    color: colors.primaryClear,
+  },
+})
