@@ -44,7 +44,7 @@ impl Handler<Signup> for DbExecutor {
 
 impl User {
     pub fn from_signup(signup: &Signup) -> Result<Self, Error> {
-        Ok(User::new_secure(
+        Ok(Self::new_secure(
             signup.login.clone(),
             signup.email.clone(),
             signup.password.clone(),

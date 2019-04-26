@@ -12,7 +12,6 @@
 #![allow(
     clippy::too_many_arguments,
     clippy::missing_docs_in_private_items,
-    clippy::use_self,
     clippy::multiple_inherent_impl,
     clippy::module_name_repetitions,
     clippy::wildcard_enum_match_arm,

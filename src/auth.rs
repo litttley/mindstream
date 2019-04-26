@@ -24,7 +24,7 @@ where
             .ok_or_else(|| errors::Error::Unauthorized)
             .and_then(|token| token.to_str().map_err(|_| errors::Error::Unauthorized))
             .and_then(|token| decode_token(token, &config::CONFIG.secret_key))
-            .map(Auth::new)
+            .map(Self::new)
             .map_err(Into::into)
     }
 }

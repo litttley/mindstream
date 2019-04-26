@@ -62,7 +62,7 @@ impl ResponseError for Error {
 }
 
 impl From<diesel::result::Error> for Error {
-    fn from(error: diesel::result::Error) -> Error {
+    fn from(error: diesel::result::Error) -> Self {
         error!("ERROR diesel = {:?}", error);
         match error {
             diesel::result::Error::DatabaseError(
@@ -76,14 +76,14 @@ impl From<diesel::result::Error> for Error {
 }
 
 impl From<actix::MailboxError> for Error {
-    fn from(error: actix::MailboxError) -> Error {
+    fn from(error: actix::MailboxError) -> Self {
         error!("ERROR actix mailbox = {:?}", error);
         Error::InternalError
     }
 }
 
 impl From<JsonPayloadError> for Error {
-    fn from(error: JsonPayloadError) -> Error {
+    fn from(error: JsonPayloadError) -> Self {
         error!("ERROR actix JsonPayloadError = {:?}", error);
         match error {
             JsonPayloadError::Deserialize(json_error) => {
@@ -95,43 +95,43 @@ impl From<JsonPayloadError> for Error {
 }
 
 impl From<r2d2::Error> for Error {
-    fn from(error: r2d2::Error) -> Error {
+    fn from(error: r2d2::Error) -> Self {
         error!("ERROR r2d2 = {:?}", error);
         Error::InternalError
     }
 }
 
 impl From<bcrypt::BcryptError> for Error {
-    fn from(error: bcrypt::BcryptError) -> Error {
+    fn from(error: bcrypt::BcryptError) -> Self {
         error!("ERROR bcrypt = {:?}", error);
         Error::InternalError
     }
 }
 
 impl From<jsonwebtoken::errors::Error> for Error {
-    fn from(error: jsonwebtoken::errors::Error) -> Error {
+    fn from(error: jsonwebtoken::errors::Error) -> Self {
         error!("ERROR jsonwebtoken = {:?}", error);
         Error::Unauthorized
     }
 }
 
 impl From<reqwest::Error> for Error {
-    fn from(error: reqwest::Error) -> Error {
+    fn from(error: reqwest::Error) -> Self {
         error!("ERROR reqwest = {:?}", error);
         Error::InternalError
     }
 }
 
 impl From<validator::ValidationErrors> for Error {
-    fn from(error: validator::ValidationErrors) -> Error {
+    fn from(error: validator::ValidationErrors) -> Self {
         error!("ERROR validator = {:?}", error);
         Error::BadRequest(error.into())
     }
 }
 
 impl From<validator::ValidationErrors> for ApiError {
-    fn from(errors: validator::ValidationErrors) -> ApiError {
+    fn from(errors: validator::ValidationErrors) -> Self {
         error!("ERROR validator = {:?}", errors);
-        ApiError::with_errors("validation.error", errors)
+        Self::with_errors("validation.error", errors)
     }
 }

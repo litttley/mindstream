@@ -39,7 +39,7 @@ impl RssSource {
         topics: Option<Vec<String>>,
         last_updated: Option<NaiveDateTime>,
     ) -> Self {
-        RssSource {
+        Self {
             uuid: Uuid::new_v4(),
             url: url.to_owned(),
             title: title.to_owned(),

@@ -49,7 +49,7 @@ impl<'de> Deserialize<'de> for Reaction {
         D: Deserializer<'de>,
     {
         let reaction = String::deserialize(deserializer)?;
-        let reaction = Reaction::from_str(&reaction).map_err(move |_| {
+        let reaction = Self::from_str(&reaction).map_err(move |_| {
             Error::unknown_field(
                 "reaction",
                 &[

@@ -15,7 +15,7 @@ pub struct UserRssSource {
 
 impl UserRssSource {
     pub fn new(user_uuid: Uuid, rss_source_uuid: Uuid) -> Self {
-        UserRssSource {
+        Self {
             uuid: Uuid::new_v4(),
             unreaded: 0,
             user_uuid,
