@@ -60,6 +60,7 @@ jobs:
           keys:
             - v1-cargo-cache-{{ arch }}-{{ checksum "Cargo.lock" }}
       
+      - run: apt install librdkafka-dev
       - run: rustup component add clippy
       - run: cargo clippy -- -D warnings
       - run: cargo test
