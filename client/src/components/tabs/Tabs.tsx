@@ -16,7 +16,7 @@ function isReactElement<T>(rc: React.ReactNode): rc is React.ReactElement<T> {
 }
 
 export function Tabs({ children, onChange, selectedTabName }: React.PropsWithChildren<Props>) {
-  const childrens = React.Children.map(children, ch => ch)
+  const childrens = React.Children.toArray(children)
   const tabs = childrens.filter(isReactElement)
   const labels = tabs.map(ch => ch.props as TabProps)
   const SelectedTab = tabs.find(ch => (ch.props as TabProps).name === selectedTabName)

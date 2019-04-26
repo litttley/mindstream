@@ -22,7 +22,7 @@ export function BaseButton(props: React.PropsWithChildren<Props>) {
     }
   }
 
-  const renderContent = () => {
+  const renderContent = (): React.ReactNode => {
     if (loading) {
       return renderLoader !== undefined ? renderLoader() : <LoaderIcon width={34} height={34} color="#FFFFFF" />
     } else {
