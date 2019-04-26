@@ -34,7 +34,7 @@ lazy_static! {
     pub static ref CONFIG: Config = {
         Config::init().unwrap_or_else(|err| {
             error!("{}", err);
-            ::std::process::exit(1);
+            std::process::exit(1);
         })
     };
 }

@@ -1,19 +1,14 @@
 use actix_web::Error;
 use actix_web::{FromRequest, HttpMessage, HttpRequest};
+use derive_new::new;
 
 use crate::app::config;
-use crate::auth::jwt::{decode_token, Claime};
+use crate::jwt::{decode_token, Claime};
 use crate::errors;
 
-#[derive(Debug)]
+#[derive(Debug, new)]
 pub struct Auth {
     pub claime: Claime,
-}
-
-impl Auth {
-    fn new(claime: Claime) -> Self {
-        Auth { claime }
-    }
 }
 
 impl<S> FromRequest<S> for Auth
@@ -29,7 +24,7 @@ where
             .ok_or_else(|| errors::Error::Unauthorized)
             .and_then(|token| token.to_str().map_err(|_| errors::Error::Unauthorized))
             .and_then(|token| decode_token(token, &config::CONFIG.secret_key))
-            .map(Auth::new)
-            .map_err(|e| e.into())
+            .map(Self::new)
+            .map_err(Into::into)
     }
 }

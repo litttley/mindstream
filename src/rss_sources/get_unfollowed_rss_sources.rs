@@ -1,28 +1,23 @@
-use ::actix::prelude::*;
+use actix::prelude::*;
 use actix_web::{AsyncResponder, HttpResponse, Query, State};
 use futures::future::Future;
 use serde::Deserialize;
+use derive_new::new;
 
 use crate::app::app_state::AppState;
 use crate::app::config;
 use crate::app::db::DbExecutor;
-use crate::auth::auth::Auth;
+use crate::auth::Auth;
 use crate::errors::Error;
 use crate::models::pagination::Pagination;
 use crate::models::rss_source::RssSource;
 use crate::models::user::User;
 use crate::repositories::users_rss_sources::find_unfollowed;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, new, Deserialize)]
 pub struct GetUnfollowedRssSources {
     pub pagination: Pagination,
     pub user: User,
-}
-
-impl GetUnfollowedRssSources {
-    pub fn new(pagination: Pagination, user: User) -> Self {
-        Self { pagination, user }
-    }
 }
 
 impl Message for GetUnfollowedRssSources {
@@ -52,7 +47,7 @@ pub fn get_unfollowed_rss_sources(
         .db
         .send(GetUnfollowedRssSources::new(
             pagination.into_inner(),
-            auth.claime.user.clone(),
+            auth.claime.user,
         ))
         .from_err()
         .and_then(|res| match res {

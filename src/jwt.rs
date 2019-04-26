@@ -1,22 +1,17 @@
 use jsonwebtoken::{decode, encode, Header, Validation};
 use serde::{Deserialize, Serialize};
+use derive_new::new;
 
 use crate::errors::Error;
 use crate::models::user::User;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, new, Serialize, Deserialize)]
 pub struct Claime {
     pub user: User,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Token(String);
-
-impl Claime {
-    pub fn new(user: User) -> Self {
-        Claime { user }
-    }
-}
 
 pub fn create_token(user: User, secret_key: &str) -> Result<Token, Error> {
     let claims = Claime::new(user);
