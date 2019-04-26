@@ -14,11 +14,9 @@
     clippy::module_name_repetitions,
     clippy::wildcard_enum_match_arm,
     clippy::implicit_return,
-
-    clippy::too_many_arguments,
-    clippy::missing_docs_in_private_items,
     clippy::multiple_crate_versions,
-    clippy::cargo_common_metadata,
+    clippy::missing_docs_in_private_items,
+    clippy::too_many_arguments,
 )]
 
 #[macro_use]

@@ -2,7 +2,13 @@
 name = "mindstream"
 version = "0.1.0"
 authors = ["Egor Berezovskiy <egor.neon@gmail.com>"]
+description = "Rss reader"
+repository = "https://github.com/Wadjetz/mindstream"
+readme = "README.md"
+license = "MIT"
+keywords = ["Rss"]
 edition = "2018"
+categories = ["web"]
 publish = false
 
 [profile.release]
