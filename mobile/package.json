@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "ios": "react-native run-ios",
-    "tsc": "tsc",
+    "tsc": "tsc --project tsconfig.json",
     "test": "jest",
     "tslint": "tslint --format stylish --project tsconfig.json",
     "tslint-fix": "npm run tslint -- --fix"
