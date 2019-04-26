@@ -19,14 +19,14 @@ const AuthNavigator = createStackNavigator({
     screen: LoginScreen,
     navigationOptions: ({ navigation }: NavigationScreenConfigProps) => ({
       title: "Login",
-      headerRight: <HeaderRight title="Signup" route="Signup" navigation={navigation} />
-    })
+      headerRight: <HeaderRight title="Signup" route="Signup" navigation={navigation} />,
+    }),
   },
   Signup: {
     screen: SignupScreen,
     navigationOptions: {
       title: "Signup",
-    }
+    },
   },
 })
 
@@ -34,7 +34,7 @@ const AppNavigator = createSwitchNavigator({
   Authorized: AuthorizedNavigator,
   Auth: AuthNavigator,
 }, {
-  initialRouteName: "Auth"
+  initialRouteName: "Auth",
 })
 
-export default createAppContainer(AppNavigator)
+export const App = createAppContainer(AppNavigator)

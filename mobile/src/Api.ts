@@ -10,6 +10,7 @@ export class Api {
     this.baseUrl = baseUrl
   }
 
+// tslint:disable-next-line: no-any
   public login(email: string, password: string): Promise<any> {
     return fetch(`${this.baseUrl}/api/users/login`, {
       method: "POST",
@@ -19,7 +20,6 @@ export class Api {
       },
       body: JSON.stringify({ email, password }),
     }).then(response => {
-      console.log("login", response, response.text)
       if (response.status >= 200 && response.status < 300) {
         return response.json()
       } else if (response.status === 400) {

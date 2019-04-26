@@ -45,6 +45,7 @@
     "jsx-curly-spacing": false,
     "jsx-boolean-value": false,
     "jsx-no-multiline-js": false,
-    "jsx-no-lambda": false
+    "jsx-no-lambda": false,
+    "type-literal-delimiter": false
   }
 }
