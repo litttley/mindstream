@@ -18,7 +18,7 @@ lto = false
 actix = "0.7.9"
 actix-web = "0.7.19"
 futures = "0.1.26"
-serde = {version = "1.0.90",features = ["derive"]}
+serde = {version = "1.0.91",features = ["derive"]}
 serde_json = "1.0.39"
 failure = "0.1.5"
 diesel = {version = "1.4.2",features = ["postgres","uuidv07","chrono","serde_json"]}
