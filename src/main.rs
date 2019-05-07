@@ -53,6 +53,7 @@ use crate::rss_feeds::get_rss_feeds::get_rss_feeds;
 use crate::rss_feeds_job::run_rss_job;
 use crate::rss_sources::add_rss_source::add_rss_source;
 use crate::rss_sources::follow_rss_source::follow_rss_source;
+use crate::rss_sources::unfollow_rss_source::unfollow_rss_source;
 use crate::rss_sources::get_rss_source::get_rss_source;
 use crate::rss_sources::get_rss_sources::get_rss_sources;
 use crate::rss_sources::get_unfollowed_rss_sources::get_unfollowed_rss_sources;
@@ -100,7 +101,10 @@ pub fn run() {
                 .resource("/rss/sources/search", |r| r.method(Method::GET).with(search_rss_source_handler))
                 .resource("/rss/sources/unfollowed", |r| r.method(Method::GET).with(get_unfollowed_rss_sources))
                 .resource("/rss/sources/public", |r| r.method(Method::GET).with(get_rss_sources))
-                .resource("/rss/sources/{uuid}", |r| r.method(Method::GET).with(get_rss_source))
+                .resource("/rss/sources/{uuid}", |r| {
+                    r.method(Method::GET).with(get_rss_source);
+                    r.method(Method::DELETE).with(unfollow_rss_source);
+                })
                 .resource("/rss/sources/{uuid}/follow", |r| r.method(Method::POST).with(follow_rss_source))
                 .resource("/rss/feeds", |r| r.method(Method::GET).with(get_rss_feeds))
                 .resource("/rss/feeds/reaction", |r| r.method(Method::PUT).with(change_rss_feed_reaction))

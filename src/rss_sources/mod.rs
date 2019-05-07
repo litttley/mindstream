@@ -5,3 +5,4 @@ pub mod get_rss_sources;
 pub mod get_unfollowed_rss_sources;
 pub mod my_rss_sources;
 pub mod search_rss_sources;
+pub mod unfollow_rss_source;

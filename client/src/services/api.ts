@@ -113,6 +113,13 @@ export class ApiService {
     })
   }
 
+  public unfollowRssSource(rssSource: RssSource): Promise<void> {
+    return this.withAuth({
+      url: `/api/rss/sources/${rssSource.uuid}`,
+      method: "DELETE",
+    })
+  }
+
   public getRssFeeds(reaction: Reaction, rssSourceUuid?: string): Promise<RssFeedsResponse[]> {
     return this.withAuth({
       url: `/api/rss/feeds${querystring({ reaction, rss_source_uuid: rssSourceUuid })}`,

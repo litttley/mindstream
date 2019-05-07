@@ -5,7 +5,7 @@ import { useSearchRssSources, useTopRssSources } from "./RssSourcesState"
 import { RssSourcesList } from "./components/RssSourcesList"
 
 export function RssSourcesScreen() {
-  const { clear, findedRssSources, searchRssSourceLoading, searchRssSources, followSources } = useSearchRssSources()
+  const { clear, findedRssSources, searchRssSourceLoading, searchRssSources, followRssSources, unfollowRssSource } = useSearchRssSources()
   const { topRssSources, isNoMyRssSources, getUnfollowedRssSources, getTopRssSourcesLoading } = useTopRssSources()
 
   React.useEffect(() => {
@@ -23,7 +23,12 @@ export function RssSourcesScreen() {
   return (
     <Layout>
       <SearchSourceForm onChange={searchRssSources} />
-      <RssSourcesList loading={loading} rssSources={rssSources} followSource={followSources} />
+      <RssSourcesList
+        loading={loading}
+        rssSources={rssSources}
+        followRssSource={followRssSources}
+        unfollowRssSource={unfollowRssSource}
+      />
     </Layout>
   )
 }

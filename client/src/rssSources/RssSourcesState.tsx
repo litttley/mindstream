@@ -95,7 +95,7 @@ export function useSearchRssSources() {
     }
   }, 600)
 
-  const followSources = (rssSource: RssSource) => {
+  const followRssSources = (rssSource: RssSource) => {
     update({ followRssSourceLoading: true })
     api.followRssSource(rssSource)
       .then(myRssSource => {
@@ -107,9 +107,22 @@ export function useSearchRssSources() {
       })
   }
 
+  const unfollowRssSource = (rssSource: RssSource) => {
+    update({ followRssSourceLoading: true })
+    api.unfollowRssSource(rssSource)
+      .then(myRssSource => {
+        update({ followRssSourceLoading: false, myRssSources: state.myRssSources.filter(s => s.rss_source.uuid !== rssSource.uuid) })
+      })
+      .catch(error => {
+        /* TODO */
+        update({ followRssSourceLoading: false })
+      })
+  }
+
   return {
     clear,
-    followSources,
+    followRssSources,
+    unfollowRssSource,
     searchRssSources,
     searchRssSourceLoading: state.searchRssSourceLoading,
     findedRssSources: state.findedRssSources,
