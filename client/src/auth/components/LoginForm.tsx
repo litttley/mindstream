@@ -1,14 +1,15 @@
 import * as React from "react"
-import { StyleSheet, css, CSSProperties } from "aphrodite/no-important"
+import Grid from "@material-ui/core/Grid"
+import TextField from "@material-ui/core/TextField"
+import Button from "@material-ui/core/Button"
+import CircularProgress from "@material-ui/core/CircularProgress"
+import { makeStyles } from "@material-ui/core/styles"
 
 import { Login } from "~/models/login"
 import { ApiErrors, getFieldErrorMessage } from "~/models/apiError"
 import { useFormInput } from "~/hooks/useFormInput"
 import { useIntlMessage } from "~/hooks/useIntlMessage"
 import { useKeyDown } from "~/hooks/useKeyDown"
-import { Input } from "~/components/Input"
-import { GhostdButton } from "~/components/buttons/GhostButton"
-import { FormErrors } from "./FormErrors"
 
 interface Props {
   loading: boolean
@@ -20,6 +21,7 @@ export function LoginForm({ errors, loading, onSubmit }: Props) {
   const emailInput = useFormInput("")
   const passwordInput = useFormInput("")
   const message = useIntlMessage()
+  const classes = useStyles()
 
   useKeyDown(event => {
     if (event.key === "Enter") {
@@ -30,41 +32,40 @@ export function LoginForm({ errors, loading, onSubmit }: Props) {
   const onClick = () => onSubmit({ email: emailInput.value, password: passwordInput.value })
 
   return (
-    <div className={css(styles.loginForm)}>
-      <Input
-        {...emailInput}
-        label={message("form.email")}
-        type="email"
-        error={getFieldErrorMessage("email", message, errors)}
-      />
-      <Input
-        {...passwordInput}
-        label={message("form.password")}
-        type="password"
-        error={getFieldErrorMessage("password", message, errors)}
-      />
-      <GhostdButton
-        style={styles.button}
-        label={message("action.login")}
-        loading={loading}
-        onClick={onClick}
-      />
-      <FormErrors errors={errors} />
-    </div>
+    <Grid item xs={12}>
+      <Grid item container direction="row">
+        <TextField
+          {...emailInput}
+          type="email"
+          label={message("form.email")}
+          error={!!getFieldErrorMessage("email", message, errors)}
+          helperText={getFieldErrorMessage("email", message, errors)}
+          fullWidth
+          className={classes.formItem}
+        />
+        <TextField
+          {...passwordInput}
+          type="password"
+          label={message("form.password")}
+          error={!!getFieldErrorMessage("password", message, errors)}
+          helperText={getFieldErrorMessage("password", message, errors)}
+          fullWidth
+          className={classes.formItem}
+        />
+        <Button variant="outlined" fullWidth onClick={onClick} className={classes.formButton}>
+          {message("action.login")}
+        </Button>
+        {loading ? <CircularProgress /> : undefined}
+      </Grid>
+    </Grid>
   )
 }
 
-const styles = StyleSheet.create<Record<string, CSSProperties>>({
-  loginForm: {
-    width: "100%",
-    padding: "24px",
-    "@media screen and (min-width: 400px)": {
-      width: "400px",
-      alignSelf: "center",
-    },
+const useStyles = makeStyles(theme => ({
+  formItem: {
+    marginBottom: 15,
   },
-  button: {
-    width: "100%",
-    height: "40px",
+  formButton: {
+    marginTop: 15,
   },
-})
+}))

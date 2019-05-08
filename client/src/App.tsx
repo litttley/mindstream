@@ -1,5 +1,7 @@
 import * as React from "react"
 import { Route, Switch, HashRouter } from "react-router-dom"
+import CssBaseline from "@material-ui/core/CssBaseline"
+
 import { LoginScreen } from "~/auth/LoginScreen"
 import { SignupScreen } from "~/auth/SignupScreen"
 import { LikedRssFeedsScreen } from "~/rssFeeds/LikedRssFeedsScreen"
@@ -16,6 +18,7 @@ import { UnreadedRssFeedsByRssSourceScreen } from "~/rssFeeds/UnreadedRssFeedsBy
 export function App() {
   return (
     <IntlContext.Provider value={intlContextInitialValues}>
+      <CssBaseline />
       <AuthProvider>
         <AppProvider>
           <RssSourcesProvider>

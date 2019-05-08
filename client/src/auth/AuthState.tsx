@@ -29,12 +29,12 @@ export function useLogin() {
     api
       .login(login)
       .then(response => {
-        update({ ...response, loading: false })
-        router.replace("/")
+        //update({ ...response, loading: false })
+        //router.replace("/")
       })
       .catch(loginErrors => {
         // tslint:disable-next-line: no-unsafe-any
-        update({ loginErrors, loading: false })
+        update({ loginErrors, loading: true })
       })
   }
 
