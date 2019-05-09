@@ -1,25 +1,54 @@
 import * as React from "react"
+import Container from "@material-ui/core/Container"
+import Grid from "@material-ui/core/Grid"
+import Typography from "@material-ui/core/Typography"
+import Link from "@material-ui/core/Link"
+import { makeStyles } from "@material-ui/core/styles"
 
 import { useSignup } from "~/auth/AuthState"
 import { useIntlMessage } from "~/hooks/useIntlMessage"
-import { LinkButton } from "~/components/buttons/LinkButton"
 import { SignupForm } from "~/auth/components/SignupForm"
-import { AuthLayout } from "~/auth/components/AuthLayout"
 
 export function SignupScreen() {
-  const { loading, signupErrors, signupSubmit } = useSignup()
+  const classes = useStyles()
   const message = useIntlMessage()
+  const { loading, signupErrors, signupSubmit } = useSignup()
 
   return (
-    <AuthLayout>
-      <SignupForm
-        loading={loading}
-        errors={signupErrors}
-        onSubmit={signupSubmit}
-      />
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <LinkButton href="#/login">{message("action.login")}</LinkButton>
-      </div>
-    </AuthLayout>
+    <Container maxWidth="xs">
+      <Typography
+        align="center"
+        variant="h2"
+        className={classes.appName}
+      >
+        Mindstream
+      </Typography>
+      <Grid container>
+        <SignupForm
+          loading={loading}
+          errors={signupErrors}
+          onSubmit={signupSubmit}
+        />
+        <Grid container justify="center">
+          <Link
+            href="#/login"
+            align="center"
+            className={classes.link}
+          >
+            {message("action.login")}
+          </Link>
+        </Grid>
+      </Grid>
+    </Container>
   )
 }
+
+const useStyles = makeStyles(theme => ({
+  appName: {
+    marginTop: 50,
+    marginBottom: 20,
+  },
+  link: {
+    marginTop: 20,
+  },
+}))

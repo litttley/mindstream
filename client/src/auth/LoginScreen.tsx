@@ -49,6 +49,6 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 20,
   },
   link: {
-    marginTop: 50,
+    marginTop: 20,
   },
 }))

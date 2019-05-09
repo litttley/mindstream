@@ -10,6 +10,7 @@ import { ApiErrors, getFieldErrorMessage } from "~/models/apiError"
 import { useFormInput } from "~/hooks/useFormInput"
 import { useIntlMessage } from "~/hooks/useIntlMessage"
 import { useKeyDown } from "~/hooks/useKeyDown"
+import { FormErrors } from "./FormErrors"
 
 interface Props {
   loading: boolean
@@ -57,6 +58,7 @@ export function LoginForm({ errors, loading, onSubmit }: Props) {
         </Button>
         <Grid container justify="center" className={classes.loading}>
           {loading ? <CircularProgress /> : undefined}
+          <FormErrors errors={errors} />
         </Grid>
       </Grid>
     </Grid>
