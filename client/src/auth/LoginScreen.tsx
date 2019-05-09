@@ -29,13 +29,15 @@ export function LoginScreen() {
           errors={loginErrors}
           onSubmit={loginSubmit}
         />
-        <Link
-          href="#/signup"
-          align="center"
-          className={classes.link}
-        >
-          {message("action.signup")}
-        </Link>
+        <Grid container justify="center">
+          <Link
+            href="#/signup"
+            align="center"
+            className={classes.link}
+          >
+            {message("action.signup")}
+          </Link>
+        </Grid>
       </Grid>
     </Container>
   )

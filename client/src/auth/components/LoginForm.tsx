@@ -55,17 +55,22 @@ export function LoginForm({ errors, loading, onSubmit }: Props) {
         <Button variant="outlined" fullWidth onClick={onClick} className={classes.formButton}>
           {message("action.login")}
         </Button>
-        {loading ? <CircularProgress /> : undefined}
+        <Grid container justify="center" className={classes.loading}>
+          {loading ? <CircularProgress /> : undefined}
+        </Grid>
       </Grid>
     </Grid>
   )
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   formItem: {
     marginBottom: 15,
   },
   formButton: {
     marginTop: 15,
   },
-}))
+  loading: {
+    marginTop: 20,
+  },
+})
