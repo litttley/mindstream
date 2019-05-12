@@ -123,6 +123,29 @@ jobs:
 
       - run: docker push wadjetz/mindstream:$CIRCLE_BRANCH
 
+  deploy-docker-tag:
+    docker:
+      - image: circleci/node:12.0.0
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: ~/repo
+
+      - setup_remote_docker
+
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run:
+          name: Docker build
+          command: |
+            mkdir build
+            cp -r static build/static && cp target/release/mindstream build/mindstream && cp Dockerfile build/Dockerfile
+            cd build
+            docker build -f Dockerfile -t wadjetz/mindstream:$CIRCLE_TAG .
+
+      - run: docker push wadjetz/mindstream:$CIRCLE_TAG
+
 workflows:
   version: 2
   mindstream:
@@ -143,3 +166,13 @@ workflows:
             - build-front
             - build-api
             - build-mobile
+      - deploy-docker-tag:
+          requires:
+            - build-front
+            - build-api
+            - build-mobile
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              only: master
