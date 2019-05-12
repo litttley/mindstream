@@ -48,7 +48,7 @@ pub fn unfollow_rss_source(
         .from_err()
         .and_then(|res| match res {
             Ok(r) => Ok(HttpResponse::Ok().json(json!({
-                "result": if r > 0 { true } else { false }
+                "result": r > 0
             }))),
             Err(err) => Err(err),
         })
