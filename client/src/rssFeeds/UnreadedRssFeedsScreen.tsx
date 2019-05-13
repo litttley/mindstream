@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Layout } from "~/components/Layout"
+
 import { useUnreadedRssFeeds } from "./RssFeedsState"
 import { RssFeedCard } from "~/rssFeeds/components/RssFeedCard"
 import { Empty } from "~/components/Empty"
@@ -7,8 +7,10 @@ import { useIntlMessage } from "~/hooks/useIntlMessage"
 import { FeedActions } from "./components/FeedActions"
 import { Loader } from "~/components/Loader"
 import { useKeyDown } from "~/hooks/useKeyDown"
+import { TopBar } from "~/components/TopBar"
 
 export function UnreadedRssFeedsScreen() {
+  const message = useIntlMessage()
   const {
     unreadedRssFeeds,
     previousRssFeeds,
@@ -22,7 +24,6 @@ export function UnreadedRssFeedsScreen() {
     likeRssFeedLoading,
     unlikleRssFeed,
   } = useUnreadedRssFeeds()
-  const message = useIntlMessage()
 
   useKeyDown((event: KeyboardEvent) => {
     if (!goToNextRssFeedLoading && unreadedRssFeeds.length > 0 && (event.code === "ArrowRight" || event.code === "KeyD")) {
@@ -63,8 +64,9 @@ export function UnreadedRssFeedsScreen() {
   }
 
   return (
-    <Layout>
+    <>
+      <TopBar />
       {renderRssFeed()}
-    </Layout>
+    </>
   )
 }
