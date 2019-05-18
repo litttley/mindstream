@@ -1,5 +1,4 @@
-use actix;
-use actix_web::error::JsonPayloadError;
+use actix_web::error::{BlockingError, JsonPayloadError};
 use actix_web::{http, HttpResponse, ResponseError};
 use bcrypt;
 use diesel;
@@ -34,7 +33,7 @@ impl ApiError {
 }
 
 #[derive(Fail, Debug)]
-pub enum Error {
+pub enum AppError {
     #[fail(display = "internal error")]
     Internal,
     #[fail(display = "bad request")]
@@ -47,85 +46,88 @@ pub enum Error {
     Unauthorized,
 }
 
-impl ResponseError for Error {
-    fn error_response(&self) -> HttpResponse {
+impl ResponseError for AppError {
+    fn render_response(&self) -> HttpResponse {
         match *self {
-            Error::Internal => HttpResponse::new(http::StatusCode::INTERNAL_SERVER_ERROR),
-            Error::BadRequest(ref api_error) => {
+            AppError::Internal => HttpResponse::new(http::StatusCode::INTERNAL_SERVER_ERROR),
+            AppError::BadRequest(ref api_error) => {
                 HttpResponse::build(http::StatusCode::BAD_REQUEST).json(api_error)
             }
-            Error::NotFound => HttpResponse::new(http::StatusCode::NOT_FOUND),
-            Error::Timeout => HttpResponse::new(http::StatusCode::GATEWAY_TIMEOUT),
-            Error::Unauthorized => HttpResponse::new(http::StatusCode::UNAUTHORIZED),
+            AppError::NotFound => HttpResponse::new(http::StatusCode::NOT_FOUND),
+            AppError::Timeout => HttpResponse::new(http::StatusCode::GATEWAY_TIMEOUT),
+            AppError::Unauthorized => HttpResponse::new(http::StatusCode::UNAUTHORIZED),
         }
     }
 }
 
-impl From<diesel::result::Error> for Error {
+impl From<diesel::result::Error> for AppError {
     fn from(error: diesel::result::Error) -> Self {
         error!("ERROR diesel = {:?}", error);
         match error {
             diesel::result::Error::DatabaseError(
                 diesel::result::DatabaseErrorKind::UniqueViolation,
                 _,
-            ) => Error::BadRequest(ApiError::new("already.exist")),
-            diesel::result::Error::NotFound => Error::NotFound,
-            _ => Error::Internal,
+            ) => AppError::BadRequest(ApiError::new("already.exist")),
+            diesel::result::Error::NotFound => AppError::NotFound,
+            _ => AppError::Internal,
         }
     }
 }
 
-impl From<actix::MailboxError> for Error {
-    fn from(error: actix::MailboxError) -> Self {
-        error!("ERROR actix mailbox = {:?}", error);
-        Error::Internal
-    }
-}
-
-impl From<JsonPayloadError> for Error {
+impl From<JsonPayloadError> for AppError {
     fn from(error: JsonPayloadError) -> Self {
         error!("ERROR actix JsonPayloadError = {:?}", error);
         match error {
             JsonPayloadError::Deserialize(json_error) => {
-                Error::BadRequest(ApiError::new(&format!("{}", json_error)))
+                AppError::BadRequest(ApiError::new(&format!("{}", json_error)))
             }
-            _ => Error::BadRequest(ApiError::new("Json parsing error")),
+            _ => AppError::BadRequest(ApiError::new("Json parsing error")),
         }
     }
 }
 
-impl From<r2d2::Error> for Error {
+impl From<BlockingError<AppError>> for AppError {
+    fn from(error: BlockingError<Self>) -> Self {
+        error!("ERROR actix BlockingError = {:?}", error);
+        match error {
+            BlockingError::Error(app_error) => app_error,
+            BlockingError::Canceled => AppError::Internal,
+        }
+    }
+}
+
+impl From<r2d2::Error> for AppError {
     fn from(error: r2d2::Error) -> Self {
         error!("ERROR r2d2 = {:?}", error);
-        Error::Internal
+        AppError::Internal
     }
 }
 
-impl From<bcrypt::BcryptError> for Error {
+impl From<bcrypt::BcryptError> for AppError {
     fn from(error: bcrypt::BcryptError) -> Self {
         error!("ERROR bcrypt = {:?}", error);
-        Error::Internal
+        AppError::Internal
     }
 }
 
-impl From<jsonwebtoken::errors::Error> for Error {
+impl From<jsonwebtoken::errors::Error> for AppError {
     fn from(error: jsonwebtoken::errors::Error) -> Self {
         error!("ERROR jsonwebtoken = {:?}", error);
-        Error::Unauthorized
+        AppError::Unauthorized
     }
 }
 
-impl From<reqwest::Error> for Error {
+impl From<reqwest::Error> for AppError {
     fn from(error: reqwest::Error) -> Self {
         error!("ERROR reqwest = {:?}", error);
-        Error::Internal
+        AppError::Internal
     }
 }
 
-impl From<validator::ValidationErrors> for Error {
+impl From<validator::ValidationErrors> for AppError {
     fn from(error: validator::ValidationErrors) -> Self {
         error!("ERROR validator = {:?}", error);
-        Error::BadRequest(error.into())
+        AppError::BadRequest(error.into())
     }
 }
 

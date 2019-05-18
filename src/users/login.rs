@@ -1,60 +1,33 @@
-use actix::prelude::*;
-use actix_web::{AsyncResponder, HttpMessage, HttpRequest, HttpResponse, State};
+use actix_web::web::{block, Data, HttpResponse, Json};
 use futures::future::Future;
-use serde::Deserialize;
-use serde_json::json;
 use validator::Validate;
-use validator_derive::Validate;
 
-use crate::app::app_state::AppState;
-use crate::app::config;
-use crate::app::db::DbExecutor;
-use crate::jwt::{create_token, Token};
-use crate::errors::Error;
-use crate::models::user::{verify_password, User};
+use crate::config::Config;
+use crate::db::DbPool;
+use crate::errors::AppError;
+use crate::jwt::create_token;
+use crate::models::user::verify_password;
+use crate::models::{AuthResponse, Login};
 use crate::repositories::users;
 
-#[derive(Debug, Clone, Validate, Deserialize)]
-pub struct Login {
-    #[validate(email(message = "validation.email"))]
-    email: String,
-    #[validate(length(min = "6", message = "validation.password.short"))]
-    password: String,
-}
-
-impl Message for Login {
-    type Result = Result<(User, Token), Error>;
-}
-
-impl Handler<Login> for DbExecutor {
-    type Result = Result<(User, Token), Error>;
-
-    fn handle(&mut self, message: Login, _: &mut Self::Context) -> Self::Result {
-        message.validate()?;
-        let connexion = self.pool.get()?;
-        let user = users::find_by_email(&connexion, &message.email)?;
-        if let Ok(true) = verify_password(&message.password, &user.password) {
-            let config = &config::CONFIG;
-            let token = create_token(user.clone(), &config.secret_key)?;
-            Ok((user, token))
-        } else {
-            Err(Error::Unauthorized)
-        }
+fn login(pool: &DbPool, config: &Config, payload: &Login) -> Result<AuthResponse, AppError> {
+    payload.validate()?;
+    let connection = pool.get()?;
+    let user = users::find_by_email(&connection, &payload.email)?;
+    if let Ok(true) = verify_password(&payload.password, &user.password) {
+        let token = create_token(user.clone(), &config.secret_key)?;
+        Ok(AuthResponse::new(user, token))
+    } else {
+        Err(AppError::Unauthorized)
     }
 }
 
-pub fn login(
-    (req, state): (HttpRequest<AppState>, State<AppState>),
-) -> Box<Future<Item = HttpResponse, Error = Error>> {
-    req.json()
+pub fn login_service(
+    payload: Json<Login>,
+    config: Data<Config>,
+    pool: Data<DbPool>,
+) -> impl Future<Item = HttpResponse, Error = AppError> {
+    block(move || login(&pool, &config, &payload))
+        .and_then(|auth_response| Ok(HttpResponse::Ok().json(auth_response)))
         .from_err()
-        .and_then(move |login: Login| state.db.send(login).from_err())
-        .and_then(|res| match res {
-            Ok((user, token)) => Ok(HttpResponse::Ok().json(json!({
-                "user": user,
-                "token": token,
-            }))),
-            Err(err) => Err(err),
-        })
-        .responder()
 }

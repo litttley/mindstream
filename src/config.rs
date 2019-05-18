@@ -1,7 +1,5 @@
-use envconfig::Envconfig;
+use envconfig::{Envconfig, Error};
 use envconfig_derive::Envconfig;
-use lazy_static::lazy_static;
-use log::error;
 
 #[derive(Debug, Clone, Envconfig)]
 pub struct Config {
@@ -27,14 +25,22 @@ pub struct Config {
     pub port: usize,
 
     #[envconfig(from = "ASSETS")]
-    pub assets: Option<String>,
+    assets: Option<String>,
 }
 
-lazy_static! {
-    pub static ref CONFIG: Config = {
-        Config::init().unwrap_or_else(|err| {
-            error!("{}", err);
-            std::process::exit(1);
-        })
-    };
+impl Config {
+    pub fn new() -> Result<Self, Error> {
+        Ok(Self::init()?)
+    }
+
+    pub fn address(&self) -> String {
+        format!("{}:{}", self.host, self.port)
+    }
+
+    pub fn assets(&self) -> String {
+        match &self.assets {
+            Some(assets) => assets.clone(),
+            None => "./static/".to_string(),
+        }
+    }
 }
