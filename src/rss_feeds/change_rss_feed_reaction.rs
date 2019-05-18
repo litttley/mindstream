@@ -1,16 +1,12 @@
-use actix::prelude::*;
-use actix_web::{AsyncResponder, HttpResponse, Json, State};
+use actix_web::web::{block, Data, HttpResponse, Json};
 use futures::future::Future;
 use serde::Deserialize;
 use uuid::Uuid;
-use derive_new::new;
 
-use crate::app::app_state::AppState;
-use crate::app::db::DbExecutor;
 use crate::auth::Auth;
-use crate::errors::Error;
-use crate::models::user::User;
-use crate::models::user_rss_feed::{Reaction, UserRssFeed};
+use crate::db::DbPool;
+use crate::errors::AppError;
+use crate::models::{Reaction, User, UserRssFeed};
 use crate::repositories::{
     rss_feeds::find_rss_feed,
     users_rss_feeds::{find_user_rss_feed, update_rss_feed_reaction},
@@ -23,50 +19,32 @@ pub struct ChangeRssFeedReactionQuery {
     pub reaction: Reaction,
 }
 
-#[derive(Debug, new, Deserialize)]
-pub struct ChangeRssFeedReaction {
-    pub user: User,
-    pub query: ChangeRssFeedReactionQuery,
-}
-
-impl Message for ChangeRssFeedReaction {
-    type Result = Result<UserRssFeed, Error>;
-}
-
-impl Handler<ChangeRssFeedReaction> for DbExecutor {
-    type Result = Result<UserRssFeed, Error>;
-
-    fn handle(&mut self, message: ChangeRssFeedReaction, _: &mut Self::Context) -> Self::Result {
-        let connexion = self.pool.get()?;
-        let user = message.user;
-        let reaction = message.query.reaction;
-        let rss_feed_uuid = message.query.rss_feed_uuid;
-        let rss_feed = find_rss_feed(&connexion, &rss_feed_uuid)?;
-        let user_rss_feed = find_user_rss_feed(&connexion, &rss_feed_uuid, &user)?;
-        if user_rss_feed.reaction == "Unreaded" {
-            let rss_feeds = update_rss_feed_reaction(&connexion, &rss_feed_uuid, &reaction, &user)?;
-            let _ = decrement_unreaded_rss_sources(&connexion, &rss_feed.rss_source_uuid, &user)?;
-            Ok(rss_feeds)
-        } else {
-            let rss_feeds = update_rss_feed_reaction(&connexion, &rss_feed_uuid, &reaction, &user)?;
-            Ok(rss_feeds)
-        }
+fn change_rss_feed_reaction(
+    pool: &DbPool,
+    query: &ChangeRssFeedReactionQuery,
+    user: &User,
+) -> Result<UserRssFeed, AppError> {
+    let connection = pool.get()?;
+    let reaction = &query.reaction;
+    let rss_feed_uuid = query.rss_feed_uuid;
+    let rss_feed = find_rss_feed(&connection, &rss_feed_uuid)?;
+    let user_rss_feed = find_user_rss_feed(&connection, &rss_feed_uuid, user)?;
+    if user_rss_feed.reaction == "Unreaded" {
+        let rss_feeds = update_rss_feed_reaction(&connection, &rss_feed_uuid, reaction, user)?;
+        let _ = decrement_unreaded_rss_sources(&connection, &rss_feed.rss_source_uuid, user)?;
+        Ok(rss_feeds)
+    } else {
+        let rss_feeds = update_rss_feed_reaction(&connection, &rss_feed_uuid, reaction, user)?;
+        Ok(rss_feeds)
     }
 }
 
-pub fn change_rss_feed_reaction(
-    (json, auth, state): (Json<ChangeRssFeedReactionQuery>, Auth, State<AppState>),
-) -> Box<Future<Item = HttpResponse, Error = Error>> {
-    state
-        .db
-        .send(ChangeRssFeedReaction::new(
-            auth.claime.user,
-            json.into_inner(),
-        ))
+pub fn change_rss_feed_reaction_service(
+    pool: Data<DbPool>,
+    query: Json<ChangeRssFeedReactionQuery>,
+    auth: Auth,
+) -> impl Future<Item = HttpResponse, Error = AppError> {
+    block(move || change_rss_feed_reaction(&pool, &query, &auth.claime.user))
+        .and_then(|rss_feeds| Ok(HttpResponse::Ok().json(rss_feeds)))
         .from_err()
-        .and_then(|res| match res {
-            Ok(rss_feeds) => Ok(HttpResponse::Ok().json(rss_feeds)),
-            Err(err) => Err(err),
-        })
-        .responder()
 }

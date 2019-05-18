@@ -1,9 +1,9 @@
-use uuid::Uuid;
-use feed_rs::Feed;
 use chrono::prelude::*;
 use chrono::NaiveDateTime;
+use diesel::{Insertable, Queryable};
+use feed_rs::Feed;
 use serde::{Deserialize, Serialize};
-use diesel::{Queryable, Insertable};
+use uuid::Uuid;
 
 use crate::schema::rss_sources;
 
