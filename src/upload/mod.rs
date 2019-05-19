@@ -1,36 +1,38 @@
 use std::fs;
 use std::io::Write;
 
-use actix_web::{
-    dev, error, multipart, Error, FutureResponse,
-    HttpMessage, HttpRequest, HttpResponse,
-};
-
-use futures::future;
+use actix_multipart::{Field, Multipart, MultipartError};
+use actix_web::{error, web, Error, HttpResponse};
+use futures::future::{err, Either};
 use futures::{Future, Stream};
 
-use crate::app::app_state::AppState;
-
-pub fn save_file(
-    field: multipart::Field<dev::Payload>,
-) -> Box<Future<Item = i64, Error = Error>> {
+fn save_file(field: Field) -> impl Future<Item = i64, Error = Error> {
     let file_path_string = "upload.png";
-    let mut file = match fs::File::create(file_path_string) {
+    let file = match fs::File::create(file_path_string) {
         Ok(file) => file,
-        Err(e) => return Box::new(future::err(error::ErrorInternalServerError(e))),
+        Err(e) => return Either::A(err(error::ErrorInternalServerError(e))),
     };
-    Box::new(
+    Either::B(
         field
-            .fold(0i64, move |acc, bytes| {
-                let rt = file
-                    .write_all(bytes.as_ref())
-                    .map(|_| acc + bytes.len() as i64)
-                    .map_err(|e| {
+            .fold((file, 0i64), move |(mut file, mut acc), bytes| {
+                // fs operations are blocking, we have to execute writes
+                // on threadpool
+                web::block(move || {
+                    file.write_all(bytes.as_ref()).map_err(|e| {
                         println!("file.write_all failed: {:?}", e);
-                        error::MultipartError::Payload(error::PayloadError::Io(e))
-                    });
-                future::result(rt)
+                        MultipartError::Payload(error::PayloadError::Io(e))
+                    })?;
+                    acc += bytes.len() as i64;
+                    Ok((file, acc))
+                })
+                .map_err(|e: error::BlockingError<MultipartError>| {
+                    match e {
+                        error::BlockingError::Error(e) => e,
+                        error::BlockingError::Canceled => MultipartError::Incomplete,
+                    }
+                })
             })
+            .map(|(_, acc)| acc)
             .map_err(|e| {
                 println!("save_file failed, {:?}", e);
                 error::ErrorInternalServerError(e)
@@ -38,32 +40,17 @@ pub fn save_file(
     )
 }
 
-pub fn handle_multipart_item(
-    item: multipart::MultipartItem<dev::Payload>,
-) -> Box<Stream<Item = i64, Error = Error>> {
-    match item {
-        multipart::MultipartItem::Field(field) => {
-            Box::new(save_file(field).into_stream())
-        }
-        multipart::MultipartItem::Nested(mp) => Box::new(
-            mp.map_err(error::ErrorInternalServerError)
-                .map(handle_multipart_item)
-                .flatten(),
-        ),
-    }
-}
-
-pub fn upload(req: HttpRequest<AppState>) -> FutureResponse<HttpResponse> {
-    Box::new(
-        req.multipart()
-            .map_err(error::ErrorInternalServerError)
-            .map(handle_multipart_item)
-            .flatten()
-            .collect()
-            .map(|sizes| HttpResponse::Ok().json(sizes))
-            .map_err(|e| {
-                println!("failed: {}", e);
-                e
-            }),
-    )
+pub fn upload_service(
+    multipart: Multipart,
+) -> impl Future<Item = HttpResponse, Error = Error> {
+    multipart
+        .map_err(error::ErrorInternalServerError)
+        .map(|field| save_file(field).into_stream())
+        .flatten()
+        .collect()
+        .map(|sizes| HttpResponse::Ok().json(sizes))
+        .map_err(|e| {
+            println!("failed: {}", e);
+            e
+        })
 }

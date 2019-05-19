@@ -53,6 +53,7 @@ use crate::rss_sources::{
     unfollow_rss_source_service, unfollowed_rss_sources_service,
 };
 use crate::users::{login_service, me_service, signup_service};
+use crate::upload::upload_service;
 
 embed_migrations!("./migrations");
 
@@ -113,6 +114,7 @@ fn main() -> std::io::Result<()> {
                 web::resource("/api/rss/feeds/reaction")
                     .route(web::put().to_async(change_rss_feed_reaction_service)),
             )
+            .service(web::resource("/upload").route(web::post().to_async(upload_service)))
             .service(Files::new("/", &assets).index_file("index.html"))
     })
     .bind(&address)?
