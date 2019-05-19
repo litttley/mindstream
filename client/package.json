@@ -23,7 +23,7 @@
     "watch": "webpack -w"
   },
   "dependencies": {
-    "@material-ui/core": "4.0.0-beta.1",
+    "@material-ui/core": "4.0.0-beta.2",
     "@material-ui/icons": "4.0.0-beta.0",
     "aphrodite": "2.3.1",
     "axios": "0.18.0",
@@ -42,7 +42,7 @@
     "@types/react": "16.8.17",
     "@types/react-dom": "16.8.4",
     "@types/react-router-dom": "4.3.3",
-    "ts-loader": "6.0.0",
+    "ts-loader": "6.0.1",
     "tslint": "5.16.0",
     "tslint-loader": "3.5.4",
     "tslint-react": "4.0.0",
