@@ -1,11 +1,6 @@
 use serde::Deserialize;
 use serde_xml_rs::{Error as SerdeXmlError, from_reader};
 
-use actix_web::{
-    dev, error, http, middleware, multipart, server, App, Error, FutureResponse,
-    HttpMessage, HttpRequest, HttpResponse,
-};
-
 #[derive(Debug, Deserialize)]
 pub struct Opml {
     pub version: Option<String>,
@@ -43,4 +38,9 @@ pub struct Outline {
 pub fn parse(content: &str) -> Result<Opml, SerdeXmlError> {
     let opml: Opml = from_reader(content.as_bytes())?;
     Ok(opml)
+}
+
+#[test]
+fn test_parse() {
+    assert!(parse("").is_err());
 }
