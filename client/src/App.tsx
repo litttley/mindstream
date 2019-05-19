@@ -14,6 +14,7 @@ import { RssSourcesProvider } from "./rssSources/RssSourcesState"
 import { RssFeedsProvider } from "./rssFeeds/RssFeedsState"
 import { AuthProvider } from "./auth/AuthState"
 import { UnreadedRssFeedsByRssSourceScreen } from "~/rssFeeds/UnreadedRssFeedsByRssSourceScreen"
+import { Home } from "./rssFeeds/Home"
 
 export function App() {
   return (
@@ -26,6 +27,7 @@ export function App() {
               <HashRouter>
                 <Switch>
                   <Route exact path="/" component={UnreadedRssFeedsScreen}/>
+                  <Route exact path="/v2" component={Home}/>
                   <Route exact path="/rss/feeds/liked" component={LikedRssFeedsScreen}/>
                   <Route exact path="/rss/feeds/:rssSourceUuid" component={UnreadedRssFeedsByRssSourceScreen} />
                   <Route exact path="/rss/feed/:rssFeedUuid" component={RssFeedScreen} />
