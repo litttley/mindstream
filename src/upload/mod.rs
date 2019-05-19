@@ -5,6 +5,7 @@ use actix_multipart::{Field, Multipart, MultipartError};
 use actix_web::{error, web, Error, HttpResponse};
 use futures::future::{err, Either};
 use futures::{Future, Stream};
+use log::debug;
 
 fn save_file(field: Field) -> impl Future<Item = i64, Error = Error> {
     let file_path_string = "upload.png";
@@ -14,12 +15,12 @@ fn save_file(field: Field) -> impl Future<Item = i64, Error = Error> {
     };
     Either::B(
         field
-            .fold((file, 0i64), move |(mut file, mut acc), bytes| {
+            .fold((file, 0_i64), move |(mut file, mut acc), bytes| {
                 // fs operations are blocking, we have to execute writes
                 // on threadpool
                 web::block(move || {
                     file.write_all(bytes.as_ref()).map_err(|e| {
-                        println!("file.write_all failed: {:?}", e);
+                        debug!("file.write_all failed: {:?}", e);
                         MultipartError::Payload(error::PayloadError::Io(e))
                     })?;
                     acc += bytes.len() as i64;
@@ -34,7 +35,7 @@ fn save_file(field: Field) -> impl Future<Item = i64, Error = Error> {
             })
             .map(|(_, acc)| acc)
             .map_err(|e| {
-                println!("save_file failed, {:?}", e);
+                debug!("save_file failed, {:?}", e);
                 error::ErrorInternalServerError(e)
             }),
     )
@@ -50,7 +51,7 @@ pub fn upload_service(
         .collect()
         .map(|sizes| HttpResponse::Ok().json(sizes))
         .map_err(|e| {
-            println!("failed: {}", e);
+            debug!("failed: {}", e);
             e
         })
 }
