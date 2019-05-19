@@ -1,11 +1,14 @@
-use uuid::Uuid;
+use std::convert::TryFrom;
+
+use bcrypt::{hash, verify, BcryptError, DEFAULT_COST};
 use chrono::prelude::*;
 use chrono::NaiveDateTime;
+use diesel::{Insertable, Queryable};
 use serde::{Deserialize, Serialize};
-use diesel::{Queryable, Insertable};
-use bcrypt::{hash, verify, BcryptError, DEFAULT_COST};
+use uuid::Uuid;
 
-use crate::errors::Error;
+use crate::errors::AppError;
+use crate::models::Signup;
 use crate::schema::users;
 
 #[derive(Debug, Clone, PartialEq, Deserialize, Serialize, Queryable, Insertable)]
@@ -40,10 +43,22 @@ impl User {
         login: impl Into<String>,
         email: impl Into<String>,
         password: impl Into<String>,
-    ) -> Result<Self, Error> {
+    ) -> Result<Self, AppError> {
         let hashed_password = hash_password(&password.into())?;
         let user = Self::new(login, email, hashed_password);
         Ok(user)
+    }
+}
+
+impl TryFrom<Signup> for User {
+    type Error = AppError;
+
+    fn try_from(signup: Signup) -> Result<Self, Self::Error> {
+        Ok(Self::new_secure(
+            signup.login,
+            signup.email,
+            signup.password,
+        )?)
     }
 }
 

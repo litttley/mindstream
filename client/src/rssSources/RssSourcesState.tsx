@@ -6,31 +6,56 @@ import debounce from "lodash.debounce"
 import { RssFeed } from "~/models/rssFeed"
 
 export interface RssSourcesState {
-  loading: boolean
+  loadMySourcesLoading: boolean
   searchRssSourceLoading: boolean
   followRssSourceLoading: boolean
   myRssSources: MyRssSource[]
   findedRssSources: RssSource[]
+  getTopRssSourcesLoading: boolean
+  topRssSources: RssSource[]
 }
 
 const initialState: RssSourcesState = {
-  loading: false,
+  loadMySourcesLoading: false,
   searchRssSourceLoading: false,
   followRssSourceLoading: false,
   myRssSources: [],
   findedRssSources: [],
+  getTopRssSourcesLoading: false,
+  topRssSources: [],
 }
 
 export const [RssSourcesContext, RssSourcesProvider] = createStore(initialState, "Rss Sources")
+
+export function useTopRssSources() {
+  const { update, ...state } = React.useContext(RssSourcesContext)
+
+  const getUnfollowedRssSources = () => {
+    update({ getTopRssSourcesLoading: true })
+    api.getUnfollowedRssSources()
+      .then(topRssSources => update({ topRssSources, getTopRssSourcesLoading: false }))
+      .catch(error => update({ getTopRssSourcesLoading: false }))
+  }
+
+  const isNoMyRssSources = () =>
+    !state.loadMySourcesLoading && state.myRssSources.length === 0
+
+  return {
+    topRssSources: state.topRssSources,
+    getTopRssSourcesLoading: state.getTopRssSourcesLoading,
+    isNoMyRssSources,
+    getUnfollowedRssSources,
+  }
+}
 
 export function useMyRssSources() {
   const { update, ...state } = React.useContext(RssSourcesContext)
 
   const loadMySources = () => {
-    update({ loading: true })
+    update({ loadMySourcesLoading: true })
     api.loadMyRssSources()
-      .then(myRssSources => update({ myRssSources, loading: false }))
-      .catch(error => update({ loading: false }))
+      .then(myRssSources => update({ myRssSources, loadMySourcesLoading: false }))
+      .catch(error => update({ loadMySourcesLoading: false }))
   }
 
   const isFollowed = (rssSource: RssSource) => state.myRssSources.find(s => s.rss_source.uuid === rssSource.uuid) !== undefined
@@ -49,7 +74,7 @@ export function useMyRssSources() {
     isFollowed,
     loadMySources,
     decrementRssSource,
-    loading: state.loading,
+    loadMySourcesLoading: state.loadMySourcesLoading,
     myRssSources: state.myRssSources,
   }
 }
@@ -70,7 +95,7 @@ export function useSearchRssSources() {
     }
   }, 600)
 
-  const followSources = (rssSource: RssSource) => {
+  const followRssSources = (rssSource: RssSource) => {
     update({ followRssSourceLoading: true })
     api.followRssSource(rssSource)
       .then(myRssSource => {
@@ -82,9 +107,22 @@ export function useSearchRssSources() {
       })
   }
 
+  const unfollowRssSource = (rssSource: RssSource) => {
+    update({ followRssSourceLoading: true })
+    api.unfollowRssSource(rssSource)
+      .then(myRssSource => {
+        update({ followRssSourceLoading: false, myRssSources: state.myRssSources.filter(s => s.rss_source.uuid !== rssSource.uuid) })
+      })
+      .catch(error => {
+        /* TODO */
+        update({ followRssSourceLoading: false })
+      })
+  }
+
   return {
     clear,
-    followSources,
+    followRssSources,
+    unfollowRssSource,
     searchRssSources,
     searchRssSourceLoading: state.searchRssSourceLoading,
     findedRssSources: state.findedRssSources,

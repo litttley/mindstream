@@ -10,13 +10,12 @@
     clippy::correctness
 )]
 #![allow(
-    clippy::multiple_inherent_impl,
     clippy::module_name_repetitions,
     clippy::wildcard_enum_match_arm,
     clippy::implicit_return,
     clippy::multiple_crate_versions,
     clippy::missing_docs_in_private_items,
-    clippy::too_many_arguments,
+    clippy::too_many_arguments
 )]
 
 #[macro_use]
@@ -24,17 +23,11 @@ extern crate diesel;
 #[macro_use]
 extern crate diesel_migrations;
 
-use actix::prelude::*;
-use actix_web::middleware::Logger;
-use actix_web::{http::Method, server, App, HttpResponse};
-use log::info;
-use dotenv::dotenv;
-
-mod app;
-mod assets;
 mod auth;
-mod jwt;
+mod config;
+mod db;
 mod errors;
+mod jwt;
 mod models;
 mod repositories;
 mod rss_feeds;
@@ -45,80 +38,83 @@ mod services;
 mod users;
 mod opml;
 
-use crate::app::app_state::AppState;
-use crate::app::config;
-use crate::app::db::{create_diesel_pool, DbExecutor};
-use crate::auth::Auth;
-use crate::rss_feeds::change_rss_feed_reaction::change_rss_feed_reaction;
-use crate::rss_feeds::get_rss_feeds::get_rss_feeds;
-use crate::rss_feeds_job::run_rss_job;
-use crate::rss_sources::add_rss_source::add_rss_source;
-use crate::rss_sources::follow_rss_source::follow_rss_source;
-use crate::rss_sources::get_rss_source::get_rss_source;
-use crate::rss_sources::get_rss_sources::get_rss_sources;
-use crate::rss_sources::get_unfollowed_rss_sources::get_unfollowed_rss_sources;
-use crate::rss_sources::my_rss_sources::my_rss_sources;
-use crate::rss_sources::search_rss_sources::search_rss_source_handler;
-use crate::users::login::login;
-use crate::users::signup::signup;
+use actix_files::Files;
+use actix_web::{middleware, web, App, HttpServer};
+use dotenv::dotenv;
+use log::info;
 
-fn me(auth: Auth) -> HttpResponse {
-    HttpResponse::Ok().json(auth.claime.user)
-}
+use crate::config::Config;
+use crate::db::create_diesel_pool;
+use crate::rss_feeds::{change_rss_feed_reaction_service, get_rss_feeds_service};
+use crate::rss_feeds_job::run_rss_job;
+use crate::rss_sources::{
+    add_rss_source_service, follow_rss_source_service, get_rss_source_service,
+    my_rss_sources_service, public_rss_source_service, search_rss_source_service,
+    unfollow_rss_source_service, unfollowed_rss_sources_service,
+};
+use crate::users::{login_service, me_service, signup_service};
 
 embed_migrations!("./migrations");
 
-pub fn run() {
+fn main() -> std::io::Result<()> {
+    dotenv().ok();
     env_logger::init();
+    let config = Config::new().expect("Invalid Config");
+    let address = config.address();
+    let assets = config.assets();
+    info!("Server at {} and assets = {}", &address, &assets);
 
-    let sys = actix::System::new("mindstream");
-
-    let pool = create_diesel_pool(config::CONFIG.database_url.clone());
-
+    let pool = create_diesel_pool(config.database_url.clone());
     let connection = pool.clone().get().unwrap();
     embedded_migrations::run(&*connection).expect("Embed migrations failed");
 
-    run_rss_job(pool.clone());
+    run_rss_job(pool.clone(), config.clone());
 
-    let db_addr = SyncArbiter::start(3, move || DbExecutor::new(pool.clone()));
-
-    let host = &config::CONFIG.host;
-    let port = &config::CONFIG.port;
-    let address = format!("{}:{}", host, port);
-
-    server::new(move || {
-        vec![
-            App::with_state(AppState::new(db_addr.clone()))
-                .prefix("/api")
-                .middleware(Logger::default())
-                .resource("/users/signup", |r| r.method(Method::POST).with(signup))
-                .resource("/users/login", |r| r.method(Method::POST).with(login))
-                .resource("/users/me", |r| r.method(Method::GET).with(me))
-                .resource("/rss/sources", |r| {
-                    r.method(Method::GET).with(my_rss_sources);
-                    r.method(Method::POST).with(add_rss_source);
-                })
-                .resource("/rss/sources/search", |r| r.method(Method::GET).with(search_rss_source_handler))
-                .resource("/rss/sources/unfollowed", |r| r.method(Method::GET).with(get_unfollowed_rss_sources))
-                .resource("/rss/sources/public", |r| r.method(Method::GET).with(get_rss_sources))
-                .resource("/rss/sources/{uuid}", |r| r.method(Method::GET).with(get_rss_source))
-                .resource("/rss/sources/{uuid}/follow", |r| r.method(Method::POST).with(follow_rss_source))
-                .resource("/rss/feeds", |r| r.method(Method::GET).with(get_rss_feeds))
-                .resource("/rss/feeds/reaction", |r| r.method(Method::PUT).with(change_rss_feed_reaction))
-                .boxed(),
-            assets::create_static_assets_app().boxed(),
-        ]
+    HttpServer::new(move || {
+        App::new()
+            .data(pool.clone())
+            .data(config.clone())
+            .wrap(middleware::DefaultHeaders::new().header("X-Version", "0.1.0"))
+            .wrap(middleware::Compress::default())
+            .wrap(middleware::Logger::default())
+            .service(web::resource("/api/users/login").route(web::post().to_async(login_service)))
+            .service(web::resource("/api/users/signup").route(web::post().to_async(signup_service)))
+            .service(web::resource("/api/users/me").route(web::get().to(me_service)))
+            .service(
+                web::resource("/api/rss/sources")
+                    .route(web::get().to_async(my_rss_sources_service))
+                    .route(web::post().to_async(add_rss_source_service)),
+            )
+            .service(
+                web::resource("/api/rss/sources/search")
+                    .route(web::get().to_async(search_rss_source_service)),
+            )
+            .service(
+                web::resource("/api/rss/sources/unfollowed")
+                    .route(web::get().to_async(unfollowed_rss_sources_service)),
+            )
+            .service(
+                web::resource("/api/rss/sources/public")
+                    .route(web::get().to_async(public_rss_source_service)),
+            )
+            .service(
+                web::resource("/api/rss/sources/{uuid}")
+                    .route(web::get().to_async(get_rss_source_service))
+                    .route(web::delete().to_async(unfollow_rss_source_service)),
+            )
+            .service(
+                web::resource("/api/rss/sources/{uuid}/follow")
+                    .route(web::post().to_async(follow_rss_source_service)),
+            )
+            .service(
+                web::resource("/api/rss/feeds").route(web::get().to_async(get_rss_feeds_service)),
+            )
+            .service(
+                web::resource("/api/rss/feeds/reaction")
+                    .route(web::put().to_async(change_rss_feed_reaction_service)),
+            )
+            .service(Files::new("/", &assets).index_file("index.html"))
     })
-    .bind(&address)
-    .unwrap_or_else(|_| panic!("Can not bind to {}", &address))
-    .start();
-
-    info!("Run server at {}", &address);
-
-    let _ = sys.run();
-}
-
-fn main() {
-    dotenv().ok();
-    run();
+    .bind(&address)?
+    .run()
 }
