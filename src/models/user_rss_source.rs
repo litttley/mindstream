@@ -1,6 +1,6 @@
-use uuid::Uuid;
+use diesel::{Insertable, Queryable};
 use serde::{Deserialize, Serialize};
-use diesel::{Queryable, Insertable};
+use uuid::Uuid;
 
 use crate::schema::users_rss_sources;
 

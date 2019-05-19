@@ -1,69 +1,31 @@
-use actix::prelude::*;
-use actix_web::{AsyncResponder, HttpMessage, HttpRequest, HttpResponse, State};
-use futures::future::Future;
-use serde::Deserialize;
-use serde_json::json;
-use validator::Validate;
-use validator_derive::Validate;
+use std::convert::TryFrom;
 
-use crate::app::app_state::AppState;
-use crate::app::config;
-use crate::app::db::DbExecutor;
-use crate::jwt::{create_token, Token};
-use crate::errors::Error;
-use crate::models::user::User;
+use actix_web::web::{block, Data, HttpResponse, Json};
+use futures::future::Future;
+use validator::Validate;
+
+use crate::config::Config;
+use crate::db::DbPool;
+use crate::errors::AppError;
+use crate::jwt::create_token;
+use crate::models::{AuthResponse, Signup, User};
 use crate::repositories::users::insert;
 
-#[derive(Debug, Clone, Validate, Deserialize)]
-pub struct Signup {
-    #[validate(length(min = "3", message = "validation.login.short"))]
-    login: String,
-    #[validate(email(message = "validation.email"))]
-    email: String,
-    #[validate(length(min = "6", message = "validation.password.short"))]
-    password: String,
+fn signup(pool: &DbPool, config: &Config, payload: Signup) -> Result<AuthResponse, AppError> {
+    payload.validate()?;
+    let connection = pool.get()?;
+    let user = User::try_from(payload)?;
+    let user = insert(&connection, &user)?;
+    let token = create_token(user.clone(), &config.secret_key)?;
+    Ok(AuthResponse::new(user, token))
 }
 
-impl Message for Signup {
-    type Result = Result<(User, Token), Error>;
-}
-
-impl Handler<Signup> for DbExecutor {
-    type Result = Result<(User, Token), Error>;
-
-    fn handle(&mut self, message: Signup, _: &mut Self::Context) -> Self::Result {
-        message.validate()?;
-        let connexion = self.pool.get()?;
-        let user = User::from_signup(&message)?;
-        let user = insert(&connexion, &user)?;
-        let config = &config::CONFIG;
-        let token = create_token(user.clone(), &config.secret_key)?;
-        Ok((user, token))
-    }
-}
-
-impl User {
-    pub fn from_signup(signup: &Signup) -> Result<Self, Error> {
-        Ok(Self::new_secure(
-            signup.login.clone(),
-            signup.email.clone(),
-            signup.password.clone(),
-        )?)
-    }
-}
-
-pub fn signup(
-    (req, state): (HttpRequest<AppState>, State<AppState>),
-) -> Box<Future<Item = HttpResponse, Error = Error>> {
-    req.json()
+pub fn signup_service(
+    payload: Json<Signup>,
+    config: Data<Config>,
+    pool: Data<DbPool>,
+) -> impl Future<Item = HttpResponse, Error = AppError> {
+    block(move || signup(&pool, &config, payload.into_inner()))
+        .and_then(|auth_response| Ok(HttpResponse::Ok().json(auth_response)))
         .from_err()
-        .and_then(move |signup: Signup| state.db.send(signup).from_err())
-        .and_then(|res| match res {
-            Ok((user, token)) => Ok(HttpResponse::Ok().json(json!({
-                "user": user,
-                "token": token,
-            }))),
-            Err(err) => Err(err),
-        })
-        .responder()
 }

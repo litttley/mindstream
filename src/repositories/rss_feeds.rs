@@ -5,7 +5,7 @@ use diesel::result::Error;
 use diesel::PgConnection;
 use uuid::Uuid;
 
-use crate::models::rss_feed::RssFeed;
+use crate::models::RssFeed;
 use crate::schema::rss_feeds;
 
 pub fn insert_rss_feed(connection: &PgConnection, rss_feed: &RssFeed) -> Result<RssFeed, Error> {

@@ -1,89 +1,75 @@
-use actix::prelude::*;
-use actix_web::{AsyncResponder, HttpResponse, Query, State};
+use actix_web::web::{block, Data, HttpResponse, Query};
 use futures::future::Future;
-use log::debug;
 use serde::Deserialize;
-use serde_json;
-use serde_json::json;
+use serde_json::{json, Value};
 use uuid::Uuid;
-use derive_new::new;
 
-use crate::app::app_state::AppState;
-use crate::app::config;
-use crate::app::db::DbExecutor;
 use crate::auth::Auth;
-use crate::errors::Error;
-use crate::models::rss_feed::RssFeed;
-use crate::models::user::User;
-use crate::models::user_rss_feed::{Reaction, UserRssFeed};
+use crate::config::Config;
+use crate::db::DbPool;
+use crate::errors::AppError;
+use crate::models::{Pagination, Reaction, RssFeed, User, UserRssFeed};
 use crate::repositories::users_rss_feeds::{find_rss_feeds, find_rss_feeds_by_rss_source};
 
 #[derive(Debug, Deserialize)]
 pub struct RssFeedsQuery {
-    pub limit: Option<i64>,
-    pub offset: Option<i64>,
     pub rss_source_uuid: Option<Uuid>,
     pub reaction: Option<Reaction>,
 }
 
-#[derive(Debug, new, Deserialize)]
-pub struct GetRssFeeds {
-    pub user: User,
-    pub query: RssFeedsQuery,
+fn get_rss_feeds(
+    pool: &DbPool,
+    config: &Config,
+    query: RssFeedsQuery,
+    pagination: &Pagination,
+    user: &User,
+) -> Result<Vec<(RssFeed, UserRssFeed)>, AppError> {
+    let connection = pool.get()?;
+    let limit = pagination.limit.unwrap_or(config.default_limit);
+    let offset = pagination.offset.unwrap_or(0);
+    let reaction = query.reaction.unwrap_or(Reaction::Unreaded);
+    let rss_feeds = match query.rss_source_uuid {
+        Some(ref rss_source_uuid) => find_rss_feeds_by_rss_source(
+            &connection,
+            limit,
+            offset,
+            &reaction,
+            rss_source_uuid,
+            user,
+        )?,
+        None => find_rss_feeds(&connection, limit, offset, &reaction, user)?,
+    };
+    Ok(rss_feeds)
 }
 
-impl Message for GetRssFeeds {
-    type Result = Result<Vec<(RssFeed, UserRssFeed)>, Error>;
-}
-
-impl Handler<GetRssFeeds> for DbExecutor {
-    type Result = Result<Vec<(RssFeed, UserRssFeed)>, Error>;
-
-    fn handle(&mut self, message: GetRssFeeds, _: &mut Self::Context) -> Self::Result {
-        let connexion = self.pool.get()?;
-        let limit = message.query.limit.unwrap_or(config::CONFIG.default_limit);
-        let offset = message.query.offset.unwrap_or(0);
-        let user = message.user;
-        let reaction = message.query.reaction.unwrap_or(Reaction::Unreaded);
-        debug!("GetRssFeeds {:?}", reaction);
-        let rss_feeds = match message.query.rss_source_uuid {
-            Some(rss_source_uuid) => find_rss_feeds_by_rss_source(
-                &connexion,
-                limit,
-                offset,
-                &reaction,
-                &rss_source_uuid,
-                &user,
-            )?,
-            None => find_rss_feeds(&connexion, limit, offset, &reaction, &user)?,
-        };
-        Ok(rss_feeds)
-    }
-}
-
-pub fn get_rss_feeds(
-    (query, auth, state): (Query<RssFeedsQuery>, Auth, State<AppState>),
-) -> Box<Future<Item = HttpResponse, Error = Error>> {
-    state
-        .db
-        .send(GetRssFeeds::new(
-            auth.claime.user,
+pub fn get_rss_feeds_service(
+    pool: Data<DbPool>,
+    config: Data<Config>,
+    auth: Auth,
+    query: Query<RssFeedsQuery>,
+    pagination: Query<Pagination>,
+) -> impl Future<Item = HttpResponse, Error = AppError> {
+    block(move || {
+        get_rss_feeds(
+            &pool,
+            &config,
             query.into_inner(),
-        ))
-        .from_err()
-        .and_then(|res| match res {
-            Ok(rss_feeds) => Ok(HttpResponse::Ok().json(
-                rss_feeds
-                    .iter()
-                    .map(|(rss_feed, user_rss_feed)| {
-                        json!({
-                          "rss_feed": rss_feed,
-                          "user_rss_feed": user_rss_feed,
-                        })
+            &pagination,
+            &auth.claime.user,
+        )
+    })
+    .and_then(|rss_feeds| {
+        Ok(HttpResponse::Ok().json(
+            rss_feeds
+                .iter()
+                .map(|(rss_feed, user_rss_feed)| {
+                    json!({
+                      "rss_feed": rss_feed,
+                      "user_rss_feed": user_rss_feed,
                     })
-                    .collect::<serde_json::Value>(),
-            )),
-            Err(err) => Err(err),
-        })
-        .responder()
+                })
+                .collect::<Vec<Value>>(),
+        ))
+    })
+    .from_err()
 }

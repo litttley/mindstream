@@ -115,3 +115,9 @@ pub fn decrement_unreaded_rss_sources(
     .bind::<diesel::sql_types::Uuid, _>(user.uuid)
     .execute(&*connection)
 }
+
+pub fn delete(connection: &PgConnection, id: &Uuid, user: &User) -> Result<usize, Error> {
+    use crate::schema::users_rss_sources::dsl::*;
+    diesel::delete(users_rss_sources.filter(rss_source_uuid.eq(id).and(user_uuid.eq(user.uuid))))
+        .execute(&*connection)
+}

@@ -1,24 +1,36 @@
 import * as React from "react"
 import { StyleSheet, css, CSSProperties } from "aphrodite/no-important"
 
-import { useIntlMessage } from "~/hooks/useIntlMessage"
 import { useMenuToggle } from "~/states/AppState"
 import { useMyRssSources } from "~/rssSources/RssSourcesState"
+import { useIntlMessage } from "~/hooks/useIntlMessage"
 import { colors } from "~/guideStyles"
 import { api } from "~/services/api"
 import * as router from "~/router"
 import { Header } from "./Header"
 import { Menu } from "~/components/Menu"
+import { Loader } from "./Loader"
 import { MyRssSources } from "~/rssSources/components/MyRssSources"
+import { NoMyRssSources } from "~/rssSources/components/NoMyRssSources"
 
 export function Layout({ children }: React.PropsWithChildren<{}>) {
-  const { loadMySources, myRssSources } = useMyRssSources()
   const { isMenuOpen, menuToggle } = useMenuToggle()
+  const { loadMySources, myRssSources, loadMySourcesLoading } = useMyRssSources()
   const message = useIntlMessage()
 
   React.useEffect(() => {
     loadMySources()
   }, [])
+
+  const renderMyRssSources = () => {
+    if (loadMySourcesLoading) {
+      return <Loader size={30} />
+    } else if (myRssSources.length === 0) {
+      return <NoMyRssSources />
+    } else {
+      return <MyRssSources title={message("myRssSources")}  myRssSources={myRssSources} />
+    }
+  }
 
   const logout = React.useCallback(() => api.logout().then(() => router.replace("/login")), [])
 
@@ -26,7 +38,7 @@ export function Layout({ children }: React.PropsWithChildren<{}>) {
     <div className={css(styles.layout)}>
       <div className={css(styles.menu, isMenuOpen ? styles.menuOpen : undefined)}>
         <Menu logout={logout} />
-        <MyRssSources title={message("myRssSources")} myRssSources={myRssSources} />
+        {renderMyRssSources()}
       </div>
       <div className={css(styles.header, isMenuOpen ? styles.headerMenuOpen : undefined)}>
         <Header appName="Mindstream" isMenuOpen={isMenuOpen} onMenuToggle={menuToggle} />
