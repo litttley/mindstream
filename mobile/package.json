@@ -21,7 +21,9 @@
     "ios": "react-native run-ios",
     "tsc": "tsc --project tsconfig.json",
     "tslint": "tslint --format stylish --project tsconfig.json",
-    "tslint-fix": "npm run tslint -- --fix"
+    "tslint-fix": "npm run tslint -- --fix",
+    "format": "prettier --write \"src/**/{*.ts,*.tsx}\"",
+    "format-check": "prettier --check --write \"src/**/{*.ts,*.tsx}\""
   },
   "dependencies": {
     "native-base": "2.12.1",
@@ -39,12 +41,9 @@
     "@types/react-navigation": "3.0.7",
     "@types/react-test-renderer": "16.8.1",
     "metro-react-native-babel-preset": "0.54.1",
-    "react-test-renderer": "16.8.6",
+    "prettier": "1.17.1",
     "tslint": "5.16.0",
     "tslint-react": "4.0.0",
     "typescript": "3.4.5"
-  },
-  "jest": {
-    "preset": "react-native"
   }
 }

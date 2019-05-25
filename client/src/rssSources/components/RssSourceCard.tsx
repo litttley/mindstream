@@ -21,20 +21,22 @@ export function RssSourceCard({ rssSource, isFollowed, followRssSource, unfollow
   return (
     <div className={css(styles.rssSourceCard)}>
       <div className={css(styles.icon)}>
-        {icon
-          ? <img src={icon} width="100%" />
-          : <div className={css(styles.noIcon)} />
-        }
+        {icon ? <img src={icon} width="100%" /> : <div className={css(styles.noIcon)} />}
       </div>
       <div className={css(styles.infos)}>
-        <a className={css(styles.title)} href={`#/stream/${uuid}`}>{title}</a>
-        <a className={css(styles.url)} href={url}>{url}</a>
+        <a className={css(styles.title)} href={`#/stream/${uuid}`}>
+          {title}
+        </a>
+        <a className={css(styles.url)} href={url}>
+          {url}
+        </a>
         {Description}
         <div className={css(styles.actions)}>
-          {!isFollowed
-            ? <GhostdButton label="Follow" onClick={() => followRssSource(rssSource)} />
-            : <GhostdButton label="Unfollow" onClick={() => unfollowRssSource(rssSource)} />
-          }
+          {!isFollowed ? (
+            <GhostdButton label="Follow" onClick={() => followRssSource(rssSource)} />
+          ) : (
+            <GhostdButton label="Unfollow" onClick={() => unfollowRssSource(rssSource)} />
+          )}
         </div>
       </div>
     </div>
@@ -49,41 +51,41 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     borderWidth: 1,
     borderStyle: "solid",
     borderColor: colors.secondary,
-    marginBottom: 20,
+    marginBottom: 20
   },
   icon: {
     width: 60,
-    height: 60,
+    height: 60
   },
   noIcon: {
     width: 60,
     height: 60,
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.secondary
   },
   infos: {
     flex: 1,
-    marginLeft: 20,
+    marginLeft: 20
   },
   title: {
     display: "block",
     fontSize: "1.4rem",
     color: colors.primary,
     textDecoration: "none",
-    marginBottom: 5,
+    marginBottom: 5
   },
   url: {
     display: "block",
     fontSize: ".9rem",
     color: colors.primary,
     textDecoration: "none",
-    marginBottom: 5,
+    marginBottom: 5
   },
   description: {
     fontSize: "1rem",
-    marginBottom: 5,
+    marginBottom: 5
   },
   actions: {
     marginTop: 15,
-    width: 300,
-  },
+    width: 300
+  }
 })

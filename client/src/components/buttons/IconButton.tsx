@@ -13,13 +13,7 @@ interface Props {
 
 export function IconButton({ children, loading, disable, href, onClick, style }: React.PropsWithChildren<Props>) {
   return (
-    <BaseButton
-      loading={loading}
-      style={[styles.iconButton, style]}
-      disable={disable}
-      href={href}
-      onClick={onClick}
-    >
+    <BaseButton loading={loading} style={[styles.iconButton, style]} disable={disable} href={href} onClick={onClick}>
       {children}
     </BaseButton>
   )
@@ -29,6 +23,6 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
   iconButton: {
     border: "none",
     padding: 0,
-    margin: 0,
-  },
+    margin: 0
+  }
 })

@@ -38,6 +38,6 @@ const styles = StyleSheet.create<{
 }>({
   actions: {
     paddingHorizontal: 15,
-    marginTop: 30,
-  },
+    marginTop: 30
+  }
 })

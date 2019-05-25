@@ -36,6 +36,6 @@ export function RssSourcesList({ rssSources, followRssSource, unfollowRssSource,
 
 const styles = StyleSheet.create<Record<string, CSSProperties>>({
   rssSourcesList: {
-    padding: 20,
-  },
+    padding: 20
+  }
 })

@@ -13,21 +13,11 @@ interface Props {
   onNext: () => void
 }
 
-export function FeedActions({ previusLoading  = false, nextLoading, onNext, onPrevious }: Props) {
+export function FeedActions({ previusLoading = false, nextLoading, onNext, onPrevious }: Props) {
   return (
     <div className={css(styles.container)}>
-      <FeedAction
-        style={styles.actionPrevious}
-        icon={<PreviousIcon />}
-        loading={previusLoading}
-        onClick={onPrevious}
-      />
-      <FeedAction
-        style={styles.actionNext}
-        icon={<NextIcon />}
-        loading={nextLoading}
-        onClick={onNext}
-      />
+      <FeedAction style={styles.actionPrevious} icon={<PreviousIcon />} loading={previusLoading} onClick={onPrevious} />
+      <FeedAction style={styles.actionNext} icon={<NextIcon />} loading={nextLoading} onClick={onNext} />
     </div>
   )
 }
@@ -41,18 +31,18 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     right: 20,
     position: "fixed",
     zIndex: 1000,
-    width: "calc(60px * 2 + 20px)",
+    width: "calc(60px * 2 + 20px)"
   },
   actionNext: {
     backgroundColor: colors.accent,
     ":hover": {
-      backgroundColor: colors.accentClear,
-    },
+      backgroundColor: colors.accentClear
+    }
   },
   actionPrevious: {
     backgroundColor: colors.secondary,
     ":hover": {
-      backgroundColor: colors.secondaryClear,
-    },
-  },
+      backgroundColor: colors.secondaryClear
+    }
+  }
 })

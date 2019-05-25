@@ -16,7 +16,7 @@ export interface AuthState {
 }
 
 const initState: AuthState = {
-  loading: false,
+  loading: false
 }
 
 export const [AuthContext, AuthProvider] = createStore(initState)
@@ -41,7 +41,7 @@ export function useLogin() {
   return {
     loading: state.loading,
     loginErrors: state.loginErrors,
-    loginSubmit,
+    loginSubmit
   }
 }
 
@@ -64,6 +64,6 @@ export function useSignup() {
   return {
     loading: state.loading,
     signupErrors: state.signupErrors,
-    signupSubmit,
+    signupSubmit
   }
 }

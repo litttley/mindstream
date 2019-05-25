@@ -17,9 +17,11 @@ export function NextRssSource({ rssSourceUuid }: Props) {
 
   return (
     <div className={css(styles.nextRssSource)}>
-      {nextRssSource
-        ? <GhostdButton label={message("nextRssSource")} href={`/#/rss/feeds/${nextRssSource.rss_source.uuid}`} />
-        : undefined}
+      {nextRssSource ? (
+        <GhostdButton label={message("nextRssSource")} href={`/#/rss/feeds/${nextRssSource.rss_source.uuid}`} />
+      ) : (
+        undefined
+      )}
     </div>
   )
 }
@@ -27,6 +29,6 @@ export function NextRssSource({ rssSourceUuid }: Props) {
 const styles = StyleSheet.create<Record<string, CSSProperties>>({
   nextRssSource: {
     display: "flex",
-    justifyContent: "center",
-  },
+    justifyContent: "center"
+  }
 })

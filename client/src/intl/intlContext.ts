@@ -2,7 +2,7 @@ import * as React from "react"
 import { messagesEn } from "./messagesEn"
 
 const messages: Record<string, Record<string, string>> = {
-  en: messagesEn,
+  en: messagesEn
 }
 
 const local = "en"

@@ -4,13 +4,17 @@ export interface ApiError {
   params: Record<string, string | number>
 }
 export interface ApiErrors {
-  message: string,
+  message: string
   errors?: Record<string, ApiError[]>
 }
 
-export function getFieldErrorMessage(field: string, intl: (key: string, params?: unknown) => string, errors?: ApiErrors): string | undefined {
+export function getFieldErrorMessage(
+  field: string,
+  intl: (key: string, params?: unknown) => string,
+  errors?: ApiErrors
+): string | undefined {
   if (errors) {
-    const fieldsErrors = errors.errors && errors.errors[field] as ApiError[] | undefined
+    const fieldsErrors = errors.errors && (errors.errors[field] as ApiError[] | undefined)
     if (fieldsErrors && fieldsErrors.length > 0) {
       const error = fieldsErrors[0]
 

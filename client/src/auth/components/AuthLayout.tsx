@@ -17,7 +17,7 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     display: "flex",
     flex: 1,
     minHeight: "100vh",
-    flexDirection: "column",
+    flexDirection: "column"
   },
   appName: {
     fontSize: "1.5rem",
@@ -26,6 +26,6 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     fontFamily: "'Times New Roman', Times, serif",
     textTransform: "uppercase",
     color: colors.primary,
-    margin: "40px 0",
-  },
+    margin: "40px 0"
+  }
 })

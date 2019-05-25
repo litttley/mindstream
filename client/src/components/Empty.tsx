@@ -8,9 +8,7 @@ interface Props {
 }
 
 export function Empty({ message }: Props) {
-  return (
-    <div className={css(styles.empty)}>{message}</div>
-  )
+  return <div className={css(styles.empty)}>{message}</div>
 }
 
 const styles = StyleSheet.create<Record<string, CSSProperties>>({
@@ -18,6 +16,6 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     fontSize: "1rem",
     color: colors.secondary,
     textAlign: "center",
-    padding: 30,
-  },
+    padding: 30
+  }
 })

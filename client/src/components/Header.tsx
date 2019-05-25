@@ -28,7 +28,7 @@ export function Header({ appName, isMenuOpen, onMenuToggle }: Props) {
 const styles = StyleSheet.create<Record<string, CSSProperties>>({
   appName: {
     display: "flex",
-    alignItems: "center",
+    alignItems: "center"
   },
   header: {
     display: "flex",
@@ -40,14 +40,14 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     backgroundColor: colors.primaryClear,
     "@media screen and (min-width: 760px)": {
       display: "flex",
-      alignContent: "center",
-    },
+      alignContent: "center"
+    }
   },
   menuToggle: {
     display: "flex",
     alignItems: "center",
     paddingLeft: 15,
     paddingRight: 15,
-    cursor: "pointer",
-  },
+    cursor: "pointer"
+  }
 })

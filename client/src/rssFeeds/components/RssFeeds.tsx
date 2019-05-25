@@ -12,14 +12,14 @@ interface Props {
 export function RssFeeds({ rssFeeds, onRssFeedClick }: Props) {
   return (
     <div className={css(styles.feeds)}>
-      {rssFeeds.map(rssFeed =>
+      {rssFeeds.map(rssFeed => (
         <RssFeedExcerpt
           key={rssFeed.rss_feed.uuid}
           style={styles.feedExcerpt}
           rssFeed={rssFeed}
           onClick={onRssFeedClick}
         />
-      )}
+      ))}
     </div>
   )
 }
@@ -37,10 +37,10 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
       width: 900,
       alignSelf: "center",
       padding: "40px 20px 50px 20px",
-      margin: "auto",
-    },
+      margin: "auto"
+    }
   },
   feedExcerpt: {
-    marginBottom: 30,
-  },
+    marginBottom: 30
+  }
 })

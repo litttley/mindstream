@@ -12,11 +12,7 @@ export function LoginScreen() {
 
   return (
     <AuthLayout>
-      <LoginForm
-        loading={loading}
-        errors={loginErrors}
-        onSubmit={loginSubmit}
-      />
+      <LoginForm loading={loading} errors={loginErrors} onSubmit={loginSubmit} />
       <div style={{ display: "flex", justifyContent: "center" }}>
         <LinkButton href="#/signup">{message("action.signup")}</LinkButton>
       </div>

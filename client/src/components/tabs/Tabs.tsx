@@ -35,23 +35,19 @@ export function Tabs({ children, onChange, selectedTabName }: React.PropsWithChi
 
   return (
     <div className={css(styles.tabsContainer)}>
-      <div className={css(styles.tabs)}>
-        {labels.map(renderTab)}
-      </div>
-      <div>
-        {SelectedTab}
-      </div>
+      <div className={css(styles.tabs)}>{labels.map(renderTab)}</div>
+      <div>{SelectedTab}</div>
     </div>
   )
 }
 
 const styles = StyleSheet.create<Record<string, CSSProperties>>({
   tabsContainer: {
-    width: "100%",
+    width: "100%"
   },
   tabs: {
     width: "100%",
-    display: "inline-flex",
+    display: "inline-flex"
   },
   tab: {
     flex: 1,
@@ -68,14 +64,14 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     color: colors.secondary,
     cursor: "pointer",
     ":hover": {
-      color: colors.accent,
-    },
+      color: colors.accent
+    }
   },
   selected: {
     borderTopColor: colors.secondary,
     color: colors.secondary,
     ":hover": {
-      color: colors.accent,
-    },
-  },
+      color: colors.accent
+    }
+  }
 })

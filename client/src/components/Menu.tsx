@@ -14,10 +14,18 @@ export function Menu({ logout }: Props) {
   return (
     <div className={css(styles.menuContainer)}>
       <div className={css(styles.links)}>
-        <a className={css(styles.item)} href="#/">{message("menu.home")}</a>
-        <a className={css(styles.item)} href="#/rss/feeds/liked">{message("menu.feeds")}</a>
-        <a className={css(styles.item)} href="#/rss/sources">{message("menu.rssSources")}</a>
-        <a className={css(styles.item)} onClick={logout}>{message("menu.logout")}</a>
+        <a className={css(styles.item)} href="#/">
+          {message("menu.home")}
+        </a>
+        <a className={css(styles.item)} href="#/rss/feeds/liked">
+          {message("menu.feeds")}
+        </a>
+        <a className={css(styles.item)} href="#/rss/sources">
+          {message("menu.rssSources")}
+        </a>
+        <a className={css(styles.item)} onClick={logout}>
+          {message("menu.logout")}
+        </a>
       </div>
     </div>
   )
@@ -25,11 +33,11 @@ export function Menu({ logout }: Props) {
 
 const styles = StyleSheet.create<Record<string, CSSProperties>>({
   menuContainer: {
-    paddingTop: 10,
+    paddingTop: 10
   },
   links: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "column"
   },
   item: {
     textDecoration: "none",
@@ -37,7 +45,7 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     padding: "10px 20px",
     cursor: "pointer",
     ":hover": {
-      color: colors.accent,
-    },
-  },
+      color: colors.accent
+    }
+  }
 })

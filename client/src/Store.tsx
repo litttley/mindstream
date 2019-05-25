@@ -6,7 +6,10 @@ export interface Dispatcher<T> {
   update: Update<T>
 }
 
-export function createStore<T, K extends keyof T>(initialState: T, name?: string): [React.Context<T & Dispatcher<T>>, React.FunctionComponent] {
+export function createStore<T, K extends keyof T>(
+  initialState: T,
+  name?: string
+): [React.Context<T & Dispatcher<T>>, React.FunctionComponent] {
   const Context = React.createContext<T & Dispatcher<T>>({ ...initialState, update: s => s })
   const reducer: React.Reducer<T, Pick<T, K> | T> = (s, a) => ({ ...s, ...a })
   const Provider: React.FunctionComponent = ({ children }) => {
@@ -21,10 +24,12 @@ export function createStore<T, K extends keyof T>(initialState: T, name?: string
 }
 
 export function createPersistedStore<S, K extends keyof S>(
-  initialState: S, key: string, storageEngine: Storage
+  initialState: S,
+  key: string,
+  storageEngine: Storage
 ): [React.Context<S & Dispatcher<S>>, React.FunctionComponent] {
   const maybeStoredData = storageEngine.getItem(key)
-  const storedData = maybeStoredData ? JSON.parse(maybeStoredData) as S : initialState
+  const storedData = maybeStoredData ? (JSON.parse(maybeStoredData) as S) : initialState
   const Context = React.createContext<S & Dispatcher<S>>({ ...storedData, update: s => s })
   const reducer: React.Reducer<S, Pick<S, K> | S> = (s, a) => ({ ...s, ...a })
 

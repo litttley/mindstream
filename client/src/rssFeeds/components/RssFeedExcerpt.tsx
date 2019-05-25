@@ -11,24 +11,24 @@ interface Props {
 }
 
 export function RssFeedExcerpt({ rssFeed, style, onClick }: Props) {
-    const { rss_feed } = rssFeed
-    const { readable } = rss_feed
+  const { rss_feed } = rssFeed
+  const { readable } = rss_feed
 
-    return (
-      <div role="button" onClick={() => onClick(rssFeed)} className={css(styles.feedExcerpt, style)}>
-        <div className={css(styles.imageContainer)}>
-          {readable ? <img className={css(styles.image)} src={readable.lead_image_url} /> : <div className={css(styles.noImage)} />}
-        </div>
-        <div className={css(styles.content)}>
-          <h1 className={css(styles.title)}>
-            {getTitle(rss_feed)}
-          </h1>
-          <p className={css(styles.excerpt)}>
-            {getExcerpt(rss_feed)}
-          </p>
-        </div>
+  return (
+    <div role="button" onClick={() => onClick(rssFeed)} className={css(styles.feedExcerpt, style)}>
+      <div className={css(styles.imageContainer)}>
+        {readable ? (
+          <img className={css(styles.image)} src={readable.lead_image_url} />
+        ) : (
+          <div className={css(styles.noImage)} />
+        )}
       </div>
-    )
+      <div className={css(styles.content)}>
+        <h1 className={css(styles.title)}>{getTitle(rss_feed)}</h1>
+        <p className={css(styles.excerpt)}>{getExcerpt(rss_feed)}</p>
+      </div>
+    </div>
+  )
 }
 
 const styles = StyleSheet.create<Record<string, CSSProperties>>({
@@ -38,11 +38,11 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     padding: 10,
     cursor: "pointer",
     ":hover": {
-      backgroundColor: "#EEEEEE",
-    },
+      backgroundColor: "#EEEEEE"
+    }
   },
   content: {
-    flex: 1,
+    flex: 1
   },
   imageContainer: {
     width: 100,
@@ -51,16 +51,16 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     "@media screen and (min-width: 480px)": {
       width: 150,
       height: 150,
-      marginRight: 10,
-    },
+      marginRight: 10
+    }
   },
   image: {
-    width: "100%",
+    width: "100%"
   },
   noImage: {
     width: "100%",
     height: "100%",
-    backgroundColor: "#AAAAAA",
+    backgroundColor: "#AAAAAA"
   },
   title: {
     fontSize: "1.3rem",
@@ -68,11 +68,11 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     marginBottom: 10,
 
     "@media screen and (min-width: 480px)": {
-      fontSize: "1.5rem",
-    },
+      fontSize: "1.5rem"
+    }
   },
   excerpt: {
     fontSize: "1rem",
-    color: "#666666",
-  },
+    color: "#666666"
+  }
 })

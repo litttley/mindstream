@@ -15,7 +15,7 @@ export function FormErrors({ errors }: ErrorsProps) {
   return (
     <div className={css(styles.errorContainer)}>
       <div className={css(errors && errors.message ? styles.errorMessage : styles.errorMessageHidden)}>
-        {errors && message(errors.message) || ""}
+        {(errors && message(errors.message)) || ""}
       </div>
     </div>
   )
@@ -27,12 +27,12 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     alignItems: "center",
     justifyContent: "center",
     minHeight: "40px",
-    padding: "24px 0",
+    padding: "24px 0"
   },
   errorMessage: {
-    color: colors.error,
+    color: colors.error
   },
   errorMessageHidden: {
-    visibility: "hidden",
-  },
+    visibility: "hidden"
+  }
 })

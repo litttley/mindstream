@@ -1,4 +1,4 @@
-import Axios, { AxiosInstance,  AxiosRequestConfig } from "axios"
+import Axios, { AxiosInstance, AxiosRequestConfig } from "axios"
 import * as router from "~/router"
 import { RssFeed, Reaction, UserRssFeed } from "~/models/rssFeed"
 import { RssSource, MyRssSource } from "~/models/rssSource"
@@ -17,8 +17,8 @@ export class ApiService {
       baseURL,
       timeout: 5 * 60 * 1000,
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     })
 
     const token = localStorage.getItem(STORAGE_AUTH_TOKEN_KEY)
@@ -48,12 +48,14 @@ export class ApiService {
   }
 
   private authenticate(config: AxiosRequestConfig): Promise<AuthResponse> {
-    return this.instance.request<AuthResponse>(config)
+    return this.instance
+      .request<AuthResponse>(config)
       .then(response => {
         this.setToken(response.data.token)
 
         return response.data
-      }).catch(error =>
+      })
+      .catch(error =>
         // tslint:disable-next-line: no-unsafe-any
         Promise.reject(error.response.data)
       )
@@ -62,10 +64,15 @@ export class ApiService {
   private withAuth<T>(config: AxiosRequestConfig): Promise<T> {
     const token = this.getToken()
     if (token) {
-      return this.instance.request<T>({ ...config, headers: {
-        ...config.headers,
-        Authorization: token,
-      }}).then(response => response.data)
+      return this.instance
+        .request<T>({
+          ...config,
+          headers: {
+            ...config.headers,
+            Authorization: token
+          }
+        })
+        .then(response => response.data)
     } else {
       router.replace("/login")
 
@@ -95,35 +102,35 @@ export class ApiService {
   public searchRssSource(query: string): Promise<RssSource[]> {
     return this.withAuth({
       url: `/api/rss/sources/search?query=${query}`,
-      method: "GET",
+      method: "GET"
     })
   }
 
   public getUnfollowedRssSources(): Promise<RssSource[]> {
     return this.withAuth({
       url: `/api/rss/sources/unfollowed`,
-      method: "GET",
+      method: "GET"
     })
   }
 
   public followRssSource(rssSource: RssSource): Promise<MyRssSource> {
     return this.withAuth({
       url: `/api/rss/sources/${rssSource.uuid}/follow`,
-      method: "POST",
+      method: "POST"
     })
   }
 
   public unfollowRssSource(rssSource: RssSource): Promise<void> {
     return this.withAuth({
       url: `/api/rss/sources/${rssSource.uuid}`,
-      method: "DELETE",
+      method: "DELETE"
     })
   }
 
   public getRssFeeds(reaction: Reaction, rssSourceUuid?: string): Promise<RssFeedsResponse[]> {
     return this.withAuth({
       url: `/api/rss/feeds${querystring({ reaction, rss_source_uuid: rssSourceUuid })}`,
-      method: "GET",
+      method: "GET"
     })
   }
 
@@ -131,7 +138,7 @@ export class ApiService {
     return this.withAuth({
       url: `/api/rss/feeds/reaction`,
       method: "PUT",
-      data: { rss_feed_uuid: rssFeed.uuid, reaction },
+      data: { rss_feed_uuid: rssFeed.uuid, reaction }
     })
   }
 }
@@ -139,7 +146,9 @@ export class ApiService {
 export const api = new ApiService()
 
 export function querystring(queries: Record<string, string | undefined>): string {
-  const querystrings = Object.keys(queries).filter(key => !!queries[key]).map(key => `${key}=${encodeURI(queries[key] || "")}`)
+  const querystrings = Object.keys(queries)
+    .filter(key => !!queries[key])
+    .map(key => `${key}=${encodeURI(queries[key] || "")}`)
   if (querystrings.length > 0) {
     return `?${querystrings.join("&")}`
   } else {

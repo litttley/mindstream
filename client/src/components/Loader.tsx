@@ -19,6 +19,6 @@ export function Loader({ size = 60, paddingTop = "30px" }: Props) {
 const styles = StyleSheet.create<Record<string, CSSProperties>>({
   loader: {
     display: "flex",
-    justifyContent: "center",
-  },
+    justifyContent: "center"
+  }
 })

@@ -6,7 +6,7 @@ export function HomeScreen({ navigation }: NavigationScreenProps) {
   return (
     <Container>
       <Content>
-        <Button onPress={() => navigation.navigate("Auth") }>
+        <Button onPress={() => navigation.navigate("Auth")}>
           <Text>Mindstream</Text>
         </Button>
       </Content>

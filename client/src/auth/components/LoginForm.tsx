@@ -43,12 +43,7 @@ export function LoginForm({ errors, loading, onSubmit }: Props) {
         type="password"
         error={getFieldErrorMessage("password", message, errors)}
       />
-      <GhostdButton
-        style={styles.button}
-        label={message("action.login")}
-        loading={loading}
-        onClick={onClick}
-      />
+      <GhostdButton style={styles.button} label={message("action.login")} loading={loading} onClick={onClick} />
       <FormErrors errors={errors} />
     </div>
   )
@@ -60,11 +55,11 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     padding: "24px",
     "@media screen and (min-width: 400px)": {
       width: "400px",
-      alignSelf: "center",
-    },
+      alignSelf: "center"
+    }
   },
   button: {
     width: "100%",
-    height: "40px",
-  },
+    height: "40px"
+  }
 })
