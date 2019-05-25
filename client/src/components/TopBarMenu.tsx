@@ -31,11 +31,11 @@ export function TopBarMenu() {
         anchorEl={anchorEl}
         anchorOrigin={{
           vertical: "top",
-          horizontal: "right",
+          horizontal: "right"
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "right",
+          horizontal: "right"
         }}
         open={isMenueOpen}
         onClose={handleClose}

@@ -67,12 +67,12 @@ export function LoginForm({ errors, loading, onSubmit }: Props) {
 
 const useStyles = makeStyles({
   formItem: {
-    marginBottom: 15,
+    marginBottom: 15
   },
   formButton: {
-    marginTop: 15,
+    marginTop: 15
   },
   loading: {
-    marginTop: 20,
-  },
+    marginTop: 20
+  }
 })

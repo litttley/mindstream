@@ -16,25 +16,13 @@ export function SignupScreen() {
 
   return (
     <Container maxWidth="xs">
-      <Typography
-        align="center"
-        variant="h2"
-        className={classes.appName}
-      >
+      <Typography align="center" variant="h2" className={classes.appName}>
         Mindstream
       </Typography>
       <Grid container>
-        <SignupForm
-          loading={loading}
-          errors={signupErrors}
-          onSubmit={signupSubmit}
-        />
+        <SignupForm loading={loading} errors={signupErrors} onSubmit={signupSubmit} />
         <Grid container justify="center">
-          <Link
-            href="#/login"
-            align="center"
-            className={classes.link}
-          >
+          <Link href="#/login" align="center" className={classes.link}>
             {message("action.login")}
           </Link>
         </Grid>
@@ -46,9 +34,9 @@ export function SignupScreen() {
 const useStyles = makeStyles(theme => ({
   appName: {
     marginTop: 50,
-    marginBottom: 20,
+    marginBottom: 20
   },
   link: {
-    marginTop: 20,
-  },
+    marginTop: 20
+  }
 }))

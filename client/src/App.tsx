@@ -28,7 +28,7 @@ export function App() {
                 <Switch>
                   <Route exact path="/" component={UnreadedRssFeedsScreen} />
                   <Route exact path="/rss/feeds/liked" component={LikedRssFeedsScreen} />
-                  <Route exact path="/v2" component={Home}/>
+                  <Route exact path="/v2" component={Home} />
                   <Route exact path="/rss/feeds/:rssSourceUuid" component={UnreadedRssFeedsByRssSourceScreen} />
                   <Route exact path="/rss/feed/:rssFeedUuid" component={RssFeedScreen} />
                   <Route exact path="/rss/sources" component={RssSourcesScreen} />
