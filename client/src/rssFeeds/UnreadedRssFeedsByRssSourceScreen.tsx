@@ -16,7 +16,11 @@ interface Params {
 
 // TODO make one with UnreadedRssFeeds
 export function UnreadedRssFeedsByRssSourceScreen(props: RouteComponentProps<Params>) {
-  const { match: { params: { rssSourceUuid } } } = props
+  const {
+    match: {
+      params: { rssSourceUuid }
+    }
+  } = props
   const {
     goToNextRssFeed,
     unreadedRssFeeds,
@@ -27,7 +31,7 @@ export function UnreadedRssFeedsByRssSourceScreen(props: RouteComponentProps<Par
     goToNextRssFeedLoading,
     likeRssFeedLoading,
     unlikleRssFeed,
-    getRssFeedsLoading,
+    getRssFeedsLoading
   } = useUnreadedRssFeeds()
   const message = useIntlMessage()
 
@@ -36,9 +40,17 @@ export function UnreadedRssFeedsByRssSourceScreen(props: RouteComponentProps<Par
   }, [rssSourceUuid])
 
   useKeyDown((event: KeyboardEvent) => {
-    if (!goToNextRssFeedLoading && unreadedRssFeeds.length > 0 && (event.code === "ArrowRight" || event.code === "KeyD")) {
+    if (
+      !goToNextRssFeedLoading &&
+      unreadedRssFeeds.length > 0 &&
+      (event.code === "ArrowRight" || event.code === "KeyD")
+    ) {
       goToNextRssFeed(rssSourceUuid)
-    } else if (previousRssFeeds.length > 0 && event.code === "ArrowLeft" || event.code === "KeyQ" || event.code === "KeyA") {
+    } else if (
+      (previousRssFeeds.length > 0 && event.code === "ArrowLeft") ||
+      event.code === "KeyQ" ||
+      event.code === "KeyA"
+    ) {
       goToPreviuosRssFeed()
     }
   })
@@ -74,9 +86,5 @@ export function UnreadedRssFeedsByRssSourceScreen(props: RouteComponentProps<Par
     }
   }
 
-  return (
-    <Layout>
-      {renderRssFeed()}
-    </Layout>
-  )
+  return <Layout>{renderRssFeed()}</Layout>
 }

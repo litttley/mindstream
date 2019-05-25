@@ -1,5 +1,5 @@
 export const messagesEn: Record<string, string> = {
-  "appName": "Mindstream",
+  appName: "Mindstream",
   "form.login": "Login",
   "form.email": "Email",
   "form.password": "Password",
@@ -17,11 +17,11 @@ export const messagesEn: Record<string, string> = {
   "menu.rssSources": "Rss Sources",
   "menu.logout": "Logout",
 
-  "myRssSources": "My Rss Sources",
-  "searchNewRssSources": "Search new rss sources",
-  "search": "Search",
-  "notFound": "Not Found",
-  "noMoreFeeds":  "No more feeds",
-  "noTitle": "No title",
-  "nextRssSource": "Next Rss Source",
+  myRssSources: "My Rss Sources",
+  searchNewRssSources: "Search new rss sources",
+  search: "Search",
+  notFound: "Not Found",
+  noMoreFeeds: "No more feeds",
+  noTitle: "No title",
+  nextRssSource: "Next Rss Source"
 }

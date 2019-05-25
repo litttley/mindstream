@@ -5,11 +5,11 @@ export const colors = {
   secondaryClear: "#e9e9e9",
   error: "#F36262",
   accent: "#46C882",
-  accentClear: "#68eea6",
+  accentClear: "#68eea6"
 }
 
 export const breakpoints = {
   mobile: 480,
   medium: 980,
-  large: 1280,
+  large: 1280
 }

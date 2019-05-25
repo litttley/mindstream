@@ -10,10 +10,7 @@ interface Props extends NativeBase.Button {
 export function Button({ title, onPress, loading, ...props }: Props) {
   return (
     <NativeBaseButton {...props} onPress={onPress}>
-      {loading
-        ? <Spinner color="#FFFFFF" />
-        : <Text>{title}</Text>
-      }
+      {loading ? <Spinner color="#FFFFFF" /> : <Text>{title}</Text>}
     </NativeBaseButton>
   )
 }

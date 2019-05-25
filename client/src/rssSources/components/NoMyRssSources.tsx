@@ -17,6 +17,6 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
   noMyRssSources: {
     display: "flex",
     justifyContent: "center",
-    padding: 20,
-  },
+    padding: 20
+  }
 })

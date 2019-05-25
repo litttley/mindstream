@@ -28,7 +28,7 @@ export function Layout({ children }: React.PropsWithChildren<{}>) {
     } else if (myRssSources.length === 0) {
       return <NoMyRssSources />
     } else {
-      return <MyRssSources title={message("myRssSources")}  myRssSources={myRssSources} />
+      return <MyRssSources title={message("myRssSources")} myRssSources={myRssSources} />
     }
   }
 
@@ -43,9 +43,7 @@ export function Layout({ children }: React.PropsWithChildren<{}>) {
       <div className={css(styles.header, isMenuOpen ? styles.headerMenuOpen : undefined)}>
         <Header appName="Mindstream" isMenuOpen={isMenuOpen} onMenuToggle={menuToggle} />
       </div>
-      <div className={css(styles.content, isMenuOpen ? styles.contentMenuOpen : undefined)}>
-        {children}
-      </div>
+      <div className={css(styles.content, isMenuOpen ? styles.contentMenuOpen : undefined)}>{children}</div>
     </div>
   )
 }
@@ -53,7 +51,7 @@ export function Layout({ children }: React.PropsWithChildren<{}>) {
 const styles = StyleSheet.create<Record<string, CSSProperties>>({
   layout: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "row"
   },
   header: {
     position: "fixed",
@@ -61,10 +59,10 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     top: 0,
     left: 0,
     right: 0,
-    transition: "margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms",
+    transition: "margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms"
   },
   headerMenuOpen: {
-    marginLeft: 260,
+    marginLeft: 260
   },
   menu: {
     position: "fixed",
@@ -78,22 +76,22 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     marginLeft: -260,
     borderRightWidth: 1,
     borderRightStyle: "solid",
-    borderRightColor: colors.secondaryClear,
+    borderRightColor: colors.secondaryClear
   },
   menuOpen: {
-    marginLeft: 0,
+    marginLeft: 0
   },
   content: {
     width: "100%",
     flexGrow: 1,
     backgroundColor: colors.primaryClear,
     marginTop: 60,
-    transition: "margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms",
+    transition: "margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms"
   },
   contentMenuOpen: {
     marginLeft: 0,
     "@media screen and (min-width: 480px)": {
-      marginLeft: 260,
-    },
-  },
+      marginLeft: 260
+    }
+  }
 })

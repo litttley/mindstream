@@ -22,7 +22,7 @@ const initialState: RssSourcesState = {
   myRssSources: [],
   findedRssSources: [],
   getTopRssSourcesLoading: false,
-  topRssSources: [],
+  topRssSources: []
 }
 
 export const [RssSourcesContext, RssSourcesProvider] = createStore(initialState, "Rss Sources")
@@ -32,19 +32,19 @@ export function useTopRssSources() {
 
   const getUnfollowedRssSources = () => {
     update({ getTopRssSourcesLoading: true })
-    api.getUnfollowedRssSources()
+    api
+      .getUnfollowedRssSources()
       .then(topRssSources => update({ topRssSources, getTopRssSourcesLoading: false }))
       .catch(error => update({ getTopRssSourcesLoading: false }))
   }
 
-  const isNoMyRssSources = () =>
-    !state.loadMySourcesLoading && state.myRssSources.length === 0
+  const isNoMyRssSources = () => !state.loadMySourcesLoading && state.myRssSources.length === 0
 
   return {
     topRssSources: state.topRssSources,
     getTopRssSourcesLoading: state.getTopRssSourcesLoading,
     isNoMyRssSources,
-    getUnfollowedRssSources,
+    getUnfollowedRssSources
   }
 }
 
@@ -53,21 +53,25 @@ export function useMyRssSources() {
 
   const loadMySources = () => {
     update({ loadMySourcesLoading: true })
-    api.loadMyRssSources()
+    api
+      .loadMyRssSources()
       .then(myRssSources => update({ myRssSources, loadMySourcesLoading: false }))
       .catch(error => update({ loadMySourcesLoading: false }))
   }
 
-  const isFollowed = (rssSource: RssSource) => state.myRssSources.find(s => s.rss_source.uuid === rssSource.uuid) !== undefined
+  const isFollowed = (rssSource: RssSource) =>
+    state.myRssSources.find(s => s.rss_source.uuid === rssSource.uuid) !== undefined
 
   const decrementRssSource = (rssFeed: RssFeed) => {
-    update({ myRssSources: state.myRssSources.map(myRssSource => {
-      if (myRssSource.rss_source.uuid === rssFeed.rss_source_uuid) {
-        return { ...myRssSource, unreaded: myRssSource.unreaded - 1 }
-      } else {
-        return myRssSource
-      }
-    })})
+    update({
+      myRssSources: state.myRssSources.map(myRssSource => {
+        if (myRssSource.rss_source.uuid === rssFeed.rss_source_uuid) {
+          return { ...myRssSource, unreaded: myRssSource.unreaded - 1 }
+        } else {
+          return myRssSource
+        }
+      })
+    })
   }
 
   return {
@@ -75,7 +79,7 @@ export function useMyRssSources() {
     loadMySources,
     decrementRssSource,
     loadMySourcesLoading: state.loadMySourcesLoading,
-    myRssSources: state.myRssSources,
+    myRssSources: state.myRssSources
   }
 }
 
@@ -89,7 +93,8 @@ export function useSearchRssSources() {
       update({ findedRssSources: [] })
     } else {
       update({ searchRssSourceLoading: true })
-      api.searchRssSource(query)
+      api
+        .searchRssSource(query)
         .then(findedRssSources => update({ findedRssSources, searchRssSourceLoading: false }))
         .catch(error => update({ searchRssSourceLoading: false }))
     }
@@ -97,7 +102,8 @@ export function useSearchRssSources() {
 
   const followRssSources = (rssSource: RssSource) => {
     update({ followRssSourceLoading: true })
-    api.followRssSource(rssSource)
+    api
+      .followRssSource(rssSource)
       .then(myRssSource => {
         update({ followRssSourceLoading: false, myRssSources: [...state.myRssSources, myRssSource] })
       })
@@ -109,9 +115,13 @@ export function useSearchRssSources() {
 
   const unfollowRssSource = (rssSource: RssSource) => {
     update({ followRssSourceLoading: true })
-    api.unfollowRssSource(rssSource)
+    api
+      .unfollowRssSource(rssSource)
       .then(myRssSource => {
-        update({ followRssSourceLoading: false, myRssSources: state.myRssSources.filter(s => s.rss_source.uuid !== rssSource.uuid) })
+        update({
+          followRssSourceLoading: false,
+          myRssSources: state.myRssSources.filter(s => s.rss_source.uuid !== rssSource.uuid)
+        })
       })
       .catch(error => {
         /* TODO */
@@ -125,6 +135,6 @@ export function useSearchRssSources() {
     unfollowRssSource,
     searchRssSources,
     searchRssSourceLoading: state.searchRssSourceLoading,
-    findedRssSources: state.findedRssSources,
+    findedRssSources: state.findedRssSources
   }
 }

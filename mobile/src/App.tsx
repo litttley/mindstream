@@ -1,5 +1,10 @@
 import React from "react"
-import { createAppContainer, createSwitchNavigator, createStackNavigator, NavigationScreenConfigProps } from "react-navigation"
+import {
+  createAppContainer,
+  createSwitchNavigator,
+  createStackNavigator,
+  NavigationScreenConfigProps
+} from "react-navigation"
 import { LoginScreen } from "./LoginScreen"
 import { HomeScreen } from "./HomeScreen"
 import { SignupScreen } from "./SignupScreen"
@@ -9,9 +14,9 @@ const AuthorizedNavigator = createStackNavigator({
   Home: {
     screen: HomeScreen,
     navigationOptions: {
-      title: "Mindstream",
-    },
-  },
+      title: "Mindstream"
+    }
+  }
 })
 
 const AuthNavigator = createStackNavigator({
@@ -19,22 +24,25 @@ const AuthNavigator = createStackNavigator({
     screen: LoginScreen,
     navigationOptions: ({ navigation }: NavigationScreenConfigProps) => ({
       title: "Login",
-      headerRight: <HeaderRight title="Signup" route="Signup" navigation={navigation} />,
-    }),
+      headerRight: <HeaderRight title="Signup" route="Signup" navigation={navigation} />
+    })
   },
   Signup: {
     screen: SignupScreen,
     navigationOptions: {
-      title: "Signup",
-    },
-  },
+      title: "Signup"
+    }
+  }
 })
 
-const AppNavigator = createSwitchNavigator({
-  Authorized: AuthorizedNavigator,
-  Auth: AuthNavigator,
-}, {
-  initialRouteName: "Auth",
-})
+const AppNavigator = createSwitchNavigator(
+  {
+    Authorized: AuthorizedNavigator,
+    Auth: AuthNavigator
+  },
+  {
+    initialRouteName: "Auth"
+  }
+)
 
 export const App = createAppContainer(AppNavigator)

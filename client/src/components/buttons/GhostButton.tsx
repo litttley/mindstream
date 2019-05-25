@@ -14,13 +14,7 @@ interface Props {
 
 export function GhostdButton({ href, label, loading, disable, onClick, style }: Props) {
   return (
-    <BaseButton
-      style={[styles.ghostButton, style]}
-      loading={loading}
-      disable={disable}
-      href={href}
-      onClick={onClick}
-    >
+    <BaseButton style={[styles.ghostButton, style]} loading={loading} disable={disable} href={href} onClick={onClick}>
       {label}
     </BaseButton>
   )
@@ -44,18 +38,17 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
 
     ":hover": {
       backgroundColor: colors.primary,
-      color: colors.primaryClear,
+      color: colors.primaryClear
     },
     ":focus": {
       backgroundColor: colors.primary,
-      color: colors.primaryClear,
-    },
-
+      color: colors.primaryClear
+    }
   },
   "ghostButton path": {
-    fill: colors.primary,
+    fill: colors.primary
   },
   "ghostButton:hover path": {
-    fill: colors.primaryClear,
-  },
+    fill: colors.primaryClear
+  }
 })

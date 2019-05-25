@@ -37,7 +37,12 @@ export function RssFeedCard({ feed, likedLoading, onLike, onUnlike }: Props) {
   const message = useIntlMessage()
   const { readable } = feed.rss_feed
   const { rss } = feed.rss_feed
-  const ReadableTab = !!readable && !!readable.content ? <CardTab label="Readable" name="readable" content={readable.content} /> : undefined
+  const ReadableTab =
+    !!readable && !!readable.content ? (
+      <CardTab label="Readable" name="readable" content={readable.content} />
+    ) : (
+      undefined
+    )
 
   React.useEffect(() => {
     window.scrollTo(0, 0)
@@ -59,11 +64,11 @@ export function RssFeedCard({ feed, likedLoading, onLike, onUnlike }: Props) {
     <div className={css(styles.feedCard)}>
       <div className={css(styles.head)}>
         <h1 className={css(styles.title)}>{getTitle(feed.rss_feed) || message("noTitle")}</h1>
-        <a className={css(styles.url)} target="_blanc" href={feed.rss_feed.rss_url}>{feed.rss_feed.rss_url}</a>
+        <a className={css(styles.url)} target="_blanc" href={feed.rss_feed.rss_url}>
+          {feed.rss_feed.rss_url}
+        </a>
         <div className={css(styles.dates)}>
-          <div className={css(styles.date)}>
-            {"Date" /* TODO */}
-          </div>
+          <div className={css(styles.date)}>{"Date" /* TODO */}</div>
           <IconButton loading={likedLoading} onClick={() => onLikeUnlike(feed.rss_feed)}>
             <StarIcon color={feed.user_rss_feed.reaction === "Liked" ? "#73ff00" : "#000000"} />
           </IconButton>
@@ -135,14 +140,14 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
       maxWidth: 900,
       alignSelf: "center",
       padding: "40px 20px 50px 20px",
-      margin: "auto",
-    },
+      margin: "auto"
+    }
   },
   title: {
     fontSize: "1.5rem",
     "@media screen and (min-width: 480px)": {
-      fontSize: "1.9rem",
-    },
+      fontSize: "1.9rem"
+    }
   },
   url: {
     display: "block",
@@ -152,20 +157,20 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     textDecoration: "none",
     color: "#999999",
     ":hover": {
-      color: "#777777",
-    },
+      color: "#777777"
+    }
   },
   dates: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "center"
   },
   date: {
     fontSize: "0.9rem",
-    color: "#777777",
+    color: "#777777"
   },
   head: {
-    paddingBottom: 5,
-  },
+    paddingBottom: 5
+  }
 })

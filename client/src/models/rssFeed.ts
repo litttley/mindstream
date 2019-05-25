@@ -70,7 +70,12 @@ export function getExcerpt({ readable, rss }: RssFeed): string | undefined {
 }
 
 export function isImageAlreadyShow({ readable }: RssFeed): string | undefined {
-  if (readable && readable.lead_image_url && readable.content && readable.content.indexOf(readable.lead_image_url) !== -1) {
+  if (
+    readable &&
+    readable.lead_image_url &&
+    readable.content &&
+    readable.content.indexOf(readable.lead_image_url) !== -1
+  ) {
     return readable.lead_image_url
   } else {
     return undefined

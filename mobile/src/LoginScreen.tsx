@@ -8,20 +8,23 @@ import { api } from "./Api"
 export function LoginScreen({ navigation }: NavigationScreenProps) {
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
-  const [ loading, setLoading] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
 
   console.log("LoginScreen", email)
 
   const onPress = () => {
     setLoading(true)
-    api.login(email, password).then(result => {
-      setLoading(false)
-      console.log("LoginScreen", result)
-      //navigation.navigate("Authorized")
-    }).catch(error => {
-      setLoading(false)
-      console.log("LoginScreen error", error)
-    })
+    api
+      .login(email, password)
+      .then(result => {
+        setLoading(false)
+        console.log("LoginScreen", result)
+        //navigation.navigate("Authorized")
+      })
+      .catch(error => {
+        setLoading(false)
+        console.log("LoginScreen error", error)
+      })
   }
 
   return (
@@ -40,13 +43,7 @@ export function LoginScreen({ navigation }: NavigationScreenProps) {
           </Form>
         </View>
         <View style={styles.actions}>
-          <Button
-            title="Login"
-            block
-            onPress={onPress}
-            disabled={loading}
-            loading={loading}
-          />
+          <Button title="Login" block onPress={onPress} disabled={loading} loading={loading} />
         </View>
       </Content>
     </Container>
@@ -56,6 +53,6 @@ export function LoginScreen({ navigation }: NavigationScreenProps) {
 const styles = StyleSheet.create<{ actions: ViewStyle }>({
   actions: {
     paddingHorizontal: 15,
-    marginTop: 30,
-  },
+    marginTop: 30
+  }
 })

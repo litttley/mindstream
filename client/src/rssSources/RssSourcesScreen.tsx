@@ -5,7 +5,14 @@ import { useSearchRssSources, useTopRssSources } from "./RssSourcesState"
 import { RssSourcesList } from "./components/RssSourcesList"
 
 export function RssSourcesScreen() {
-  const { clear, findedRssSources, searchRssSourceLoading, searchRssSources, followRssSources, unfollowRssSource } = useSearchRssSources()
+  const {
+    clear,
+    findedRssSources,
+    searchRssSourceLoading,
+    searchRssSources,
+    followRssSources,
+    unfollowRssSource
+  } = useSearchRssSources()
   const { topRssSources, isNoMyRssSources, getUnfollowedRssSources, getTopRssSourcesLoading } = useTopRssSources()
 
   React.useEffect(() => {

@@ -10,15 +10,15 @@ export class Api {
     this.baseUrl = baseUrl
   }
 
-// tslint:disable-next-line: no-any
+  // tslint:disable-next-line: no-any
   public login(email: string, password: string): Promise<any> {
     return fetch(`${this.baseUrl}/api/users/login`, {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password })
     }).then(response => {
       if (response.status >= 200 && response.status < 300) {
         return response.json()

@@ -26,11 +26,11 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     display: "flex",
     flexDirection: "column",
     minHeight: 65,
-    marginBottom: 15,
+    marginBottom: 15
   },
   label: {
     fontSize: "1rem",
-    color: colors.primary,
+    color: colors.primary
   },
   input: {
     margin: "3px 0 5px 0",
@@ -42,20 +42,20 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     color: colors.primary,
     fontSize: "1.1rem",
     ":focus": {
-      borderBottomColor: colors.accent,
+      borderBottomColor: colors.accent
     },
     ":invalid": {
       border: "none",
       borderBottomWidth: 1,
       borderBottomStyle: "solid",
-      borderBottomColor: colors.error,
-    },
+      borderBottomColor: colors.error
+    }
   },
   error: {
     fontSize: ".8rem",
-    color: colors.error,
+    color: colors.error
   },
   hideError: {
-    visibility: "hidden",
-  },
+    visibility: "hidden"
+  }
 })

@@ -51,6 +51,6 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     outline: "none",
     textDecoration: "none",
     appearance: "none",
-    background: "none",
-  },
+    background: "none"
+  }
 })

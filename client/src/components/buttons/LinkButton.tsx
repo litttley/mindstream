@@ -12,12 +12,7 @@ interface Props {
 
 export function LinkButton({ href, children, disable, onClick }: React.PropsWithChildren<Props>) {
   return (
-    <BaseButton
-      style={styles.linkButton}
-      disable={disable}
-      href={href}
-      onClick={onClick}
-    >
+    <BaseButton style={styles.linkButton} disable={disable} href={href} onClick={onClick}>
       {children}
     </BaseButton>
   )
@@ -27,10 +22,10 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
   linkButton: {
     color: colors.primary,
     ":hover": {
-      textDecoration: "underline",
+      textDecoration: "underline"
     },
     ":focus": {
-      textDecoration: "underline",
-    },
-  },
+      textDecoration: "underline"
+    }
+  }
 })

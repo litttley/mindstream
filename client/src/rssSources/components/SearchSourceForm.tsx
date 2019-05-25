@@ -38,16 +38,16 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
   searchSourceForm: {
     display: "flex",
     flexDirection: "column",
-    padding: 20,
+    padding: 20
   },
   title: {
     fontSize: "1.4rem",
     color: colors.primary,
-    marginBottom: 10,
+    marginBottom: 10
   },
   search: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "row"
   },
   input: {
     flex: 1,
@@ -55,7 +55,7 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     fontSize: "1.4rem",
     borderWidth: 1,
     borderStyle: "solid",
-    borderColor: colors.secondary,
+    borderColor: colors.secondary
   },
   button: {
     fontSize: "1.5rem",
@@ -64,6 +64,6 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     borderColor: colors.secondary,
     color: colors.primary,
     borderLeft: "none",
-    backgroundColor: "transparent",
-  },
+    backgroundColor: "transparent"
+  }
 })

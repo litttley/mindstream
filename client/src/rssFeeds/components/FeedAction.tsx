@@ -31,6 +31,6 @@ const styles = StyleSheet.create<Record<string, CSSProperties>>({
     cursor: "pointer",
     fontWeight: "bold",
     textTransform: "uppercase",
-    color: colors.primaryClear,
-  },
+    color: colors.primaryClear
+  }
 })

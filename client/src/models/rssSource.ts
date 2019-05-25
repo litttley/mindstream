@@ -1,22 +1,22 @@
 export interface RssSource {
-  uuid: string,
-  url: string,
-  title: string,
-  website: string,
-  description?: string,
-  language?: string,
-  icon_url?: string,
-  cover_url?: string,
-  visual_url?: string,
-  topics?: string[],
-  last_updated?: string,
-  error?: string,
-  created: string,
-  updated: string,
+  uuid: string
+  url: string
+  title: string
+  website: string
+  description?: string
+  language?: string
+  icon_url?: string
+  cover_url?: string
+  visual_url?: string
+  topics?: string[]
+  last_updated?: string
+  error?: string
+  created: string
+  updated: string
 }
 
 export interface MyRssSource {
-  rss_source: RssSource,
+  rss_source: RssSource
   unreaded: number
 }
 

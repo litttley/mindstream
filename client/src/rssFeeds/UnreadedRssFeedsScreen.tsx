@@ -22,13 +22,21 @@ export function UnreadedRssFeedsScreen() {
     goToPreviuosRssFeed,
     likeRssFeed,
     likeRssFeedLoading,
-    unlikleRssFeed,
+    unlikleRssFeed
   } = useUnreadedRssFeeds()
 
   useKeyDown((event: KeyboardEvent) => {
-    if (!goToNextRssFeedLoading && unreadedRssFeeds.length > 0 && (event.code === "ArrowRight" || event.code === "KeyD")) {
+    if (
+      !goToNextRssFeedLoading &&
+      unreadedRssFeeds.length > 0 &&
+      (event.code === "ArrowRight" || event.code === "KeyD")
+    ) {
       goToNextRssFeed()
-    } else if (previousRssFeeds.length > 0 && event.code === "ArrowLeft" || event.code === "KeyQ" || event.code === "KeyA") {
+    } else if (
+      (previousRssFeeds.length > 0 && event.code === "ArrowLeft") ||
+      event.code === "KeyQ" ||
+      event.code === "KeyA"
+    ) {
       goToPreviuosRssFeed()
     }
   })
@@ -47,11 +55,7 @@ export function UnreadedRssFeedsScreen() {
     } else {
       return (
         <>
-          <FeedActions
-            nextLoading={goToNextRssFeedLoading}
-            onNext={goToNextRssFeed}
-            onPrevious={goToPreviuosRssFeed}
-          />
+          <FeedActions nextLoading={goToNextRssFeedLoading} onNext={goToNextRssFeed} onPrevious={goToPreviuosRssFeed} />
           <RssFeedCard
             feed={nextRssFeed}
             onLike={likeRssFeed}
@@ -63,9 +67,5 @@ export function UnreadedRssFeedsScreen() {
     }
   }
 
-  return (
-    <Layout>
-      {renderRssFeed()}
-    </Layout>
-  )
+  return <Layout>{renderRssFeed()}</Layout>
 }
