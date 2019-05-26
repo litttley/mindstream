@@ -7,7 +7,7 @@ import { useIntlMessage } from "~/hooks/useIntlMessage"
 import { FeedActions } from "./components/FeedActions"
 import { Loader } from "~/components/Loader"
 import { useKeyDown } from "~/hooks/useKeyDown"
-import { Layout } from "~/components/Layout"
+import { Layout } from "./Layout"
 
 export function UnreadedRssFeedsScreen() {
   const message = useIntlMessage()

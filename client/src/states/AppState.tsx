@@ -16,6 +16,6 @@ export function useMenuToggle() {
 
   return {
     ...state,
-    menuToggle: () => update({ isMenuOpen: !state.isMenuOpen })
+    menuToggle: (isMenuOpen: boolean = !state.isMenuOpen) => update({ isMenuOpen })
   }
 }
