@@ -14,11 +14,14 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight"
 
 import { TopBarMenu } from "~/components/TopBarMenu"
 import { Menu } from "./Menu"
+import { MyRssFeedsMenu } from "./MyRssFeedsMenu"
+import { useMyRssSources } from "~/rssSources/RssSourcesState"
 
 export function Home() {
   const classes = useStyles()
   const theme = useTheme()
   const [open, setOpen] = React.useState(false)
+  const { loadMySources, myRssSources } = useMyRssSources()
 
   function handleDrawerOpen() {
     setOpen(true)
@@ -27,6 +30,10 @@ export function Home() {
   function handleDrawerClose() {
     setOpen(false)
   }
+
+  React.useEffect(() => {
+    loadMySources()
+  }, [])
 
   return (
     <div className={classes.root}>
@@ -69,6 +76,7 @@ export function Home() {
         </div>
         <Divider />
         <Menu />
+        <MyRssFeedsMenu myRssSources={myRssSources} />
       </Drawer>
       <main
         className={clsx(classes.content, {
