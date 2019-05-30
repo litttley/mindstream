@@ -62,8 +62,10 @@ jobs:
             - v1-cargo-cache-{{ arch }}-{{ checksum "Cargo.lock" }}
       
       - run: rustup component add clippy
+      - run: rustup component add rustfmt
       - run: cargo clippy -- -D warnings
       - run: cargo test
+      - run: rustfmt src/main.rs --check
       - run: cargo build --release
 
       - save_cache:
