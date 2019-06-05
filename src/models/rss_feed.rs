@@ -1,14 +1,12 @@
-use chrono::prelude::*;
-use chrono::NaiveDateTime;
+use chrono::{NaiveDateTime, Utc};
 use diesel::{Insertable, Queryable};
 use serde::{Deserialize, Serialize};
-use serde_json;
-use serde_json::Value;
+use serde_json::{to_value, Value};
 use uuid::Uuid;
 
 use crate::models::readable::Readable;
 use crate::models::rss::Rss;
-use crate::models::rss_source::RssSource;
+use crate::models::RssSource;
 use crate::schema::rss_feeds;
 
 #[derive(Debug, Clone, PartialEq, Deserialize, Serialize, Queryable, Insertable)]
@@ -36,8 +34,8 @@ impl RssFeed {
             uuid: Uuid::new_v4(),
             rss_url,
             resolved_url,
-            rss: serde_json::to_value(rss).ok(),
-            readable: serde_json::to_value(readable).ok(),
+            rss: to_value(rss).ok(),
+            readable: to_value(readable).ok(),
             created: Utc::now().naive_utc(),
             updated: Utc::now().naive_utc(),
             rss_source_uuid: rss_source.uuid,

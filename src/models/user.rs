@@ -1,8 +1,7 @@
 use std::convert::TryFrom;
 
 use bcrypt::{hash, verify, BcryptError, DEFAULT_COST};
-use chrono::prelude::*;
-use chrono::NaiveDateTime;
+use chrono::{NaiveDateTime, Utc};
 use diesel::{Insertable, Queryable};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;

@@ -1,9 +1,6 @@
-use diesel;
-use diesel::prelude::*;
-use diesel::result::Error;
-use diesel::PgConnection;
+use diesel::{prelude::*, result::Error, PgConnection};
 
-use crate::models::user::User;
+use crate::models::User;
 use crate::schema::users;
 use crate::schema::users::dsl::*;
 

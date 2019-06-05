@@ -1,13 +1,7 @@
-use diesel;
-use diesel::dsl::exists;
-use diesel::prelude::*;
-use diesel::result::Error;
-use diesel::PgConnection;
+use diesel::{dsl::exists, prelude::*, result::Error, PgConnection};
 use uuid::Uuid;
 
-use crate::models::rss_source::RssSource;
-use crate::models::user::User;
-use crate::models::user_rss_source::UserRssSource;
+use crate::models::{RssSource, User, UserRssSource};
 use crate::schema::users_rss_sources;
 
 pub fn insert(
