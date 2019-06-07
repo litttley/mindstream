@@ -1,5 +1,4 @@
-use chrono::prelude::*;
-use chrono::NaiveDateTime;
+use chrono::{NaiveDateTime, Utc};
 use diesel::{Insertable, Queryable};
 use feed_rs::Feed;
 use serde::{Deserialize, Serialize};

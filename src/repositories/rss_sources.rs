@@ -1,10 +1,7 @@
-use diesel;
-use diesel::prelude::*;
-use diesel::result::Error;
-use diesel::PgConnection;
+use diesel::{prelude::*, result::Error, PgConnection};
 use uuid::Uuid;
 
-use crate::models::rss_source::RssSource;
+use crate::models::RssSource;
 use crate::schema::rss_sources;
 
 pub fn insert(connection: &PgConnection, rss_source: &RssSource) -> Result<RssSource, Error> {

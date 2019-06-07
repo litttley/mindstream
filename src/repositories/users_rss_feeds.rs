@@ -1,7 +1,4 @@
-use diesel;
-use diesel::prelude::*;
-use diesel::result::Error;
-use diesel::PgConnection;
+use diesel::{prelude::*, result::Error, PgConnection};
 use uuid::Uuid;
 
 use crate::models::{Reaction, RssFeed, User, UserRssFeed};
