@@ -36,7 +36,8 @@ export function UnreadedRssFeedsByRssSourceScreen(props: RouteComponentProps<Par
   const message = useIntlMessage()
 
   React.useEffect(() => {
-    getUnreadedRssFeeds(rssSourceUuid)
+    const source = getUnreadedRssFeeds(rssSourceUuid)
+    return () => source.cancel()
   }, [rssSourceUuid])
 
   useKeyDown((event: KeyboardEvent) => {

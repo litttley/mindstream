@@ -41,7 +41,8 @@ export function UnreadedRssFeedsScreen() {
   })
 
   React.useEffect(() => {
-    getUnreadedRssFeeds()
+    const source = getUnreadedRssFeeds()
+    return () => source.cancel()
   }, [])
 
   const nextRssFeed = getNextRssFeed()

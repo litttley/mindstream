@@ -1,4 +1,4 @@
-import Axios, { AxiosInstance, AxiosRequestConfig } from "axios"
+import Axios, { AxiosInstance, AxiosRequestConfig, CancelTokenSource } from "axios"
 import * as router from "~/router"
 import { RssFeed, Reaction, UserRssFeed } from "~/models/rssFeed"
 import { RssSource, MyRssSource } from "~/models/rssSource"
@@ -127,10 +127,15 @@ export class ApiService {
     })
   }
 
-  public getRssFeeds(reaction: Reaction, rssSourceUuid?: string): Promise<RssFeedsResponse[]> {
+  public getRssFeeds(
+    reaction: Reaction,
+    rssSourceUuid?: string,
+    cancelToken?: CancelTokenSource
+  ): Promise<RssFeedsResponse[]> {
     return this.withAuth({
       url: `/api/rss/feeds${querystring({ reaction, rss_source_uuid: rssSourceUuid })}`,
-      method: "GET"
+      method: "GET",
+      cancelToken: cancelToken && cancelToken.token
     })
   }
 
