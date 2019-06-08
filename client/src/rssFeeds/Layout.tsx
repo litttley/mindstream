@@ -8,9 +8,9 @@ import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import Divider from "@material-ui/core/Divider"
 import IconButton from "@material-ui/core/IconButton"
-import MenuIcon from "@material-ui/icons/Menu"
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft"
-import ChevronRightIcon from "@material-ui/icons/ChevronRight"
+import { default as MenuIcon } from "@material-ui/icons/Menu"
+import { default as ChevronLeftIcon } from "@material-ui/icons/ChevronLeft"
+import { default as ChevronRightIcon } from "@material-ui/icons/ChevronRight"
 
 import { TopBarMenu } from "~/components/TopBarMenu"
 import { Menu } from "./Menu"
@@ -22,7 +22,7 @@ export function Layout({ children }: React.PropsWithChildren<{}>) {
   const classes = useStyles()
   const theme = useTheme()
   const { loadMySources, myRssSources } = useMyRssSources()
-  const {isMenuOpen, menuToggle} = useMenuToggle()
+  const { isMenuOpen, menuToggle } = useMenuToggle()
 
   function handleDrawerOpen() {
     menuToggle(true)
