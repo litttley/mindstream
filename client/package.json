@@ -18,7 +18,7 @@
   },
   "scripts": {
     "format": "prettier --write \"src/**/{*.ts,*.tsx}\"",
-    "format-check": "prettier --check --write \"src/**/{*.ts,*.tsx}\"",
+    "format-check": "prettier --check \"src/**/{*.ts,*.tsx}\"",
     "tslint": "tslint --format stylish --project tsconfig.json",
     "tslint-fix": "npm run tslint -- --fix",
     "build": "webpack -p",

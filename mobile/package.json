@@ -23,7 +23,7 @@
     "tslint": "tslint --format stylish --project tsconfig.json",
     "tslint-fix": "npm run tslint -- --fix",
     "format": "prettier --write \"src/**/{*.ts,*.tsx}\"",
-    "format-check": "prettier --check --write \"src/**/{*.ts,*.tsx}\""
+    "format-check": "prettier --check \"src/**/{*.ts,*.tsx}\""
   },
   "dependencies": {
     "native-base": "2.12.1",
