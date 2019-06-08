@@ -21,7 +21,7 @@ export function Tabs({ children, onChange, selectedTabName }: React.PropsWithChi
   const labels = tabs.map(ch => ch.props as TabProps)
   const SelectedTab = tabs.find(ch => (ch.props as TabProps).name === selectedTabName)
 
-  const handleTabOnClick = (tab: string) => React.useCallback(() => onChange(tab), [tab])
+  const handleTabOnClick = (tab: string) => () => onChange(tab)
 
   const renderTab = (props: TabProps) => {
     const classes = css(styles.tab, selectedTabName === props.name ? styles.selected : undefined)

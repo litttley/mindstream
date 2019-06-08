@@ -35,6 +35,8 @@
     "jsx-boolean-value": false,
     "jsx-no-multiline-js": false,
     "jsx-no-lambda": false,
+    "newline-before-return": false,
+    "no-null-undefined-union": false,
     "type-literal-delimiter": false
   }
 }

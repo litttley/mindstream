@@ -1,4 +1,6 @@
 import * as React from "react"
+import Axios, { CancelTokenSource } from "axios"
+
 import { createStore } from "~/Store"
 import { api } from "~/services/api"
 import { RssFeed } from "~/models/rssFeed"
@@ -28,16 +30,19 @@ export const [RssFeedsContext, RssFeedsProvider] = createStore(initialState)
 export function useUnreadedRssFeeds() {
   const { update, ...state } = React.useContext(RssFeedsContext)
   const { decrementRssSource } = useMyRssSources()
+  const CancelToken = Axios.CancelToken
+  const source = CancelToken.source()
 
-  const getUnreadedRssFeeds = (rssSourceUuid?: string) => {
+  const getUnreadedRssFeeds = (rssSourceUuid?: string): CancelTokenSource => {
     update({ getRssFeedsLoading: true })
     api
-      .getRssFeeds("Unreaded", rssSourceUuid)
+      .getRssFeeds("Unreaded", rssSourceUuid, source)
       .then(unreadedRssFeeds => update({ unreadedRssFeeds, getRssFeedsLoading: false }))
       .catch(error => {
         // TODO
         update({ getRssFeedsLoading: false })
       })
+    return source
   }
 
   const goToPreviuosRssFeed = () => {

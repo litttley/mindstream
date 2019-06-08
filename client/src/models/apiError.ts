@@ -1,3 +1,5 @@
+import { MessageParams } from "~/hooks/useIntlMessage"
+
 export interface ApiError {
   code: string
   message: string
@@ -10,7 +12,7 @@ export interface ApiErrors {
 
 export function getFieldErrorMessage(
   field: string,
-  intl: (key: string, params?: unknown) => string,
+  intl: (key: string, params?: MessageParams) => string,
   errors?: ApiErrors
 ): string | undefined {
   if (errors) {
